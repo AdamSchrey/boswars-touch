@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: sound.ccl,v 1.5 2003/10/28 08:00:13 p0ng Exp $
+;;	$Id: sound.ccl,v 1.6 2003/10/28 09:14:30 p0ng Exp $
 
 ;;	Uncomment this to enable threaded sound
 ;(sound-thread)
@@ -80,8 +80,12 @@
 (make-sound "engineer-die" "elites/units/engineer_die.wav")
 (make-sound "engineer-attack" "elites/units/engineer_attack.wav")
 
+(make-sound "harvester-selected" "elites/units/harvester_select.wav")
+(make-sound "harvester-acknowledge" "elites/units/harvester_action.wav")
 (make-sound "harvester-ready" "elites/computer_voice/harvester.completed.wav")
 (make-sound "harvester-help" "elites/computer_voice/harvester.underattack.wav")
+(make-sound "harvester-die" "elites/units/harvester_die.wav")
+(make-sound "harvester-attack" "elites/units/harvester_attack.wav")
 
 ;; BUILDINGS
 (make-sound "pplnt-selected" "elites/buildings/sfx_pplnt.select.wav")
