@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: stratagus.lua,v 1.10 2004/04/24 00:23:42 jsalmon3 Exp $
+--	$Id: stratagus.lua,v 1.11 2004/04/26 02:14:28 jsalmon3 Exp $
 
 -- For documentation see stratagus/doc/ccl/ccl.html
 
@@ -198,9 +198,7 @@ Load("preferences1.lua")
 --; Uses Stratagus Library path!
 Load("scripts/bos.lua")
 Load("scripts/icons.lua")
-if CompileFeature("SOUND") then
-    Load("scripts/sound.lua")
-end
+Load("scripts/sound.lua")
 Load("scripts/missiles.lua")
 Load("scripts/constructions.lua")
 Load("scripts/spells.lua")
