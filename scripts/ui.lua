@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: ui.lua,v 1.4 2004/07/20 19:17:28 feb Exp $
+--	$Id: ui.lua,v 1.5 2004/07/24 19:34:52 jsalmon3 Exp $
 
 DefineButtonStyle("main", {
   Size = {128, 20},
@@ -166,6 +166,96 @@ DefineButtonStyle("folder", {
   },
   Disabled = {
     File = "general/ui_buttons.png", Size = {300, 144}, Frame = 50,
+  },
+})
+
+DefineCheckboxStyle("round", {
+  Size = {19, 19},
+  Font = "game",
+  TextNormalColor = "yellow",
+  TextReverseColor = "white",
+  TextAlign = "Left",
+  TextPos = {24, 4},
+  Default = {
+    File = "general/ui_buttons.png", Size = {300, 144}, Frame = 19,
+  },
+  Hover = {
+    TextNormalColor = "white",
+  },
+  Selected = {
+    Border = {
+      Color = {252, 252, 0}, Size = 1,
+    },
+  },
+  Disabled = {
+    File = "general/ui_buttons.png", Size = {300, 144}, Frame = 18,
+  },
+  Clicked = {
+    File = "general/ui_buttons.png", Size = {300, 144}, Frame = 20,
+    TextNormalColor = "white",
+  },
+  Checked = {
+    File = "general/ui_buttons.png", Size = {300, 144}, Frame = 21,
+  },
+  CheckedHover = {
+    TextNormalColor = "white",
+  },
+  CheckedSelected = {
+    Border = {
+      Color = {252, 252, 0}, Size = 1,
+    },
+  },
+  CheckedClicked = {
+    File = "general/ui_buttons.png", Size = {300, 144}, Frame = 22,
+    TextNormalColor = "white",
+  },
+  CheckedDisabled = {
+    File = "general/ui_buttons.png", Size = {300, 144}, Frame = 18,
+  },
+})
+
+DefineCheckboxStyle("square", {
+  Size = {19, 19},
+  Font = "game",
+  TextNormalColor = "yellow",
+  TextReverseColor = "white",
+  TextAlign = "Left",
+  TextPos = {24, 4},
+  Default = {
+    File = "general/ui_buttons.png", Size = {300, 144}, Frame = 24,
+  },
+  Hover = {
+    TextNormalColor = "white",
+  },
+  Selected = {
+    Border = {
+      Color = {252, 252, 0}, Size = 1,
+    },
+  },
+  Clicked = {
+    File = "general/ui_buttons.png", Size = {300, 144}, Frame = 25,
+    TextNormalColor = "white",
+  },
+  Disabled = {
+    File = "general/ui_buttons.png", Size = {300, 144}, Frame = 23,
+  },
+  Checked = {
+    File = "general/ui_buttons.png", Size = {300, 144}, Frame = 26,
+  },
+  CheckedHover = {
+    TextNormalColor = "white",
+  },
+  CheckedSelected = {
+    Border = {
+      Color = {252, 252, 0}, Size = 1,
+    },
+  },
+  CheckedClicked = {
+    File = "general/ui_buttons.png", Size = {300, 144}, Frame = 27,
+    TextNormalColor = "white",
+  },
+  CheckedDisabled = {
+    File = "general/ui_buttons.png", Size = {300, 144}, Frame = 23,
   },
 })
 
