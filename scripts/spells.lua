@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: spells.lua,v 1.2 2004/02/12 22:33:42 n0body Exp $
+--	$Id: spells.lua,v 1.3 2004/02/20 17:39:37 n0body Exp $
 
 DefineBoolFlags("organic")
 
@@ -57,7 +57,7 @@ DefineSpell("spell-nuke",
 		{"spawn-missile",
 			"ttl", 800,
 			"damage", 0,
-			"delay", 1000,
+			"delay", 0,
 			"start-point", {"base", "target", "add-x", 0, "add-y", -300},
 			"end-point", {"base", "target", "add-x", 0, "add-y", 32}},
 		{"demolish" ,
