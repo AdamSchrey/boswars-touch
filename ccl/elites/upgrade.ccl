@@ -26,13 +26,14 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: upgrade.ccl,v 1.8 2003/10/30 08:35:40 p0ng Exp $
+;;	$Id: upgrade.ccl,v 1.9 2003/10/30 09:32:36 p0ng Exp $
 
 
 (define-allow 'unit-assault			"AAAAAAAAAAAAAAAA")
 (define-allow 'unit-grenadier			"AAAAAAAAAAAAAAAA")
 (define-allow 'unit-bazoo			"AAAAAAAAAAAAAAAA")
 (define-allow 'unit-engineer			"AAAAAAAAAAAAAAAA")
+(define-allow 'unit-medic			"AAAAAAAAAAAAAAAA")
 (define-allow 'unit-harvester			"AAAAAAAAAAAAAAAA")
 (define-allow 'unit-pplnt			"AAAAAAAAAAAAAAAA")
 (define-allow 'unit-camp			"AAAAAAAAAAAAAAAA")
