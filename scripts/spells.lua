@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: spells.lua,v 1.5 2004/10/12 16:50:45 feb Exp $
+--	$Id: spells.lua,v 1.6 2004/10/26 17:59:18 feb Exp $
 
 DefineBoolFlags("organic")
 DefineVariables("Speed")
@@ -40,7 +40,7 @@ DefineSpell("spell-healing",
 				{"adjust-vitals", "hit-points", 1}},
 	"condition", {
 		"organic", "only",
-		"building", "false",
+		"Building", "false",
 		"self", "false",
 		"max-hp-percent", 100},
 	"sound-when-cast", "medic-attack",
