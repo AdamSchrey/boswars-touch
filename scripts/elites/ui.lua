@@ -27,7 +27,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---      $Id: ui.lua,v 1.20 2004/08/12 22:25:32 feb Exp $
+--      $Id: ui.lua,v 1.21 2004/08/17 18:46:10 feb Exp $
 
 DefineCursor({
 	Name = "cursor-point",
@@ -71,7 +71,6 @@ function AppendElements(t, elements)
 end
 
 function AddFiller(ui, graphic, position)
-        print("filler")
 	table.insert(ui, "filler")
 	table.insert(ui, {File = graphic, Pos = position})
 end
@@ -247,7 +246,6 @@ function DefineEliteScreen(screen_width, screen_height)
 		"defeat-background", "screens/general.png"
 	}
 	AppendElements(ui,ui2)
-	print(unpack(ui))
 	DefineUI(unpack(ui))
 end
 
