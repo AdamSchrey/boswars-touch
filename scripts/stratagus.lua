@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: stratagus.lua,v 1.15 2004/08/11 11:46:13 mr-russ Exp $
+--	$Id: stratagus.lua,v 1.16 2004/08/12 22:25:32 feb Exp $
 
 -- For documentation see stratagus/doc/ccl/ccl.html
 
@@ -66,16 +66,16 @@ SetShowReactionRange(false)
 
 SetShowOrders(2)
 
-ManaSprite("graphics/general/mana2.png", 0, -1, 31, 4)
-HealthSprite("graphics/general/health2.png", 0, -4, 31, 4)
+ManaSprite("general/mana2.png", 0, -1, 31, 4)
+HealthSprite("general/health2.png", 0, -4, 31, 4)
 
 ShowHealthDot()
 ShowManaDot()
 ShowNoFull()
 
 --	Define shadow-sprite.
---ShadowSprite("graphics/missiles/unit_shadow.png",3, 42, 32, 32)
-SpellSprite("graphics/general/spells1.png", 1, 1, 16, 16)
+--ShadowSprite("missiles/unit_shadow.png",3, 42, 32, 32)
+SpellSprite("general/spells1.png", 1, 1, 16, 16)
 
 --	Enable fancy building (random mirroring buildings)
 SetFancyBuildings(false)

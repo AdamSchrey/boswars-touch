@@ -26,14 +26,14 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: menus.lua,v 1.5 2004/07/24 20:19:31 jsalmon3 Exp $
+--	$Id: menus.lua,v 1.6 2004/08/12 22:25:32 feb Exp $
 
 --
 -- load the keystroke helps
 --
 Load("scripts/keystrokes.lua")
 
-MenuBackground = "graphics/screens/menu.png"
+MenuBackground = "screens/menu.png"
 
 --
 -- define the menu graphics

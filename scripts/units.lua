@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: units.lua,v 1.4 2004/08/11 11:46:14 mr-russ Exp $
+--	$Id: units.lua,v 1.5 2004/08/12 22:25:32 feb Exp $
 
 -- Load the animations for the units.
 Load("scripts/anim.lua")
@@ -34,7 +34,7 @@ Load("scripts/anim.lua")
 -- Define all of the crystal fields. Only Ident and animations differ.
 for i = 1, 13 do
 	DefineUnitType("unit-crystal-field" .. i, {
-		Name = "Crystal Field",
+		Name = "Crystal Field" .. i,
 		Files = {"default", "nature/res/res_crys.png"}, Size = {32, 32},
 		Shadow = {"file", "nature/res/res_crys_s.png", "size", {32, 32}, "offset", {5, 5}},
 		Animations = "animations-crystal-field" .. i, Icon = "icon-crystal-field",
