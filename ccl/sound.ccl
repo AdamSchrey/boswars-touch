@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: sound.ccl,v 1.15 2003/10/31 21:16:46 p0ng Exp $
+;;	$Id: sound.ccl,v 1.16 2003/10/31 22:12:58 p0ng Exp $
 
 ;;	Uncomment this to enable threaded sound
 ;(sound-thread)
@@ -106,6 +106,13 @@
 (make-sound "harvester-help" "elites/computer_voice/harvester.underattack.wav")
 (make-sound "harvester-die" "elites/units/harvester_die.wav")
 (make-sound "harvester-attack" "elites/units/harvester_attack.wav")
+
+(make-sound "apcs-selected" "elites/units/smolder_select.wav")
+(make-sound "apcs-acknowledge" "elites/units/smolder_action.wav")
+(make-sound "apcs-ready" "elites/computer_voice/smolder.completed.wav")
+(make-sound "apcs-help" "elites/computer_voice/smolder.underattack.wav")
+(make-sound "apcs-die" "elites/units/smolder_die.wav")
+(make-sound "apcs-attack" "elites/units/smolder_attack.wav")
 
 (make-sound "medic-selected" "elites/units/medic_select.wav")
 (make-sound "medic-acknowledge" "elites/units/medic_action.wav")

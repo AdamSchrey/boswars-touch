@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: icons.ccl,v 1.18 2003/10/31 21:16:45 p0ng Exp $
+;;	$Id: icons.ccl,v 1.19 2003/10/31 22:12:58 p0ng Exp $
 
 
 ;;	FIXME: can be removed: Set the icon size (width height)
@@ -52,6 +52,8 @@
 
 (define-icon 'icon-assault
   'size '(46 38) 'normal '(0 "elites/units/ico_assault.png"))
+(define-icon 'icon-apcs
+  'size '(46 38) 'normal '(0 "elites/units/ico_apcs.png"))
 (define-icon 'icon-grenadier
   'size '(46 38) 'normal '(0 "elites/units/ico_grenadier.png"))
 (define-icon 'icon-bazoo
