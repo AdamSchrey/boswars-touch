@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: units.lua,v 1.16 2004/07/05 20:50:23 feb Exp $
+--	$Id: units.lua,v 1.17 2004/08/03 11:22:32 feb Exp $
 
 --=============================================================================
 --	Define unit-types.
@@ -66,7 +66,7 @@ DefineUnitType("unit-apcs", {
 	Type = "land", RepairHp = 2, RepairCosts = {titanium, 2},
 	RightMouseAction = "attack",
 	ExplodeWhenKilled = "missile-160x128-explosion",
-	Demand = 0, CanAttack = true, CanTargetLand = true,
+	LandUnit = true, Demand = 0, CanAttack = true, CanTargetLand = true,
 	SelectableByRectangle = true,
 	Sounds = {
 		"selected", "apcs-selected",
