@@ -26,15 +26,14 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: tile_desert.ccl,v 1.1 2003/10/27 20:53:56 p0ng Exp $
+;;	$Id: tile_desert.ccl,v 1.2 2003/11/03 06:32:56 jsalmon3 Exp $
 
 ;;=============================================================================
 ;;	Define a tileset
 ;;
 ;;	(define-tileset ident class name image palette slots animations)
 ;;
-(define-tileset 'tileset-desert	'class "desert"
-  'name "Desert"
+(define-tileset 'tileset-desert 'class "desert" 'name "Desert"
   'image "tiles/desert.png"
   'palette "tiles/desert.rgb"
   ;; Slots descriptions

@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: menus.ccl,v 1.4 2003/10/29 11:28:07 p0ng Exp $
+;;	$Id: menus.ccl,v 1.5 2003/11/03 06:32:56 jsalmon3 Exp $
 
 ;;
 ;; load the keystroke helps
@@ -486,10 +486,7 @@
 (define-menu-item 'pos (list 220 (+ 10 300)) 'font 'game
   'pulldown '(size (152 20)
     style pulldown
-    func game-tss-action
-    options ("Map Default" "Desert" "Winter")
-    default 0
-    current 0)
+    func game-tss-action)
   'menu 'menu-custom-game)
 (define-menu-item 'pos (list (- 640 224 16) (- (+ 10 300) 20)) 'font 'game
   'text '(caption "~<Game Type:~>" none)
@@ -789,10 +786,7 @@
 (define-menu-item 'pos (list 220 (+ 10 300)) 'font 'game
   'pulldown '(size (152 20)
     style pulldown
-    func game-tss-action
-    options ("Map Default" "Desert" "Winter")
-    default 0
-    current 0)
+    func game-tss-action)
   'menu 'menu-multi-setup)
 (define-menu-item 'pos (list (- 640 224 16) (- (+ 10 300) 20)) 'font 'game
   'text '(caption "~<Game Type:~>" none)
@@ -1218,10 +1212,7 @@
   'pulldown '(size (152 20)
     style pulldown
     func game-tss-action
-    options ("Map Default" "Desert" "Winter")
-    state passive
-    default 0
-    current 0)
+    state passive)
   'menu 'menu-net-multi-client)
 (define-menu-item 'pos (list (- 640 224 16) (- (+ 10 300) 20)) 'font 'game
   'text '(caption "~<Game Type:~>" none)
@@ -2410,10 +2401,7 @@
 (define-menu-item 'pos (list (+ 176 (- 288 (/ (- 288 260) 2) 152)) (+ 112 (+ 11 (* 36 3) 22))) 'font 'game
   'pulldown '(size (152 20)
     style pulldown
-    func null
-    options ("Desert" "Winter")
-    default 0
-    current 0)
+    func null)
   'menu 'menu-editor-new)
 (define-menu-item 'pos (list (- 320 106 23) 328) 'font 'large
   'button '(size (106 27)
@@ -2599,10 +2587,7 @@
 (define-menu-item 'pos (list (- 288 (/ (- 288 260) 2) 152) (+ 11 (* 36 3) 22)) 'font 'game
   'pulldown '(size (152 20)
     style pulldown
-    func null
-    options ("Desert" "Winter")
-    default 0
-    current 0)
+    func null)
   'menu 'menu-editor-map-properties)
 (define-menu-item 'pos (list (/ (- 288 260) 2) (+ 11 (* 36 4) 22)) 'font 'game
   'text '(caption "Version:" align left)
