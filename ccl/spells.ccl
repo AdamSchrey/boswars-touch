@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: spells.ccl,v 1.6 2003/11/13 20:46:53 p0ng Exp $
+;;	$Id: spells.ccl,v 1.7 2003/11/13 21:05:47 mr-russ Exp $
 
 ;; For documentation see stratagus/doc/ccl/ccl.html ;; FIXME write and move doc.
 
@@ -53,7 +53,7 @@
         'manacost 300
         'range 128
         'target 'position
-        'action '((adjust-vitals hit-points -500))
+        'action '((demolish damage 500 range 10))
         'sound-when-cast "bazoo-attack"
         'missile-when-cast "missile-nuke"
         'autocast '(range 128)
