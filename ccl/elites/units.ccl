@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: units.ccl,v 1.40 2003/11/28 09:06:07 p0ng Exp $
+;;	$Id: units.ccl,v 1.41 2003/11/28 09:22:02 p0ng Exp $
 
 ;;=============================================================================
 ;;	Define unit-types.
@@ -52,6 +52,7 @@
   'corpse '(build-dead-body7 0)
   'type-land
   'building 
+  'builder-outside
   'sounds '(
     selected "gen-selected"
 ;    acknowledge "pplnt-acknowledge"
@@ -369,6 +370,7 @@
   'type-land
   'must-build-on-top 'unit-plate1
   'building 
+'builder-outside
   'sounds '(
     selected "gen-selected"
 ;    acknowledge "pplnt-acknowledge"
