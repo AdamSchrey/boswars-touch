@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: bos.lua,v 1.4 2004/02/29 12:37:05 feb Exp $
+--	$Id: bos.lua,v 1.5 2004/03/02 21:58:09 feb Exp $
 
 DefineRaceNames(
 	"race", {
@@ -130,7 +130,7 @@ DefineUpgradeWcNames(
 	"upgrade-expl", "upgrade-expl2", "upgrade-tdril",
 	"upgrade-ddril", "upgrade-pdril", "upgrade-void")
 
-DefineAiWcNames()
+DefineAiWcNames("ai-rush", "ai-passive")
 
 SetColorWaterCycleStart(38)
 SetColorWaterCycleEnd(47)
