@@ -26,9 +26,8 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: upgrade.ccl,v 1.4 2003/10/28 19:03:38 jsalmon3 Exp $
+;;	$Id: upgrade.ccl,v 1.5 2003/10/28 22:50:46 jsalmon3 Exp $
 
-;;	NOTE: Save can generate this table.
 
 (define-allow 'unit-lancer			"AAAAAAAAAAAAAAAA")
 (define-allow 'unit-grenadier			"AAAAAAAAAAAAAAAA")
@@ -40,20 +39,27 @@
 (define-allow 'unit-rfac			"AAAAAAAAAAAAAAAA")
 (define-allow 'unit-human-wall			"AAAAAAAAAAAAAAAA")
 
+
 ;;	- upgrades
 
 (define-upgrade 'upgrade-expl 'icon 'icon-expl
   'costs #(  1000   500   200     0     0     0     0))
+(define-upgrade 'upgrade-expl2 'icon 'icon-expl2
+  'costs #(   800   700   500     0     0     0     0))
+
+
+(define-modifier 'upgrade-expl2
+  '(piercing-damage 5)
+  '(apply-to unit-grenadier))
+
 
 (define-allow 'upgrade-expl			"AAAAAAAAAAAAAAAA")
+(define-allow 'upgrade-expl2			"AAAAAAAAAAAAAAAA")
 
-;;	NOTE: Save can generate this table.
-
-;;	- elites land forces
 
 (define-dependency 'unit-grenadier
   '(upgrade-expl))
 
-;;	- elites upgrades/research
+(define-dependency 'upgrade-expl2
+  '(upgrade-expl))
 
-;;	- elites spells
