@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: sound.ccl,v 1.7 2003/10/28 20:29:26 jsalmon3 Exp $
+;;	$Id: sound.ccl,v 1.8 2003/10/28 20:35:31 jsalmon3 Exp $
 
 ;;	Uncomment this to enable threaded sound
 ;(sound-thread)
@@ -75,8 +75,8 @@
 
 (make-sound "grenadier-selected" "elites/units/grenadier_select.wav")
 (make-sound "grenadier-acknowledge" "elites/units/grenadier_action.wav")
-(make-sound "grenadier-ready" "elites/computer_voice/assault.unit.ready.wav")
-(make-sound "grenadier-help" "elites/computer_voice/assault.unit.underattack.wav")
+(make-sound "grenadier-ready" "elites/computer_voice/grenadier.ready.wav")
+(make-sound "grenadier-help" "elites/computer_voice/grenadier.underattack.wav")
 (make-sound "grenadier-die" "elites/units/grenadier_die.wav")
 (make-sound "grenadier-attack" "elites/units/grenadier_attack.wav")
 
