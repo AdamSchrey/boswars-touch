@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: stratagus.lua,v 1.21 2004/12/12 14:53:11 feb Exp $
+--	$Id: stratagus.lua,v 1.22 2004/12/12 19:32:07 feb Exp $
 
 -- For documentation see stratagus/doc/ccl/ccl.html
 
@@ -57,7 +57,14 @@ SetDefaultMap="puds/default.pud"
 -------------------------------------------------------------------------------
 --	Music play list -	Insert your titles here
 -------------------------------------------------------------------------------
-playlist={"music/title.ogg"}
+playlist = {}
+musiclist = ListDirectory("music/")
+for i,f in musiclist do
+  if(string.find(f, ".ogg$") or string.find(f, ".wav$") or string.find(f, ".mp3$")) then 
+    print("Added music file:" .. f) 
+    playlist[i] = f
+  end
+end
 
 SetSelectionStyle("corners")
 SetShowSightRange(false)
