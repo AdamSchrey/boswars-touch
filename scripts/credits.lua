@@ -26,10 +26,10 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: credits.lua,v 1.2 2004/05/30 21:31:40 jsalmon3 Exp $
+--	$Id: credits.lua,v 1.3 2004/10/16 20:27:40 feb Exp $
 
 Credits(
-	"background", "graphics/screens/general.png",
+	"background", "screens/general.png",
 	"title", "BATTLE OF SURVIVAL",
 	"title", "(c) skyline software",
 	"name", " ",
