@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: units.ccl,v 1.1 2003/10/27 20:53:56 p0ng Exp $
+;;	$Id: units.ccl,v 1.2 2003/10/27 22:45:52 jsalmon3 Exp $
 
 ;; Load the animations for the units.
 (ccl:load "ccl/anim.ccl")
@@ -149,36 +149,6 @@
   'priority 0
   'type-land
   'sounds '())
-
-(define-unit-type 'unit-critter 'name "Critter"
-  'files '(tileset-desert "tilesets/desert/neutral/units/critter.png"
-    tileset-winter "tilesets/winter/neutral/units/critter.png")
-  'size '(32 32)
-  'animations 'animations-critter 'icon 'icon-critter
-  'speed 3
-  'hit-points 5
-  'draw-level 35
-  'tile-size '(1 1) 'box-size '(31 31)
-  'sight-range 2 'computer-reaction-range 20 'person-reaction-range 10
-  'basic-damage 80 'piercing-damage 0 'missile 'missile-critter-explosion
-  'max-attack-range 1
-  'priority 37
-  'points 1
-  'demand 1
-  'type-land
-  'right-move
-  'can-target-land
-  'land-unit
-  'random-movement-probability 100
-  'clicks-to-explode 10
-  'organic
-  'sounds '(
-    selected "critter-selected"
-    acknowledge "critter-acknowledge"
-    ready "critter-ready"
-    help "critter-help"
-    dead "critter-dead"
-    attack "critter-attack"))
 
 (define-unit-type 'unit-gold-mine 'name "Gold Mine"
   'files '(tileset-desert "tilesets/desert/neutral/buildings/gold_mine.png"

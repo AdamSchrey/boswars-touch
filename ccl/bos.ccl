@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: bos.ccl,v 1.1 2003/10/27 20:53:56 p0ng Exp $
+;;	$Id: bos.ccl,v 1.2 2003/10/27 22:45:52 jsalmon3 Exp $
 
 (define-race-names
   'race '(
@@ -92,7 +92,8 @@
   'unit-destroyed-3x3-place 'unit-destroyed-4x4-place
   'unit-engineer 'unit-peon 'unit-engineer 'unit-peon 'unit-elites-oil-tanker 'unit-terras-oil-tanker
   'unit-harvester
-  'unit-crystal-field1)
+  'unit-crystal-field1
+  'unit-rfac)
 
 (define-missiletype-wc-names
   'missile-lightning 'missile-griffon-hammer 'missile-dragon-breath

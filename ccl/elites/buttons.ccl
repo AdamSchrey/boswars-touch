@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: buttons.ccl,v 1.1 2003/10/27 20:55:43 p0ng Exp $
+;;	$Id: buttons.ccl,v 1.2 2003/10/27 22:45:52 jsalmon3 Exp $
 
 ;;----------------------------------------------------------------------------
 ;;	Define unit-button.
@@ -41,13 +41,13 @@
   'action 'move
   'key "m" 'hint "~!MOVE"
   'for-unit '(unit-engineer unit-harvester unit-lancer
-    unit-critter elites-group))
+    elites-group))
 
 (define-button 'pos 2 'level 0 'icon 'icon-elites-shield1
   'action 'stop
   'key "s" 'hint "~!STOP"
   'for-unit '(unit-engineer unit-harvester unit-lancer
-    unit-critter elites-group))
+    elites-group))
 
 (define-button 'pos 3 'level 0 'icon 'icon-sword1
   'action 'attack
