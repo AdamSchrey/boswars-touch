@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: editor.ccl,v 1.3 2003/10/28 20:29:26 jsalmon3 Exp $
+;;	$Id: editor.ccl,v 1.4 2003/10/28 23:11:49 jsalmon3 Exp $
 
 
 ;;	Set which icons to display
@@ -65,8 +65,18 @@
 ;- - - - - - - - - - - - - - - - - - -
 
   'unit-crystal-field1
-
-  'unit-gold-mine
+  'unit-crystal-field2
+  'unit-crystal-field3
+  'unit-crystal-field4
+  'unit-crystal-field5
+  'unit-crystal-field6
+  'unit-crystal-field7
+  'unit-crystal-field8
+  'unit-crystal-field9
+  'unit-crystal-field10
+  'unit-crystal-field11
+  'unit-crystal-field12
+  'unit-crystal-field13
 
 ; Placing this unit-types on map is not (yet?) supported.
 ;  'unit-dead-body
