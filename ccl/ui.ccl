@@ -26,9 +26,8 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: ui.ccl,v 1.3 2003/10/29 17:17:30 p0ng Exp $
+;;	$Id: ui.ccl,v 1.4 2003/11/12 18:59:53 jsalmon3 Exp $
 
-(define color-dark-green	149)	; FIXME: move to central position
 (ccl:load "ccl/elites/ui.ccl")
 (ccl:load "ccl/terras/ui.ccl")
 
