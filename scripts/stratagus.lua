@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: stratagus.lua,v 1.4 2004/01/22 22:46:41 n0body Exp $
+--	$Id: stratagus.lua,v 1.5 2004/01/27 22:36:52 feb Exp $
 
 -- For documentation see stratagus/doc/ccl/ccl.html
 
@@ -60,6 +60,7 @@ SetDefaultMap="puds/default.pud"
 -------------------------------------------------------------------------------
 --	Music play list -	Insert your titles here
 -------------------------------------------------------------------------------
+playlist={"music/title.ogg"}
 
 SetSelectionStyle("corners")
 SetShowSightRange(false)
