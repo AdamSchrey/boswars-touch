@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: stratagus.lua,v 1.19 2004/11/03 22:40:46 feb Exp $
+--	$Id: stratagus.lua,v 1.20 2004/11/30 21:07:45 gorm Exp $
 
 -- For documentation see stratagus/doc/ccl/ccl.html
 
@@ -207,6 +207,7 @@ Load("scripts/buttons.lua")
 Load("scripts/ui.lua")
 --Load("scripts/unit-drone.lua")
 Load("scripts/elites/unit-camera.lua")
+Load("scripts/elites/unit-buggy.lua")
 
 Load("scripts/ai.lua")
 --Load("scripts/campaigns.lua")
