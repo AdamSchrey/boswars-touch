@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: units.lua,v 1.5 2004/08/12 22:25:32 feb Exp $
+--	$Id: units.lua,v 1.6 2004/09/11 14:18:06 feb Exp $
 
 -- Load the animations for the units.
 Load("scripts/anim.lua")
@@ -175,5 +175,8 @@ DefineUnitType("unit-orc-wall", {
 	Type = "land", Building = true})
 
 -- Load the different races
+Load("scripts/minefield.lua")
 Load("scripts/elites/units.lua")
+
+
 

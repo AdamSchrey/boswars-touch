@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: units.lua,v 1.17 2004/08/03 11:22:32 feb Exp $
+--	$Id: units.lua,v 1.18 2004/09/11 14:18:06 feb Exp $
 
 --=============================================================================
 --	Define unit-types.
@@ -188,6 +188,7 @@ DefineUnitType("unit-engineer", {
 	MaxAttackRange = 1, Priority = 50, Points = 30, Corpse = {"unit-dead-body2", 0},
 	Type = "land", Demand = 0, RightMouseAction = "harvest", RepairRange = 1,
 	CanTargetLand = true, LandUnit = true, Coward = true,
+        CanCastSpell={"spell-minefield"},
 	CanGatherResources = {{
 		"file-when-loaded", "elites/units/unit_engineer.png",
 		"resource-id", "titanium",
