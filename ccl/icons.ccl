@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: icons.ccl,v 1.25 2003/11/05 06:32:26 p0ng Exp $
+;;	$Id: icons.ccl,v 1.26 2003/11/05 10:33:56 p0ng Exp $
 
 
 ;;	FIXME: can be removed: Set the icon size (width height)
@@ -82,7 +82,9 @@
 (define-icon 'icon-hosp_b
   'size '(46 38) 'normal '(7 "elites/units/engineer_icons.png"))
 (define-icon 'icon-vfac
-  'size '(46 38) 'normal '(0 "elites/build/ico_vfac.png"))
+  'size '(46 38) 'normal '(0 "elites/build/vehicle_factory_i.png"))
+(define-icon 'icon-vfac_b
+  'size '(46 38) 'normal '(8 "elites/units/engineer_icons.png"))
 
 (define-icon 'icon-expl
   'size '(46 38) 'normal '(0 "elites/research/res_expl.png"))
