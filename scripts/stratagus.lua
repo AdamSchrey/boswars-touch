@@ -26,11 +26,11 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: stratagus.lua,v 1.8 2004/02/29 22:01:59 feb Exp $
+--	$Id: stratagus.lua,v 1.9 2004/04/18 13:10:46 feb Exp $
 
 -- For documentation see stratagus/doc/ccl/ccl.html
 
-print("Battle of Sturnax default config file loading ...\n")
+print("Battle of Survival default config file loading ...\n")
 
 -------------------------------------------------------------------------------
 --	Config-Part
