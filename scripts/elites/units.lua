@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: units.lua,v 1.5 2004/02/10 01:55:23 n0body Exp $
+--	$Id: units.lua,v 1.6 2004/02/12 22:33:42 n0body Exp $
 
 --=============================================================================
 --	Define unit-types.
@@ -92,6 +92,7 @@ DefineUnitType("unit-medic", {
 	Type = "land", CanTargetLand = true,
 	LandUnit = true, Demand = 0, organic = true,
 	SelectableByRectangle = true,
+	CanCastSpell = {"spell-healing"},
 	Sounds = {
 		"selected", "medic-selected",
 		"acknowledge", "medic-acknowledge",
