@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: bos.ccl,v 1.6 2003/10/29 05:39:35 jsalmon3 Exp $
+;;	$Id: bos.ccl,v 1.7 2003/10/29 16:00:57 jsalmon3 Exp $
 
 (define-race-names
   'race '(
@@ -171,9 +171,9 @@
   'icon-terras-unload 'icon-elites-shield1 'icon-elites-shield2 'icon-elites-shield3
   'icon-terras-shield1 'icon-terras-shield2 'icon-terras-shield3 'icon-170 'icon-171
   'icon-172 'icon-173 'icon-174 'icon-175 'icon-176 'icon-177
-  'icon-elites-patrol-land 'icon-terras-patrol-land 'icon-elites-stand-ground
-  'icon-terras-stand-ground 'icon-elites-attack-ground 'icon-terras-attack-ground
-  'icon-elites-patrol-naval 'icon-terras-patrol-naval 'icon-quick-blade
+  'icon-patrol 'icon-patrol 'icon-stand-ground
+  'icon-stand-ground 'icon-attack-ground 'icon-attack-ground
+  'icon-patrol 'icon-patrol 'icon-quick-blade
   'icon-female-hero 'icon-ugly-guy 'icon-evil-knight 'icon-beast-cry
   'icon-flying-angle 'icon-fire-breeze 'icon-white-mage 'icon-fad-man
   'icon-knight-rider)

@@ -26,12 +26,12 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: editor.ccl,v 1.5 2003/10/29 05:39:35 jsalmon3 Exp $
+;;	$Id: editor.ccl,v 1.6 2003/10/29 16:00:58 jsalmon3 Exp $
 
 
 ;;	Set which icons to display
-(set-editor-select-icon! 'icon-elites-patrol-land)
-(set-editor-units-icon! 'icon-footman)
+(set-editor-select-icon! 'icon-patrol)
+(set-editor-units-icon! 'icon-assault)
 
 
 ;;
