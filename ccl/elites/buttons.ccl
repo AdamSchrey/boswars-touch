@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: buttons.ccl,v 1.26 2003/11/04 18:22:15 p0ng Exp $
+;;	$Id: buttons.ccl,v 1.27 2003/11/05 06:32:26 p0ng Exp $
 
 ;;----------------------------------------------------------------------------
 ;;	Define unit-button.
@@ -121,7 +121,7 @@
   'key "r" 'hint "BUILD ~!RESEARCH FACILITY"
   'for-unit '(unit-engineer))
 
-(define-button 'pos 5 'level 1 'icon 'icon-hosp
+(define-button 'pos 5 'level 1 'icon 'icon-hosp_b
   'action 'build 'value 'unit-hosp
   'key "h" 'hint "BUILD ~!HOSPITAL"
   'for-unit '(unit-engineer))
