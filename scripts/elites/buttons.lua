@@ -27,7 +27,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: buttons.lua,v 1.1 2004/01/22 15:58:03 n0body Exp $
+--	$Id: buttons.lua,v 1.2 2004/01/26 22:05:01 feb Exp $
 
 -- general commands -- almost all units have it -------------------------------
 
@@ -112,7 +112,7 @@ DefineButton({
 	ForUnit = {"unit-engineer"}})
 
 DefineButton({
-	Pos = 2, Level = 1, Icon = "icon-cmp_b", Action = "build",
+	Pos = 2, Level = 1, Icon = "icon-camp_b", Action = "build",
 	Value = "unit-camp", Key = "c", Hint = "BUILD TRAINING ~!CAMP",
 	ForUnit = {"unit-engineer"}})
 
