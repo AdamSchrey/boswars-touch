@@ -26,11 +26,11 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: minefield.lua,v 1.1 2004/09/11 14:18:06 feb Exp $
+--	$Id: minefield.lua,v 1.2 2004/09/11 14:39:38 feb Exp $
 
 
 DefineMissileType("missile-minefield",
-  { File = "minefield.png", Size = {64, 64}, Frames = 1, NumDirections = 1,
+  { File = "minefield.png", Size = {32, 32}, Frames = 1, NumDirections = 1,
   DrawLevel = 20, Class = "missile-class-land-mine", Sleep = 5, Speed = 16, 
   Range = 10,  ImpactMissile = "missile-explosion", CanHitOwner = true } )
 
