@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: spells.ccl,v 1.3 2003/10/30 11:24:49 p0ng Exp $
+;;	$Id: spells.ccl,v 1.4 2003/11/13 19:58:58 p0ng Exp $
 
 ;; For documentation see stratagus/doc/ccl/ccl.html ;; FIXME write and move doc.
 
@@ -46,4 +46,15 @@
         'missile-when-cast "missile-heal"
         'autocast '(range 6 condition (alliance only max-hp-percent 90 )
         )
+)
+
+(define-spell "spell-nuke"
+        'showname "Nuclear Attack"
+        'manacost 300
+        'range 128
+        'target 'position
+        'action '((spawn-missile damage 450))
+        'sound-when-cast "bazoo-attack"
+        'missile-when-cast "missile-nuke"
+        'autocast '(range 128)
 )

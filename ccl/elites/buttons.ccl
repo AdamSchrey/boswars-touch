@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: buttons.ccl,v 1.30 2003/11/13 19:11:13 p0ng Exp $
+;;	$Id: buttons.ccl,v 1.31 2003/11/13 19:58:57 p0ng Exp $
 
 ;;----------------------------------------------------------------------------
 ;;	Define unit-button.
@@ -263,3 +263,9 @@
         'allowed 'check-true
 	'key "b" 'hint "~!BANDAGE"
 	'for-unit '(unit-medic))
+
+(define-button 'pos 3 'level 0 'icon 'icon-expl2
+  'action 'cast-spell 'value 'spell-nuke
+  'allowed 'check-true
+  'key "n" 'hint "~!NUKE EM"
+  'for-unit '(unit-msilo))
