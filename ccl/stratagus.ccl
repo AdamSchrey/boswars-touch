@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: stratagus.ccl,v 1.6 2003/10/29 17:43:47 p0ng Exp $
+;;	$Id: stratagus.ccl,v 1.7 2003/10/29 17:49:57 p0ng Exp $
 
 ;; For documentation see stratagus/doc/ccl/ccl.html
 
@@ -55,7 +55,7 @@
 ;(set-contrast! 110) (set-brightness! 15) (set-saturation! 100)
 
 ;;	Enter your default title screen.
-(set-title-screen! "video/skyline_logo.avi" "graphics/screens/int_logo_bos.png")
+(set-title-screen! "graphics/screens/int_logo_bos.png")
 
 ;;	Enter your title music.
 (set-title-music! "music/title.ogg")
