@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: menus.ccl,v 1.1 2003/10/27 20:53:56 p0ng Exp $
+;;	$Id: menus.ccl,v 1.2 2003/10/29 04:59:43 mr-russ Exp $
 
 ;;
 ;; load the keystroke helps
@@ -290,23 +290,12 @@
     func replay-game-menu
     style gm-full)
   'menu 'menu-program-start)
-(if (symbol-bound? 'stratagus-feature-sdl ())
 (define-menu-item 'pos (list 208 (+ 109 (* 36 5))) 'font 'large
   'button '(size (224 27)
     caption "~!Options"
     hotkey "o"
     func global-options-menu
     style gm-full)
-  'menu 'menu-program-start)
-(define-menu-item 'pos (list 208 (+ 109 (* 36 5))) 'font 'large
-  'flags '(disabled)
-  'button '(size (224 27)
-    caption "~!Options"
-    hotkey "o"
-    func global-options-menu
-    style gm-full)
-  'menu 'menu-program-start)
-)
 (define-menu-item 'pos (list 208 (+ 109 (* 36 6))) 'font 'large
   'button '(size (224 27)
     caption "~!Editor"
