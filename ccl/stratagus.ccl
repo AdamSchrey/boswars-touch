@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: stratagus.ccl,v 1.4 2003/10/28 13:07:32 p0ng Exp $
+;;	$Id: stratagus.ccl,v 1.5 2003/10/28 16:50:43 jsalmon3 Exp $
 
 ;; For documentation see stratagus/doc/ccl/ccl.html
 
@@ -383,7 +383,7 @@
 ;;-----------------------------------------------------------------------------
 
 ;;	All player food unit limit
-(set-all-players-food-unit-limit! 200)
+(set-all-players-food-unit-limit! 50000)
 ;;	All player building limit
 (set-all-players-building-limit! 200)
 ;;	All player total unit limit
