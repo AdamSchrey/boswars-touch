@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: ai.lua,v 1.2 2004/03/02 21:58:09 feb Exp $
+--	$Id: ai.lua,v 1.3 2004/03/04 03:04:44 jsalmon3 Exp $
 --
 
 DefineAiHelper(
@@ -98,13 +98,10 @@ local ai_funcs = {
   function() return AiSet("unit-engineer", 10) end,
   function() return AiWait("unit-vault") end,
 
-  function() return AiNeed("unit-gen") end,
   function() return AiNeed("unit-camp") end,
-  function() return AiNeed("unit-gen") end,
   function() return AiWait("unit-camp") end,
   function() return AiForce(0, {"unit-assault", 10}) end,
   function() return AiWaitForce(0) end, 
-  function() return AiNeed("unit-gen") end,
   function() return AiNeed("unit-camp") end,
   function() return AiNeed("unit-camp") end,
   
@@ -113,9 +110,6 @@ local ai_funcs = {
   function() return AiAttackWithForce(1) end,
 
   function() return AiForce(0, {"unit-assault", 20}) end,
-  function() return AiNeed("unit-gen") end,
-  function() return AiNeed("unit-gen") end,
-  function() return AiNeed("unit-gen") end,
   function() return AiNeed("unit-rfac") end,
   function() return AiResearch("upgrade-expl") end,
   function() return AiForce(1, {"unit-assault", 30, "unit-grenadier", 10}) end,
