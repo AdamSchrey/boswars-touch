@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: units.lua,v 1.13 2004/03/06 13:54:36 feb Exp $
+--	$Id: units.lua,v 1.14 2004/03/06 16:15:29 feb Exp $
 
 --=============================================================================
 --	Define unit-types.
@@ -222,7 +222,7 @@ DefineUnitType("unit-harvester", {
 	Costs = {'time', 75, 'titanium', 250, 'crystal', 100},
 	RepairHp = 2, RepairCosts = {"titanium", 2},
 	ExplodeWhenKilled = "missile-160x128-explosion",
-	Speed = 5, HitPoints = 200, DrawLevel = 40, TileSize = {1, 1}, BoxSize = {63, 63},
+	Speed = 10, HitPoints = 200, DrawLevel = 40, TileSize = {1, 1}, BoxSize = {63, 63},
 	SightRange = 5, ComputerReactionRange = 6, PersonReactionRange = 4,
 	Armor = 25, BasicDamage = 0, PiercingDamage = 0, Missile = "missile-none",
 	MaxAttackRange = 0, Priority = 50, Points = 30, Type = "land",
