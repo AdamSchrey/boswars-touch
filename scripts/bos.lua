@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: bos.lua,v 1.7 2004/11/03 22:40:45 feb Exp $
+--	$Id: bos.lua,v 1.8 2004/11/09 22:40:37 feb Exp $
 
 DefineRaceNames(
 	"race", {
@@ -108,12 +108,6 @@ DefineUnitTypeWcNames(
 	"unit-gturret",
 	"unit-cam",
 	"unit-plate1")
-
-DefineMissileTypeWcNames(
-	"missile-nuke", "missile-grenadier", "missile-bazoo", "missile-dorcoz",
-	"missile-heal", "missile-64x64-explosion", "missile-160x128-explosion",
-	"missile-288x288-explosion", "missile-small-fire", "missile-big-fire",
-	"missile-explosion", "missile-green-cross", "missile-none", "missile-hit")
 
 DefineIconWcNames(
 	"icon-assault", "icon-apcs", "icon-grenadier", "icon-bazoo",
