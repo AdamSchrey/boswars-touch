@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: stratagus.lua,v 1.13 2004/05/29 10:31:59 feb Exp $
+--	$Id: stratagus.lua,v 1.14 2004/05/30 20:55:56 jsalmon3 Exp $
 
 -- For documentation see stratagus/doc/ccl/ccl.html
 
@@ -41,9 +41,6 @@ print("Battle of Survival default config file loading ...\n")
 SetTitleScreens(
 		{Image = "video/int_logo_stratagus.avi", Music =  "video/int_logo_stratagus.ogg"},
 		{Image = "video/int_logo_bos.avi", Music =  "video/int_logo_bos.ogg"})
-
---	Enter your default menu background w and w/o title
-SetMenuBackground("graphics/screens/menu.png")
 
 --	Enter your menu music.
 SetMenuMusic("music/title.ogg")
