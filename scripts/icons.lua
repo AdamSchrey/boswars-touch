@@ -26,10 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: icons.lua,v 1.1 2004/01/21 22:28:38 n0body Exp $
-
-
-SetIconSize(46, 38)
+--	$Id: icons.lua,v 1.2 2004/01/30 15:58:56 n0body Exp $
 
 --
 --  ELITES
