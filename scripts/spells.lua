@@ -26,9 +26,10 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: spells.lua,v 1.4 2004/03/09 20:11:16 feb Exp $
+--	$Id: spells.lua,v 1.5 2004/10/12 16:50:45 feb Exp $
 
 DefineBoolFlags("organic")
+DefineVariables("Speed")
 
 DefineSpell("spell-healing",
 	"showname", "Bandage",
