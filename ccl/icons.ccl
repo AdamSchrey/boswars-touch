@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: icons.ccl,v 1.11 2003/10/29 16:00:58 jsalmon3 Exp $
+;;	$Id: icons.ccl,v 1.12 2003/10/29 16:51:21 jsalmon3 Exp $
 
 
 ;;	FIXME: can be removed: Set the icon size (width height)
@@ -107,15 +107,11 @@
   'size '(46 38) 'normal '(4 "general/commands.png"))
 (define-icon 'icon-attack-ground
   'size '(46 38) 'normal '(5 "general/commands.png"))
-(define-icon 'icon-patrol
-  'size '(46 38) 'normal '(5 "general/commands.png"))
 
-(define-icon 'icon-stand-ground
-  'size '(46 38) 'normal '(180 "tilesets/desert/icons.png"))
+
 
 
 ; OLD, REMOVE
-
 
 (define-icon 'icon-repair
   'size '(46 38) 'normal '(85 "tilesets/desert/icons.png"))
@@ -129,4 +125,5 @@
   'size '(46 38) 'normal '(89 "tilesets/desert/icons.png"))
 (define-icon 'icon-return-goods-peon
   'size '(46 38) 'normal '(90 "tilesets/desert/icons.png"))
-
+(define-icon 'icon-stand-ground
+  'size '(46 38) 'normal '(180 "tilesets/desert/icons.png"))
