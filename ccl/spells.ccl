@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: spells.ccl,v 1.8 2003/11/13 23:13:42 p0ng Exp $
+;;	$Id: spells.ccl,v 1.9 2004/01/20 20:19:04 n0body Exp $
 
 ;; For documentation see stratagus/doc/ccl/ccl.html ;; FIXME write and move doc.
 
@@ -54,7 +54,7 @@
         'range 'infinite
         'target 'position
         'action '(
-	(spawn-missile ttl 800 damage 0
+	(spawn-missile ttl 800 damage 0 delay 1000
 	     start-point (base target add-x 0 add-y -300)
 	     end-point   (base target add-x 0 add-y 32))
 	(demolish range 4 damage 250)
