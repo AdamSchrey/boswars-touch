@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: stratagus.ccl,v 1.14 2003/11/03 17:11:04 jsalmon3 Exp $
+;;	$Id: stratagus.ccl,v 1.15 2003/11/08 01:31:58 jsalmon3 Exp $
 
 ;; For documentation see stratagus/doc/ccl/ccl.html
 
@@ -384,8 +384,6 @@
 
 ;;	Maximum number of selectable units
 (set-max-selectable! 24)
-;;	Maximum number of units per group
-(set-num-units-per-group! 24)
 
 ;;	All player food unit limit
 (set-all-players-food-unit-limit! 50000)
