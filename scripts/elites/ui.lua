@@ -10,7 +10,8 @@
 --
 --	ui.ccl		-	Define the elites user interface
 --
---	(c) Copyright 2001-2004 by Lutz Sammer, Jimmy Salmon and Crestez Leonard.
+--	(c) Copyright 2001-2004 by Lutz Sammer, Jimmy Salmon, Crestez Leonard and
+--					François Beerten.
 --
 --      This program is free software; you can redistribute it and/or modify
 --      it under the terms of the GNU General Public License as published by
@@ -26,7 +27,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: ui.lua,v 1.10 2004/05/23 15:12:16 feb Exp $
+--	$Id: ui.lua,v 1.11 2004/05/29 11:14:24 feb Exp $
 
 DefineCursor({
 	Name = "cursor-point",
@@ -168,7 +169,7 @@ function DefineEliteScreen(screen_width, screen_height)
 		"map-area", {
 			"pos", {24, 16},
 			"size", {
-				screen_width - 216,
+				screen_width - 200 - 24,
 				screen_height - 32}},
 		"menu-panel", {
 			"menu-button", {
