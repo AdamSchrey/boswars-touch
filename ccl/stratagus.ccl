@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: stratagus.ccl,v 1.9 2003/10/31 19:03:45 p0ng Exp $
+;;	$Id: stratagus.ccl,v 1.10 2003/10/31 20:40:10 jsalmon3 Exp $
 
 ;; For documentation see stratagus/doc/ccl/ccl.html
 
@@ -58,7 +58,7 @@
 (set-title-screen! "video/int_logo_stratagus.avi" "video/int_logo_bos.avi")
 
 ;;	Enter your title music.
-(set-title-music! "music/title.ogg")
+;(set-title-music! "music/title.ogg")
 
 ;;	Enter your default menu background.
 (set-menu-background! "graphics/screens/menu.png")
