@@ -27,7 +27,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: buttons.lua,v 1.7 2004/11/02 03:30:09 mr-russ Exp $
+--	$Id: buttons.lua,v 1.8 2004/11/03 22:40:46 feb Exp $
 
 -- general commands -- almost all units have it -------------------------------
 
@@ -190,6 +190,12 @@ DefineButton({
 	Pos = 3, Level = 0, Icon = "icon-bazoo",
 	Action = "train-unit", Value = "unit-bazoo",
 	Key = "b", Hint = "TRAIN ~!BAZOO",
+	ForUnit = {"unit-camp"}})
+
+DefineButton({
+	Pos = 4, Level = 0, Icon = "icon-dorcoz",
+	Action = "train-unit", Value = "unit-dorcoz",
+	Key = "d", Hint = "TRAIN ~!DORCOZ",
 	ForUnit = {"unit-camp"}})
 
 DefineButton({
