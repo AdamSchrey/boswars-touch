@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: anim.lua,v 1.1 2004/01/21 22:28:38 n0body Exp $
+--	$Id: anim.lua,v 1.2 2004/02/01 11:21:09 n0body Exp $
 
 ---------------------------
 -------- Elite Units ------
@@ -129,7 +129,7 @@ DefineAnimations("animations-harvester",
 		{0, 1, 1, 0}, {0, 1, 1, 0}, {0, 1, 1, 0}, {0, 1, 1, 0},
 		{0, 1, 1, 0}, {0, 1, 1, 0}, {0, 1, 1, 0}, {0, 1, 1, 0},
 		{0, 1, 1, 0}, {0, 1, 1, 0}, {0, 1, 1, 0}, {0, 1, 1, 0},
-		{0, 1, 1, 0}, {0, 1, 1, 0}, {0, 1, 1, 0}, {0, 1, 1, 0}} ,
+		{0, 1, 1, 0}, {0, 1, 1, 0}, {0, 1, 1, 0}, {3, 1, 1, 0}},
 	"harvest", "crystal", {
 		{4, 0, 6, 5}, {0, 0, 3, 10}, {0, 0, 3, 15}, {0, 0, 3, 20},
 		{4, 0, 6, 25}, {0, 0, 3, 20}, {0, 0, 3, 15}, {3, 0, 3, 10}},
@@ -234,7 +234,7 @@ DefineAnimations("animations-crystal-field4",
 DefineAnimations("animations-crystal-field5",
 	"still", {{0, 0, 4, 0}, {3, 0, 1, 0}})
 DefineAnimations("animations-crystal-field6",
-	"still", {{0, 0, 4, 11}, {3, 0, 1, 1}})
+	"still", {{0, 0, 4, 1}, {3, 0, 1, 1}})
 DefineAnimations("animations-crystal-field7",
 	"still", {{0, 0, 4, 5}, {3, 0, 1, 5}})
 DefineAnimations("animations-crystal-field8",
