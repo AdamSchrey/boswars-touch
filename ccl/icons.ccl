@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: icons.ccl,v 1.21 2003/11/03 17:52:10 p0ng Exp $
+;;	$Id: icons.ccl,v 1.22 2003/11/04 07:56:37 p0ng Exp $
 
 
 ;;	FIXME: can be removed: Set the icon size (width height)
@@ -66,7 +66,9 @@
 (define-icon 'icon-gen_b
   'size '(46 38) 'normal '(1 "elites/units/engineer_icons.png"))
 (define-icon 'icon-camp
-  'size '(46 38) 'normal '(0 "elites/build/ico_camp.png"))
+  'size '(46 38) 'normal '(0 "elites/build/training_camp_i.png"))
+(define-icon 'icon-camp_b
+  'size '(46 38) 'normal '(2 "elites/units/engineer_icons.png"))
 (define-icon 'icon-dev
   'size '(46 38) 'normal '(0 "elites/build/developement_yard_i.png"))
 (define-icon 'icon-dev_b
@@ -93,6 +95,13 @@
 
 (define-icon 'icon-heal
   'size '(46 38) 'normal '(0 "elites/special/ico_heal.png"))
+
+(define-icon 'icon-build-lvl1
+  'size '(46 38) 'normal '(3 "elites/units/engineer_icons.png"))
+(define-icon 'icon-build-lvl2
+  'size '(46 38) 'normal '(4 "elites/units/engineer_icons.png"))
+(define-icon 'icon-build-lvl3
+  'size '(46 38) 'normal '(5 "elites/units/engineer_icons.png"))
 
 ; TERRAS
 
@@ -132,8 +141,7 @@
   'size '(46 38) 'normal '(85 "tilesets/desert/icons.png"))
 (define-icon 'icon-harvest
   'size '(46 38) 'normal '(86 "tilesets/desert/icons.png"))
-(define-icon 'icon-build-basic
-  'size '(46 38) 'normal '(87 "tilesets/desert/icons.png"))
+
 (define-icon 'icon-build-advanced
   'size '(46 38) 'normal '(88 "tilesets/desert/icons.png"))
 (define-icon 'icon-return-goods-peasant
