@@ -26,7 +26,7 @@
 --      along with this program-- if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: fonts.lua,v 1.1 2004/01/22 15:58:03 n0body Exp $
+--	$Id: fonts.lua,v 1.2 2004/03/28 18:42:18 jsalmon3 Exp $
 
 DefineFont({
 	Name = "small",
@@ -35,7 +35,7 @@ DefineFont({
 DefineFont({
 	Name = "game",
 	File = "graphics/general/game.png",
-	Size = {18, 14}})
+	Size = {14, 14}})
 DefineFont({
 	Name = "large",
 	File = "graphics/general/large.png",
