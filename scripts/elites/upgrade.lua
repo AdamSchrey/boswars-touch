@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: upgrade.lua,v 1.3 2004/03/06 13:54:36 feb Exp $
+--	$Id: upgrade.lua,v 1.4 2004/05/29 10:31:59 feb Exp $
 
 DefineAllow("unit-assault", "AAAAAAAAAAAAAAAA")
 DefineAllow("unit-grenadier", "AAAAAAAAAAAAAAAA")
@@ -45,7 +45,6 @@ DefineAllow("unit-apcs", "AAAAAAAAAAAAAAAA")
 DefineAllow("unit-human-wall", "AAAAAAAAAAAAAAAA")
 DefineAllow("unit-msilo", "AAAAAAAAAAAAAAAA")
 DefineAllow("unit-plate1", "AAAAAAAAAAAAAAAA")
-
 
 --	- upgrades
 
