@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: buttons.ccl,v 1.25 2003/11/04 07:56:37 p0ng Exp $
+;;	$Id: buttons.ccl,v 1.26 2003/11/04 18:22:15 p0ng Exp $
 
 ;;----------------------------------------------------------------------------
 ;;	Define unit-button.
@@ -116,7 +116,7 @@
   'key "g" 'hint "BUILD ~!GENERATOR"
   'for-unit '(unit-engineer))
 
-(define-button 'pos 4 'level 1 'icon 'icon-rfac
+(define-button 'pos 4 'level 1 'icon 'icon-rfac_b
   'action 'build 'value 'unit-rfac
   'key "r" 'hint "BUILD ~!RESEARCH FACILITY"
   'for-unit '(unit-engineer))
