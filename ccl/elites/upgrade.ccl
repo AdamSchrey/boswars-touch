@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: upgrade.ccl,v 1.15 2003/11/03 17:56:41 p0ng Exp $
+;;	$Id: upgrade.ccl,v 1.16 2003/11/13 19:11:14 p0ng Exp $
 
 
 (define-allow 'unit-assault			"AAAAAAAAAAAAAAAA")
@@ -43,6 +43,7 @@
 (define-allow 'unit-vfac			"AAAAAAAAAAAAAAAA")
 (define-allow 'unit-apcs			"AAAAAAAAAAAAAAAA")
 (define-allow 'unit-human-wall			"AAAAAAAAAAAAAAAA")
+(define-allow 'unit-msilo			"AAAAAAAAAAAAAAAA")
 
 
 ;;	- upgrades
@@ -110,11 +111,17 @@
 (define-dependency 'unit-rfac
   '(unit-yard))
 
+(define-dependency 'unit-medic
+  '(unit-hosp))
+
 (define-dependency 'unit-gen
   '(unit-yard))
 
 (define-dependency 'unit-hosp
-  '(unit-yard))
+  '(unit-yard upgrade-void))
 
 (define-dependency 'unit-vfac
+  '(unit-yard upgrade-void))
+
+(define-dependency 'unit-msilo
   '(unit-yard upgrade-void))
