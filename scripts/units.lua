@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: units.lua,v 1.1 2004/01/22 15:58:03 n0body Exp $
+--	$Id: units.lua,v 1.2 2004/02/10 01:55:23 n0body Exp $
 
 -- Load the animations for the units.
 Load("scripts/anim.lua")
@@ -169,5 +169,4 @@ DefineUnitType("unit-orc-wall", {
 
 -- Load the different races
 Load("scripts/elites/units.lua")
-Load("scripts/terras/units.lua")
 

@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: icons.lua,v 1.2 2004/01/30 15:58:56 n0body Exp $
+--	$Id: icons.lua,v 1.3 2004/02/10 01:55:23 n0body Exp $
 
 --
 --  ELITES
@@ -232,7 +232,7 @@ DefineIcon({
 	Name = "icon-dorcoz",
 	Size = {46, 38},
 	Index = 0,
-	File = "terras/units/ico_dorcoz.png"})
+	File = "elites/units/ico_dorcoz.png"})
 
 --
 -- NEUTRAL

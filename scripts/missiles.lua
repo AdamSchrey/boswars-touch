@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: missiles.lua,v 1.1 2004/01/21 22:28:38 n0body Exp $
+--	$Id: missiles.lua,v 1.2 2004/02/10 01:55:23 n0body Exp $
 
 -------------------------------------------------------------------------------Y
 --	Define missiles
@@ -54,7 +54,7 @@ DefineMissileType("missile-bazoo", {
 	ImpactMissile = "missile-64x64-explosion"})
 
 DefineMissileType("missile-dorcoz", {
-	File = "terras/missile/mis_plasma_sml.png",
+	File = "elites/missile/mis_plasma_sml.png",
 	Size = {32, 32}, Frames = 5, NumDirections = 5,
 	ImpactSound = "fireball hit", DrawLevel = 50,
 	Class = "missile-class-point-to-point", Sleep = 1, Speed = 32, Range = 1})

@@ -26,10 +26,9 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: constructions.lua,v 1.1 2004/01/21 22:28:38 n0body Exp $
+--	$Id: constructions.lua,v 1.2 2004/02/10 01:55:23 n0body Exp $
 
 Load("scripts/elites/constructions.lua")
---Load("scripts/terras/constructions.lua") -- Not yet
 
 DefineConstruction("construction-none", {
 	Files = {{

@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: sound.lua,v 1.1 2004/01/21 22:28:38 n0body Exp $
+--	$Id: sound.lua,v 1.2 2004/02/10 01:55:23 n0body Exp $
 
 ------------------------------------------------------------------------------
 --	Music part
@@ -163,11 +163,5 @@ DefineGameSounds(
   "placement-error", sound_click,
   "placement-success", sound_click,
   "click", sound_click)
-
---  'work-complete (list 'elites (make-sound "basic elites voices work complete" "elites/basic_voices/work_complete.wav"))
---  'work-complete (list 'terras (make-sound "basic terras voices work complete" "terras/basic_voices/work_complete.wav"))
-
---  'rescue (list 'elites (make-sound "elites rescue" "elites/rescue.wav"))
---  'rescue (list 'terras (make-sound "terras rescue" "terras/rescue.wav"))
 
 sound_click = MakeSound("statsthump", "ui/click.wav")
