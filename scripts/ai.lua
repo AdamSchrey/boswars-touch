@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: ai.lua,v 1.4 2004/03/06 13:54:36 feb Exp $
+--	$Id: ai.lua,v 1.5 2004/03/06 18:57:15 feb Exp $
 --
 
 DefineAiHelper(
@@ -80,11 +80,12 @@ ai_loop_pos = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 
 local ai_loop_funcs = {
   function() print("Looping !"); return false end,
-  function() return AiForce(1, {"unit-assault", 40}) end,
-  function() return AiForce(2, {"unit-grenadier", 15}) end,
-  function() return AiForce(3, {"unit-bazoo", 10}) end,
+  function() return AiForce(1, {"unit-assault", 20}) end,
+  function() return AiForce(2, {"unit-grenadier", 8}) end,
+  function() return AiForce(3, {"unit-bazoo", 8}) end,
   function() return AiWaitForce(2) end,
   function() return AiWaitForce(3) end,  -- wait until attack party is completed
+  function() return AiSleep(200) end,
   function() return AiAttackWithForce(1) end,
   function() return AiAttackWithForce(2) end,
   function() return AiAttackWithForce(3) end,
@@ -103,16 +104,18 @@ local ai_funcs = {
   function() return AiForce(0, {"unit-assault", 10}) end,
   function() return AiWaitForce(0) end, 
   function() return AiNeed("unit-camp") end,
+  function() return AiSleep(500) end,
   function() return AiNeed("unit-camp") end,
   
-  function() return AiForce(1, {"unit-assault", 20}) end,
-  function() return AiWaitForce(1) end, 
+  function() return AiForce(1, {"unit-assault", 10}) end,
+  function() return AiWaitForce(1) end,
+  function() return AiSleep(200) end, 
   function() return AiAttackWithForce(1) end,
 
   function() return AiForce(0, {"unit-assault", 20}) end,
   function() return AiNeed("unit-rfac") end,
   function() return AiResearch("upgrade-expl") end,
-  function() return AiForce(1, {"unit-assault", 30, "unit-grenadier", 10}) end,
+  function() return AiForce(1, {"unit-assault", 20, "unit-grenadier", 8}) end,
   function() return AiWaitForce(1) end, 
   function() return AiAttackWithForce(1) end,
 
