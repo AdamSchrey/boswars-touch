@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: bos.lua,v 1.5 2004/03/02 21:58:09 feb Exp $
+--	$Id: bos.lua,v 1.6 2004/11/02 03:30:09 mr-russ Exp $
 
 DefineRaceNames(
 	"race", {
@@ -46,7 +46,7 @@ DefineConstructionWcNames(
 	"construction-none", "construction-land", "construction-wall",
 	"construction-land2", "construction-plate", "construction-msilo",
 	"construction-gen", "construction-vault", "construction-camp",
-	"construction-rfac", "construction-hosp", "construction-vfac")
+	"construction-rfac", "construction-hosp", "construction-vfac", "construction-gturret")
 
 DefineUnitTypeWcNames(
 	"unit-assault", "unit-grunt", "unit-engineer", "unit-peon", "unit-ballista",
@@ -105,6 +105,7 @@ DefineUnitTypeWcNames(
 	"unit-vfac",
 	"unit-apcs",
 	"unit-msilo",
+	"unit-gturret",
 	"unit-plate1")
 
 DefineMissileTypeWcNames(
@@ -117,7 +118,7 @@ DefineIconWcNames(
 	"icon-assault", "icon-apcs", "icon-grenadier", "icon-bazoo",
 	"icon-medic", "icon-engineer", "icon-harvester", "icon-gen",
 	"icon-gen_b", "icon-camp", "icon-camp_b", "icon-vault", "icon-dev_b",
-	"icon-rfac", "icon-rfac_b", "icon-hosp", "icon-hosp_b", "icon-vfac",
+	"icon-rfac", "icon-rfac_b", "icon-hosp", "icon-hosp_b", "icon-vfac", "icon-gturret",
 	"icon-vfac_b", "icon-msilo", "icon-msilo_b", "icon-plate1", "icon-expl",
 	"icon-expl2", "icon-tdril", "icon-ddril", "icon-pdril", "icon-void",
 	"icon-heal", "icon-build-lvl1", "icon-build-lvl2", "icon-build-lvl3",

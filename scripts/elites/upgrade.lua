@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: upgrade.lua,v 1.4 2004/05/29 10:31:59 feb Exp $
+--	$Id: upgrade.lua,v 1.5 2004/11/02 03:30:09 mr-russ Exp $
 
 DefineAllow("unit-assault", "AAAAAAAAAAAAAAAA")
 DefineAllow("unit-grenadier", "AAAAAAAAAAAAAAAA")
@@ -45,6 +45,7 @@ DefineAllow("unit-apcs", "AAAAAAAAAAAAAAAA")
 DefineAllow("unit-human-wall", "AAAAAAAAAAAAAAAA")
 DefineAllow("unit-msilo", "AAAAAAAAAAAAAAAA")
 DefineAllow("unit-plate1", "AAAAAAAAAAAAAAAA")
+DefineAllow("unit-gturret", "AAAAAAAAAAAAAAAA")
 
 --	- upgrades
 
@@ -104,3 +105,4 @@ DefineDependency("unit-gen", {"unit-vault"})
 DefineDependency("unit-hosp", {"unit-vault", "unit-camp"})
 DefineDependency("unit-vfac", {"unit-vault", "unit-rfac"})
 DefineDependency("unit-msilo", {"unit-vault", "unit-rfac", "unit-dev-yard"})
+DefineDependency("unit-gturret", {"unit-vault"})

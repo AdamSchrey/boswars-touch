@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: anim.lua,v 1.5 2004/03/06 13:54:36 feb Exp $
+--	$Id: anim.lua,v 1.6 2004/11/02 03:30:09 mr-russ Exp $
 
 ---------------------------
 -------- Elite Units ------
@@ -189,6 +189,12 @@ DefineAnimations("animations-vfac",
 		{0, 0, 3, 0}, {0, 0, 3, 1}, {0, 0, 3, 2}, {0, 0, 3, 3},
 		{0, 0, 3, 4}, {0, 0, 3, 5}, {0, 0, 3, 6}, {0, 0, 3, 7},
 		{3, 0, 3, 8}}) 
+
+DefineAnimations("animations-gturret",
+	"still", {{3, 0, 1, 4}},
+	"attack", {
+		{0, 0, 1, 0}, {0, 0, 1, 5}, {0, 0, 1, 0}, {0, 0, 1, 5},{0, 0, 1, 0}, {12, 0, 1, 5},
+		{3, 0, 1, 0}})
 
 ----------------------
 -------- Nature ------

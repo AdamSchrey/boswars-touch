@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: constructions.lua,v 1.2 2004/02/29 12:37:05 feb Exp $
+--	$Id: constructions.lua,v 1.3 2004/11/02 03:30:09 mr-russ Exp $
 
 DefineConstruction("construction-plate", {
 	Constructions = {
@@ -152,3 +152,14 @@ DefineConstruction("construction-vfac", {
 		{Percent = 90, File = "main", Frame = 0}
 	}
 })
+
+DefineConstruction("construction-gturret", {
+	Constructions = {
+		{Percent = 0, File = "main", Frame = 10},
+		{Percent = 20, File = "main", Frame = 11},
+		{Percent = 40, File = "main", Frame = 12},
+		{Percent = 60, File = "main", Frame = 13},
+		{Percent = 80, File = "main", Frame = 14}
+}
+})
+

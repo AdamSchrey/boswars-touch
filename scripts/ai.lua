@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: ai.lua,v 1.8 2004/06/12 14:44:16 feb Exp $
+--	$Id: ai.lua,v 1.9 2004/11/02 03:30:09 mr-russ Exp $
 --
 
 DefineAiHelper(
@@ -35,7 +35,7 @@ DefineAiHelper(
   --
   {"build", "unit-engineer",
    "unit-msilo", "unit-dev-yard", "unit-gen", "unit-camp",
-   "unit-rfac", "unit-hosp", "unit-vfac", "unit-vault", "unit-plate1"},
+   "unit-rfac", "unit-hosp", "unit-vfac", "unit-vault", "unit-gturret", "unit-plate1"},
   --
   -- Building can train which units.
   --

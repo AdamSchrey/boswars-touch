@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: units.lua,v 1.18 2004/09/11 14:18:06 feb Exp $
+--	$Id: units.lua,v 1.19 2004/11/02 03:30:09 mr-russ Exp $
 
 --=============================================================================
 --	Define unit-types.
@@ -441,6 +441,29 @@ DefineUnitType("unit-vfac", {
 		"help", "vfac-help",
 		"dead", "vfac-dead"}
 	})
+
+DefineUnitType("unit-gturret", {
+	Name = "Gun Turret",
+	Files = {"tileset-desert", "elites/build/gturret.png"}, Size = {64, 64},
+	Shadow = {"file", "elites/build/generator_s.png", "size", {64, 64}},
+	Animations = "animations-gturret", Icon = "icon-gturret",
+	Costs = {"time", 130, "titanium", 250, "crystal", 50},
+	RepairHp = 2, RepairCosts = {"titanium", 2}, Construction = "construction-gturret",
+	Speed = 0, HitPoints = 160, DrawLevel = 25, TileSize  = {2, 2}, BoxSize = {60, 60},
+	SightRange = 6, ComputerReactionRange = 6, PersonReactionRange = 6, Armor = 10 , 		BasicDamage = 4, PiercingDamage = 0, MaxAttackRange = 6, Missile = "missile-none", 		Priority = 20, AnnoyComputerFactor = 45, Points = 100,
+	ExplodeWhenKilled = "missile-160x128-explosion", RightMouseAction = "attack",
+	CanAttack = true, CanTargetLand = true, NumDirections = 8,
+	Corpse = {"build-dead-body2", 0}, Type = "land", 
+	--[[MustBuildOnTop = "unit-plate1", --]] Building = true, BuilderOutside = true, 	
+	VisibleUnderFog = true,
+	Sounds = {
+		"selected", "gen-selected",
+		"ready", "gen-ready",
+		"help", "gen-help",
+		"dead", "gen-dead",
+		"attack", "assault-attack"}
+	})
+
 
 CorpseTable = {"assault", "engineer", "grenadier", "bazoo", "medic"}
 for i = 1, table.getn(CorpseTable) do

@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: icons.lua,v 1.6 2004/08/11 01:40:41 jsalmon3 Exp $
+--	$Id: icons.lua,v 1.7 2004/11/02 03:30:09 mr-russ Exp $
 
 --
 --  ELITES
@@ -109,6 +109,19 @@ DefineIcon({
 	Size = {46, 38},
 	Frame = 0,
 	File = "elites/build/development_yard_i.png"})
+
+DefineIcon({
+	Name = "icon-gturret",
+	Size = {46, 38},
+	Frame = 0,
+	File = "elites/build/gturret_i.png"})
+
+DefineIcon({
+	Name = "icon-gturret_b",
+	Size = {46, 38},
+	Frame = 10,
+	File = "elites/units/engineer_icons.png"})
+	
 	
 DefineIcon({
 	Name = "icon-dev_b",
