@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: units.ccl,v 1.2 2003/10/29 16:00:59 jsalmon3 Exp $
+;;	$Id: units.ccl,v 1.3 2003/11/02 04:31:59 jsalmon3 Exp $
 
 ;;=============================================================================
 ;;	Define unit-types.
@@ -105,6 +105,7 @@
     selected "peon-selected"
     acknowledge "peon-acknowledge"
     ready "peon-ready"
+    harvest crystal "peon-attack"
     help "basic terras voices help 1"
     dead "basic terras voices dead"
     attack "peon-attack"))
