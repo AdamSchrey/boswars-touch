@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: ai.lua,v 1.3 2004/03/04 03:04:44 jsalmon3 Exp $
+--	$Id: ai.lua,v 1.4 2004/03/06 13:54:36 feb Exp $
 --
 
 DefineAiHelper(
@@ -39,10 +39,10 @@ DefineAiHelper(
   --
   -- Building can train which units.
   --
-  {"train", "unit-vault", "unit-engineer", "unit-harvester"},
+  {"train", "unit-vault", "unit-engineer"},
   {"train", "unit-camp", "unit-assault", "unit-bazoo", "unit-grenadier"},
   {"train", "unit-hosp", "unit-medic", "unit-dorcoz"},
-  {"train", "unit-vfac", "unit-apcs"},
+  {"train", "unit-vfac", "unit-apcs", "unit-harvester"},
   --
   -- Building can research which spells or upgrades.
   --

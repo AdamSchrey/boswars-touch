@@ -27,7 +27,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: buttons.lua,v 1.3 2004/02/29 12:37:05 feb Exp $
+--	$Id: buttons.lua,v 1.4 2004/03/06 13:54:36 feb Exp $
 
 -- general commands -- almost all units have it -------------------------------
 
@@ -150,12 +150,6 @@ DefineButton({
 	ForUnit = {"unit-vault"}})
 
 DefineButton({
-	Pos = 2, Level = 0, Icon = "icon-harvester",
-	Action = "train-unit", Value = "unit-harvester",
-	Allowed = "check-no-research", Key = "h", Hint = "BUILD MINERAL ~!HARVESTER",
-	ForUnit = {"unit-vault"}})
-
-DefineButton({
 	Pos = 1, Level = 0, Icon = "icon-assault",
 	Action = "train-unit", Value = "unit-assault",
 	Key = "a" , Hint = "TRAIN ~!ASSAULT UNIT",
@@ -174,16 +168,23 @@ DefineButton({
 	ForUnit = {"unit-camp"}})
 
 DefineButton({
-	Pos = 4, Level = 0, Icon = "icon-medic",
+	Pos = 1, Level = 0, Icon = "icon-medic",
 	Action = "train-unit", Value = "unit-medic",
 	Key = "m", Hint = "TRAIN ~!MEDIC",
-	ForUnit = {"unit-camp"}})
+	ForUnit = {"unit-hosp"}})
 
 DefineButton({
 	Pos = 1, Level = 0, Icon = "icon-apcs",
 	Action = "train-unit", Value = "unit-apcs",
 	Key = "a", Hint = "BUILD ~!APC SMOLDER",
 	ForUnit = {"unit-vfac"}})
+
+DefineButton({
+	Pos = 2, Level = 0, Icon = "icon-harvester",
+	Action = "train-unit", Value = "unit-harvester",
+	Allowed = "check-no-research", Key = "h", Hint = "BUILD MINERAL ~!HARVESTER",
+	ForUnit = {"unit-vfac"}})
+
 
 -- upgrades -------------------------------------------------------------------
 
