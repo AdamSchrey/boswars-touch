@@ -27,7 +27,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: buttons.lua,v 1.2 2004/02/10 01:55:23 n0body Exp $
+--	$Id: buttons.lua,v 1.3 2004/06/24 20:50:39 feb Exp $
 
 -- Load the buttons of all races
 
@@ -37,20 +37,20 @@ Load("scripts/elites/buttons.lua")
 
 DefineButton( { Pos = 9, Level = 9, Icon = "icon-cancel",
   Action = "cancel",
-  Key = "\033", Hint = "~<ESC~> CANCEL",
+  Key = "\027", Hint = "~<ESC~> CANCEL",
   ForUnit = {"*"} } )
 
 DefineButton( { Pos = 9, Level = 0, Icon = "icon-cancel",
   Action = "cancel-upgrade",
-  Key = "\033", Hint = "~<ESC~> CANCEL UPGRADE",
+  Key = "\027", Hint = "~<ESC~> CANCEL UPGRADE",
   ForUnit = {"cancel-upgrade"} } )
 
 DefineButton( { Pos = 9, Level = 0, Icon = "icon-cancel",
   Action = "cancel-train-unit",
-  Key = "\033", Hint = "~<ESC~> CANCEL UNIT TRAINING",
+  Key = "\027", Hint = "~<ESC~> CANCEL UNIT TRAINING",
   ForUnit = {"*"} } )
 
 DefineButton( { Pos = 9, Level = 0, Icon = "icon-cancel",
   Action = "cancel-build",
-  Key = "\033", Hint = "~<ESC~> CANCEL CONSTRUCTION",
+  Key = "\027", Hint = "~<ESC~> CANCEL CONSTRUCTION",
   ForUnit = {"cancel-build"} } )
