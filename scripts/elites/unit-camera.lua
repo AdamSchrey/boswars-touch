@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: unit-camera.lua,v 1.1 2004/11/04 19:04:23 feb Exp $
+--	$Id: unit-camera.lua,v 1.2 2004/11/23 08:58:23 gorm Exp $
 
 DefineAnimations("animations-cam",
    "still", {
@@ -65,6 +65,7 @@ DefineConstruction("construction-cam", {
 DefineUnitType("unit-cam", {
         Name = "Camera",
         Files = {"tileset-desert", "elites/build/camera.png"}, Size = {32, 64},
+        Offset = {0, -16},
         Shadow = {"file", "elites/build/camera_s.png", "size", {64, 64}, "offset", {16,0}},
         Animations = "animations-cam", Icon = "icon-cam",
         Costs = {"time", 20, "titanium", 7, "crystal", 35},
