@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: ui.ccl,v 1.1 2003/10/27 20:55:43 p0ng Exp $
+;;	$Id: ui.ccl,v 1.2 2003/10/29 08:38:04 p0ng Exp $
 
 (define-cursor	'cursor-point		'elites
     'image "ui/elites/cursors/elites_claw.png"
@@ -236,8 +236,8 @@
       panel4 "graphics/ui/elites/panel_4.png"
       panel5 "graphics/ui/elites/panel_5.png")
 
-    'victory-background "graphics/ui/elites/victory.png"
-    'defeat-background "graphics/ui/elites/defeat.png") )
+    'victory-background "graphics/screens/general.png"
+    'defeat-background "graphics/screens/general.png") )
 
 (elites_screen 640 480)
 (elites_screen 800 600)

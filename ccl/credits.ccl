@@ -26,10 +26,10 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: credits.ccl,v 1.1 2003/10/27 20:53:56 p0ng Exp $
+;;	$Id: credits.ccl,v 1.2 2003/10/29 08:38:04 p0ng Exp $
 
 (credits
-    'background "graphics/ui/Credits_background.png"
+    'background "graphics/screens/general.png"
     'title "Programmers:"
     'name "  Andreas 'Ari' Arens"
     'name "  Lutz 'Johns' Sammer"
