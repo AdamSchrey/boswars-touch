@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: editor.lua,v 1.3 2004/02/10 01:55:23 n0body Exp $
+--	$Id: editor.lua,v 1.4 2004/02/29 12:37:05 feb Exp $
 
 
 --	Set which icons to display
@@ -50,12 +50,14 @@ DefineEditorUnitTypes(
    "unit-engineer",
    "unit-harvester",
    "unit-msilo",
+   "unit-dev-yard",
    "unit-gen",
    "unit-camp",
    "unit-rfac",
    "unit-hosp",
    "unit-vfac",
 
+   "unit-gold-mine",
    "unit-crystal-field1",
    "unit-crystal-field2",
    "unit-crystal-field3",
@@ -69,7 +71,6 @@ DefineEditorUnitTypes(
    "unit-crystal-field11",   
    "unit-crystal-field12",
    "unit-crystal-field13",
-   "unit-gold-mine",
 
    "unit-elites-start-location"
 )

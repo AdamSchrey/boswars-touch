@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: icons.lua,v 1.3 2004/02/10 01:55:23 n0body Exp $
+--	$Id: icons.lua,v 1.4 2004/02/29 12:37:05 feb Exp $
 
 --
 --  ELITES
@@ -105,11 +105,17 @@ DefineIcon({
 	File = "elites/buildings/vault-i.png"})
 
 DefineIcon({
+	Name = "icon-dev",
+	Size = {46, 38},
+	Index = 0,
+	File = "elites/build/development_yard_i.png"})
+	
+DefineIcon({
 	Name = "icon-dev_b",
 	Size = {46, 38},
 	Index = 0,
 	File = "elites/units/engineer_icons.png"})
-	
+
 DefineIcon({
 	Name = "icon-rfac",
 	Size = {46, 38},

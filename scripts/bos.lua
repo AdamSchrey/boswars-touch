@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: bos.lua,v 1.3 2004/02/10 14:46:29 n0body Exp $
+--	$Id: bos.lua,v 1.4 2004/02/29 12:37:05 feb Exp $
 
 DefineRaceNames(
 	"race", {
@@ -51,7 +51,7 @@ DefineConstructionWcNames(
 DefineUnitTypeWcNames(
 	"unit-assault", "unit-grunt", "unit-engineer", "unit-peon", "unit-ballista",
 	"unit-catapult", "unit-knight", "unit-ogre", "unit-archer", "unit-axethrower",
-	"unit-mage", "unit-death-knight", "unit-paladin", "unit-ogre-mage",
+	"unit-mage", "unit-death-knight", "unit-paladin", "unit-dev-yard",
 	"unit-dwarves", "unit-goblin-sappers", "unit-engineer",
 	"unit-peon", "unit-ranger", "unit-berserker", "unit-female-hero",
 	"unit-evil-knight", "unit-flying-angle", "unit-fad-man",

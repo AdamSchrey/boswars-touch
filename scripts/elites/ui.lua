@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: ui.lua,v 1.3 2004/01/29 21:49:17 feb Exp $
+--	$Id: ui.lua,v 1.4 2004/02/29 12:37:05 feb Exp $
 
 DefineCursor({
 	Name = "cursor-point",
@@ -80,14 +80,14 @@ function DefineEliteScreen(screen_width, screen_height)
 			"crystal", {
 				"file", "graphics/elites/ui/ui_res_icons.png", "row", 1,
 				"pos", {67 +  75, 0}, "size", {14, 14}, "text-pos", {85 +  75, 1}},
-			"gas", {
-				"file", "graphics/elites/ui/ui_res_icons.png", "row", 1,
-				"pos", {67 + 150, 0}, "size", {14, 14}, "text-pos", {85 + 150, 1}},
+--			"gas", {
+--				"file", "graphics/elites/ui/ui_res_icons.png", "row", 1,
+--				"pos", {67 + 150, 0}, "size", {14, 14}, "text-pos", {85 + 150, 1}},
 			"food", {
-				"file", "graphics/elites/ui/ui_res_icons.png", "row", 1,
-				"pos", {67 + 225, 0}, "size", {14, 14}, "text-pos", {85 + 225, 1}},
+				"file", "graphics/elites/ui/ui_res_icons.png", "row", 3,
+				"pos", {67 + 150, 0}, "size", {14, 14}, "text-pos", {85 + 150, 1}},
 			"score", {
-				"file", "graphics/elites/ui/ui_res_icons.png", "row", 1,
+				"file", "graphics/elites/ui/ui_res_icons.png", "row", 4,
 				"pos", {67 + 300, 0}, "size", {14, 14}, "text-pos", {85 + 300, 1}}},
 		"info-panel", {
 			"panel", {

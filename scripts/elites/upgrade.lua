@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: upgrade.lua,v 1.1 2004/01/22 15:58:03 n0body Exp $
+--	$Id: upgrade.lua,v 1.2 2004/02/29 12:37:05 feb Exp $
 
 DefineAllow("unit-assault", "AAAAAAAAAAAAAAAA")
 DefineAllow("unit-grenadier", "AAAAAAAAAAAAAAAA")
@@ -36,6 +36,7 @@ DefineAllow("unit-medic", "AAAAAAAAAAAAAAAA")
 DefineAllow("unit-harvester", "AAAAAAAAAAAAAAAA")
 DefineAllow("unit-gen", "AAAAAAAAAAAAAAAA")
 DefineAllow("unit-camp", "AAAAAAAAAAAAAAAA")
+DefineAllow("unit-dev-yard", "AAAAAAAAAAAAAAAA")
 DefineAllow("unit-vault", "AAAAAAAAAAAAAAAA")
 DefineAllow("unit-rfac", "AAAAAAAAAAAAAAAA")
 DefineAllow("unit-hosp", "AAAAAAAAAAAAAAAA")
@@ -49,15 +50,15 @@ DefineAllow("unit-plate1", "AAAAAAAAAAAAAAAA")
 --	- upgrades
 
 DefineUpgrade("upgrade-expl", "icon", "icon-expl",
-	"costs", {700, 400, 200, 0, 0, 0, 0})
+	"costs", {100, 250, 300, 0, 0, 0, 0})
 DefineUpgrade("upgrade-expl2", "icon", "icon-expl2",
-	"costs", {700, 450, 300, 0, 0, 0, 0})
+	"costs", {150, 350, 400, 0, 0, 0, 0})
 DefineUpgrade("upgrade-tdril", "icon", "icon-tdril",
-	"costs", {400, 200, 200, 0, 0, 0, 0})
+	"costs", {100, 250, 220, 0, 0, 0, 0})
 DefineUpgrade("upgrade-ddril", "icon", "icon-ddril",
-	"costs", {400, 300, 250, 0, 0, 0, 0})
+	"costs", {150, 350, 350, 0, 0, 0, 0})
 DefineUpgrade("upgrade-pdril", "icon", "icon-pdril",
-	"costs", {400, 400, 300, 0, 0, 0, 0})
+	"costs", {200, 450, 450, 0, 0, 0, 0})
 DefineUpgrade("upgrade-void", "icon", "icon-void",
 	"costs", {2000, 0, 0, 0, 0, 0, 0})
 
@@ -91,6 +92,7 @@ DefineDependency("unit-expl2", {"upgrade-expl"})
 DefineDependency("unit-ddril", {"upgrade-tdril"})
 DefineDependency("unit-pdril", {"upgrade-ddril"})
 
+DefineDependency("unit-dev-yard", {"unit-vault"})
 DefineDependency("unit-camp", {"unit-vault"})
 DefineDependency("unit-rfac", {"unit-vault"})
 DefineDependency("unit-medic", {"unit-hosp"})

@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: stratagus.lua,v 1.6 2004/02/20 18:08:46 n0body Exp $
+--	$Id: stratagus.lua,v 1.7 2004/02/29 12:37:05 feb Exp $
 
 -- For documentation see stratagus/doc/ccl/ccl.html
 
@@ -81,7 +81,7 @@ ShowNoFull()
 SpellSprite("graphics/general/spells1.png", 1, 1, 16, 16)
 
 --	Enable fancy building (random mirroring buildings)
-SetFancyBuildings(true)
+SetFancyBuildings(false)
 
 --	Enable show tips at the start of a level
 SetShowTips(true)
@@ -216,6 +216,7 @@ Load("scripts/credits.lua")
 Load("scripts/tips.lua")
 Load("scripts/ranks.lua")
 Load("scripts/menus.lua")
+Load("scripts/cheats.lua")
 
 Load("preferences2.lua")
 
