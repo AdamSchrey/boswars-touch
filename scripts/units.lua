@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: units.lua,v 1.3 2004/02/29 12:37:05 feb Exp $
+--	$Id: units.lua,v 1.4 2004/08/11 11:46:14 mr-russ Exp $
 
 -- Load the animations for the units.
 Load("scripts/anim.lua")
@@ -101,8 +101,10 @@ DefineUnitType("unit-destroyed-2x2-place", { Name = "Destroyed 2x2 Place",
 	Building = true, VisibleUnderFog = true, Vanishes = true})
 
 DefineUnitType("unit-destroyed-3x3-place", { Name = "Destroyed 3x3 Place",
-	Use = "unit-destroyed-2x2-place",
-	Size = {96, 96},
+	Files = {
+		"tileset-desert", "tilesets/desert/neutral/buildings/destroyed_site.png",
+		"tileset-winter", "tilesets/winter/neutral/buildings/destroyed_site.png"},
+	Size = {64, 64},
 	Animations = "animations-destroyed-place", Icon = "icon-cancel",
 	Speed = 0, HitPoints = 255, DrawLevel = 10,
 	TileSize = {3, 3}, BoxSize = {95, 95}, SightRange = 3,
@@ -111,8 +113,10 @@ DefineUnitType("unit-destroyed-3x3-place", { Name = "Destroyed 3x3 Place",
 	Building = true, VisibleUnderFog = true, Vanishes = true})
 
 DefineUnitType("unit-destroyed-4x4-place", { Name = "Destroyed 4x4 Place",
-	Use = "unit-destroyed-2x2-place",
-	Size = {128, 128},
+	Files = {
+		"tileset-desert", "tilesets/desert/neutral/buildings/destroyed_site.png",
+		"tileset-winter", "tilesets/winter/neutral/buildings/destroyed_site.png"},
+	Size = {64, 64},
 	Animations = "animations-destroyed-place", Icon = "icon-cancel",
 	Speed = 0, HitPoints = 255, DrawLevel = 10,
 	TileSize = {4, 4}, BoxSize = {127, 127}, SightRange = 3,
@@ -157,7 +161,8 @@ DefineUnitType("unit-human-wall", {
 	Type = "land", Building = true})
 
 DefineUnitType("unit-orc-wall", {
-	Name = "Wall", Use = "unit-human-wall",
+	Name = "Wall", 
+	Files = {"tileset-desert", "tilesets/desert/neutral/buildings/wall.png"},
 	Size = {32, 32}, Costs = {"time", 30},
 	Animations = "animations-building", Icon = "icon-cancel",
 	Construction = "construction-wall",
