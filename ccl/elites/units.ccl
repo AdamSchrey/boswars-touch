@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: units.ccl,v 1.38 2003/11/13 19:58:58 p0ng Exp $
+;;	$Id: units.ccl,v 1.39 2003/11/16 06:51:46 mr-russ Exp $
 
 ;;=============================================================================
 ;;	Define unit-types.
@@ -333,11 +333,10 @@
   'armor 10 'basic-damage 0 'piercing-damage 0 'missile 'missile-none
   'priority 20 'annoy-computer-factor 45
   'points 100
-  'supply 150
+  'supply 125
   'explode-when-killed 'missile-160x128-explosion
   'corpse '(build-dead-body7 0)
   'type-land
-  'demand 25
   'building 
   'sounds '(
     selected "gen-selected"
