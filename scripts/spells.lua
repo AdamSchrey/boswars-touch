@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: spells.lua,v 1.3 2004/02/20 17:39:37 n0body Exp $
+--	$Id: spells.lua,v 1.4 2004/03/09 20:11:16 feb Exp $
 
 DefineBoolFlags("organic")
 
@@ -35,14 +35,14 @@ DefineSpell("spell-healing",
 	"manacost", 3,
 	"range",  1,
 	"target", "unit",
-	"action", {{"adjust-vitals", "hit-points", 1}},
+	"action", {	{"spawn-missile", "missile", "missile-heal", "start-point", {"base", "target"} }, 
+				{"adjust-vitals", "hit-points", 1}},
 	"condition", {
 		"organic", "only",
 		"building", "false",
 		"self", "false",
 		"max-hp-percent", 100},
 	"sound-when-cast", "medic-attack",
-	"missile-when-cast", "missile-heal",
 	"autocast", {
 		"range", 6,
 		"condition", {"alliance", "only", "max-hp-percent", 90 }}
@@ -54,7 +54,7 @@ DefineSpell("spell-nuke",
 	"range", "infinite",
 	"target", "position",
 	"action", {
-		{"spawn-missile",
+		{"spawn-missile", "missile", "missile-nuke",
 			"ttl", 800,
 			"damage", 0,
 			"delay", 0,
@@ -64,6 +64,5 @@ DefineSpell("spell-nuke",
 			"range", 4,
 			"damage", 250}},
 	"sound-when-cast", "bazoo-attack",
-	"missile-when-cast", "missile-nuke",
 	"autocast", {"range", 128}
 )

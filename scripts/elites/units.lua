@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: units.lua,v 1.14 2004/03/06 16:15:29 feb Exp $
+--	$Id: units.lua,v 1.15 2004/03/09 20:11:16 feb Exp $
 
 --=============================================================================
 --	Define unit-types.
@@ -94,6 +94,7 @@ DefineUnitType("unit-medic", {
 	LandUnit = true, Demand = 0, organic = true,
 	SelectableByRectangle = true,
 	CanCastSpell = {"spell-healing"},
+	AutoCastActive = {"spell-healing"},
 	Sounds = {
 		"selected", "medic-selected",
 		"acknowledge", "medic-acknowledge",
