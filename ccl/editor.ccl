@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: editor.ccl,v 1.4 2003/10/28 23:11:49 jsalmon3 Exp $
+;;	$Id: editor.ccl,v 1.5 2003/10/29 05:39:35 jsalmon3 Exp $
 
 
 ;;	Set which icons to display
@@ -43,7 +43,7 @@
 
   'unit-engineer
   'unit-harvester
-  'unit-lancer
+  'unit-assault
   'unit-grenadier
 
   'unit-fort
