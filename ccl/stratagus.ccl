@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: stratagus.ccl,v 1.1 2003/10/27 20:53:56 p0ng Exp $
+;;	$Id: stratagus.ccl,v 1.2 2003/10/27 21:58:58 jsalmon3 Exp $
 
 ;; For documentation see stratagus/doc/ccl/ccl.html
 
@@ -202,10 +202,6 @@
 ;;-----------------------------------------------------------------------------
 ;;	Game modification
 
-;;	Edit this to enable/disable hit point regeneration for all units
-;(set-hitpoint-regeneration! #t)
-(set-hitpoint-regeneration! #f)
-
 ;;	Edit this to enable/disable XP to add more damage to attacks
 ;(set-xp-damage! #t)
 (set-xp-damage! #f)
@@ -227,10 +223,6 @@
 ;;	(Auf allgemeinen Wunsch eines einzelnen Herrn :)
 (set-forest-regeneration! 0)
 ;(set-forest-regeneration! 5)
-
-;;	Set burning building percent and rate. (n percent, h HP/second)
-;;	Buildings with less than n% HP lose h HP every wait cycles.
-;(set-burn-buildings! 25 2 6)
 
 ;;	Edit this to enable/disable the reveal of the attacker.
 ;(set-reveal-attacker! #t)
