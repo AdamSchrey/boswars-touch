@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: anim.lua,v 1.2 2004/02/01 11:21:09 n0body Exp $
+--	$Id: anim.lua,v 1.3 2004/02/01 11:45:05 n0body Exp $
 
 ---------------------------
 -------- Elite Units ------
@@ -151,9 +151,9 @@ DefineAnimations("animations-msilo",
 
 DefineAnimations("animations-gen",
 	"still", {
-		{0, 0, 1, 0}, {0, 0, 1, 1}, {0, 0, 1, 2}, {0, 0, 1, 3},
-		{0, 0, 1, 4}, {0, 0, 1, 5}, {0, 0, 1, 6}, {0, 0, 1, 7},
-		{3, 0, 1, 8}})
+		{0, 0, 2, 0}, {0, 0, 2, 1}, {0, 0, 2, 2}, {0, 0, 2, 3},
+		{0, 0, 2, 4}, {0, 0, 2, 5}, {0, 0, 2, 6}, {0, 0, 2, 7},
+		{3, 0, 2, 8}})
 
 DefineAnimations("animations-rfac",
 	"still", {{3, 0, 3, 0}})
