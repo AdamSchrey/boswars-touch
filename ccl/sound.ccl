@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: sound.ccl,v 1.13 2003/10/31 06:19:16 jsalmon3 Exp $
+;;	$Id: sound.ccl,v 1.14 2003/10/31 07:34:51 p0ng Exp $
 
 ;;	Uncomment this to enable threaded sound
 ;(sound-thread)
@@ -135,6 +135,10 @@
 (make-sound "rfac-help" "elites/computer_voice/research.facility.underattack.wav")
 (make-sound "rfac-dead" "elites/buildings/sfx_rfac.die.wav")
 
+(make-sound "hosp-selected" "elites/buildings/sfx_hosp.select.wav")
+(make-sound "hosp-ready" "elites/computer_voice/hospital.completed.wav")
+(make-sound "hosp-help" "elites/computer_voice/hospital.underattack.wav")
+(make-sound "hosp-dead" "elites/buildings/sfx_hosp.die.wav")
 
 (make-sound "grenade-impact" "elites/units/grenadier_g_hit.wav")
 (make-sound "rocket-impact" "elites/units/booza_g_hit.wav")

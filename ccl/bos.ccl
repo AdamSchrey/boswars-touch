@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: bos.ccl,v 1.9 2003/10/30 09:32:36 p0ng Exp $
+;;	$Id: bos.ccl,v 1.10 2003/10/31 07:34:51 p0ng Exp $
 
 (define-race-names
   'race '(
@@ -109,6 +109,7 @@
   'unit-crystal-field13
   'unit-bazoo
   'unit-medic
+  'unit-hosp
 )
 
 (define-missiletype-wc-names

@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: constructions.ccl,v 1.1 2003/10/27 20:55:43 p0ng Exp $
+;;	$Id: constructions.ccl,v 1.2 2003/10/31 07:34:51 p0ng Exp $
 
 ;;=============================================================================
 ;;	Define a construction.
@@ -99,4 +99,23 @@
     '(percent 80
       file main
       frame 9))
+)
+
+(define-construction 'construction-hosp
+  'constructions (list
+    '(percent 0
+      file main
+      frame 2)
+    '(percent 20
+      file main
+      frame 3)
+    '(percent 40
+      file main
+      frame 4)
+    '(percent 60
+      file main
+      frame 5)
+    '(percent 80
+      file main
+      frame 6))
 )
