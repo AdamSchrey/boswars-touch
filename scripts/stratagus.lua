@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: stratagus.lua,v 1.11 2004/04/26 02:14:28 jsalmon3 Exp $
+--	$Id: stratagus.lua,v 1.12 2004/05/26 22:47:06 nehalmistry Exp $
 
 -- For documentation see stratagus/doc/ccl/ccl.html
 
@@ -191,7 +191,8 @@ end
 -------------------------------------------------------------------------------
 
 DefineTileset("tileset-desert", "class", "desert", "name", "Desert", "file", "scripts/tilesets/desert.lua")
-DefineTileset("tileset-winter", "class", "winter", "name", "Winter", "file", "scripts/tile_winter.lua")
+-- FIXME: todo winter
+DefineTileset("tileset-winter", "class", "winter", "name", "Winter (incomplete)", "file", "scripts/tilesets/winter.lua")
 
 Load("preferences1.lua")
 
