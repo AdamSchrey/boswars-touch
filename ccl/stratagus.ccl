@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: stratagus.ccl,v 1.11 2003/10/31 22:17:35 jsalmon3 Exp $
+;;	$Id: stratagus.ccl,v 1.12 2003/11/03 06:27:33 jsalmon3 Exp $
 
 ;; For documentation see stratagus/doc/ccl/ccl.html
 
@@ -381,6 +381,11 @@
 (a-star 'fixed-unit-cost 1000 'moving-unit-cost 20 'dont-know-unseen-terrain 'unseen-terrain-cost 2)
 
 ;;-----------------------------------------------------------------------------
+
+;;	Maximum number of selectable units
+(set-max-selectable! 9)
+;;	Maximum number of units per group
+(set-num-units-per-group! 9)
 
 ;;	All player food unit limit
 (set-all-players-food-unit-limit! 50000)
