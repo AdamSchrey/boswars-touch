@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: editor.lua,v 1.1 2004/02/08 10:55:26 feb Exp $
+--	$Id: editor.lua,v 1.2 2004/02/09 19:39:20 n0body Exp $
 
 
 --	Set which icons to display
@@ -42,6 +42,20 @@ DefineEditorUnitTypes(
    "unit-vault",
    "unit-plate1",
 
+   "unit-apcs",
+   "unit-medic",
+   "unit-bazoo",
+   "unit-assault",
+   "unit-grenadier",
+   "unit-engineer",
+   "unit-harvester",
+   "unit-msilo",
+   "unit-gen",
+   "unit-camp",
+   "unit-rfac",
+   "unit-hosp",
+   "unit-vfac",
+
    "unit-crystal-field1",
    "unit-crystal-field2",
    "unit-crystal-field3",
@@ -55,12 +69,8 @@ DefineEditorUnitTypes(
    "unit-crystal-field11",   
    "unit-crystal-field12",
    "unit-crystal-field13",
-   "unit-gold-mine"
+   "unit-gold-mine",
 
--- Placing this unit-types on map is not (yet?) supported.
---   "unit-dead-body",
---   "unit-destroyed-1x1-place",
---   "unit-destroyed-2x2-place",
---   "unit-destroyed-3x3-place",
---   "unit-destroyed-4x4-place",
-  )
+   "unit-elites-start-location",
+   "unit-terras-start-location"
+)

@@ -26,10 +26,10 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: desert.lua,v 1.1 2004/01/22 22:46:41 n0body Exp $
+--	$Id: desert.lua,v 1.2 2004/02/09 19:39:21 n0body Exp $
 
 DefineTileset("tileset-desert",	"class", "desert", "name", "Desert",
-  "image", "tiles/desert.png",-- "palette", "tile/desert.rgb",
+  "image", "tiles/desert.png",
   -- Slots descriptions
   "slots", { "special", {		-- Can't be in pud
     "top-one-tree", 121, "mid-one-tree", 122, "bot-one-tree", 123,
