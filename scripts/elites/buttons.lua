@@ -27,7 +27,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: buttons.lua,v 1.9 2004/11/30 21:07:45 gorm Exp $
+--	$Id: buttons.lua,v 1.10 2004/12/12 16:07:28 feb Exp $
 
 -- general commands -- almost all units have it -------------------------------
 
@@ -131,7 +131,7 @@ DefineButton({
 
 DefineButton({
 	Pos = 6, Level = 1, Icon = "icon-rfac_b", Action = "build",
-	Value = "unit-rfac", Key = "r", Hint = "BUILD ~!RESEARCH FACILITY",
+	Value = "unit-rfac", Key = "f", Hint = "BUILD RESEARCH ~!FACILITY",
 	ForUnit = {"unit-engineer"}})
 
 DefineButton({
