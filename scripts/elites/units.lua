@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: units.lua,v 1.6 2004/02/12 22:33:42 n0body Exp $
+--	$Id: units.lua,v 1.7 2004/02/12 22:38:33 n0body Exp $
 
 --=============================================================================
 --	Define unit-types.
@@ -290,7 +290,7 @@ DefineUnitType("unit-gen", {
 	SightRange = 1, Armor = 10 , BasicDamage = 0, PiercingDamage = 0,
 	Missile = "missile-none", Priority = 20, AnnoyComputerFactor = 45,
 	Points = 100, Supply = 125, ExplodeWhenKilled = "missile-160x128-explosion",
-	Corpse = {"build-dead-body7", 0}, Type = "land",
+	Corpse = {"build-dead-body2", 0}, Type = "land",
 	--[[MustBuildOnTop = "unit-plate1", --]] Building = true, BuilderOutside = true,
 	Sounds = {
 		"selected", "gen-selected",
