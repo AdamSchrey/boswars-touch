@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: stratagus.lua,v 1.22 2004/12/12 19:32:07 feb Exp $
+--	$Id: stratagus.lua,v 1.23 2004/12/12 20:05:57 feb Exp $
 
 -- For documentation see stratagus/doc/ccl/ccl.html
 
@@ -212,10 +212,15 @@ Load("scripts/upgrade.lua")
 Load("scripts/fonts.lua")
 Load("scripts/buttons.lua")
 Load("scripts/ui.lua")
---Load("scripts/unit-drone.lua")
-Load("scripts/elites/unit-camera.lua")
-Load("scripts/elites/unit-radar.lua")
-Load("scripts/elites/unit-buggy.lua")
+
+-- Load extra units
+list = ListDirectory("scripts/elites/")
+for i,f in list do
+  if(string.find(f, "^unit%-.*%.lua$")) then 
+    print("Loading unit: " .. f) 
+    Load("scripts/elites/"..f)
+  end
+end
 
 Load("scripts/ai.lua")
 --Load("scripts/campaigns.lua")
