@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: editor.ccl,v 1.12 2003/10/31 22:12:58 p0ng Exp $
+;;	$Id: editor.ccl,v 1.13 2003/11/03 17:52:10 p0ng Exp $
 
 
 ;;	Set which icons to display
@@ -49,8 +49,8 @@
   'unit-medic
   'unit-apcs
 
-  'unit-fort
-  'unit-pplnt
+  'unit-yard
+  'unit-gen
   'unit-camp
   'unit-rfac
   'unit-hosp

@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: upgrade.ccl,v 1.13 2003/10/31 22:13:00 p0ng Exp $
+;;	$Id: upgrade.ccl,v 1.14 2003/11/03 17:52:11 p0ng Exp $
 
 
 (define-allow 'unit-assault			"AAAAAAAAAAAAAAAA")
@@ -35,9 +35,9 @@
 (define-allow 'unit-engineer			"AAAAAAAAAAAAAAAA")
 (define-allow 'unit-medic			"AAAAAAAAAAAAAAAA")
 (define-allow 'unit-harvester			"AAAAAAAAAAAAAAAA")
-(define-allow 'unit-pplnt			"AAAAAAAAAAAAAAAA")
+(define-allow 'unit-gen 			"AAAAAAAAAAAAAAAA")
 (define-allow 'unit-camp			"AAAAAAAAAAAAAAAA")
-(define-allow 'unit-fort			"AAAAAAAAAAAAAAAA")
+(define-allow 'unit-yard			"AAAAAAAAAAAAAAAA")
 (define-allow 'unit-rfac			"AAAAAAAAAAAAAAAA")
 (define-allow 'unit-hosp			"AAAAAAAAAAAAAAAA")
 (define-allow 'unit-vfac			"AAAAAAAAAAAAAAAA")
@@ -105,16 +105,16 @@
   '(upgrade-ddril))
 
 (define-dependency 'unit-camp
-  '(unit-fort))
+  '(unit-yard))
 
 (define-dependency 'unit-rfac
-  '(unit-fort))
+  '(unit-yard))
 
 (define-dependency 'unit-pplnt
-  '(unit-fort))
+  '(unit-yard))
 
 (define-dependency 'unit-hosp
-  '(unit-fort))
+  '(unit-yard))
 
 (define-dependency 'unit-vfac
-  '(unit-fort upgrade-void))
+  '(unit-yard upgrade-void))

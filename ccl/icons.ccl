@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: icons.ccl,v 1.20 2003/11/02 04:31:41 jsalmon3 Exp $
+;;	$Id: icons.ccl,v 1.21 2003/11/03 17:52:10 p0ng Exp $
 
 
 ;;	FIXME: can be removed: Set the icon size (width height)
@@ -61,12 +61,16 @@
   'size '(46 38) 'normal '(0 "elites/units/ico_engineer.png"))
 (define-icon 'icon-harvester
   'size '(46 38) 'normal '(0 "elites/units/ico_harv.png"))
-(define-icon 'icon-pplnt
-  'size '(46 38) 'normal '(0 "elites/build/ico_pplnt.png"))
+(define-icon 'icon-gen
+  'size '(46 38) 'normal '(0 "elites/build/generator_i.png"))
+(define-icon 'icon-gen_b
+  'size '(46 38) 'normal '(1 "elites/units/engineer_icons.png"))
 (define-icon 'icon-camp
   'size '(46 38) 'normal '(0 "elites/build/ico_camp.png"))
-(define-icon 'icon-fort
-  'size '(46 38) 'normal '(0 "elites/build/ico_fort.png"))
+(define-icon 'icon-dev
+  'size '(46 38) 'normal '(0 "elites/build/developement_yard_i.png"))
+(define-icon 'icon-dev_b
+  'size '(46 38) 'normal '(0 "elites/units/engineer_icons.png"))
 (define-icon 'icon-rfac
   'size '(46 38) 'normal '(0 "elites/build/ico_rfac.png"))
 (define-icon 'icon-hosp

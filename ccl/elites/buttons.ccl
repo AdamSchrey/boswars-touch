@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: buttons.ccl,v 1.21 2003/10/31 22:22:28 p0ng Exp $
+;;	$Id: buttons.ccl,v 1.22 2003/11/03 17:52:11 p0ng Exp $
 
 ;;----------------------------------------------------------------------------
 ;;	Define unit-button.
@@ -101,9 +101,9 @@
 
 ;; simple buildings elites -----------------------------------------------------
 
-(define-button 'pos 1 'level 1 'icon 'icon-fort
+(define-button 'pos 1 'level 1 'icon 'icon-dev_b
   'action 'build 'value 'unit-fort
-  'key "f" 'hint "BUILD ELITE ~!FORT"
+  'key "y" 'hint "BUILD DEVELOPEMENT ~!YARD"
   'for-unit '(unit-engineer))
 
 (define-button 'pos 2 'level 1 'icon 'icon-camp
@@ -111,9 +111,9 @@
   'key "c" 'hint "BUILD TRAINING ~!CAMP"
   'for-unit '(unit-engineer))
 
-(define-button 'pos 3 'level 1 'icon 'icon-pplnt
+(define-button 'pos 3 'level 1 'icon 'icon-gen_b
   'action 'build 'value 'unit-pplnt
-  'key "p" 'hint "BUILD POWER ~!PLANT"
+  'key "g" 'hint "BUILD ~!GENERATOR"
   'for-unit '(unit-engineer))
 
 (define-button 'pos 4 'level 1 'icon 'icon-rfac
