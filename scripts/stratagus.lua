@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: stratagus.lua,v 1.7 2004/02/29 12:37:05 feb Exp $
+--	$Id: stratagus.lua,v 1.8 2004/02/29 22:01:59 feb Exp $
 
 -- For documentation see stratagus/doc/ccl/ccl.html
 
@@ -142,7 +142,7 @@ SetMinimapTerrain(true)
 
 --  Alpha fog of war by default
 AlphaFogOfWar()
-SetFogOfWarOpacity(192)
+SetFogOfWarOpacity(128)
 
 -------------------------------------------------------------------------------
 --	Define default resources
