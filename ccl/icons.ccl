@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: icons.ccl,v 1.7 2003/10/28 23:11:49 jsalmon3 Exp $
+;;	$Id: icons.ccl,v 1.8 2003/10/29 04:45:18 jsalmon3 Exp $
 
 
 ;;	FIXME: can be removed: Set the icon size (width height)
@@ -77,6 +77,12 @@
   'size '(46 38) 'normal '(0 "elites/research/res_expl.png"))
 (define-icon 'icon-expl2
   'size '(46 38) 'normal '(0 "elites/research/res_expl2.png"))
+(define-icon 'icon-tdril
+  'size '(46 38) 'normal '(0 "elites/research/res_tdril.png"))
+(define-icon 'icon-ddril
+  'size '(46 38) 'normal '(0 "elites/research/res_ddril.png"))
+(define-icon 'icon-pdril
+  'size '(46 38) 'normal '(0 "elites/research/res_pdril.png"))
 
 
 

@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: bos.ccl,v 1.4 2003/10/28 23:11:49 jsalmon3 Exp $
+;;	$Id: bos.ccl,v 1.5 2003/10/29 04:45:18 jsalmon3 Exp $
 
 (define-race-names
   'race '(
@@ -195,8 +195,7 @@
   'upgrade-invisibility 'upgrade-polymorph 'upgrade-blizzard
   'upgrade-eye-of-kilrogg 'upgrade-bloodlust 'upgrade-raise-dead
   'upgrade-death-coil 'upgrade-whirlwind 'upgrade-haste 'upgrade-unholy-armor
-  'upgrade-runes 'upgrade-death-and-decay
-  'upgrade-expl)
+  'upgrade-runes 'upgrade-death-and-decay)
 
 (define-ai-wc-names
   'land-attack 'passive 'terras-03 'hum-04 'orc-04 'hum-05 'orc-05
