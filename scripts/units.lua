@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: units.lua,v 1.6 2004/09/11 14:18:06 feb Exp $
+--	$Id: units.lua,v 1.7 2004/11/14 17:48:59 gorm Exp $
 
 -- Load the animations for the units.
 Load("scripts/anim.lua")
@@ -57,7 +57,7 @@ DefineUnitType("unit-gold-mine", {
 	DrawLevel = 40, TileSize = {4, 4}, BoxSize = {127, 127},
 	SightRange = 1, Speed = 0, HitPoints = 25500, Priority = 0,
 	Armor = 20, BasicDamage = 0, PiercingDamage = 0, Missile = "missile-none",
-	Corpse = {"unit-destroyed-3x3-place", 0}, ExplodeWhenKilled = "missile-explosion",
+	Corpse = {"unit-destroyed-4x4-place", 0}, ExplodeWhenKilled = "missile-explosion",
 	Type = "land", Building = true, GivesResource = "titanium", CanHarvest = true,
 	Sounds = {
 		"selected", "gold-mine-selected",
