@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: stratagus.lua,v 1.5 2004/01/27 22:36:52 feb Exp $
+--	$Id: stratagus.lua,v 1.6 2004/02/20 18:08:46 n0body Exp $
 
 -- For documentation see stratagus/doc/ccl/ccl.html
 
@@ -194,6 +194,8 @@ end
 DefineTileset("tileset-desert", "class", "desert", "name", "Desert", "file", "scripts/tilesets/desert.lua")
 DefineTileset("tileset-winter", "class", "winter", "name", "Winter", "file", "scripts/tile_winter.lua")
 
+Load("preferences1.lua")
+
 --; Uses Stratagus Library path!
 Load("scripts/bos.lua")
 Load("scripts/icons.lua")
@@ -214,5 +216,7 @@ Load("scripts/credits.lua")
 Load("scripts/tips.lua")
 Load("scripts/ranks.lua")
 Load("scripts/menus.lua")
+
+Load("preferences2.lua")
 
 print("... ready!")
