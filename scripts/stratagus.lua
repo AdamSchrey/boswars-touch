@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: stratagus.lua,v 1.2 2004/01/22 18:53:58 jsalmon3 Exp $
+--	$Id: stratagus.lua,v 1.3 2004/01/22 20:51:44 n0body Exp $
 
 -- For documentation see stratagus/doc/ccl/ccl.html
 
@@ -207,8 +207,8 @@ Load("scripts/upgrade.lua")
 Load("scripts/fonts.lua")
 Load("scripts/buttons.lua")
 Load("scripts/ui.lua")
-Load("scripts/ai.lua")
-Load("scripts/campaigns.lua")
+--FIXME: no AI for now.
+--Load("scripts/ai.lua")
 Load("scripts/credits.lua")
 Load("scripts/tips.lua")
 Load("scripts/ranks.lua")
