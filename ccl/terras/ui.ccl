@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: ui.ccl,v 1.2 2003/10/29 08:38:05 p0ng Exp $
+;;	$Id: ui.ccl,v 1.3 2003/10/29 09:22:18 p0ng Exp $
 
 (define-cursor	'cursor-point		'terras
     'image "ui/terras/cursors/terras_claw.png"
@@ -229,11 +229,11 @@
       arrow-se cursor-arrow-se)
 
     'menu-panels '(
-      panel1 "graphics/ui/terras/panel_1.png"
-      panel2 "graphics/ui/terras/panel_2.png"
-      panel3 "graphics/ui/terras/panel_3.png"
-      panel4 "graphics/ui/terras/panel_4.png"
-      panel5 "graphics/ui/terras/panel_5.png")
+      panel1 "graphics/general/panel_1.png"
+      panel2 "graphics/general/panel_2.png"
+      panel3 "graphics/general/panel_3.png"
+      panel4 "graphics/general/panel_4.png"
+      panel5 "graphics/general/panel_5.png")
 
     'victory-background "graphics/screens/general.png"
     'defeat-background "graphics/screens/general.png") )
