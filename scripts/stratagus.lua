@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: stratagus.lua,v 1.1 2004/01/21 22:28:38 n0body Exp $
+--	$Id: stratagus.lua,v 1.2 2004/01/22 18:53:58 jsalmon3 Exp $
 
 -- For documentation see stratagus/doc/ccl/ccl.html
 
@@ -44,7 +44,6 @@ SetTitleScreens(
 
 --	Enter your default menu background w and w/o title
 SetMenuBackground("graphics/screens/menu.png")
-SetMenuBackgroundWithTitle("graphics/screens/menu.png")
 
 --	Enter your menu music.
 SetMenuMusic("music/title.ogg")
