@@ -26,14 +26,11 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: icons.ccl,v 1.19 2003/10/31 22:12:58 p0ng Exp $
+;;	$Id: icons.ccl,v 1.20 2003/11/02 04:31:41 jsalmon3 Exp $
 
 
 ;;	FIXME: can be removed: Set the icon size (width height)
 (set-icon-size! 46 38)
-
-;;	FIXME: can be removed: Set the number of icons per row
-(set-icons-per-row! 5)
 
 ;;=============================================================================
 ;;	Define an icon.
