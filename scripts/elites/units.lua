@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: units.lua,v 1.2 2004/01/22 22:46:41 n0body Exp $
+--	$Id: units.lua,v 1.3 2004/01/29 20:51:52 feb Exp $
 
 --=============================================================================
 --	Define unit-types.
@@ -307,7 +307,7 @@ DefineUnitType("unit-vault", {
 	SightRange = 4, Armor = 30, BasicDamage = 0, PiercingDamage = 0,
 	Missile = "missile-none", Priority = 35, AnnoyComputerFactor = 45,
 	Points = 200, Supply = 200, ExplodeWhenKilled = "missile-288x288-explosion",
-	Corpse = {"build-dead-body1", 0}, Type = "land", Building = true,
+	Corpse = {"build-dead-body3", 0}, Type = "land", Building = true,
 	CanStore = {"crystal", "titanium", "gas"},
 	Sounds = {
 		"selected", "dev-selected",
