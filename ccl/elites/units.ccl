@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: units.ccl,v 1.35 2003/11/05 10:33:57 p0ng Exp $
+;;	$Id: units.ccl,v 1.36 2003/11/08 17:46:27 jsalmon3 Exp $
 
 ;;=============================================================================
 ;;	Define unit-types.
@@ -87,7 +87,6 @@
   'points 50
   'corpse '(unit-dead-body5 0)
   'type-land
-  'right-attack
   'can-target-land
   'land-unit
   'demand 0
