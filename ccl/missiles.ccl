@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: missiles.ccl,v 1.6 2003/11/13 19:58:58 p0ng Exp $
+;;	$Id: missiles.ccl,v 1.7 2003/11/13 20:33:53 p0ng Exp $
 
 ;;	NOTE: the missiles could be sorted for races, but did this make sense?
 
@@ -41,7 +41,7 @@
 (define-missile-type 'missile-nuke
   'file "elites/missile/nuke.png" 'size '(128 128) 'frames 5 'num-directions 5
   'impact-sound "dev-dead"
-  'draw-level 300 'class 'missile-class-parabolic 'sleep 1 'speed 16 'range 15
+  'draw-level 300 'class 'missile-class-point-to-point 'sleep 1 'speed 8 'range 15
   'impact-missile 'missile-288x288-explosion)
 
 (define-missile-type 'missile-grenadier

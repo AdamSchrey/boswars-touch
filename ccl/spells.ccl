@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: spells.ccl,v 1.4 2003/11/13 19:58:58 p0ng Exp $
+;;	$Id: spells.ccl,v 1.5 2003/11/13 20:33:53 p0ng Exp $
 
 ;; For documentation see stratagus/doc/ccl/ccl.html ;; FIXME write and move doc.
 
@@ -53,7 +53,11 @@
         'manacost 300
         'range 128
         'target 'position
-        'action '((spawn-missile damage 450))
+        'action '(
+	     (spawn-missile ttl 1000 damage 500
+	     start-point (base target add-x 0 add-y -320)
+	     end-point   (base target add-x 0 add-y 0))
+	)
         'sound-when-cast "bazoo-attack"
         'missile-when-cast "missile-nuke"
         'autocast '(range 128)
