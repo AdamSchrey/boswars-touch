@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: siod.ccl,v 1.1 2003/10/27 20:53:56 p0ng Exp $
+;;	$Id: siod.ccl,v 1.2 2003/11/08 22:45:30 p0ng Exp $
 
 ;; Helper functions and other stuff to get SIOD a bit more R5RS
 ;; compatible
@@ -44,5 +44,6 @@
 
 (display "Using Scheme: SIOD\n")
 
+(gc-status #f)
 ;; EOF ;;
 
