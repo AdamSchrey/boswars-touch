@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: bos.lua,v 1.8 2004/11/09 22:40:37 feb Exp $
+--	$Id: bos.lua,v 1.9 2004/12/12 14:53:11 feb Exp $
 
 DefineRaceNames(
 	"race", {
@@ -107,7 +107,8 @@ DefineUnitTypeWcNames(
 	"unit-msilo",
 	"unit-gturret",
 	"unit-cam",
-	"unit-plate1")
+	"unit-plate1",
+	"unit-radar")
 
 DefineIconWcNames(
 	"icon-assault", "icon-apcs", "icon-grenadier", "icon-bazoo",

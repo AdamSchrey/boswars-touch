@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: editor.lua,v 1.7 2004/12/01 09:22:07 gorm Exp $
+--	$Id: editor.lua,v 1.8 2004/12/12 14:53:11 feb Exp $
 
 
 --	Set which icons to display
@@ -59,6 +59,7 @@ DefineEditorUnitTypes(
    "unit-gturret",
    "unit-cam",
    "unit-buggy",
+   "unit-radar",
 
    "unit-gold-mine",
    "unit-crystal-field1",
