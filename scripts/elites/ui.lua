@@ -27,7 +27,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: ui.lua,v 1.14 2004/07/25 16:37:01 jsalmon3 Exp $
+--	$Id: ui.lua,v 1.15 2004/07/27 19:19:26 feb Exp $
 
 DefineCursor({
 	Name = "cursor-point",
@@ -161,7 +161,7 @@ function DefineEliteScreen(screen_width, screen_height)
 				{"pos", {screen_width - 177, 430}, "size", {46, 38}},
 				{"pos", {screen_width - 122, 430}, "size", {46, 38}},
 				{"pos", {screen_width - 67, 430}, "size", {46,38}}},
-		        "command-key-font", "game"},
+		        "auto-cast-border-color", {0, 0, 252}},
 		"piemenu", {
 			"radius", 70,
 			"file", "graphics/ui/rosace1.png",

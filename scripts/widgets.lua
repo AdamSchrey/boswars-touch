@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---      $Id: widgets.lua,v 1.1 2004/07/25 16:27:05 jsalmon3 Exp $
+--      $Id: widgets.lua,v 1.2 2004/07/27 19:19:26 feb Exp $
 
 DefineButtonStyle("main", {
   Size = {200, 20},
@@ -173,6 +173,39 @@ DefineButtonStyle("folder", {
   },
   Disabled = {
     File = "general/ui_buttons.png", Size = {300, 144}, Frame = 50,
+  },
+})
+
+DefineButtonStyle("icon", {
+  Size = {46, 38},
+  Font = "game",
+  TextNormalColor = "yellow",
+  TextReverseColor = "white",
+  TextAlign = "Right",
+  TextPos = {46, 26},
+  Default = {
+    Border = {
+      Color = {0, 0, 0}, Size = 1,
+    },
+  },
+  Hover = {
+    TextNormalColor = "white",
+    Border = {
+      Color = {128, 128, 128}, Size = 1,
+    },
+  },
+  Selected = {
+    Border = {
+      Color = {0, 252, 0}, Size = 1,
+    },
+  },
+  Clicked = {
+    TextNormalColor = "white",
+    Border = {
+      Color = {128, 128, 128}, Size = 1,
+    },
+  },
+  Disabled = {
   },
 })
 
