@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: buttons.ccl,v 1.15 2003/10/30 11:24:47 p0ng Exp $
+;;	$Id: buttons.ccl,v 1.16 2003/10/30 11:56:14 p0ng Exp $
 
 ;;----------------------------------------------------------------------------
 ;;	Define unit-button.
@@ -180,6 +180,12 @@
   'action 'research 'value 'upgrade-pdril
   'allowed 'check-single-research
   'key "d" 'hint "RESEARCH POWER ~!DRILL"
+  'for-unit '(unit-rfac))
+
+(define-button 'pos 9 'level 0 'icon 'icon-void
+  'action 'research 'value 'upgrade-void
+  'allowed 'check-single-research
+  'key "v" 'hint "RESEARCH ALIEN ~!VOID"
   'for-unit '(unit-rfac))
 
 ;; town hall upgrades ---------------------------------------------------------
