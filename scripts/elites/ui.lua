@@ -27,7 +27,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: ui.lua,v 1.11 2004/05/29 11:14:24 feb Exp $
+--	$Id: ui.lua,v 1.12 2004/07/17 11:09:03 feb Exp $
 
 DefineCursor({
 	Name = "cursor-point",
@@ -190,7 +190,8 @@ function DefineEliteScreen(screen_width, screen_height)
 			"file", "graphics/elites/ui/ui_" .. screen_width .. "_stat.png",
 			"pos", {0, screen_height - 16},
 			"text-pos", {2 + 36, screen_height - 14},
-			"font", "game"},
+			"font", "game",
+			"width", screen_width - 200 - 100},
 		"cursors", {
 			"point", "cursor-point",
 			"glass", "cursor-glass",
