@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: stratagus.lua,v 1.9 2004/04/18 13:10:46 feb Exp $
+--	$Id: stratagus.lua,v 1.10 2004/04/24 00:23:42 jsalmon3 Exp $
 
 -- For documentation see stratagus/doc/ccl/ccl.html
 
@@ -140,8 +140,7 @@ SetFogOfWar(true)
 --	Enable minimap terrain by default.
 SetMinimapTerrain(true)
 
---  Alpha fog of war by default
-AlphaFogOfWar()
+--  Set Fog of War opacity
 SetFogOfWarOpacity(128)
 
 -------------------------------------------------------------------------------
