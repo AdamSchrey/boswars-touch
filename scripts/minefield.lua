@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: minefield.lua,v 1.2 2004/09/11 14:39:38 feb Exp $
+--	$Id: minefield.lua,v 1.3 2004/10/20 19:41:43 feb Exp $
 
 
 DefineMissileType("missile-minefield",
@@ -48,7 +48,7 @@ DefineSpell("spell-minefield",
 )
 
 DefineButton({
-        Pos = 8, Level = 0, Icon = "icon-camp_b", Action = "cast-spell",
+        Pos = 1, Level = 2, Icon = "icon-camp_b", Action = "cast-spell",
         Value = "spell-minefield",  Allowed = "check-true", Key = "f", Hint = "BUILD MINEFIELD",
         ForUnit = {"unit-engineer"}})
 
