@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: ai.lua,v 1.6 2004/05/09 12:45:34 feb Exp $
+--	$Id: ai.lua,v 1.7 2004/05/31 16:13:05 feb Exp $
 --
 
 DefineAiHelper(
@@ -79,13 +79,14 @@ end
 
 
 function AiRun(player)
-  AiDebug(true)
+  AiDebug(false)
   AiSleep(AiGetSleepCycles())
   AiNeed("unit-vault") 
   AiSet("unit-engineer", 10)
   AiWait("unit-vault")
   AiNeed("unit-camp")
   AiWait("unit-camp")
+  AddMessage("You're gonna die")
   AiForce(0, {"unit-assault", 10})
   AiWaitForce(0) 
   AiNeed("unit-camp")

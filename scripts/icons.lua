@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: icons.lua,v 1.4 2004/02/29 12:37:05 feb Exp $
+--	$Id: icons.lua,v 1.5 2004/05/31 16:13:05 feb Exp $
 
 --
 --  ELITES
@@ -296,42 +296,39 @@ DefineIcon({
 	Index = 5,
 	File = "general/commands.png"})
 
---
--- OLD, REMOVE
--- 
 
 DefineIcon({
 	Name = "icon-repair",
 	Size = {46, 38},
-	Index = 85,
-	File = "tilesets/desert/icons.png"})
+	Index = 6,
+	File = "general/commands.png"})
 
 DefineIcon({
 	Name = "icon-harvest",
 	Size = {46, 38},
-	Index = 86,
-	File = "tilesets/desert/icons.png"})
+	Index = 8,
+	File = "general/commands.png"})
 
 DefineIcon({
 	Name = "icon-build-advanced",
 	Size = {46, 38},
-	Index = 88,
-	File = "tilesets/desert/icons.png"})
+	Index = 13,
+	File = "general/commands.png"})
 
 DefineIcon({
 	Name = "icon-return-goods-peasant",
 	Size = {46, 38},
-	Index = 89,
-	File = "tilesets/desert/icons.png"})
+	Index = 9,
+	File = "general/commands.png"})
 
 DefineIcon({
 	Name = "icon-return-goods-peon",
 	Size = {46, 38},
-	Index = 90,
-	File = "tilesets/desert/icons.png"})
+	Index = 9,
+	File = "general/commands.png"})
 
 DefineIcon({
 	Name = "icon-stand-ground",
 	Size = {46, 38},
-	Index = 180,
-	File = "tilesets/desert/icons.png"})
+	Index = 10,
+	File = "general/commands.png"})
