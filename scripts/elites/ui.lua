@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: ui.lua,v 1.1 2004/01/22 15:58:03 n0body Exp $
+--	$Id: ui.lua,v 1.2 2004/01/26 20:13:48 feb Exp $
 
 DefineCursor({
 	Name = "cursor-point",
@@ -153,13 +153,13 @@ function DefineEliteScreen(screen_width, screen_height)
 			"icons", {
 				{"pos", {screen_width - 177, 340}, "size", {46, 38}},
 				{"pos", {screen_width - 122, 340}, "size", {46, 38}},
-				{"pos", {screen_width - 168, 340}, "size", {46, 38}},
+				{"pos", {screen_width - 67, 340}, "size", {46, 38}},
 				{"pos", {screen_width - 177, 385}, "size", {46, 38}},
 				{"pos", {screen_width - 122, 385}, "size", {46, 38}},
-				{"pos", {screen_width - 168, 385}, "size", {46, 38}},
+				{"pos", {screen_width - 67, 385}, "size", {46, 38}},
 				{"pos", {screen_width - 177, 430}, "size", {46, 38}},
 				{"pos", {screen_width - 122, 430}, "size", {46, 38}},
-				{"pos", {screen_width - 168, 430}, "size", {46, 38}}}},
+				{"pos", {screen_width - 67, 430}, "size", {46, 38}}}},
 		"map-area", {
 			"pos", {24, 16},
 			"size", {
