@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: units.lua,v 1.8 2004/02/14 22:38:32 n0body Exp $
+--	$Id: units.lua,v 1.9 2004/02/19 19:54:23 feb Exp $
 
 --=============================================================================
 --	Define unit-types.
@@ -269,7 +269,7 @@ DefineUnitType("unit-msilo", {
 	SightRange = 1, Armor = 10, BasicDamage = 0, PiercingDamage = 0,
 	Missile = "missile-none", Priority = 20, AnnoyComputerFactor = 45,
 	Points = 100, ExplodeWhenKilled = "missile-160x128-explosion",
-	Corpse = {"build-dead-body2", 0}, Type = land,
+	Corpse = {"build-dead-body4", 0}, Type = land,
 	MaxMana = 1000, CanCastSpell = {"spell-nuke"},
 	Demand = 400, Building = true,
 	Sounds = {
@@ -349,7 +349,7 @@ DefineUnitType("unit-rfac", {
 	SightRange = 1, Armor = 30, BasicDamage = 0, PiercingDamage = 0,
 	Missile = "missile-none", Priority = 35, AnnoyComputerFactor = 45,
 	Demand = 300, Points = 200, ExplodeWhenKilled = "missile-160x128-explosion",
-	Corpse = {"build-dead-body4", 0}, Type = "land", Building = false,
+	Corpse = {"build-dead-body4", 0}, Type = "land", Building = true,
 	Sounds = {
 		"selected", "rfac-selected",
 		"ready", "rfac-ready",
