@@ -26,7 +26,7 @@
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 --
---	$Id: ui.lua,v 1.8 2004/04/18 13:10:46 feb Exp $
+--	$Id: ui.lua,v 1.9 2004/05/20 08:24:55 feb Exp $
 
 DefineCursor({
 	Name = "cursor-point",
@@ -167,8 +167,8 @@ function DefineEliteScreen(screen_width, screen_height)
 		"map-area", {
 			"pos", {24, 16},
 			"size", {
-				math.floor((screen_width - 216) / 32) * 32,
-				math.floor((screen_height - 32) / 32) * 32}},
+				screen_width - 216,
+				screen_height - 32}},
 		"menu-panel", {
 			"menu-button", {
 				"pos", {screen_width - 200, 0}, "size", {200, 20},
