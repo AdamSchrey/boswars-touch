@@ -26,10 +26,10 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: fonts.ccl,v 1.4 2003/11/19 00:54:24 p0ng Exp $
+;;	$Id: fonts.ccl,v 1.5 2003/11/19 10:47:47 p0ng Exp $
 
 (define-font 'small	"graphics/general/small.png"	 7  6)
-(define-font 'game	"graphics/general/game.png"	13 14)
+(define-font 'game	"graphics/general/game.png"	18 14)
 (define-font 'large	"graphics/general/large.png"	20 20)
 (define-font 'small-title "graphics/general/large.png" 20 20)
 (define-font 'large-title "graphics/general/large.png" 20 20)
