@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: units.ccl,v 1.22 2003/10/30 09:32:36 p0ng Exp $
+;;	$Id: units.ccl,v 1.23 2003/10/30 11:24:48 p0ng Exp $
 
 ;;=============================================================================
 ;;	Define unit-types.
@@ -41,6 +41,8 @@
   'costs '(time 500 titanium 400 crystal 50)
   'speed 15
   'hit-points 100
+  'max-mana 100
+  'can-cast-spell '(spell-healing)
   'draw-level 40
   'tile-size '(1 1) 'box-size '(17 28)
   'sight-range 3 'computer-reaction-range 6 'person-reaction-range 6

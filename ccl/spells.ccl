@@ -26,8 +26,24 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: spells.ccl,v 1.2 2003/10/27 22:18:23 jsalmon3 Exp $
+;;	$Id: spells.ccl,v 1.3 2003/10/30 11:24:49 p0ng Exp $
 
 ;; For documentation see stratagus/doc/ccl/ccl.html ;; FIXME write and move doc.
 
 (define-bool-flags 'organic)
+
+(define-spell "spell-healing"
+        'showname "Bandage"
+        'manacost 3
+        'range  1
+        'target 'unit
+        'action '((adjust-vitals hit-points 1))
+        'condition '(
+         organic only
+         building false
+         max-hp-percent 100)
+        'sound-when-cast "medic-attack"
+        'missile-when-cast "missile-heal"
+        'autocast '(range 6 condition (alliance only max-hp-percent 90 )
+        )
+)
