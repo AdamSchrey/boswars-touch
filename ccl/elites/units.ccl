@@ -26,7 +26,7 @@
 ;;      along with this program; if not, write to the Free Software
 ;;      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ;;
-;;	$Id: units.ccl,v 1.6 2003/10/28 09:14:30 p0ng Exp $
+;;	$Id: units.ccl,v 1.7 2003/10/28 10:09:05 p0ng Exp $
 
 ;;=============================================================================
 ;;	Define unit-types.
@@ -34,7 +34,7 @@
 ;;	NOTE: Save can generate this table.
 ;;
 
-(define-unit-type 'unit-lancer 'name "Lancer Assault"
+(define-unit-type 'unit-lancer 'name "Assault Unit"
   'files '(tileset-desert "elites/units/unit_lancer.png")
   'size '(64 64)
   'shadow '(file "elites/units/unit_lancer_s.png" size (64 64))
@@ -94,10 +94,9 @@
     file-when-loaded "elites/units/unit_engineer.png"  
     resource-id titanium
     resource-capacity 100
-    wait-at-resource 200
-    wait-at-depot 200
-    resource-step 1
-    harvest-from-outside)
+    wait-at-resource 10
+    wait-at-depot 5
+    resource-step 1)
   'organic
   'selectable-by-rectangle
   'sounds '(
