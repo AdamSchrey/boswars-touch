@@ -479,7 +479,7 @@ static void CclSpellCondition(lua_State *l, ConditionInfo *condition)
 				lua_pop(l, 1); // lua_rawgeti()
 				continue;
 			}
-			LuaError(l, "Unsuported condition tag: %s" _C_ value);
+			LuaError(l, "Unsupported condition tag: %s" _C_ value);
 		}
 	}
 }

@@ -636,7 +636,7 @@ static void Usage(void)
 		"  -D bpp        Video mode depth = bits per pixel (for Win32/TNT)\n"
 		"  -F            Full screen video mode\n"
 		"  -S speed      Video sync speed (100 = 30 frames/s)\n"
-		"  -f cycle      Fast foward until the cycle number\n"
+		"  -f cycle      Fast forward until the cycle number\n"
 		"  -W            Windowed video mode\n"
 		"Specifying MAP-PRESENTATION-FILE starts a single-player game in that map.\n"
 		"Example: boswars maps/islandwar.map/presentation.smp\n");
