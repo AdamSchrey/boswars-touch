@@ -1034,6 +1034,8 @@ def main(globals_dict=None, build_dir=None, extra_options=None):
             actions[-1][1][k]=v
         else:
             actions.append((i,{}))
+    if not actions:
+        actions.append((default_command, {}))
     status = 0
     try:
         for action in actions:
