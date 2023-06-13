@@ -54,6 +54,10 @@ def createZipArchive(archivename, namelist):
   z.close()
   print
 
+def listGitFiles():
+   entries = os.popen('git ls-files').readlines()
+   return [i.strip() for i in entries]
+
 def listSvnFiles():
    entries = os.popen('svn ls -R').readlines()
    files = []
@@ -67,7 +71,9 @@ def listFilesInDirectories():
    raise RuntimeError("Not implemented")
 
 def listFiles():
-   if os.access('.svn', os.F_OK):
+   if os.access('.git', os.F_OK):
+      return listGitFiles()
+   elif os.access('.svn', os.F_OK):
       return listSvnFiles()
    else:
       return listFilesInDirectories()
