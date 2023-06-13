@@ -9,9 +9,6 @@ void StartReplay(const string str, bool reveal = false);
 $void StartSavedGame(const string &str);
 void StartSavedGame(const string str);
 
-$int SaveReplay(const std::string &filename);
-int SaveReplay(const std::string filename);
-
 $#include "results.h"
 
 typedef enum {
