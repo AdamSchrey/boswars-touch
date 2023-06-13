@@ -480,6 +480,7 @@ class StraceRunner(Runner):
 
     # Regular expressions for parsing of strace log
     _open_re       = re.compile(r'(?P<pid>\d+)\s+open\("(?P<name>[^"]*)", (?P<mode>[^,)]*)')
+    _openat_re     = re.compile(r'(?P<pid>\d+)\s+openat\(AT_FDCWD, "(?P<name>[^"]*)", (?P<mode>[^,)]*)')
     _stat32_re     = re.compile(r'(?P<pid>\d+)\s+stat\("(?P<name>[^"]*)", .*')
     _stat64_re     = re.compile(r'(?P<pid>\d+)\s+stat64\("(?P<name>[^"]*)", .*')
     _execve_re     = re.compile(r'(?P<pid>\d+)\s+execve\("(?P<name>[^"]*)", .*')
@@ -500,7 +501,7 @@ class StraceRunner(Runner):
         """ Run strace on given command args, sending output to file.
             Return (status code, list of dependencies, list of outputs). """
         shell('strace', '-fo', outname, '-e',
-              'trace=open,%s,execve,exit_group,chdir,mkdir,rename,clone,vfork,fork' % self._stat_func,
+              'trace=open,openat,%s,execve,exit_group,chdir,mkdir,rename,clone,vfork,fork' % self._stat_func,
               args, silent=False)
         cwd = '.' 
         status = 0
@@ -523,6 +524,7 @@ class StraceRunner(Runner):
 
             is_output = False
             open_match = self._open_re.match(line)
+            openat_match = self._openat_re.match(line)
             stat_match = self._stat_re.match(line)
             execve_match = self._execve_re.match(line)
             mkdir_match = self._mkdir_re.match(line)
@@ -543,8 +545,8 @@ class StraceRunner(Runner):
                 pid = clone_match.group('pid')
                 pid_clone = clone_match.group('pid_clone')
                 processes[pid] = StraceProcess(processes[pid_clone].cwd)
-            elif open_match:
-                match = open_match
+            elif open_match or openat_match:
+                match = open_match or openat_match
                 mode = match.group('mode')
                 if 'O_WRONLY' in mode or 'O_RDWR' in mode:
                     # it's an output file if opened for writing
