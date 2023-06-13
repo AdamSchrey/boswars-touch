@@ -387,7 +387,9 @@ unsigned char *CNetworkPacket::Serialize(int numcommands) const
 
 	for (int i = 0; i < numcommands; ++i) {
 		if (this->Header.Type[i] == MessageExtendedCommand) {
-			((CNetworkExtendedCommand *)&this->Command[i])->Serialize(p);
+			CNetworkExtendedCommand *nec;
+			nec = (CNetworkExtendedCommand *)&Command[i];
+			nec->Serialize(p);
 		} else if (this->Header.Type[i] == MessageChat) {
 			((CNetworkChat *)&this->Command[i])->Serialize(p);
 		} else {
@@ -420,7 +422,9 @@ int CNetworkPacket::Deserialize(unsigned char *p, unsigned int len)
 
 	for (int i = 0; i < commands; ++i) {
 		if (this->Header.Type[i] == MessageExtendedCommand) {
-			((CNetworkExtendedCommand *)&this->Command[i])->Deserialize(p);
+			CNetworkExtendedCommand *nec;
+			nec = (CNetworkExtendedCommand *)&Command[i];
+			nec->Deserialize(p);
 		} else if (this->Header.Type[i] == MessageChat) {
 			((CNetworkChat *)&this->Command[i])->Deserialize(p);
 		} else {
