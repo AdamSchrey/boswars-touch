@@ -54,10 +54,6 @@ def createZipArchive(archivename, namelist):
   z.close()
   print
 
-
-def isSvnWorkSpace():
-   return os.access('.svn', os.F_OK)
-
 def listSvnFiles():
    entries = os.popen('svn ls -R').readlines()
    files = []
@@ -71,7 +67,7 @@ def listFilesInDirectories():
    raise RuntimeError("Not implemented")
 
 def listFiles():
-   if isSvnWorkSpace():
+   if os.access('.svn', os.F_OK):
       return listSvnFiles()
    else:
       return listFilesInDirectories()
