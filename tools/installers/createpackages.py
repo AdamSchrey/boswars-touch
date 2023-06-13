@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 ##     ____                _       __               
 ##    / __ )____  _____   | |     / /___ ___________
@@ -10,7 +10,7 @@
 ##          This file is part of Bos Wars.
 ##
 ##      Script that generates all the distribution packages.
-##      (c) Copyright 2007 by Francois Beerten
+##      (c) Copyright 2007-2023 by Francois Beerten
 ##
 ##      Stratagus is free software; you can redistribute it and/or modify
 ##      it under the terms of the GNU General Public License as published
@@ -32,7 +32,7 @@ def printDot():
   sys.stdout.flush()
 
 def createTarArchive(archivename, namelist):
-  print "\nCreating %s.tar.gz" % archivename
+  print("\nCreating %s.tar.gz" % archivename)
   tar = tarfile.open(archivename + ".tar.gz", "w:gz")
   for name in namelist:
       tarinfo = tar.gettarinfo(name, archivename + "/" + name)
@@ -41,12 +41,12 @@ def createTarArchive(archivename, namelist):
       tarinfo.uname = "user"
       tarinfo.gname = "user"
       printDot()
-      tar.addfile(tarinfo, file(name))
+      tar.addfile(tarinfo, open(name, 'rb'))
   tar.close()
   print
 
 def createZipArchive(archivename, namelist):
-  print "\nCreating %s.zip" % archivename
+  print("\nCreating %s.zip" % archivename)
   z = zipfile.ZipFile(archivename + ".zip", "w", zipfile.ZIP_DEFLATED)
   for name in namelist:
       z.write(name, archivename + "/" + name)
@@ -91,6 +91,7 @@ def buildVersionName():
 
 def filterDirectories(files):
    return [x for x in files if not x.endswith('/')]
+
 def filterSources(files):
    buildfiles = ['SConstruct', 'bos.sln', 'make.py', 'fabricate.py']
    def isGoodFile(f):
