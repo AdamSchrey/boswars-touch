@@ -75,6 +75,9 @@
 --  Variables
 ----------------------------------------------------------------------------*/
 
+SDL_Window *TheWindow; /// Internal screen
+SDL_Renderer *TheRenderer = NULL; /// Internal screen
+SDL_Texture *TheTexture; /// Internal screen
 SDL_Surface *TheScreen; /// Internal screen
 
 static SDL_Rect Rects[100];
@@ -343,8 +346,8 @@ static void InitKey2Str()
 
 	Key2Str[SDLK_DELETE] = "delete";
 
-	for (i = SDLK_KP0; i <= SDLK_KP9; ++i) {
-		sprintf_s(str, sizeof(str), "kp_%d", i - SDLK_KP0);
+	for (i = SDLK_KP_0; i <= SDLK_KP_9; ++i) {
+		sprintf_s(str, sizeof(str), "kp_%d", i - SDLK_KP_0);
 		Key2Str[i] = str;
 	}
 
@@ -373,12 +376,11 @@ static void InitKey2Str()
 	}
 
 	Key2Str[SDLK_HELP] = "help";
-	Key2Str[SDLK_PRINT] = "print";
+	Key2Str[SDLK_PRINTSCREEN] = "print";
 	Key2Str[SDLK_SYSREQ] = "sysreq";
-	Key2Str[SDLK_BREAK] = "break";
+	Key2Str[SDLK_PAUSE] = "break";
 	Key2Str[SDLK_MENU] = "menu";
 	Key2Str[SDLK_POWER] = "power";
-	Key2Str[SDLK_EURO] = "euro";
 	Key2Str[SDLK_UNDO] = "undo";
 }
 
@@ -428,14 +430,10 @@ void InitVideoSdl(void)
 		// invisible.  However, SDL 1.3 is apparently going to
 		// support tablet devices natively, so this might not
 		// be needed then.
-		static char mouseRelative0[] = "SDL_MOUSE_RELATIVE=0";
-		SDL_putenv(mouseRelative0); // doesn't want const
+		SDL_setenv("SDL_MOUSE_RELATIVE", "0", 1);
 #endif
 
 		if (SDL_Init(
-#ifdef DEBUG
-				SDL_INIT_NOPARACHUTE |
-#endif
 				SDL_INIT_AUDIO | SDL_INIT_VIDEO |
 				SDL_INIT_TIMER) < 0 ) {
 			fprintf(stderr, "Couldn't initialize SDL: %s\n", SDL_GetError());
@@ -452,8 +450,6 @@ void InitVideoSdl(void)
 		signal(SIGSEGV, CleanExit);
 		signal(SIGABRT, CleanExit);
 #endif
-		// Set WindowManager Title
-		SDL_WM_SetCaption("Bos Wars", "Bos Wars");
 	}
 
 	// Initialize the display
@@ -462,10 +458,7 @@ void InitVideoSdl(void)
 	// Sam said: better for windows.
 	/* SDL_HWSURFACE|SDL_HWPALETTE | */
 	if (Video.FullScreen) {
-		flags |= SDL_FULLSCREEN;
-	}
-	if (UseOpenGL) {
-		flags |= SDL_OPENGL;
+		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 	}
 
 	if (!Video.Width || !Video.Height) {
@@ -473,26 +466,34 @@ void InitVideoSdl(void)
 		Video.Height = 480;
 	}
 
-	TheScreen = SDL_SetVideoMode(Video.Width, Video.Height, Video.Depth, flags);
-	if (TheScreen && (TheScreen->format->BitsPerPixel != 16 &&
-			TheScreen->format->BitsPerPixel != 32)) {
-		// Only support 16 and 32 bpp, default to 16
-		TheScreen = SDL_SetVideoMode(Video.Width, Video.Height, 16, flags);
-	}
-	if (TheScreen == NULL) {
+	TheWindow = SDL_CreateWindow("Bos Wars", SDL_WINDOWPOS_UNDEFINED,
+		SDL_WINDOWPOS_UNDEFINED,
+		Video.Width, Video.Height, flags);
+	if (TheWindow == NULL) {
 		fprintf(stderr, "Couldn't set %dx%dx%d video mode: %s\n",
 			Video.Width, Video.Height, Video.Depth, SDL_GetError());
 		exit(1);
 	}
 
-	Video.FullScreen = (TheScreen->flags & SDL_FULLSCREEN) ? 1 : 0;
+	if (!TheRenderer)
+		TheRenderer = SDL_CreateRenderer(TheWindow, -1, 0);
+	SDL_RenderSetLogicalSize(TheRenderer, Video.Width, Video.Height);
+	SDL_SetRenderDrawColor(TheRenderer, 0, 0, 0, 255);
+	TheScreen = SDL_CreateRGBSurface(0, Video.Width, Video.Height, 32,
+										0x00FF0000,
+										0x0000FF00,
+										0x000000FF,
+										0);
+	TheTexture = SDL_CreateTexture(TheRenderer,
+									  SDL_PIXELFORMAT_ARGB8888,
+									  SDL_TEXTUREACCESS_STREAMING,
+									  Video.Width, Video.Height);
+
+	Video.FullScreen = (SDL_GetWindowFlags(TheWindow) & SDL_WINDOW_FULLSCREEN_DESKTOP) ? 1 : 0;
 	Video.Depth = TheScreen->format->BitsPerPixel;
 
 	// Turn cursor off, we use our own.
 	SDL_ShowCursor(0);
-
-	// Make default character translation easier
-	SDL_EnableUNICODE(1);
 
 	if (UseOpenGL) {
 		InitOpenGL();
@@ -523,7 +524,7 @@ void InitVideoSdl(void)
 */
 int VideoValidResolution(int w, int h)
 {
-	return SDL_VideoModeOK(w, h, TheScreen->format->BitsPerPixel, TheScreen->flags);
+	return 1;
 }
 
 /**
@@ -564,27 +565,23 @@ void Invalidate(void)
 
 #ifdef DEBUG
 
-static void DumpSdlActiveEvent(const SDL_ActiveEvent &active, const char *type)
+static void DumpSdlActiveEvent(const SDL_WindowEvent &active, const char *type)
 {
-	printf("SDL_ActiveEvent {"
-	       " type=%s, gain=%d, state=%d }\n",
-	       type,
-	       static_cast<int>(active.gain),
-	       static_cast<int>(active.state));
+	printf("SDL_WindowEvent {"
+	       " type=%s, event=%d }\n",
+	       type, active.event);
 }
 
 static void DumpSdlKeyboardEvent(const SDL_KeyboardEvent &key, const char *type)
 {
 	printf("SDL_KeyboardEvent {"
-	       " type=%s, which=%d, state=%d, keysym={"
-	       " scancode=%d, sym=%d, mod=%d, unicode=%d }}\n",
+	       " type=%s, state=%d, keysym={"
+	       " scancode=%d, sym=%d, mod=%d, }}\n",
 	       type,
-	       static_cast<int>(key.which),
 	       static_cast<int>(key.state),
 	       static_cast<int>(key.keysym.scancode),
 	       static_cast<int>(key.keysym.sym),
-	       static_cast<int>(key.keysym.mod),
-	       static_cast<int>(key.keysym.unicode));
+	       static_cast<int>(key.keysym.mod));
 }
 
 static void DumpSdlMouseMotionEvent(const SDL_MouseMotionEvent &motion, const char *type)
@@ -654,22 +651,6 @@ static void DumpSdlJoyButtonEvent(const SDL_JoyButtonEvent &jbutton, const char 
 	       static_cast<int>(jbutton.state));
 }
 
-static void DumpSdlResizeEvent(const SDL_ResizeEvent &resize, const char *type)
-{
-	printf("SDL_ResizeEvent {"
-	       " type=%s, w=%d, h=%d }\n",
-	       type,
-	       static_cast<int>(resize.w),
-	       static_cast<int>(resize.h));
-}
-
-static void DumpSdlExposeEvent(const SDL_ExposeEvent &, const char *type)
-{
-	printf("SDL_ExposeEvent {"
-	       " type=%s }\n",
-	       type);
-}
-
 static void DumpSdlQuitEvent(const SDL_QuitEvent &, const char *type)
 {
 	printf("SDL_QuitEvent {"
@@ -680,8 +661,8 @@ static void DumpSdlQuitEvent(const SDL_QuitEvent &, const char *type)
 static void DumpSdlEvent(const SDL_Event *event)
 {
 	switch (event->type) {
-	case SDL_ACTIVEEVENT:
-		DumpSdlActiveEvent(event->active, "SDL_ACTIVEEVENT");
+	case SDL_WINDOWEVENT:
+		DumpSdlActiveEvent(event->window, "SDL_ACTIVEEVENT");
 		break;
 
 	case SDL_KEYDOWN:
@@ -722,14 +703,6 @@ static void DumpSdlEvent(const SDL_Event *event)
 
 	case SDL_JOYBUTTONUP:
 		DumpSdlJoyButtonEvent(event->jbutton, "SDL_JOYBUTTONUP");
-		break;
-
-	case SDL_VIDEORESIZE:
-		DumpSdlResizeEvent(event->resize, "SDL_VIDEORESIZE");
-		break;
-
-	case SDL_VIDEOEXPOSE:
-		DumpSdlExposeEvent(event->expose, "SDL_VIDEOEXPOSE");
 		break;
 
 	case SDL_QUIT:
@@ -785,19 +758,25 @@ static void SdlDoEvent(const EventCallback *callbacks, const SDL_Event *event)
 				int yw = UI.MouseWarpY;
 				UI.MouseWarpX = -1;
 				UI.MouseWarpY = -1;
-				SDL_WarpMouse(xw, yw);
+				SDL_WarpMouseInWindow(TheWindow, xw, yw);
 			}
 			break;
 
-		case SDL_ACTIVEEVENT:
-			if (event->active.state & SDL_APPMOUSEFOCUS) {
-				static bool InMainWindow = true;
+		case SDL_WINDOWEVENT:
+		    switch (event->window.event) {
+				case SDL_WINDOWEVENT_ENTER:
+				case SDL_WINDOWEVENT_LEAVE:
+				{
+					static bool InMainWindow = true;
 
-				if (InMainWindow && !event->active.gain) {
-					InputMouseExit(callbacks, SDL_GetTicks());
+					if (InMainWindow && (event->window.event == SDL_WINDOWEVENT_LEAVE)) {
+						InputMouseExit(callbacks, SDL_GetTicks());
+					}
+					InMainWindow = event->window.event == SDL_WINDOWEVENT_ENTER;
 				}
-				InMainWindow = (event->active.gain != 0);
+				break;
 			}
+			#if 0
 			if (event->active.state & SDL_APPACTIVE) {
 				static bool IsVisible = true;
 				static bool DoTogglePause = false;
@@ -819,16 +798,19 @@ static void SdlDoEvent(const EventCallback *callbacks, const SDL_Event *event)
 					}
 				}
 			}
+			#endif
 			break;
 
 		case SDL_KEYDOWN:
 			InputKeyButtonPress(callbacks, SDL_GetTicks(),
-				event->key.keysym.sym, event->key.keysym.unicode);
+				event->key.keysym.sym,
+				event->key.keysym.sym < 128 ? event->key.keysym.sym : 0);
 			break;
 
 		case SDL_KEYUP:
 			InputKeyButtonRelease(callbacks, SDL_GetTicks(),
-				event->key.keysym.sym, event->key.keysym.unicode);
+				event->key.keysym.sym,
+				event->key.keysym.sym < 128 ? event->key.keysym.sym : 0);
 			break;
 
 		case SDL_QUIT:
@@ -981,11 +963,13 @@ void WaitEventsOneFrame()
 void RealizeVideoMemory(void)
 {
 	if (UseOpenGL) {
-		SDL_GL_SwapBuffers();
+		SDL_GL_SwapWindow(TheWindow);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	} else {
 		if (NumRects) {
-			SDL_UpdateRects(TheScreen, NumRects, Rects);
+			SDL_UpdateTexture(TheTexture, NULL, TheScreen->pixels, TheScreen->pitch);
+			SDL_RenderCopy(TheRenderer, TheTexture, NULL, NULL);
+			SDL_RenderPresent(TheRenderer);
 			NumRects = 0;
 		}
 	}
@@ -1051,7 +1035,7 @@ int Str2SdlKey(const char *str)
 */
 bool SdlGetGrabMouse(void)
 {
-	return SDL_WM_GrabInput(SDL_GRAB_QUERY) == SDL_GRAB_ON;
+	return SDL_GetRelativeMouseMode();
 }
 
 /**
@@ -1064,9 +1048,9 @@ void ToggleGrabMouse(int mode)
 	bool grabbed = SdlGetGrabMouse();
 
 	if (mode <= 0 && grabbed) {
-		SDL_WM_GrabInput(SDL_GRAB_OFF);
+		SDL_SetRelativeMouseMode(SDL_FALSE);
 	} else if (mode >= 0 && !grabbed) {
-		SDL_WM_GrabInput(SDL_GRAB_ON);
+		SDL_SetRelativeMouseMode(SDL_TRUE);
 	}
 }
 
@@ -1075,6 +1059,9 @@ void ToggleGrabMouse(int mode)
 */
 void ToggleFullScreen(void)
 {
+	Uint32 flags;
+
+	flags = SDL_GetWindowFlags(TheWindow) & SDL_WINDOW_FULLSCREEN_DESKTOP;
 #ifdef USE_WIN32
 	long framesize;
 	SDL_Rect clip;
@@ -1160,10 +1147,10 @@ void ToggleFullScreen(void)
 
 	Invalidate(); // Update display
 #else // !USE_WIN32
-	SDL_WM_ToggleFullScreen(TheScreen);
+	SDL_SetWindowFullscreen(TheWindow, flags ^ SDL_WINDOW_FULLSCREEN_DESKTOP);
 #endif
 
-	Video.FullScreen = (TheScreen->flags & SDL_FULLSCREEN) ? 1 : 0;
+	Video.FullScreen = (flags & SDL_WINDOW_FULLSCREEN_DESKTOP) ? 1 : 0;
 }
 
 //@}

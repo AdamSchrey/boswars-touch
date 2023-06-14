@@ -1,6 +1,7 @@
 Change log for Bos Wars
 -----------------------
 
+- Migrate to SDL 2.0 (François Beerten)
 - Add existing tutorial to main menu (Andy Alt)
 - Set Timeout for opening title screen (Andy Alt)
 - Replace camp selection sound (Andy Alt);

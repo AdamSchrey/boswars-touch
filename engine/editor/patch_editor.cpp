@@ -240,19 +240,15 @@ static void PatchEditorCallbackKeyDown(unsigned key, unsigned keychar)
 			Exit(0);
 
 		case SDLK_UP: // Keyboard scrolling
-		case SDLK_KP8:
 			KeyScrollState |= ScrollUp;
 			break;
 		case SDLK_DOWN:
-		case SDLK_KP2:
 			KeyScrollState |= ScrollDown;
 			break;
 		case SDLK_LEFT:
-		case SDLK_KP4:
 			KeyScrollState |= ScrollLeft;
 			break;
 		case SDLK_RIGHT:
-		case SDLK_KP6:
 			KeyScrollState |= ScrollRight;
 			break;
 
@@ -270,19 +266,15 @@ static void PatchEditorCallbackKeyUp(unsigned key, unsigned keychar)
 
 	switch (key) {
 		case SDLK_UP: // Keyboard scrolling
-		case SDLK_KP8:
 			KeyScrollState &= ~ScrollUp;
 			break;
 		case SDLK_DOWN:
-		case SDLK_KP2:
 			KeyScrollState &= ~ScrollDown;
 			break;
 		case SDLK_LEFT:
-		case SDLK_KP4:
 			KeyScrollState &= ~ScrollLeft;
 			break;
 		case SDLK_RIGHT:
-		case SDLK_KP6:
 			KeyScrollState &= ~ScrollRight;
 			break;
 		default:

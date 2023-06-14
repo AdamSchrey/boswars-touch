@@ -102,8 +102,9 @@ static void MovieCallbackMouseExit(void)
 /**
 **  Draw Ogg data to the overlay
 */
-static int OutputTheora(OggData *data, SDL_Overlay *yuv_overlay, SDL_Rect *rect)
+static int OutputTheora(OggData *data, SDL_Texture *yuv_overlay, SDL_Rect *rect)
 {
+#if 0
 	int i;
 	yuv_buffer yuv;
 	int crop_offset;
@@ -141,7 +142,7 @@ static int OutputTheora(OggData *data, SDL_Overlay *yuv_overlay, SDL_Rect *rect)
 	SDL_UnlockYUVOverlay(yuv_overlay);
 
 	SDL_DisplayYUVOverlay(yuv_overlay, rect);
-
+#endif
 	return 0;
 }
 
@@ -180,7 +181,7 @@ int PlayMovie(const std::string &name)
 	OggData data;
 	CFile f;
 	SDL_Rect rect;
-	SDL_Overlay *yuv_overlay;
+	SDL_Texture *yuv_overlay;
 	CSample *sample;
 	const EventCallback *old_callbacks;
 	EventCallback callbacks;
@@ -190,7 +191,7 @@ int PlayMovie(const std::string &name)
 	char buffer[PATH_MAX];
 
 	LibraryFileName(name.c_str(), buffer, sizeof(buffer));
-
+#if 0
 	if (f.open(buffer, CL_OPEN_READ) == -1) {
 		fprintf(stderr, "Can't open file `%s'\n", name.c_str());
 		return -1;
@@ -290,8 +291,8 @@ int PlayMovie(const std::string &name)
 	f.close();
 
 	SetCallbacks(old_callbacks);
-
-	return 0;
+#endif
+	return 1;
 }
 
 #else

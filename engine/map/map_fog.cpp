@@ -62,7 +62,7 @@ int *VisionLookup;
 static unsigned short *VisibleTable;
 
 static SDL_Surface *OnlyFogSurface;
-static CGraphic *AlphaFogG;
+static CGraphic *AlphaFogG = NULL;
 
 /*----------------------------------------------------------------------------
 --  Functions
@@ -549,7 +549,7 @@ void CMap::InitFogOfWar(void)
 {
 	Uint8 r, g, b;
 	Uint32 color;
-	SDL_Surface *s;
+	SDL_Surface *s = NULL;
 
 	FogGraphic->Load();
 
@@ -558,23 +558,20 @@ void CMap::InitFogOfWar(void)
 			//
 			// Generate Only Fog surface.
 			//
-			s = SDL_CreateRGBSurface(SDL_SWSURFACE, TileSizeX, TileSizeY,
+			OnlyFogSurface = SDL_CreateRGBSurface(SDL_SWSURFACE, TileSizeX, TileSizeY,
 				32, RMASK, GMASK, BMASK, AMASK);
 
 			SDL_GetRGB(ColorBlack, TheScreen->format, &r, &g, &b);
-			color = Video.MapRGB(s->format, r, g, b);
+			color = Video.MapRGBA(OnlyFogSurface->format, r, g, b, FogOfWarOpacity);
 
-			SDL_FillRect(s, NULL, color);
-			OnlyFogSurface = SDL_DisplayFormat(s);
-			SDL_SetAlpha(OnlyFogSurface, SDL_SRCALPHA | SDL_RLEACCEL, FogOfWarOpacity);
-			SDL_FreeSurface(s);
+			SDL_FillRect(OnlyFogSurface, NULL, color);
 
 			//
 			// Generate Alpha Fog surface.
 			//
 			if (FogGraphic->Surface->format->BytesPerPixel == 1) {
-				s = SDL_DisplayFormat(FogGraphic->Surface);
-				SDL_SetAlpha(s, SDL_SRCALPHA | SDL_RLEACCEL, FogOfWarOpacity);
+				s = SDL_ConvertSurfaceFormat(FogGraphic->Surface, SDL_PIXELFORMAT_RGB888, 0);
+				SDL_SetSurfaceAlphaMod(s, FogOfWarOpacity);
 			} else {
 				int i;
 				int j;
@@ -593,11 +590,9 @@ void CMap::InitFogOfWar(void)
 						(Uint8 *)FogGraphic->Surface->pixels + i * FogGraphic->Surface->pitch,
 						FogGraphic->Surface->w * f->BytesPerPixel);
 				}
-				SDL_UnlockSurface(s);
 				SDL_UnlockSurface(FogGraphic->Surface);
 
 				// Convert any non-transparent pixels to use FogOfWarOpacity as alpha
-				SDL_LockSurface(s);
 				for (j = 0; j < s->h; ++j) {
 					for (i = 0; i < s->w; ++i) {
 						c = *(Uint32 *)&((Uint8*)s->pixels)[i * 4 + j * s->pitch];
@@ -633,14 +628,14 @@ void CMap::CleanFogOfWar()
 	delete[] VisibleTable;
 	VisibleTable = NULL;
 
-	CGraphic::Free(Map.FogGraphic);
+	CGraphic::Free(FogGraphic);
 	FogGraphic = NULL;
 
 	if (!UseOpenGL) {
 		if (OnlyFogSurface) {
-			SDL_FreeSurface(OnlyFogSurface);
 			OnlyFogSurface = NULL;
 		}
+
 		CGraphic::Free(AlphaFogG);
 		AlphaFogG = NULL;
 	}

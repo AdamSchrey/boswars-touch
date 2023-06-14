@@ -295,9 +295,9 @@ def detectOpenGl(b):
        sys.exit(1)
 
 def detectSdl(b):
-    if b.usepkgconfig and pkgconfig(b, 'sdl'):
+    if b.usepkgconfig and pkgconfig(b, 'sdl2'):
         return
-    b.incpath('/usr/include/SDL')
+    b.incpath('/usr/include/SDL2')
     header = 'SDL.h'
     if '-DUSE_WIN32' in b.cflags:
         header = ''

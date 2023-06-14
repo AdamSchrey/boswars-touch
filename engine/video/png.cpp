@@ -247,7 +247,7 @@ int LoadGraphicPNG(CGraphic *g, bool headerOnly)
 			Amask = 0x000000FF >> s;
 		}
 	}
-	surface = SDL_AllocSurface(SDL_SWSURFACE, width, height,
+	surface = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height,
 		bit_depth * channels, Rmask, Gmask, Bmask, Amask);
 	if (surface == NULL) {
 		fprintf(stderr, "Out of memory");
@@ -262,7 +262,7 @@ int LoadGraphicPNG(CGraphic *g, bool headerOnly)
 				(Uint8)transv->green,
 				(Uint8)transv->blue);
 		}
-		SDL_SetColorKey(surface, SDL_SRCCOLORKEY | SDL_RLEACCEL, ckey);
+		SDL_SetColorKey(surface, SDL_TRUE, ckey);
 	}
 
 	/* Create the array of pointers to image data */
@@ -296,6 +296,7 @@ int LoadGraphicPNG(CGraphic *g, bool headerOnly)
 				palette->colors[i].r = i;
 				palette->colors[i].g = i;
 				palette->colors[i].b = i;
+				palette->colors[i].a = 0xff;
 			}
 		} else if (num_palette > 0) {
 			palette->ncolors = num_palette;
@@ -303,6 +304,7 @@ int LoadGraphicPNG(CGraphic *g, bool headerOnly)
 				palette->colors[i].b = png_palette[i].blue;
 				palette->colors[i].g = png_palette[i].green;
 				palette->colors[i].r = png_palette[i].red;
+				palette->colors[i].a = 0xff;
 			}
 		}
 	}

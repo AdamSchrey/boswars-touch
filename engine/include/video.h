@@ -326,6 +326,8 @@ extern int SlowFrameCounter;
 	/// (bring Players[] in sync with Pixels[])
 extern void SetPlayersPalette(void);
 
+extern SDL_Window *TheWindow;
+extern SDL_Renderer *TheRenderer;
 	/// The SDL screen
 extern SDL_Surface *TheScreen;
 

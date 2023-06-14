@@ -76,6 +76,7 @@ namespace gcn
     SDLGraphics::SDLGraphics()
     {
         mAlpha = false;
+        mTarget = NULL;
     }
 
     void SDLGraphics::_beginDraw()

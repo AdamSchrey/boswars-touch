@@ -178,10 +178,11 @@ void CGraphic::DrawSubTrans(int gx, int gy, int w, int h, int x, int y,
 	unsigned char alpha) const
 {
 	if (!UseOpenGL) {
-		int oldalpha = Surface->format->alpha;
-		SDL_SetAlpha(Surface, SDL_SRCALPHA, alpha);
+		Uint8 oldalpha = 255;
+		SDL_GetSurfaceAlphaMod(Surface, &oldalpha);
+		SDL_SetSurfaceAlphaMod(Surface, alpha);
 		DrawSub(gx, gy, w, h, x, y);
-		SDL_SetAlpha(Surface, SDL_SRCALPHA, oldalpha);
+		SDL_SetSurfaceAlphaMod(Surface, oldalpha);
 	} else {
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 		glColor4ub(255, 255, 255, alpha);
@@ -433,7 +434,7 @@ void CGraphic::DrawFrameTransX(unsigned frame, int x, int y, int alpha) const
 	if (!UseOpenGL) {
 		SDL_Rect srect;
 		SDL_Rect drect;
-		int oldalpha;
+		Uint8 oldalpha;
 
 		srect.x = (SurfaceFlip->w - (frame % (SurfaceFlip->w /
 			Width)) * Width) - Width;
@@ -444,10 +445,10 @@ void CGraphic::DrawFrameTransX(unsigned frame, int x, int y, int alpha) const
 		drect.x = x;
 		drect.y = y;
 
-		oldalpha = Surface->format->alpha;
-		SDL_SetAlpha(Surface, SDL_SRCALPHA, alpha);
+		SDL_GetSurfaceAlphaMod(Surface, &oldalpha);
+		SDL_SetSurfaceAlphaMod(Surface, alpha);
 		SDL_BlitSurface(SurfaceFlip, &srect, TheScreen, &drect);
-		SDL_SetAlpha(Surface, SDL_SRCALPHA, oldalpha);
+		SDL_SetSurfaceAlphaMod(Surface, oldalpha);
 	} else {
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 		glColor4ub(255, 255, 255, alpha);
@@ -463,7 +464,7 @@ void CGraphic::DrawFrameClipTransX(unsigned frame, int x, int y, int alpha) cons
 		SDL_Rect drect;
 		int oldx;
 		int oldy;
-		int oldalpha;
+		Uint8 oldalpha;
 
 		srect.x = (SurfaceFlip->w - (frame % (SurfaceFlip->w /
 			Width)) * Width) - Width;
@@ -480,10 +481,10 @@ void CGraphic::DrawFrameClipTransX(unsigned frame, int x, int y, int alpha) cons
 		drect.x = x;
 		drect.y = y;
 
-		oldalpha = Surface->format->alpha;
-		SDL_SetAlpha(Surface, SDL_SRCALPHA, alpha);
+		SDL_GetSurfaceAlphaMod(Surface, &oldalpha);
+		SDL_SetSurfaceAlphaMod(Surface, alpha);
 		SDL_BlitSurface(SurfaceFlip, &srect, TheScreen, &drect);
-		SDL_SetAlpha(Surface, SDL_SRCALPHA, oldalpha);
+		SDL_SetSurfaceAlphaMod(Surface, oldalpha);
 	} else {
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 		glColor4ub(255, 255, 255, alpha);
@@ -869,15 +870,15 @@ void CGraphic::Flip()
 	int i;
 	int j;
 	SDL_Surface *s;
+	Uint32 ckey;
 
 	if (SurfaceFlip) {
 		return;
 	}
 
 	s = SurfaceFlip = SDL_ConvertSurface(Surface, Surface->format, SDL_SWSURFACE);
-	if (Surface->flags & SDL_SRCCOLORKEY) {
-		SDL_SetColorKey(SurfaceFlip, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-			Surface->format->colorkey);
+	if (!SDL_GetColorKey(Surface, &ckey)) {
+		SDL_SetColorKey(SurfaceFlip, SDL_TRUE, ckey);
 	}
 
 	SDL_LockSurface(Surface);
@@ -920,26 +921,6 @@ void CGraphic::UseDisplayFormat()
 	if (UseOpenGL) {
 		return;
 	}
-
-	SDL_Surface *s;
-
-	s = Surface;
-	if (s->format->Amask != 0) {
-		Surface = SDL_DisplayFormatAlpha(s);
-	} else {
-		Surface = SDL_DisplayFormat(s);
-	}
-	SDL_FreeSurface(s);
-
-	if (SurfaceFlip) {
-		s = SurfaceFlip;
-		if (s->format->Amask != 0) {
-			SurfaceFlip = SDL_DisplayFormatAlpha(s);
-		} else {
-			SurfaceFlip = SDL_DisplayFormat(s);
-		}
-		SDL_FreeSurface(s);
-	}
 }
 
 /**
@@ -964,6 +945,7 @@ static int PowerOf2(int x)
 static void MakeTextures2(CGraphic *g, GLuint texture, CUnitColors *colors,
 	int ow, int oh)
 {
+#if 0
 	int h;
 	int w;
 	unsigned char *tex;
@@ -1079,6 +1061,7 @@ static void MakeTextures2(CGraphic *g, GLuint texture, CUnitColors *colors,
 #endif
 	SDL_UnlockSurface(g->Surface);
 	delete[] tex;
+#endif
 }
 
 /**
@@ -1201,12 +1184,12 @@ void CGraphic::Resize(int w, int h)
 	}
 
 	Resized = true;
+	Uint32 ckey;
+	bool useckey = !SDL_GetColorKey(Surface, &ckey);
 
 	bpp = Surface->format->BytesPerPixel;
 	if (bpp == 1) {
 		SDL_Color pal[256];
-		Uint32 ckey;
-		int useckey;
 
 		SDL_LockSurface(Surface);
 
@@ -1223,14 +1206,12 @@ void CGraphic::Resize(int w, int h)
 
 		SDL_UnlockSurface(Surface);
 		memcpy(pal, Surface->format->palette->colors, sizeof(SDL_Color) * 256);
-		useckey = Surface->flags & SDL_SRCCOLORKEY;
-		ckey = Surface->format->colorkey;
 		SDL_FreeSurface(Surface);
 
 		Surface = SDL_CreateRGBSurfaceFrom(data, w, h, 8, w, 0, 0, 0, 0);
-		SDL_SetPalette(Surface, SDL_LOGPAL | SDL_PHYSPAL, pal, 0, 256);
+		SDL_SetPaletteColors(Surface->format->palette, pal, 0, 256);
 		if (useckey) {
-			SDL_SetColorKey(Surface, SDL_SRCCOLORKEY | SDL_RLEACCEL, ckey);
+			SDL_SetColorKey(Surface, SDL_TRUE, ckey);
 		}
 	} else {
 		int ix, iy;
@@ -1322,9 +1303,11 @@ bool CGraphic::TransparentPixel(int x, int y)
 	unsigned char *p;
 	int bpp;
 	bool ret;
+	Uint32 colorkey;
+	bool has_colorkey = !SDL_GetColorKey(Surface, &colorkey);
 
 	bpp = Surface->format->BytesPerPixel;
-	if ((bpp == 1 && !(Surface->flags & SDL_SRCCOLORKEY)) || bpp == 3) {
+	if ((bpp == 1 && !has_colorkey) || bpp == 3) {
 		return false;
 	}
 
@@ -1332,7 +1315,7 @@ bool CGraphic::TransparentPixel(int x, int y)
 	SDL_LockSurface(Surface);
 	p = (unsigned char *)Surface->pixels + y * Surface->pitch + x * bpp;
 	if (bpp == 1) {
-		if (*p == Surface->format->colorkey) {
+		if (*p == colorkey) {
 			ret = true;
 		}
 	} else {
@@ -1357,13 +1340,13 @@ void CGraphic::MakeShadow()
 	// Set all colors in the palette to black and use 50% alpha
 	memset(colors, 0, sizeof(colors));
 
-	SDL_SetPalette(Surface, SDL_LOGPAL | SDL_PHYSPAL, colors, 0, 256);
-	SDL_SetAlpha(Surface, SDL_SRCALPHA | SDL_RLEACCEL, 128);
+	SDL_SetPaletteColors(Surface->format->palette, colors, 0, 256);
+	SDL_SetSurfaceAlphaMod(Surface, 128);
 
 	if (!UseOpenGL) {
 		if (SurfaceFlip) {
-			SDL_SetPalette(SurfaceFlip, SDL_LOGPAL | SDL_PHYSPAL, colors, 0, 256);
-			SDL_SetAlpha(SurfaceFlip, SDL_SRCALPHA | SDL_RLEACCEL, 128);
+			SDL_SetPaletteColors(SurfaceFlip->format->palette, colors, 0, 256);
+			SDL_SetSurfaceAlphaMod(SurfaceFlip, 128);
 		}
 	}
 	if (UseOpenGL) {

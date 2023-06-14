@@ -629,7 +629,7 @@ static bool CommandKey(int key)
 
 		case SDLK_TAB: // TAB toggles minimap.
 					// FIXME: more...
-					// FIXME: shift+TAB
+					// FIXME: sift+TAB
 			if (KeyModifiers & ModifierAlt) {
 				break;
 			}
@@ -637,19 +637,19 @@ static bool CommandKey(int key)
 			break;
 
 		case SDLK_UP:
-		case SDLK_KP8:
+		case SDLK_KP_8:
 			KeyScrollState |= ScrollUp;
 			break;
 		case SDLK_DOWN:
-		case SDLK_KP2:
+		case SDLK_KP_2:
 			KeyScrollState |= ScrollDown;
 			break;
 		case SDLK_LEFT:
-		case SDLK_KP4:
+		case SDLK_KP_4:
 			KeyScrollState |= ScrollLeft;
 			break;
 		case SDLK_RIGHT:
-		case SDLK_KP6:
+		case SDLK_KP_6:
 			KeyScrollState |= ScrollRight;
 			break;
 
@@ -894,20 +894,18 @@ int HandleKeyModifiersDown(unsigned key, unsigned keychar)
 			return 1;
 		case SDLK_LALT:
 		case SDLK_RALT:
-		case SDLK_LMETA:
-		case SDLK_RMETA:
 			KeyModifiers |= ModifierAlt;
 			// maxy: disabled
 			if (InterfaceState == IfaceStateNormal) {
 				SelectedUnitChanged(); // VLADI: to allow alt-buttons
 			}
 			return 1;
-		case SDLK_LSUPER:
-		case SDLK_RSUPER:
+		case SDLK_LGUI:
+		case SDLK_RGUI:
 			KeyModifiers |= ModifierSuper;
 			return 1;
 		case SDLK_SYSREQ:
-		case SDLK_PRINT:
+		case SDLK_PRINTSCREEN:
 			Screenshot();
 			if (GameRunning) {
 				SetMessage("%s", _("Screenshot made."));
@@ -940,16 +938,14 @@ int HandleKeyModifiersUp(unsigned key, unsigned keychar)
 			return 1;
 		case SDLK_LALT:
 		case SDLK_RALT:
-		case SDLK_LMETA:
-		case SDLK_RMETA:
 			KeyModifiers &= ~ModifierAlt;
 			// maxy: disabled
 			if (InterfaceState == IfaceStateNormal) {
 				SelectedUnitChanged(); // VLADI: to allow alt-buttons
 			}
 			return 1;
-		case SDLK_LSUPER:
-		case SDLK_RSUPER:
+		case SDLK_LGUI:
+		case SDLK_RGUI:
 			KeyModifiers &= ~ModifierSuper;
 			return 1;
 	}
@@ -961,8 +957,8 @@ int HandleKeyModifiersUp(unsigned key, unsigned keychar)
 */
 static bool IsKeyPad(unsigned key, unsigned *kp)
 {
-	if (key >= SDLK_KP0 && key <= SDLK_KP9) {
-		*kp = SDLK_0 + (key - SDLK_KP0);
+	if (key >= SDLK_KP_0 && key <= SDLK_KP_9) {
+		*kp = SDLK_0 + (key - SDLK_KP_0);
 	} else if (key == SDLK_KP_PERIOD) {
 		*kp = SDLK_PERIOD;
 	} else if (key == SDLK_KP_DIVIDE) {
@@ -1030,19 +1026,19 @@ void HandleKeyUp(unsigned key, unsigned keychar)
 
 	switch (key) {
 		case SDLK_UP:
-		case SDLK_KP8:
+		case SDLK_KP_8:
 			KeyScrollState &= ~ScrollUp;
 			break;
 		case SDLK_DOWN:
-		case SDLK_KP2:
+		case SDLK_KP_2:
 			KeyScrollState &= ~ScrollDown;
 			break;
 		case SDLK_LEFT:
-		case SDLK_KP4:
+		case SDLK_KP_4:
 			KeyScrollState &= ~ScrollLeft;
 			break;
 		case SDLK_RIGHT:
-		case SDLK_KP6:
+		case SDLK_KP_6:
 			KeyScrollState &= ~ScrollRight;
 			break;
 		default:

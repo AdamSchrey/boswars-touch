@@ -344,7 +344,7 @@ static void VideoDrawChar(const CGraphic *g,
 			0
 		};
 
-		SDL_SetColors(g->Surface, FontColor->Colors, 0, MaxFontColors);
+		SDL_SetPaletteColors(g->Surface->format->palette, FontColor->Colors, 0, MaxFontColors);
 		SDL_BlitSurface(g->Surface, &srect, TheScreen, &drect);
 	} else {
 		g->DrawSub(gx, gy, w, h, x, y);
@@ -882,7 +882,7 @@ void CFontFamily::MeasureWidths()
 	const unsigned char *sp;
 	const unsigned char *lp;
 	const unsigned char *gp;
-	Uint32 ckey;
+	Uint32 ckey = 0;
 	int ipr;  // images per row
 
 	GlyphCount = G->GraphicWidth / G->Width * G->GraphicHeight / G->Height;
@@ -890,8 +890,8 @@ void CFontFamily::MeasureWidths()
 	CharWidth = new char[GlyphCount];
 	memset(CharWidth, 0, GlyphCount);
 	CharWidth[0] = G->Width / 2;  // a reasonable value for SPACE
-	ckey = G->Surface->format->colorkey;
 	ipr = G->Surface->w / G->Width;
+	SDL_GetColorKey(G->Surface, &ckey);
 
 	SDL_LockSurface(G->Surface);
 	for (int y = 1; y < GlyphCount; ++y) {
