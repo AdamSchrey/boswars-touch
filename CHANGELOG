@@ -1,6 +1,7 @@
 Change log for Bos Wars
 -----------------------
 
+- Add russian translation (Artem Ageev Viktorovich)
 - Rename Mana to Charge (Francois Beerten)
 - Pass options for commands of make.py via seperate "option=value" pairs. (Francois Beerten)
 - Escape key unselects units (Francois Beerten)
