@@ -910,7 +910,7 @@ int HandleKeyModifiersDown(unsigned key, unsigned keychar)
 		case SDLK_PRINT:
 			Screenshot();
 			if (GameRunning) {
-				SetMessage(_("Screenshot made."));
+				SetMessage("%s", _("Screenshot made."));
 			}
 			return 1;
 		default:

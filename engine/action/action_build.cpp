@@ -128,7 +128,7 @@ static void MoveToLocation(CUnit *unit)
 			}
 
 			unit->Player->Notify(NotifyYellow, unit->X, unit->Y,
-				_("You cannot reach building place"));
+				"%s", _("You cannot reach building place"));
 			if (unit->Player->AiEnabled) {
 				AiCanNotReach(unit, unit->Orders[0]->Type);
 			}

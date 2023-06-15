@@ -699,15 +699,15 @@ int CPlayer::CheckLimits(const CUnitType *type) const
 	//
 	if (NumUnits < UnitMax) {
 		if (type->Building && NumBuildings >= BuildingLimit) {
-			Notify(NotifyYellow, -1, -1, _("Building Limit Reached"));
+			Notify(NotifyYellow, -1, -1, "%s", _("Building Limit Reached"));
 			return -1;
 		}
 		if (!type->Building && (TotalNumUnits - NumBuildings) >= UnitLimit) {
-			Notify(NotifyYellow, -1, -1, _("Unit Limit Reached"));
+			Notify(NotifyYellow, -1, -1, "%s", _("Unit Limit Reached"));
 			return -2;
 		}
 		if (TotalNumUnits >= TotalUnitLimit) {
-			Notify(NotifyYellow, -1, -1, _("Total Unit Limit Reached"));
+			Notify(NotifyYellow, -1, -1, "%s", _("Total Unit Limit Reached"));
 			return -4;
 		}
 		if (UnitTypesCount[type->Slot] >=  Allow.Units[type->Slot]) {
@@ -717,7 +717,7 @@ int CPlayer::CheckLimits(const CUnitType *type) const
 		}
 		return 1;
 	} else {
-		Notify(NotifyYellow, -1, -1, _("Cannot create more units."));
+		Notify(NotifyYellow, -1, -1, "%s", _("Cannot create more units."));
 		if (AiEnabled) {
 			// AiNoMoreUnits(player, type);
 		}

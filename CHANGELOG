@@ -1,6 +1,7 @@
 Change log for Bos Wars
 -----------------------
 
+- Treat _("string") as format string only if needed (Kalle Olavi Niemitalo)
 - Fix byte size returned by ConvertToStereo32() (François Beerten)
 - Remove broken and unmaintained SCons support (François Beerten)
 - Add russian translation (Artem Ageev Viktorovich)
