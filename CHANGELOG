@@ -1,6 +1,7 @@
 Change log for Bos Wars
 -----------------------
 
+- Fix byte size returned by ConvertToStereo32() (François Beerten)
 - Remove broken and unmaintained SCons support (François Beerten)
 - Add russian translation (Artem Ageev Viktorovich)
 - Python tools and scripts uses python3 by default (Francois Beerten)
