@@ -1,11 +1,11 @@
 #! /usr/bin/env python3
 
-##     ____                _       __               
+##     ____                _       __
 ##    / __ )____  _____   | |     / /___ ___________
 ##   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-##  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-## /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-##                                              
+##  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+## /_____/\____/____/     |__/|__/\__,_/_/  /____/
+##
 ##       A futuristic real-time strategy game.
 ##          This file is part of Bos Wars.
 ##
@@ -93,12 +93,12 @@ def filterDirectories(files):
    return [x for x in files if not x.endswith('/')]
 
 def filterSources(files):
-   buildfiles = ['SConstruct', 'bos.sln', 'make.py', 'fabricate.py']
+   buildfiles = ['bos.sln', 'make.py', 'fabricate.py']
    def isGoodFile(f):
      return (not f.startswith('engine/') and not f.startswith('tools/') and
              f not in buildfiles)
    return [x for x in files if isGoodFile(x)]
-   
+
 
 
 def buildPackages():
@@ -113,7 +113,7 @@ def buildPackages():
   createZipArchive(name % 'src', files)
 
   # create binary packages
-  #os.popen('scons static=1 debug=0 CXX=apg++')
+  #  FIXME: automatically build a "static" boswars executable ?
   binarydistfiles = filterSources(files)
   linuxfiles = binarydistfiles[:]
   linuxfiles.append('boswars')
@@ -122,7 +122,7 @@ def buildPackages():
      winfiles = binarydistfiles[:]
      winfiles.append('boswars.exe')
      createZipArchive(name % 'win32', winfiles)
-  
+
 
 if __name__ == '__main__':
   buildPackages()

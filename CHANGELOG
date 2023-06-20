@@ -1,6 +1,7 @@
 Change log for Bos Wars
 -----------------------
 
+- Remove broken and unmaintained SCons support (François Beerten)
 - Add russian translation (Artem Ageev Viktorovich)
 - Python tools and scripts uses python3 by default (Francois Beerten)
 - Migrated repositories to Git (Francois Beerten)
