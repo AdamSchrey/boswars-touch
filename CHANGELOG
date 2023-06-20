@@ -2,6 +2,17 @@ Change log for Bos Wars
 -----------------------
 
 - Add russian translation (Artem Ageev Viktorovich)
+- Python tools and scripts uses python3 by default (Francois Beerten)
+- Migrated repositories to Git (Francois Beerten)
+- Fix PNGs with iCCP: known incorrect sRGB profile (Francois Beerten)
+- Work around warnings "dereferencing type-punned pointer" (Francois Beerten)
+- Fix make.py strace dependency tracking (Francois Beerten)
+- Remove unused and broken SaveReplay() (Francois Beerten)
+- Fix fabricate.py/make.py "--keep" option (Francois Beerten)
+- Work around GL_GLEXT_VERSION redefinition in SDL (Francois Beerten)
+- Fix map Antarticum terrain.png file (Francois Beerten)
+- Make builds with make.py the same across builds (Michiel van der Wulp)
+- Remove deprecated auto_ptr (Francois Beerten)
 - Rename Mana to Charge (Francois Beerten)
 - Pass options for commands of make.py via seperate "option=value" pairs. (Francois Beerten)
 - Escape key unselects units (Francois Beerten)
@@ -9,9 +20,9 @@ Change log for Bos Wars
 - Patch #8319: Fast-forward Through Command Line Option (Douglas Krofcheck)
 - Fixed command line speed option (Francois Beerten)
 - Added the Cornered map (Iwan Gabovitch)
-- Fixed bug #37854: Objectives screen broken: missing text and 
+- Fixed bug #37854: Objectives screen broken: missing text and
   freeze (Francois Beerten)
-- Fixed bug #37861: "Set new units target" makes engineers harvest 
+- Fixed bug #37861: "Set new units target" makes engineers harvest
   buildings (Francois Beerten)
 - Added the Ringway map (Michiel van der Wulp)
 - Added the Wormroads map (Iwan Gabovitch)
@@ -31,7 +42,7 @@ Version 2.7 (2013 06 16):
 - Added goshgeom patches (Michiel van der Wulp)
 - Added Lithuanian translation (Vytautas Raškevičius)
 - Fixed bug "uncontrollable with Wacom tablet when in full-screen mode"
-  as reported at http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=559615 
+  as reported at http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=559615
   (Kalle Olavi Niemitalo)
 - Added Swamp Dwellers map (Michiel van der Wulp)
 - Added Hungarian translation (Ur Balazs)
@@ -91,7 +102,7 @@ Version 2.6 (2010 04 11):
 - Fix crash on exit in Windows (Francois Beerten, Nehal Mistry, Jimmy Salmon)
 - Fix bug map editor places magma pump next to hotspot. (Kalle Olavi Niemitalo)
 - Support libpng 1.4 (Francois Beerten)
-- Fix resource consumption and production issues when rescueing units 
+- Fix resource consumption and production issues when rescueing units
   (Kalle Olavi Niemitalo)
 - Add portuguese (pt-pt) translation (Tiago Faria)
 - Add the 4on4 map (Michiel van der Wulp)
@@ -155,7 +166,7 @@ Version 2.5.0 prerelease (2008 1 26):
 - Add wetlands02 map (Lois Taulelle and llearch n'n'daCorna)
 - Make the particle based explosions configureable (Francois Beerten)
 - Fixed bug selecting a map in a subdir (Jimmy Salmon)
-- Fix unload button on the APC unit (llearch n'n'daCorna) 
+- Fix unload button on the APC unit (llearch n'n'daCorna)
 - Auto repair while patrolling (Jimmy Salmon)
 - Added patrol button for engineer (Jimmy Salmon)
 - Enable auto repair for engineers (Jimmy Salmon)
@@ -173,9 +184,9 @@ Version 2.5.0 prerelease (2008 1 26):
 - Enable starting a map from the command line (Francois Beerten)
 - Added StretchImage option to TitleScreen (Jimmy Salmon)
 - Fixed crash disabling fog of war (Jimmy Salmon)
-- Display the Bos Wars logo image by default instead of the video 
+- Display the Bos Wars logo image by default instead of the video
   (Sébastien Kerguen, Francois Beerten)
-- Add missing const specifiers to fix compilation with 
+- Add missing const specifiers to fix compilation with
   GCC 4.2 (Loïs Taulelle, Forjan Frederic)
 - Fix compilation error in focushandler.cpp (Francois Beerten)
 - Fixed attack range off by 1 bug (Jimmy Salmon)
@@ -256,10 +267,10 @@ Beerten)
 - Support Lua 5.1 (Francois Beerten, Jimmy Salmon)
 - Don't count units under construction in GetNumUnitsAt (Jimmy Salmon)
 - Removed 'Do it now' message (Jimmy Salmon)
-- In SConstruct, seperate user build options from detection of libs and alike. 
-  This way, when SConstruct changes, the user build options are not lost 
+- In SConstruct, seperate user build options from detection of libs and alike.
+  This way, when SConstruct changes, the user build options are not lost
   any more. (Francois Beerten)
-- Fixed off by 1 preventing units from walking along the bottom and right 
+- Fixed off by 1 preventing units from walking along the bottom and right
   edges of the map (Jimmy Salmon)
 - Changed PlayerMax to 8 (Jimmy Salmon)
 - Engine source code cleanups (Jimmy Salmon, Francois Beerten)
@@ -273,8 +284,8 @@ Beerten)
 - Fix map lake.smp (Francois Beerten)
 - Fix extra OK button in sound options menu (Francois Beerten)
 
-The Stratagus engine got merged into Bos Wars. 
-The file doc/stratagus-changeLog.html contains the list of changes 
+The Stratagus engine got merged into Bos Wars.
+The file doc/stratagus-changeLog.html contains the list of changes
 made in Stratagus before the merge.
 
 Change log for Invasion: Battle of Survival
@@ -333,7 +344,7 @@ Version 2.0 Alpha (2006 11 2):
 - List all available campaigns in the campaigns directory automatically. (Francois Beerten)
 - Added the elites campaign. (Lois Taulelle)
 - Improved the graphical look of the in-game interface. (Francois Beerten)
-- Moved init and exit functions from DefineMenuItem 
+- Moved init and exit functions from DefineMenuItem
   to DefineMenu. (Francois Beerten)
 - Use GetNumOpponents instead of IfOpponents. (Francois Beerten)
 - Removed attack sound entry in unit definitions. (Francois Beerten)
@@ -344,18 +355,18 @@ Version 2.0 Alpha (2006 11 2):
 - Added sounds for the camera and radar unit. (micahf)
 - Replaced assault attack sound with a bearable one. (micahf)
 - Added tree unit. (Tejay Penfold, Francois Beerten)
-- Playlist created dynamically with music files found in 
+- Playlist created dynamically with music files found in
   the music subdirectory. (Francois Beerten)
 - Added radar unit. (Francois Beerten)
 - Added camera unit. (Frank Loeffler)
 - Make ingame text fit nicely in panels. (Francois Beerten)
-- Updated scripts to use DefineButtonStyle as required by newer 
+- Updated scripts to use DefineButtonStyle as required by newer
   Stratagus engine. (Jimmy Salmon, Francois Beerten)
 - Fixed maximum width for chat on the status line. (Francois Beerten)
-- Made the sound of the attacking assault unit weaker. 
+- Made the sound of the attacking assault unit weaker.
   The sound is bearable now. (Francois Beerten)
 - Fixed bug #8880 where an APC could load another APC. (Francois Beerten)
 
-For changes up to version 1.1 see the CVS repository 
+For changes up to version 1.1 see the CVS repository
 at https://savannah.nongnu.org/cvs/?group=stratagus-bos.
 
