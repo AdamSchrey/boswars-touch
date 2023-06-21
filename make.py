@@ -3,7 +3,7 @@
 #
 #  Build script for the Bos Wars engine.
 #
-#  (c) Copyright 2010-2016 by Francois Beerten.
+#  (c) Copyright 2010-2023 by Francois Beerten.
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -250,8 +250,8 @@ def pkgconfig(b, package):
         return False
     return True
 
-def CheckLib(b, lib, header=''):
-    if Check(b, lib, header):
+def CheckLib(b, lib, header='', function=''):
+    if Check(b, lib, header, function=function):
        b.lib(lib)
        return True
     return False
@@ -325,7 +325,7 @@ def detectEmbedable(b):
     RequireLib(b, 'png', 'png.h')
     if CheckLib(b, 'vorbis'):
        b.define('USE_VORBIS')
-    if CheckLib(b, 'theora'):
+    if CheckLib(b, 'theora', function='theora_decode_packetin'):
        b.define('USE_THEORA')
     if CheckLib(b, 'ogg'):
        b.define('USE_OGG')
