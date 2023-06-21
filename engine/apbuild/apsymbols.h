@@ -50,7 +50,7 @@ __asm__(".symver readlinkat,readlinkat@GLIBC_DONT_USE_THIS_SYMBOL");
 __asm__(".symver __wctomb_chk,__wctomb_chk@GLIBC_DONT_USE_THIS_SYMBOL");
 __asm__(".symver __readlink_chk,__readlink_chk@GLIBC_DONT_USE_THIS_SYMBOL");
 __asm__(".symver setipv4sourcefilter,setipv4sourcefilter@GLIBC_DONT_USE_THIS_SYMBOL");
-__asm__(".symver __isoc99_sscanf,__isoc99_sscanf@GLIBC_DONT_USE_THIS_SYMBOL");
+__asm__(".symver __isoc99_sscanf,__isoc99_sscanf@GLIBC_2.7");
 __asm__(".symver __getlogin_r_chk,__getlogin_r_chk@GLIBC_DONT_USE_THIS_SYMBOL");
 __asm__(".symver sync_file_range,sync_file_range@GLIBC_DONT_USE_THIS_SYMBOL");
 __asm__(".symver __open64_2,__open64_2@GLIBC_DONT_USE_THIS_SYMBOL");
