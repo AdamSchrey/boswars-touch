@@ -4,7 +4,6 @@ Change log for Bos Wars
 - Treat _("string") as format string only if needed (Kalle Olavi Niemitalo)
 - Fix byte size returned by ConvertToStereo32() (François Beerten)
 - Remove broken and unmaintained SCons support (François Beerten)
-- Add russian translation (Artem Ageev Viktorovich)
 - Python tools and scripts uses python3 by default (Francois Beerten)
 - Migrated repositories to Git (Francois Beerten)
 - Fix PNGs with iCCP: known incorrect sRGB profile (Francois Beerten)

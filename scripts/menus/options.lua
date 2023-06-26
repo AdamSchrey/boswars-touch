@@ -300,7 +300,6 @@ function RunLanguageOptionsMenu(s)
   AddLanguage("Italiano", "it")
   AddLanguage("Magyar", "hu")
   AddLanguage("Lietuviškai", "lt")
-  AddLanguage("Pусский", "ru")
   menu:adjustColumnWidths(grid)
 
   menu:addButton(_("~!OK"), Video.Width / 2 - 100, Video.Height - 100,
