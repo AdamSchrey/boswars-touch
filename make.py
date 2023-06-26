@@ -24,6 +24,7 @@
 import os
 import glob
 import sys
+import shutil
 try:
    import Queue as queue
 except ImportError:
@@ -482,6 +483,46 @@ def all(**kwargs):
 
 def default(**kwargs):
     release(**kwargs)
+
+
+def copyfiles(files, destdir):
+    for f in files:
+        dirpath = destdir + '/' + os.path.dirname(f)
+        os.makedirs(dirpath, exist_ok=True)
+        shutil.copy2(f, dirpath)
+
+def install_data(datadir='./dist'):
+    copyfiles(glob.glob('*.txt'), datadir)
+    copyfiles(glob.glob('CHANGELOG*'), datadir)
+    copyfiles(glob.glob('campaigns/*/*.*'), datadir)
+    copyfiles(glob.glob('campaigns/*/*/*.*'), datadir)
+    copyfiles(glob.glob('doc/*.txt'), datadir)
+    copyfiles(glob.glob('doc/*.html'), datadir)
+    copyfiles(glob.glob('graphics/*/*.png'), datadir)
+    copyfiles(glob.glob('graphics/*/*/*.png'), datadir)
+    copyfiles(glob.glob('intro/*.*'), datadir)
+    copyfiles(glob.glob('languages/*.po'), datadir)
+    copyfiles(glob.glob('maps/*.map/*.*'), datadir)
+    copyfiles(glob.glob('maps/campaigns/*/*.map/*.*'), datadir)
+    copyfiles(glob.glob('patches/*.lua'), datadir)
+    copyfiles(glob.glob('patches/*.png'), datadir)
+    copyfiles(glob.glob('patches/*/*.png'), datadir)
+    copyfiles(glob.glob('scripts/*.lua'), datadir)
+    copyfiles(glob.glob('scripts/*/*.lua'), datadir)
+    copyfiles(glob.glob('scripts/*/*/*.lua'), datadir)
+    copyfiles(glob.glob('intro/*.*'), datadir)
+    copyfiles(glob.glob('sounds/*.*'), datadir)
+    copyfiles(glob.glob('sounds/ui/*.*'), datadir)
+    copyfiles(glob.glob('units/*/*.*'), datadir)
+
+
+def install(installdir='./dist', datadir=None, bindir=None, builddir='fbuild/release/', **kwargs):
+    datadir = datadir or installdir
+    bindir = bindir or installdir
+    release(builddir=builddir, **kwargs)
+    install_data(installdatadir)
+    shutil.copy2(builddir+'/'+ 'boswars', installdir)
+
 
 setup(default='default')
 if __name__ == '__main__':

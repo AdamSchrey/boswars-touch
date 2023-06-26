@@ -1,6 +1,8 @@
 Change log for Bos Wars
 -----------------------
 
+- Add install targets to make.py. See PackagingTips on the wiki for more
+  information. (François Beerten)
 - Treat _("string") as format string only if needed (Kalle Olavi Niemitalo)
 - Fix byte size returned by ConvertToStereo32() (François Beerten)
 - Remove broken and unmaintained SCons support (François Beerten)
