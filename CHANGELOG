@@ -1,6 +1,7 @@
 Change log for Bos Wars
 -----------------------
 
+Version 2.8 (2023 06 26):
 - Add install targets to make.py. See PackagingTips on the wiki for more
   information. (François Beerten)
 - Treat _("string") as format string only if needed (Kalle Olavi Niemitalo)
