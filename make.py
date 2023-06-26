@@ -472,7 +472,7 @@ def clean():
 def pot():
     luas = find('.', '*.lua')
     luas.sort()
-    run('xgettext','-d','bos','-k_','-o','languages/bos.pot', luas)
+    run('xgettext','-d','bos','--from-code', 'utf-8', '-k_','-o','languages/bos.pot', luas)
     s = sorted(sources)
     run('xgettext','-d','engine','-C','-k_','--add-comments=TRANSLATORS','-o','languages/engine.pot', s)
 
