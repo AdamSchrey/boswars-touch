@@ -1035,48 +1035,6 @@ int GetVariableIndex(const char *varname)
 	return -1;
 }
 
-/**
-**  Define user variables.
-**
-**  @param l  Lua state.
-*/
-static int CclDefineVariables(lua_State *l)
-{
-	const char *str;
-	int i;
-	int j;
-	int args;
-
-	args = lua_gettop(l);
-	for (j = 0; j < args; ++j) {
-		str = LuaToString(l, j + 1);
-		i = GetVariableIndex(str);
-		if (i == -1) { // new variable.
-			i = UnitTypeVar.NumberVariable;
-			char **v = new char *[i + 1];
-			memcpy(v, UnitTypeVar.VariableName, i * sizeof(char *));
-			delete[] UnitTypeVar.VariableName;
-			UnitTypeVar.VariableName = v;
-			UnitTypeVar.VariableName[i] = new_strdup(str);
-
-			CVariable *t = new CVariable[i + 1];
-			for (int x = 0; x < i; ++x) {
-				t[x] = UnitTypeVar.Variable[x];
-			}
-			delete[] UnitTypeVar.Variable;
-			UnitTypeVar.Variable = t;
-			UnitTypeVar.NumberVariable++;
-		} else {
-			DebugPrint("Warning, User Variable \"%s\" redefined\n" _C_ str);
-		}
-		if (!lua_istable(l, j + 2)) { // No change => default value.
-			continue;
-		}
-		++j;
-		DefineVariableField(l, UnitTypeVar.Variable + i, j + 1);
-	}
-	return 0;
-}
 
 /**
 **  Define Decorations for user variables
@@ -1318,7 +1276,6 @@ void InitDefinedVariables()
 void UnitTypeCclRegister(void)
 {
 	lua_register(Lua, "DefineUnitType", CclDefineUnitType);
-	lua_register(Lua, "DefineVariables", CclDefineVariables);
 	lua_register(Lua, "DefineDecorations", CclDefineDecorations);
 
 	InitDefinedVariables();
