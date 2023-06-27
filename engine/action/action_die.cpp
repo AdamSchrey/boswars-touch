@@ -86,7 +86,7 @@ void HandleActionDie(CUnit *unit)
 		// Always do that, since types can have different vision properties.
 		MapUnmarkUnitSight(unit);
 		unit->Type = unit->Type->CorpseType;
-		unit->CurrentSightRange = unit->Type->Stats[unit->Player->Index].Variables[SIGHTRANGE_INDEX].Max;
+		unit->CurrentSightRange = unit->Type->Variable[SIGHTRANGE_INDEX].Max;
 		MapMarkUnitSight(unit);
 
 		// We must be dead to get here, it we aren't we need to know why

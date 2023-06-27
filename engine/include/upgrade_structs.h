@@ -79,15 +79,6 @@ extern std::string DefaultResourceNames[MaxCosts];
 */
 extern std::string DefaultDisplayResourceNames[MaxCosts];
 
-/**
-**  These are the current stats of a unit. Upgraded or downgraded.
-*/
-class CUnitStats {
-public:
-	CUnitStats() : Variables(NULL) {}
-
-	CVariable *Variables;           /// user defined variable.
-};
 
 /*----------------------------------------------------------------------------
 --  upgrades and modifiers

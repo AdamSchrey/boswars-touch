@@ -166,7 +166,7 @@ static int CheckForTargetInRange(CUnit *unit)
 			goal->RefsIncrease();
 			unit->Orders[0]->Goal = goal;
 			unit->Orders[0]->MinRange = unit->Type->MinAttackRange;
-			unit->Orders[0]->Range = unit->Stats->Variables[ATTACKRANGE_INDEX].Max;
+			unit->Orders[0]->Range = unit->Type->Variable[ATTACKRANGE_INDEX].Max;
 			unit->Orders[0]->X = unit->Orders[0]->Y = -1;
 			unit->SubAction |= WEAK_TARGET; // weak target
 			NewResetPath(unit);
@@ -233,7 +233,7 @@ static void MoveToTarget(CUnit *unit)
 	if (err == 0 && !goal) {
 		// Check if we're in range when attacking a location and we are waiting
 		if (MapDistanceToUnit(unit->Orders[0]->X, unit->Orders[0]->Y, unit) <
-				unit->Stats->Variables[ATTACKRANGE_INDEX].Max) {
+				unit->Type->Variable[ATTACKRANGE_INDEX].Max) {
 			err = PF_REACHED;
 		}
 	}
@@ -248,7 +248,7 @@ static void MoveToTarget(CUnit *unit)
 		// Have reached target? FIXME: could use the new return code?
 		//
 		if (goal && MapDistanceBetweenUnits(unit, goal) <=
-				unit->Stats->Variables[ATTACKRANGE_INDEX].Max) {
+				unit->Type->Variable[ATTACKRANGE_INDEX].Max) {
 			// Reached another unit, now attacking it
 			unit->State = 0;
 			UnitHeadingFromDeltaXY(unit,
@@ -262,7 +262,7 @@ static void MoveToTarget(CUnit *unit)
 		//
 		if (!goal && unit->Orders[0]->Action == UnitActionAttackGround &&
 				MapDistanceToUnit(unit->Orders[0]->X, unit->Orders[0]->Y, unit) <=
-					unit->Stats->Variables[ATTACKRANGE_INDEX].Max) {
+					unit->Type->Variable[ATTACKRANGE_INDEX].Max) {
 			// Reached ground, now attacking it
 			unit->State = 0;
 			UnitHeadingFromDeltaXY(unit, unit->Orders[0]->X - unit->X,
@@ -279,7 +279,7 @@ static void MoveToTarget(CUnit *unit)
 		unit->State = 0;
 		if (!goal && unit->Orders[0]->Range == 0) {
 			// Try again with unit's max attack range
-			unit->Orders[0]->Range = unit->Stats->Variables[ATTACKRANGE_INDEX].Max;
+			unit->Orders[0]->Range = unit->Type->Variable[ATTACKRANGE_INDEX].Max;
 			unit->Wait = 15;
 			return;
 		}
@@ -373,7 +373,7 @@ static void AttackTarget(CUnit *unit)
 		unit->Orders[0]->Goal = goal;
 		unit->Orders[0]->X = unit->Orders[0]->Y = -1;
 		unit->Orders[0]->MinRange = unit->Type->MinAttackRange;
-		unit->Orders[0]->Range = unit->Stats->Variables[ATTACKRANGE_INDEX].Max;
+		unit->Orders[0]->Range = unit->Type->Variable[ATTACKRANGE_INDEX].Max;
 		NewResetPath(unit);
 		unit->SubAction |= WEAK_TARGET;
 
@@ -411,7 +411,7 @@ static void AttackTarget(CUnit *unit)
 	//
 	// Still near to target, if not goto target.
 	//
-	if (MapDistanceBetweenUnits(unit, goal) > unit->Stats->Variables[ATTACKRANGE_INDEX].Max) {
+	if (MapDistanceBetweenUnits(unit, goal) > unit->Type->Variable[ATTACKRANGE_INDEX].Max) {
 		if (unit->SavedOrder.Action == UnitActionStill) {
 			// Save current order to come back or to continue it.
 			unit->SavedOrder = *unit->Orders[0];
@@ -487,7 +487,7 @@ void HandleActionAttack(CUnit *unit)
 			// Can we already attack ?
 			if (unit->Orders[0]->Goal) {
 				dist = MapDistanceBetweenUnits(unit, unit->Orders[0]->Goal);
-				if (unit->Type->MinAttackRange < dist && dist <= unit->Stats->Variables[ATTACKRANGE_INDEX].Max) {
+				if (unit->Type->MinAttackRange < dist && dist <= unit->Type->Variable[ATTACKRANGE_INDEX].Max) {
 					UnitHeadingFromDeltaXY(unit,
 						unit->Orders[0]->Goal->X + (unit->Orders[0]->Goal->Type->TileWidth - 1) / 2 - unit->X,
 						unit->Orders[0]->Goal->Y + (unit->Orders[0]->Goal->Type->TileHeight - 1) / 2 - unit->Y);

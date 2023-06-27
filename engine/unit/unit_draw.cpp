@@ -652,8 +652,8 @@ void ShowOrder(const CUnit *unit)
 */
 static void DrawInformations(const CUnit *unit, const CUnitType *type, int x, int y)
 {
-	const CUnitStats *stats;
 	int r;
+	CVariable *vars = unit->Type->Variable;
 
 #if 0 && DEBUG // This is for showing vis counts and refs.
 	char buf[10];
@@ -664,8 +664,6 @@ static void DrawInformations(const CUnit *unit, const CUnitType *type, int x, in
 	VideoDrawTextClip(x + 10, y + 10, 1, buf);
 #endif
 
-	stats = unit->Stats;
-
 	//
 	// For debug draw sight, react and attack range!
 	//
@@ -675,7 +673,7 @@ static void DrawInformations(const CUnit *unit, const CUnitType *type, int x, in
 			Video.DrawCircleClip(ColorGreen,
 				x + type->TileWidth * TileSizeX / 2,
 				y + type->TileHeight * TileSizeY / 2,
-				((stats->Variables[SIGHTRANGE_INDEX].Max + (type->TileWidth - 1)) * TileSizeX) - 1);
+				((vars[SIGHTRANGE_INDEX].Max + (type->TileWidth - 1)) * TileSizeX) - 1);
 		}
 		if (type->CanAttack) {
 			if (Preference.ShowReactionRange) {
@@ -688,12 +686,12 @@ static void DrawInformations(const CUnit *unit, const CUnitType *type, int x, in
 						(r + (type->TileWidth - 1)) * TileSizeX);
 				}
 			}
-			if (Preference.ShowAttackRange && stats->Variables[ATTACKRANGE_INDEX].Max) {
+			if (Preference.ShowAttackRange && vars[ATTACKRANGE_INDEX].Max) {
 				// Radius + 1 so you can see all ranges
 				Video.DrawCircleClip(ColorRed,
 					x + type->TileWidth * TileSizeX / 2,
 					y + type->TileHeight * TileSizeY / 2,
-					(stats->Variables[ATTACKRANGE_INDEX].Max + (type->TileWidth - 1)) * TileSizeX + 1);
+					(vars[ATTACKRANGE_INDEX].Max + (type->TileWidth - 1)) * TileSizeX + 1);
 			}
 		}
 	}

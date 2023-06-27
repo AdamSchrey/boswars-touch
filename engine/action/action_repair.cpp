@@ -250,7 +250,7 @@ static bool DoRepair(CUnit *unit, CUnit *goal)
 		}
 
 		// Keep the same level of damage while increasing HP.
-		goal->Variable[HP_INDEX].Value = (goal->Data.Built.Progress * goal->Stats->Variables[HP_INDEX].Max) / pcost - hp;
+		goal->Variable[HP_INDEX].Value = (goal->Data.Built.Progress * goal->Type->Variable[HP_INDEX].Max) / pcost - hp;
 		if (goal->Variable[HP_INDEX].Value >= goal->Variable[HP_INDEX].Max) {
 			goal->Variable[HP_INDEX].Value = goal->Variable[HP_INDEX].Max;
 			healed = true;

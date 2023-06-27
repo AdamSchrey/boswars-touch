@@ -300,7 +300,6 @@ void SaveUnit(const CUnit *unit, CFile *file)
 	file->printf("\"tile\", {%d, %d}, ", unit->X, unit->Y);
 	file->printf("\"seen-tile\", {%d, %d}, ", unit->Seen.X, unit->Seen.Y);
 	file->printf("\"refs\", %lu, ", unit->Refs);
-	file->printf("\"stats\", %d,\n  ", unit->Player->Index);
 	file->printf("\"pixel\", {%d, %d}, ", unit->IX, unit->IY);
 	file->printf("\"seen-pixel\", {%d, %d}, ", unit->Seen.IX, unit->Seen.IY);
 	file->printf("\"frame\", %d, ", unit->Frame);

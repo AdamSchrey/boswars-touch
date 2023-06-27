@@ -300,10 +300,10 @@ static int CalculateDamage(const CUnit *attacker, const CUnit *goal)
 	int basic_damage;
 	int piercing_damage;
 
-	basic_damage = attacker->Stats->Variables[BASICDAMAGE_INDEX].Value;
-	piercing_damage = attacker->Stats->Variables[PIERCINGDAMAGE_INDEX].Value;
+	basic_damage = attacker->Type->Variable[BASICDAMAGE_INDEX].Value;
+	piercing_damage = attacker->Type->Variable[PIERCINGDAMAGE_INDEX].Value;
 
-	damage = std::max(basic_damage - goal->Stats->Variables[ARMOR_INDEX].Value, 1);
+	damage = std::max(basic_damage - goal->Type->Variable[ARMOR_INDEX].Value, 1);
 	damage += piercing_damage;
 	damage -= SyncRand() % ((damage + 2) / 2);
 	Assert(damage >= 0);

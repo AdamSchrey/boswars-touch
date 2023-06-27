@@ -816,7 +816,7 @@ static void AiCheckRepair()
 		{
 
 			// FIXME: Repair only units under control
-			if (AiEnemyUnitsInDistance(unit, unit->Stats->Variables[SIGHTRANGE_INDEX].Max))
+			if (AiEnemyUnitsInDistance(unit, unit->Type->Variable[SIGHTRANGE_INDEX].Max))
 			{
 				continue;
 			}

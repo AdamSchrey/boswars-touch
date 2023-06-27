@@ -453,7 +453,7 @@ static int CclUnit(lua_State *l)
 			unit->Seen.X = LuaToNumber(l, j + 1, 1);
 			unit->Seen.Y = LuaToNumber(l, j + 1, 2);
 		} else if (!strcmp(value, "stats")) {
-			unit->Stats = &type->Stats[(int)LuaToNumber(l, j + 1)];
+			// Not used anymore
 		} else if (!strcmp(value, "pixel")) {
 			LuaCheckTableSize(l, j + 1, 2);
 			unit->IX = LuaToNumber(l, j + 1, 1);

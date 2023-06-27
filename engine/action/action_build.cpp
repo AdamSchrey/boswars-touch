@@ -360,10 +360,10 @@ void HandleActionBuilt(CUnit *unit)
 	// Check if building ready. Note we can both build and repair.
 	//
 	if (unit->Data.Built.Progress >= pcost ||
-			unit->Variable[HP_INDEX].Value >= unit->Stats->Variables[HP_INDEX].Max) {
+			unit->Variable[HP_INDEX].Value >= unit->Type->Variable[HP_INDEX].Max) {
 		DebugPrint("Building ready.\n");
-		if (unit->Variable[HP_INDEX].Value > unit->Stats->Variables[HP_INDEX].Max) {
-			unit->Variable[HP_INDEX].Value = unit->Stats->Variables[HP_INDEX].Max;
+		if (unit->Variable[HP_INDEX].Value > unit->Type->Variable[HP_INDEX].Max) {
+			unit->Variable[HP_INDEX].Value = unit->Type->Variable[HP_INDEX].Max;
 		}
 		unit->ClearAction();
 		// HACK: the building is ready now
@@ -399,7 +399,7 @@ void HandleActionBuilt(CUnit *unit)
 		if (IsOnlySelected(unit) || unit->Player == ThisPlayer) {
 			SelectedUnitChanged();
 		}
-		unit->CurrentSightRange = unit->Stats->Variables[SIGHTRANGE_INDEX].Max;
+		unit->CurrentSightRange = unit->Type->Variable[SIGHTRANGE_INDEX].Max;
 		MapMarkUnitSight(unit);
 		return;
 	}

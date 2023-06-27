@@ -1218,11 +1218,11 @@ void UpdateUnitVariables(const CUnit *unit)
 
 	// SightRange
 	unit->Variable[SIGHTRANGE_INDEX].Value = type->Variable[SIGHTRANGE_INDEX].Value;
-	unit->Variable[SIGHTRANGE_INDEX].Max = unit->Stats->Variables[SIGHTRANGE_INDEX].Max;
+	unit->Variable[SIGHTRANGE_INDEX].Max = type->Variable[SIGHTRANGE_INDEX].Max;
 
 	// AttackRange
 	unit->Variable[ATTACKRANGE_INDEX].Value = type->Variable[ATTACKRANGE_INDEX].Max;
-	unit->Variable[ATTACKRANGE_INDEX].Max = unit->Stats->Variables[ATTACKRANGE_INDEX].Max;
+	unit->Variable[ATTACKRANGE_INDEX].Max = type->Variable[ATTACKRANGE_INDEX].Max;
 
 	// Position
 	unit->Variable[POSX_INDEX].Value = unit->X;
@@ -1231,12 +1231,12 @@ void UpdateUnitVariables(const CUnit *unit)
 	unit->Variable[POSY_INDEX].Max = Map.Info.MapHeight;
 
 	// RadarRange
-	unit->Variable[RADAR_INDEX].Value = unit->Stats->Variables[RADAR_INDEX].Value;
-	unit->Variable[RADAR_INDEX].Max = unit->Stats->Variables[RADAR_INDEX].Value;
+	unit->Variable[RADAR_INDEX].Value = type->Variable[RADAR_INDEX].Value;
+	unit->Variable[RADAR_INDEX].Max = type->Variable[RADAR_INDEX].Value;
 
 	// RadarJammerRange
-	unit->Variable[RADARJAMMER_INDEX].Value = unit->Stats->Variables[RADARJAMMER_INDEX].Value;
-	unit->Variable[RADARJAMMER_INDEX].Max = unit->Stats->Variables[RADARJAMMER_INDEX].Value;
+	unit->Variable[RADARJAMMER_INDEX].Value = type->Variable[RADARJAMMER_INDEX].Value;
+	unit->Variable[RADARJAMMER_INDEX].Max = type->Variable[RADARJAMMER_INDEX].Value;
 
 	for (int i = 0; i < NVARALREADYDEFINED; i++) { // default values
 		unit->Variable[i].Enable &= unit->Variable[i].Max > 0;

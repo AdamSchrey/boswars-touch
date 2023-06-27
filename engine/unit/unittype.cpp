@@ -114,10 +114,6 @@ CUnitType::~CUnitType()
 
 	delete[] Variable;
 
-	for (int i = 0; i < PlayerMax; ++i) {
-		delete[] Stats[i].Variables;
-	}
-
 	// Free Building Restrictions if there are any
 	for (std::vector<CBuildRestriction *>::iterator b = BuildingRules.begin();
 			b != BuildingRules.end(); ++b) {
@@ -139,25 +135,9 @@ CUnitType::~CUnitType()
 void UpdateStats(int reset)
 {
 	CUnitType *type;
-	CUnitStats *stats;
 
-	//
-	//  Update players stats
-	//
 	for (size_t j = 0; j < UnitTypes.size(); ++j) {
 		type = UnitTypes[j];
-		if (reset) {
-			// LUDO : FIXME : reset loading of player stats !
-			for (int player = 0; player < PlayerMax; ++player) {
-				stats = &type->Stats[player];
-				if (!stats->Variables) {
-					stats->Variables = new CVariable[NVARALREADYDEFINED];
-				}
-				for (int i = 0; i < NVARALREADYDEFINED; ++i) {
-					stats->Variables[i] = type->Variable[i];
-				}
-			}
-		}
 
 		//
 		//  As side effect we calculate the movement flags/mask here.

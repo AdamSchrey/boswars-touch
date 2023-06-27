@@ -296,7 +296,7 @@ static void HandleRegenerations(CUnit *unit)
 	}
 
 	// Health doesn't regenerate while burning.
-	unit->Variable[HP_INDEX].Increase = f ? 0 : unit->Stats->Variables[HP_INDEX].Increase;
+	unit->Variable[HP_INDEX].Increase = f ? 0 : unit->Type->Variable[HP_INDEX].Increase;
 }
 
 /**

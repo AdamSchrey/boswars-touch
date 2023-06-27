@@ -454,7 +454,7 @@ int AdjustVitals::Cast(CUnit *caster, const SpellType *spell,
 		diffHP = target->Variable[HP_INDEX].Value;
 	}
 	if (Charge > 0) {
-		diffCharge = target->Stats->Variables[CHARGE_INDEX].Max - target->Variable[CHARGE_INDEX].Value;
+		diffCharge = target->Type->Variable[CHARGE_INDEX].Max - target->Variable[CHARGE_INDEX].Value;
 	} else {
 		diffCharge = target->Variable[CHARGE_INDEX].Value;
 	}

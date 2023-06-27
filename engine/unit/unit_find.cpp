@@ -286,10 +286,10 @@ static CUnit *FindRangeAttack(const CUnit *u, int range)
 	//
 
 	missile_range = type->Missile.Missile->Range + range - 1;
-	attackrange = u->Stats->Variables[ATTACKRANGE_INDEX].Max;
+	attackrange = type->Variable[ATTACKRANGE_INDEX].Max;
 	// Evaluation of possible damage...
-	hp_damage_evaluate = u->Stats->Variables[BASICDAMAGE_INDEX].Value
-						+ u->Stats->Variables[PIERCINGDAMAGE_INDEX].Value;
+	hp_damage_evaluate = type->Variable[BASICDAMAGE_INDEX].Value
+						+ type->Variable[PIERCINGDAMAGE_INDEX].Value;
 
 	Assert(2 * missile_range + 1 < 32);
 
@@ -593,7 +593,7 @@ CUnit *AttackUnitsInDistance(const CUnit *unit, int range)
 	best_cost = INT_MAX;
 
 	player = unit->Player;
-	attackrange = unit->Stats->Variables[ATTACKRANGE_INDEX].Max;
+	attackrange = type->Variable[ATTACKRANGE_INDEX].Max;
 
 	//
 	// Find the best unit to attack
@@ -673,7 +673,7 @@ CUnit *AttackUnitsInDistance(const CUnit *unit, int range)
 CUnit *AttackUnitsInRange(const CUnit *unit)
 {
 	Assert(unit->Type->CanAttack);
-	return AttackUnitsInDistance(unit, unit->Stats->Variables[ATTACKRANGE_INDEX].Max);
+	return AttackUnitsInDistance(unit, unit->Type->Variable[ATTACKRANGE_INDEX].Max);
 }
 
 /**

@@ -280,12 +280,7 @@ void CUnit::AssignToPlayer(CPlayer *player)
 		player->NumBuildings++;
 	}
 	Player = player;
-	Stats = &Type->Stats[Player->Index];
 	Colors = &player->UnitColors;
-	if (!SaveGameLoading) {
-		memcpy(Variable, Stats->Variables,
-			NVARALREADYDEFINED * sizeof(*Variable));
-	}
 }
 
 /**
@@ -379,13 +374,13 @@ void MapMarkUnitSight(CUnit *unit)
 
 	// Never mark radar, except if the top unit, and unit is usable
 	if (unit == container && !unit->IsUnusable()) {
-		if (unit->Stats->Variables[RADAR_INDEX].Value) {
+		if (unit->Type->Variable[RADAR_INDEX].Value) {
 			MapMarkRadar(unit->Player, unit->X, unit->Y, unit->Type->TileWidth,
-				unit->Type->TileHeight, unit->Stats->Variables[RADAR_INDEX].Value);
+				unit->Type->TileHeight, unit->Type->Variable[RADAR_INDEX].Value);
 		}
-		if (unit->Stats->Variables[RADARJAMMER_INDEX].Value) {
+		if (unit->Type->Variable[RADARJAMMER_INDEX].Value) {
 			MapMarkRadarJammer(unit->Player, unit->X, unit->Y, unit->Type->TileWidth,
-				unit->Type->TileHeight, unit->Stats->Variables[RADARJAMMER_INDEX].Value);
+				unit->Type->TileHeight, unit->Type->Variable[RADARJAMMER_INDEX].Value);
 		}
 	}
 }
@@ -406,13 +401,13 @@ void MapUnmarkUnitSight(CUnit *unit)
 
 	// Never mark radar, except if the top unit?
 	if (unit == container && !unit->IsUnusable()) {
-		if (unit->Stats->Variables[RADAR_INDEX].Value) {
+		if (unit->Type->Variable[RADAR_INDEX].Value) {
 			MapUnmarkRadar(unit->Player, unit->X, unit->Y, unit->Type->TileWidth,
-				unit->Type->TileHeight, unit->Stats->Variables[RADAR_INDEX].Value);
+				unit->Type->TileHeight, unit->Type->Variable[RADAR_INDEX].Value);
 		}
-		if (unit->Stats->Variables[RADARJAMMER_INDEX].Value) {
+		if (unit->Type->Variable[RADARJAMMER_INDEX].Value) {
 			MapUnmarkRadarJammer(unit->Player, unit->X, unit->Y, unit->Type->TileWidth,
-				unit->Type->TileHeight, unit->Stats->Variables[RADARJAMMER_INDEX].Value);
+				unit->Type->TileHeight, unit->Type->Variable[RADARJAMMER_INDEX].Value);
 		}
 	}
 }
@@ -445,7 +440,7 @@ void UpdateUnitSightRange(CUnit *unit)
 	if (unit->Constructed) { // Units under construction have no sight range.
 		unit->CurrentSightRange = 0;
 	} else if (!unit->Container) { // proper value.
-		unit->CurrentSightRange = unit->Stats->Variables[SIGHTRANGE_INDEX].Max;
+		unit->CurrentSightRange = unit->Type->Variable[SIGHTRANGE_INDEX].Max;
 	} else { // value of it container.
 		unit->CurrentSightRange = unit->Container->CurrentSightRange;
 	}
@@ -1309,7 +1304,6 @@ void CUnit::ChangeOwner(CPlayer *newplayer)
 
 	MapUnmarkUnitSight(this);
 	Player = newplayer;
-	Stats = &Type->Stats[newplayer->Index];
 	UpdateUnitSightRange(this);
 	MapMarkUnitSight(this);
 
@@ -2022,7 +2016,7 @@ void LetUnitDie(CUnit *unit)
 		unit->IX = (type->CorpseType->Width - type->CorpseType->Sprite->Width) / 2;
 		unit->IY = (type->CorpseType->Height - type->CorpseType->Sprite->Height) / 2;
 
-		unit->CurrentSightRange = type->CorpseType->Stats[unit->Player->Index].Variables[SIGHTRANGE_INDEX].Max;
+		unit->CurrentSightRange = type->CorpseType->Variable[SIGHTRANGE_INDEX].Max;
 	} else {
 		unit->CurrentSightRange = 0;
 	}

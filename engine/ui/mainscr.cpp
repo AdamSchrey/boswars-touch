@@ -149,7 +149,7 @@ static void UiDrawChargeBar(const CUnit *unit, int x, int y)
 	Video.FillRectangleClip(ColorBlack, x, y + 3,
 		unit->Type->Icon.Icon->G->Width, 4);
 
-	if (unit->Stats->Variables[CHARGE_INDEX].Max) {
+	if (unit->Type->Variable[CHARGE_INDEX].Max) {
 		int f = (100 * unit->Variable[CHARGE_INDEX].Value) / unit->Variable[CHARGE_INDEX].Max;
 		f = (f * (unit->Type->Icon.Icon->G->Width)) / 100;
 		Video.FillRectangleClip(ColorBlue, x + 1, y + 3 + 1, f, 2);

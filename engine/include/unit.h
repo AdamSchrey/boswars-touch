@@ -136,15 +136,6 @@
 **  Pointer to the owner of this unit (::Player). An unit could
 **  only be owned by one player.
 **
-**  CUnit::Stats
-**
-**  Pointer to the current status (::UnitStats) of a unit. The
-**  units of the same player and the same type could share the same
-**  stats. The status contains all values which could be different
-**  for each player. This f.e. the upgradeable abilities of an
-**  unit.  (CUnit::Stats::SightRange, CUnit::Stats::Armor,
-**  CUnit::Stats::HitPoints, ...)
-**
 **  CUnit::CurrentSightRange
 **
 **  Current sight range of a unit, this changes when a unit enters
@@ -353,7 +344,6 @@
 
 class CUnit;
 class CUnitType;
-class CUnitStats;
 class CPlayer;
 class SpellType;
 class CUnitColors;
@@ -505,7 +495,6 @@ public:
 		Y = 0;
 		Type = NULL;
 		Player = NULL;
-		Stats = NULL;
 		CurrentSightRange = 0;
 		Colors = NULL;
 		IX = 0;
@@ -567,7 +556,6 @@ public:
 
 	CUnitType  *Type;              /// Pointer to unit-type (peon,...)
 	CPlayer    *Player;            /// Owner of this unit
-	CUnitStats *Stats;             /// Current unit stats
 	int         CurrentSightRange; /// Unit's Current Sight Range
 
 // DISPLAY:

@@ -448,7 +448,7 @@ void CommandAttack(CUnit *unit, int x, int y, CUnit *attack, int flush)
 				// Removed, Dying handled by action routine.
 				order->Goal = attack;
 				attack->RefsIncrease();
-				order->Range = unit->Stats->Variables[ATTACKRANGE_INDEX].Max;
+				order->Range = unit->Type->Variable[ATTACKRANGE_INDEX].Max;
 				order->MinRange = unit->Type->MinAttackRange;
 			}
 		} else {
@@ -489,7 +489,7 @@ void CommandAttackGround(CUnit *unit, int x, int y, int flush)
 		order->Action = UnitActionAttackGround;
 		order->X = x;
 		order->Y = y;
-		order->Range = unit->Stats->Variables[ATTACKRANGE_INDEX].Max;
+		order->Range = unit->Type->Variable[ATTACKRANGE_INDEX].Max;
 		order->MinRange = unit->Type->MinAttackRange;
 
 		DebugPrint("FIXME this next\n");

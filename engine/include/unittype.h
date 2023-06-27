@@ -326,11 +326,6 @@
 **    This is used only for computing MovementMask, not in any actual
 **    movement checks.
 **
-**  CUnitType::Stats[::PlayerMax]
-**
-**    Unit status for each player
-**  @todo This stats should? be moved into the player struct
-**
 **  CUnitType::Type
 **
 **    Type as number
@@ -708,9 +703,6 @@ public:
 	unsigned MovementMask;          /// Unit check this map flags for move
 	unsigned ExplicitAllowTerrainMask; /// Flags to clear from MovementMask
 	unsigned ExplicitForbidTerrainMask; /// Flags to set in MovementMask
-
-	/// @todo This stats should? be moved into the player struct
-	CUnitStats Stats[PlayerMax];     /// Unit status for each player
 
 	CPlayerColorGraphic *Sprite;     /// Sprite images
 	CGraphic *ShadowSprite;          /// Shadow sprite image
