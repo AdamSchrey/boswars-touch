@@ -728,9 +728,8 @@ extern std::vector<CUnitType *> UnitTypes;   /// All unit-types
 */
 class CUnitTypeVar {
 public:
-	CUnitTypeVar() : VariableName(NULL), Variable(NULL), NumberVariable(0) {}
+	CUnitTypeVar() : Variable(NULL), NumberVariable(0) {}
 
-	char **VariableName;                /// Array of names of user defined variables.
 	CVariable *Variable;                /// Array of user defined variables (default value for unittype).
 //	EventType *Event;                   /// Array of functions sets to call when en event occurs.
 	int NumberVariable;                 /// Number of defined variables.
@@ -739,6 +738,7 @@ public:
 };
 
 extern CUnitTypeVar UnitTypeVar;
+extern const char *VariableNames[];
 
 /*----------------------------------------------------------------------------
 --  Functions

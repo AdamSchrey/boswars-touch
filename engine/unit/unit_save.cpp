@@ -384,7 +384,7 @@ void SaveUnit(const CUnit *unit, CFile *file)
 
 	for (i = 0; i < UnitTypeVar.NumberVariable; i++) {
 		file->printf("\"%s\", {Value = %d, Max = %d, Increase = %d, Enable = %s},\n  ",
-			UnitTypeVar.VariableName[i], unit->Variable[i].Value, unit->Variable[i].Max,
+			VariableNames[i], unit->Variable[i].Value, unit->Variable[i].Max,
 			unit->Variable[i].Increase, unit->Variable[i].Enable ? "true" : "false");
 	}
 

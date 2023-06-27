@@ -507,11 +507,6 @@ void CleanUnitTypes(void)
 	UnitTypes.clear();
 	UnitTypeMap.clear();
 
-	for (int j = 0; j < UnitTypeVar.NumberVariable; ++j) { // User defined variables
-		delete[] UnitTypeVar.VariableName[j];
-	}
-	delete[] UnitTypeVar.VariableName;
-	UnitTypeVar.VariableName = NULL;
 	delete[] UnitTypeVar.Variable;
 	UnitTypeVar.Variable = NULL;
 	UnitTypeVar.NumberVariable = 0;

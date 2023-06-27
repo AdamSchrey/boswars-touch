@@ -83,6 +83,12 @@ struct LabelsLaterStruct {
 };
 static std::vector<LabelsLaterStruct> LabelsLater;
 
+const char *VariableNames[NVARALREADYDEFINED] = {
+	"HitPoints", "Build", "Charge", "Transport",
+	"Training", "GiveResource", "Kill", "Armor", "SightRange",
+	"AttackRange", "PiercingDamage", "BasicDamage", "PosX", "PosY", "RadarRange",
+	"RadarJammerRange", "AutoRepairRange", "Slot"};
+
 /*----------------------------------------------------------------------------
 --  Functions
 ----------------------------------------------------------------------------*/
@@ -1028,7 +1034,7 @@ void DefineVariableField(lua_State *l, CVariable *var, int lua_index)
 int GetVariableIndex(const char *varname)
 {
 	for (int i = 0; i < UnitTypeVar.NumberVariable; ++i) {
-		if (!strcmp(varname, UnitTypeVar.VariableName[i])) {
+		if (!strcmp(varname, VariableNames[i])) {
 			return i;
 		}
 	}
@@ -1242,7 +1248,7 @@ void UpdateUnitVariables(const CUnit *unit)
 		if (unit->Variable[i].Value > unit->Variable[i].Max) {
 			DebugPrint("Value out of range: '%s'(%d), for variable '%s',"
 						" value = %d, max = %d\n"
-						_C_ type->Ident.c_str() _C_ unit->Slot _C_ UnitTypeVar.VariableName[i]
+						_C_ type->Ident.c_str() _C_ unit->Slot _C_ VariableNames[i]
 						_C_ unit->Variable[i].Value _C_ unit->Variable[i].Max);
 		}
 #endif
@@ -1255,19 +1261,8 @@ void UpdateUnitVariables(const CUnit *unit)
 */
 void InitDefinedVariables()
 {
-	const char *var[NVARALREADYDEFINED] = {"HitPoints", "Build", "Charge", "Transport",
-		"Training", "GiveResource", "Kill", "Armor", "SightRange",
-		"AttackRange", "PiercingDamage", "BasicDamage", "PosX", "PosY", "RadarRange",
-		"RadarJammerRange", "AutoRepairRange", "Slot"};
-	int i;
-
-	// Variables.
-	UnitTypeVar.VariableName = new char *[NVARALREADYDEFINED];
-	for (i = 0; i < NVARALREADYDEFINED; ++i) {
-		UnitTypeVar.VariableName[i] = new_strdup(var[i]);
-	}
-	UnitTypeVar.Variable = new CVariable[i];
-	UnitTypeVar.NumberVariable = i;
+	UnitTypeVar.Variable = new CVariable[NVARALREADYDEFINED];
+	UnitTypeVar.NumberVariable = NVARALREADYDEFINED;
 }
 
 /**
