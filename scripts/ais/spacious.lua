@@ -7,7 +7,7 @@
 --       A futuristic real-time strategy game.
 --          This file is part of Bos Wars.
 --
---	spacious.lua	
+--	spacious.lua
 --      Define a AI that needs not too many resources, for areas with lots of space.
 --      It attacks with fast equipment, also through the air.
 --
@@ -91,7 +91,7 @@ local ai_funcs = {
   -- And we make it random, so that when there are multiple opponents,
   -- they do not all come at the same time.
   function() return AiSleep((SyncRand(700)+300) * GameSettings.Difficulty) end,
-  function() 
+  function()
     LocalDebugPrint("is attacking with force 1a.");
     return AiAttackWithForce(1)
   end,
@@ -164,7 +164,7 @@ local ai_funcs = {
 
   -- ============================================================
 
-  function() 
+  function()
     LocalDebugPrint("is starting loop.");
     state.loop_start = state.loop_pos;
     return false

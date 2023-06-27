@@ -1,13 +1,13 @@
---     ____                _       __               
+--     ____                _       __
 --    / __ )____  _____   | |     / /___ ___________
 --   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
---  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
--- /_____/\____/____/     |__/|__/\__,_/_/  /____/  
---                                              
+--  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+-- /_____/\____/____/     |__/|__/\__,_/_/  /____/
+--
 --       A futuristic real-time strategy game.
 --          This file is part of Bos Wars.
 --
---      attackdefense.lua	- Define a hard to beat AI 
+--      attackdefense.lua	- Define a hard to beat AI
 --      that needs many resources and enough space,
 --      takes care of a good defense,
 --      and attacks with everything available.
@@ -18,12 +18,12 @@
 --      it under the terms of the GNU General Public License as published by
 --      the Free Software Foundation; either version 2 of the License, or
 --      (at your option) any later version.
---  
+--
 --      This program is distributed in the hope that it will be useful,
 --      but WITHOUT ANY WARRANTY; without even the implied warranty of
 --      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 --      GNU General Public License for more details.
---  
+--
 --      You should have received a copy of the GNU General Public License
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -157,7 +157,7 @@ local ai_funcs = {
   -- Attack wave
   function() return AiForce(2, {"unit-assault", 5, "unit-rtank", 3}) end,
   function() return AiWaitForce(2) end,
-  function() return AiSleep((SyncRand(120)+50)*GameSettings.Difficulty) end, 
+  function() return AiSleep((SyncRand(120)+50)*GameSettings.Difficulty) end,
   function() return AiAttackWithForce(2) end,
 
   function() return AiNeed("unit-powerplant") end,
@@ -165,7 +165,7 @@ local ai_funcs = {
   function() return AiNeed("unit-magmapump") end,
   function() return AiWait("unit-magmapump") end,
   function() return AiNeed("unit-biggunturret") end,
-  function() return AiSleep((SyncRand(100)+40)*GameSettings.Difficulty) end, 
+  function() return AiSleep((SyncRand(100)+40)*GameSettings.Difficulty) end,
 
   -- Defense
   function() return AiNeed("unit-nukepowerplant") end,
@@ -199,11 +199,11 @@ local ai_funcs = {
   -- ============================================================
 
   -- Attack wave
-  function() 
+  function()
     LocalDebugPrint("is starting loop.");
     state.loop_start = state.loop_pos;
     LocalDebugPrint("is making 6 bazoos.");
-    return AiForce(4, {"unit-bazoo", 6}) 
+    return AiForce(4, {"unit-bazoo", 6})
   end,
   function() return AiWaitForce(4) end,
   function() return AiSleep((SyncRand(100)+40)*GameSettings.Difficulty) end,
@@ -278,7 +278,7 @@ local ai_funcs = {
 
   -- Defense
   function() return AiSet("unit-biggunturret", 6) end,
-  -- Let's not build too many cannons, since the 
+  -- Let's not build too many cannons, since the
   -- AI places them mostly in useless locations:
   function() return AiSet("unit-cannon", 1) end,
   -- A radar is needed for the cannon to see its targets:

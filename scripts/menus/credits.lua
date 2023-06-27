@@ -1,9 +1,9 @@
---     ____                _       __               
+--     ____                _       __
 --    / __ )____  _____   | |     / /___ ___________
 --   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
---  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
--- /_____/\____/____/     |__/|__/\__,_/_/  /____/  
---                                              
+--  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+-- /_____/\____/____/     |__/|__/\__,_/_/  /____/
+--
 --       A futuristic real-time strategy game.
 --          This file is part of Bos Wars.
 --
@@ -142,7 +142,7 @@ function RunCreditsMenu(s)
     sw:add(Label(f), 50, 20 * i + 50)
   end
 
-  menu:addButton(_("Main Menu (~<Esc~>)"), Video.Width / 2 - 100, 
+  menu:addButton(_("Main Menu (~<Esc~>)"), Video.Width / 2 - 100,
                  Video.Height - 100, function() menu:stop() end)
 
   menu:run()

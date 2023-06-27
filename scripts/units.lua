@@ -1,9 +1,9 @@
---     ____                _       __               
+--     ____                _       __
 --    / __ )____  _____   | |     / /___ ___________
 --   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
---  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
--- /_____/\____/____/     |__/|__/\__,_/_/  /____/  
---                                              
+--  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+-- /_____/\____/____/     |__/|__/\__,_/_/  /____/
+--
 --       A futuristic real-time strategy game.
 --          This file is part of Bos Wars.
 --
@@ -16,12 +16,12 @@
 --      it under the terms of the GNU General Public License as published by
 --      the Free Software Foundation; either version 2 of the License, or
 --      (at your option) any later version.
---  
+--
 --      This program is distributed in the hope that it will be useful,
 --      but WITHOUT ANY WARRANTY; without even the implied warranty of
 --      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 --      GNU General Public License for more details.
---  
+--
 --      You should have received a copy of the GNU General Public License
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -43,7 +43,7 @@ end
 function AllowDefaultUnits()
    for unit, default in pairs(AllowedUnits) do
       DefineAllow(unit, default)
-   end 
+   end
 end
 
 function DisallowAllUnits()
@@ -58,7 +58,7 @@ function AllowAllUnits()
    end
 end
 
-function DefineCommonButtons(forUnits) 
+function DefineCommonButtons(forUnits)
    DefineButton({
         Pos = 1, Level = 0, Icon = "icon-move",
         Action = "move", Hint = "~!MOVE",
@@ -75,13 +75,13 @@ function DefineCommonButtons(forUnits)
         Action = "patrol", Hint = "~!PATROL", ForUnit = forUnits})
    DefineButton({
         Pos = 5, Level = 0, Icon = "icon-stand-ground",
-        Action = "stand-ground", Hint = "S~!TAND GROUND", 
+        Action = "stand-ground", Hint = "S~!TAND GROUND",
         ForUnit = forUnits})
 end
 
 DefineAnimations("animations-elitecorpse1", {
-    Death = {"unbreakable begin", "wait 1", "frame 20", "wait 2000", 
-        "frame 0", "wait 200", "frame 5", "wait 200", "frame 10", "wait 200", 
+    Death = {"unbreakable begin", "wait 1", "frame 20", "wait 2000",
+        "frame 0", "wait 200", "frame 5", "wait 200", "frame 10", "wait 200",
         "frame 15", "wait 200", "frame 15", "wait 1", "unbreakable end", "wait 1", },
     })
 

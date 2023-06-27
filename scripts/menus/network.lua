@@ -1,9 +1,9 @@
---     ____                _       __               
+--     ____                _       __
 --    / __ )____  _____   | |     / /___ ___________
 --   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
---  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
--- /_____/\____/____/     |__/|__/\__,_/_/  /____/  
---                                              
+--  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+-- /_____/\____/____/     |__/|__/\__,_/_/  /____/
+--
 --       A futuristic real-time strategy game.
 --          This file is part of Bos Wars.
 --
@@ -27,7 +27,7 @@
 --
 --      $Id: guichan.lua 305 2005-12-18 13:36:42Z feb $
 
--- TODO: 
+-- TODO:
 --  * lua cleanup
 --  * abort (exit)
 --  * network errors
@@ -99,7 +99,7 @@ function addPlayersList(menu, numplayers)
         connected_players = connected_players + 1
         if ServerSetupState.Ready[i-1] == 1 then
           ready_players = ready_players + 1
-          players_state[i]:setCaption(_("Ready"))    
+          players_state[i]:setCaption(_("Ready"))
         else
           players_state[i]:setCaption(_("Preparing"))
         end
@@ -119,7 +119,7 @@ local joincounter = 0
 
 function RunJoiningMapMenu(s)
   local menu
-  local listener  
+  local listener
   local sx = Video.Width / 20
   local sy = Video.Height / 20
   local numplayers = 3
@@ -143,7 +143,7 @@ function RunJoiningMapMenu(s)
   fow:setEnabled(false)
   local revealmap = menu:addCheckBox(_("Reveal map"), sx, sy*3+150, function() end)
   revealmap:setEnabled(false)
-  
+
   menu:writeText(_("Difficulty:"), sx, sy*11)
   local difficulty = menu:addDropDown({_("easy"), _("normal"), _("hard")}, sx + 150, sy*11,
     function(dd) end)
@@ -174,7 +174,7 @@ function RunJoiningMapMenu(s)
   menu:addCheckBox(_("~!Ready"), sx*11,  sy*14, readycb)
 
   menu:addButton(_("Cancel (~<Esc~>)"), sx * 10 - 100, Video.Height - 100,
-                 function() 
+                 function()
                  NetworkDetachFromServer() menu:stop() end
   )
 
@@ -242,7 +242,7 @@ function RunJoiningGameMenu(s)
   menu:addButton(_("Cancel (~<Esc~>)"), x, Video.Height - 100,
                  function() menu:stop() end)
 
-  local function checkconnection() 
+  local function checkconnection()
     NetworkProcessClientRequest()
     percent = percent + 100 / (24 * GetGameSpeed()) -- 24 seconds * fps
     sb:setPercent(percent)
@@ -285,19 +285,19 @@ function RunJoinIpMenu()
   menu = BosMenu(_("Enter Server address"))
   menu:writeText(_("IP or server name :"), x, Video.Height*8/20)
   server = menu:addTextInputField("localhost", x + 60, Video.Height*9/20 + 4, 130)
-  menu:addButton(_("~!Join Game"), x,  Video.Height*10/20, 
-    function(s) 
+  menu:addButton(_("~!Join Game"), x,  Video.Height*10/20,
+    function(s)
       -- FIXME: allow port ("localhost:1234")
       if (NetworkSetupServerAddress(server:getText()) ~= 0) then
         ErrorMenu(_("Invalid server name"))
         return
       end
-      NetworkInitClientConnect() 
+      NetworkInitClientConnect()
       if (RunJoiningGameMenu() ~= 0) then
         -- connect failed, don't leave this menu
         return
       end
-      menu:stop() 
+      menu:stop()
     end
   )
   menu:addButton(_("Cancel (~<Esc~>)"), x, Video.Height - 100,
@@ -325,19 +325,19 @@ function RunServerMultiGameMenu(map, description, numplayers)
   descr:setWidth(sx * 9 - 20 - 20)
 
   local function fowCb(dd)
-    ServerSetupState.FogOfWar = bool2int(dd:isMarked()) 
+    ServerSetupState.FogOfWar = bool2int(dd:isMarked())
     NetworkServerResyncClients()
     GameSettings.NoFogOfWar = not dd:isMarked()
   end
   local fow = menu:addCheckBox(_("Fog of war"), sx, sy*3+120, fowCb)
   fow:setMarked(true)
   local function revealMapCb(dd)
-    ServerSetupState.RevealMap = bool2int(dd:isMarked()) 
+    ServerSetupState.RevealMap = bool2int(dd:isMarked())
     NetworkServerResyncClients()
     GameSettings.RevealMap = bool2int(dd:isMarked())
   end
   local revealmap = menu:addCheckBox(_("Reveal map"), sx, sy*3+150, revealMapCb)
-  
+
   menu:writeText(_("Difficulty:"), sx, sy*11)
   d = menu:addDropDown({_("easy"), _("normal"), _("hard")}, sx + 150, sy*11,
     function(dd)
@@ -377,15 +377,15 @@ function RunServerMultiGameMenu(map, description, numplayers)
   menu:addButton(_("Cancel (~<Esc~>)"), Video.Width / 2 - 250, Video.Height - 100,
                  function() menu:stop() end)
 
-  startgame = menu:addButton(_("~!Start Game"), 
-    Video.Width / 2 + 50, 
+  startgame = menu:addButton(_("~!Start Game"),
+    Video.Width / 2 + 50,
     Video.Height - 100,
-    function(s)    
+    function(s)
       SetFogOfWar(fow:isMarked())
       if revealmap:isMarked() == true then
         RevealMap()
       end
-      NetworkServerStartGame() 
+      NetworkServerStartGame()
       NetworkGamePrepareGameSettings()
       AllowAllUnits()
       RunMap(map)
@@ -394,7 +394,7 @@ function RunServerMultiGameMenu(map, description, numplayers)
   )
   startgame:setVisible(false)
   local waitingtext = menu:writeText(_("Waiting for players"), sx*11, sy*14)
-  local function updateStartButton(ready) 
+  local function updateStartButton(ready)
     startgame:setVisible(ready)
     waitingtext:setVisible(not ready)
   end
@@ -445,11 +445,11 @@ function RunCreateMultiGameMenu(s)
     maptext:setCaption(browser:getSelectedItem())
   end
   browser:setActionCallback(cb)
-  
+
   menu:addButton(_("Cancel (~<Esc~>)"), Video.Width / 2 - 250, Video.Height - 100,
                  function() menu:stop(1) end)
   menu:addButton(_("Create ~!Game"), Video.Width / 2 + 50, Video.Height - 100,
-    function(s)    
+    function(s)
       RunServerMultiGameMenu(browser:getSelectedMap(), description, numplayers)
       menu:stop()
     end
@@ -472,7 +472,7 @@ function RunMultiPlayerMenu(s)
 
   ResetMapOptions()
   InitNetwork1()
-  menu:addButton(_("~!Join Game"), x, Video.Height*11/20, 
+  menu:addButton(_("~!Join Game"), x, Video.Height*11/20,
     function(s)
       -- If the player did not edit the name or undid edits, then do not
       -- save the name as a preference.  If preferences.PlayerName is nil,
@@ -487,7 +487,7 @@ function RunMultiPlayerMenu(s)
       RunJoinIpMenu()
       menu:stop(1)
     end)
-  menu:addButton(_("Create ~!Game"), x, Video.Height*12/20, 
+  menu:addButton(_("Create ~!Game"), x, Video.Height*12/20,
     function(s)
       if nick:getText() ~= GetLocalPlayerName() then
         SetLocalPlayerName(nick:getText())

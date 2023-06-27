@@ -1,9 +1,9 @@
---     ____                _       __               
+--     ____                _       __
 --    / __ )____  _____   | |     / /___ ___________
 --   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
---  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
--- /_____/\____/____/     |__/|__/\__,_/_/  /____/  
---                                              
+--  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+-- /_____/\____/____/     |__/|__/\__,_/_/  /____/
+--
 --       A futuristic real-time strategy game.
 --          This file is part of Bos Wars.
 --
@@ -15,12 +15,12 @@
 --      it under the terms of the GNU General Public License as published by
 --      the Free Software Foundation; either version 2 of the License, or
 --      (at your option) any later version.
---  
+--
 --      This program is distributed in the hope that it will be useful,
 --      but WITHOUT ANY WARRANTY; without even the implied warranty of
 --      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 --      GNU General Public License for more details.
---  
+--
 --      You should have received a copy of the GNU General Public License
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -129,7 +129,7 @@ local ai_funcs = {
 
   -- Defense
   function() return AiForce(0, {"unit-assault", 2}) end,
-  function() return AiWaitForce(0) end, 
+  function() return AiWaitForce(0) end,
 
   function() return AiNeed("unit-powerplant") end,
   function() return AiNeed("unit-magmapump") end,
@@ -141,13 +141,13 @@ local ai_funcs = {
   -- Attack wave
   function() return AiForce(1, {"unit-assault", 5, "unit-rtank", 3}) end,
   function() return AiWaitForce(1) end,
-  function() return AiSleep(50*GameSettings.Difficulty) end, 
+  function() return AiSleep(50*GameSettings.Difficulty) end,
   function() return AiAttackWithForce(1) end,
 
   function() return AiNeed("unit-powerplant") end,
   function() return AiNeed("unit-magmapump") end,
   function() return AiNeed("unit-biggunturret") end,
-  function() return AiSleep(50*GameSettings.Difficulty) end, 
+  function() return AiSleep(50*GameSettings.Difficulty) end,
 
   -- Bigger attack wave
   function() return AiNeed("unit-magmapump") end,
@@ -155,19 +155,19 @@ local ai_funcs = {
                                 "unit-grenadier", 3,
                                 "unit-tank", 3,
                                 "unit-rtank", 3}) end,
-  function() return AiWaitForce(1) end, 
+  function() return AiWaitForce(1) end,
   function() return AiAttackWithForce(1) end,
 
   -- ============================================================
 
-  function() 
+  function()
     LocalDebugPrint("is starting loop.");
     state.loop_start = state.loop_pos;
     return false
   end,
 
-  function() return AiForce(1, {"unit-bazoo", 10, 
-                                "unit-grenadier", 10, 
+  function() return AiForce(1, {"unit-bazoo", 10,
+                                "unit-grenadier", 10,
                                 "unit-tank", 4,
                                 "unit-rtank", 4}) end,
   function() return AiWaitForce(1) end,

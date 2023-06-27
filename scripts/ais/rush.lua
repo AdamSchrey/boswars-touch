@@ -1,14 +1,14 @@
---     ____                _       __               
+--     ____                _       __
 --    / __ )____  _____   | |     / /___ ___________
 --   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
---  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
--- /_____/\____/____/     |__/|__/\__,_/_/  /____/  
---                                              
+--  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+-- /_____/\____/____/     |__/|__/\__,_/_/  /____/
+--
 --       A futuristic real-time strategy game.
 --          This file is part of Bos Wars.
 --
 --      rush.lua
---      Define the AI that has the following philosophy: 
+--      Define the AI that has the following philosophy:
 --      constantly train and attack with as many units as possible,
 --      no emphasis on expanding or building defenses. There could be multiple
 --      rush AIs that try to attack with different units.
@@ -24,7 +24,7 @@
 --      but WITHOUT ANY WARRANTY; without even the implied warranty of
 --      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 --      GNU General Public License for more details.
---  
+--
 --      You should have received a copy of the GNU General Public License
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -116,7 +116,7 @@ local ai_funcs = {
 
   -- Defense
   function() return AiForce(0, {"unit-assault", 4}) end,
-  function() return AiWaitForce(0) end, 
+  function() return AiWaitForce(0) end,
 
   function() return AiNeed("unit-powerplant") end,
   function() return AiNeed("unit-magmapump") end,
@@ -126,25 +126,25 @@ local ai_funcs = {
   -- Attack wave
   function() return AiForce(1, {"unit-assault", 10}) end,
   function() return AiWaitForce(1) end,
-  function() return AiSleep(50*GameSettings.Difficulty) end, 
+  function() return AiSleep(50*GameSettings.Difficulty) end,
   function() return AiAttackWithForce(1) end,
 
   -- Bigger attack wave
   function() return AiNeed("unit-magmapump") end,
   function() return AiForce(1, {"unit-assault", 20, "unit-grenadier", 8}) end,
-  function() return AiWaitForce(1) end, 
+  function() return AiWaitForce(1) end,
   function() return AiAttackWithForce(1) end,
 
   -- ============================================================
 
-  function() 
+  function()
     LocalDebugPrint("is starting loop.");
     state.loop_start = state.loop_pos;
     return false
   end,
 
-  function() return AiForce(1, {"unit-assault", 20, 
-                                "unit-grenadier", 8, 
+  function() return AiForce(1, {"unit-assault", 20,
+                                "unit-grenadier", 8,
                                 "unit-bazoo", 8}) end,
   function() return AiWaitForce(1) end,  -- wait until attack party is completed
   function() return AiSleep(50*GameSettings.Difficulty) end,

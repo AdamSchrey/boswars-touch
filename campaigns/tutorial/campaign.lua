@@ -1,9 +1,9 @@
---     ____                _       __               
+--     ____                _       __
 --    / __ )____  _____   | |     / /___ ___________
 --   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
---  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
--- /_____/\____/____/     |__/|__/\__,_/_/  /____/  
---                                              
+--  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+-- /_____/\____/____/     |__/|__/\__,_/_/  /____/
+--
 --       A futuristic real-time strategy game.
 --          This file is part of Bos Wars.
 --
@@ -15,12 +15,12 @@
 --      it under the terms of the GNU General Public License as published by
 --      the Free Software Foundation; either version 2 of the License, or
 --      (at your option) any later version.
---  
+--
 --      This program is distributed in the hope that it will be useful,
 --      but WITHOUT ANY WARRANTY; without even the implied warranty of
 --      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 --      GNU General Public License for more details.
---  
+--
 --      You should have received a copy of the GNU General Public License
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -48,17 +48,17 @@ campaign_steps = {
     "With the vault, we will train 2 extra "..
     "engineers to reinforce our group. "..
     "We also need a power plant in order to "..
-    "allow us to build more units ".. 
+    "allow us to build more units "..
     "for our base.\n"..
     "-- End of transmission 2. Sergeant TJ --"),
-  CreateMapStep("campaigns/tutorial/level03.smp", 
+  CreateMapStep("campaigns/tutorial/level03.smp",
     {"Harvest until you have 3000 energy and 1700 magma in storage"},
     "News from the Front:\n\n"..
     "The abandoned vault has few resources left. "..
     "For the extension of the base, we need 200 "..
     "more energy and 100 magma. "..
     "Our engineer detected large amounts of "..
-    "magma in the rocks.\n".. 
+    "magma in the rocks.\n"..
     "-- End of transmission. Sergeant TJ --"),
 ]]
 }

@@ -1,12 +1,12 @@
--- These patches are deprecated. 
+-- These patches are deprecated.
 -- Please do not use these any more.
--- 
--- All their PNGs are still present, but the patch names are 
+--
+-- All their PNGs are still present, but the patch names are
 -- changed to be conform the others.
--- 
--- The patches included here will be removed after 
+--
+-- The patches included here will be removed after
 -- the following major release.
--- 
+--
 
 patchType("gosh-terrain0200", "patches/gosh/terrain2000.png", 4, 4, {
  0x0013, 0x0013, 0x0013, 0x0013,
@@ -67,7 +67,7 @@ patchType("gosh-terrain0209", "patches/gosh/terrain2009.png", 4, 4, {
  0x0013, 0x0013, 0x0013, 0x0013,
  0x000b, 0x0023, 0x0013, 0x0013,
  0x0043, 0x000b, 0x0013, 0x0013,
-}, "deprecated") 
+}, "deprecated")
 
 
 patchType("gosh-terrain0300", "patches/gosh/terrain3000.png", 4, 4, {

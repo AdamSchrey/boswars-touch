@@ -1,9 +1,9 @@
---     ____                _       __               
+--     ____                _       __
 --    / __ )____  _____   | |     / /___ ___________
 --   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
---  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
--- /_____/\____/____/     |__/|__/\__,_/_/  /____/  
---                                              
+--  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+-- /_____/\____/____/     |__/|__/\__,_/_/  /____/
+--
 --       A futuristic real-time strategy game.
 --          This file is part of Bos Wars.
 --
@@ -48,7 +48,7 @@ function FilterList(originallist, pattern)
       table.insert(filteredlist, v)
     end
   end
-  return filteredlist  
+  return filteredlist
 end
 
 function CreateFilteringLister(pattern, lister)
@@ -187,7 +187,7 @@ function AddMenuHelpers(menu)
     bq:setForegroundColor(clear)
     bq:setBackgroundColor(dark)
     bq:setFont(Fonts["game"])
-    self:add(bq, x, y)   
+    self:add(bq, x, y)
     bq.itemslist = list
     return bq
   end
@@ -393,7 +393,7 @@ function RunResultsMenu()
   elseif GameResult == GameDefeat then
     result = _("Defeat !")
     background = "graphics/screens/defeat.png"
-  else 
+  else
     return
   end
 
@@ -542,7 +542,7 @@ function RunStartGameMenu(s)
   fow:setMarked(preferences.FogOfWar)
   local revealmap = menu:addCheckBox(_("Reveal map"), sx, sy*3+160,
     function(f) GameSettings.RevealMap = bool2int(f:isMarked()) end)
-  
+
   ResetMapOptions()
   menu:writeText(_("Difficulty:"), sx, sy*11)
   d = menu:addDropDown({_("easy"), _("normal"), _("hard")}, sx + 150, sy*11,
@@ -566,7 +566,7 @@ function RunStartGameMenu(s)
 	mapsize:setCaption(""..w.."x"..h)
     OldPresentMap(description, nplayers, w, h, id)
   end
- 
+
   Load("maps/"..selectedmap..'/presentation.smp')
   local browser = menu:addMapBrowser("maps/", sx*10, sy*2+20, sx*8, sy*11,
                                      "maps/"..selectedmap)
@@ -634,7 +634,7 @@ function RunLoadGameMenu(s)
 
   menu = BosMenu(_("Load Game"))
   local lister = CreateFilteringLister(".sav.gz$",  ListFilesInDirectory)
-  local browser = menu:addBrowser("~save", lister, 
+  local browser = menu:addBrowser("~save", lister,
                                  Video.Width / 2 - 150, 100, 300, 200)
   function startgamebutton(s)
       DebugPrint("Starting saved game")
@@ -794,7 +794,7 @@ function RunEditorLoadMenu()
   end
 
   Load("maps/"..selectedmap..'/presentation.smp')
-  local browser = menu:addMapBrowser("maps/", sx*10, sy*2+20, sx*8, sy*11, 
+  local browser = menu:addMapBrowser("maps/", sx*10, sy*2+20, sx*8, sy*11,
                                      "maps/"..selectedmap)
   local function selectMap(s)
     maptext:setCaption(browser:getSelectedItem())
@@ -849,7 +849,7 @@ function BuildMainMenu(menu)
   menu:addButton(_("E~!xit"), Video.Width / 2 - 100, Video.Height - 100,
                  function() menu:stop() end)
 
-  if false then 
+  if false then
      menu:addButton("~!Widgets Demo", x2, ystep * 7, RunWidgetsMenu)
   end
 end
@@ -859,7 +859,7 @@ function RunMainMenu(s)
   local continue = 1
 
   while continue == 1 do
-    menu = BosMenu() 
+    menu = BosMenu()
     BuildMainMenu(menu)
     continue = menu:run()
   end

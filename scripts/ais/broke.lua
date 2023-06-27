@@ -1,14 +1,14 @@
---     ____                _       __               
+--     ____                _       __
 --    / __ )____  _____   | |     / /___ ___________
 --   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
---  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
--- /_____/\____/____/     |__/|__/\__,_/_/  /____/  
---                                              
+--  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+-- /_____/\____/____/     |__/|__/\__,_/_/  /____/
+--
 --       A futuristic real-time strategy game.
 --          This file is part of Bos Wars.
 --
 --      broke.lua
---      Define the AI that has the following philosophy: 
+--      Define the AI that has the following philosophy:
 --      Start broke, i.e. this AI presumes you start with
 --      no energy, no magma, and a crew of only a few engineers.
 --
@@ -23,7 +23,7 @@
 --      but WITHOUT ANY WARRANTY; without even the implied warranty of
 --      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 --      GNU General Public License for more details.
---  
+--
 --      You should have received a copy of the GNU General Public License
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -108,7 +108,7 @@ local ai_funcs = {
     end
   end,
   function()
-    if (state.build_order[2] ~= nil) then    
+    if (state.build_order[2] ~= nil) then
       LocalDebugPrint("waits for " .. state.build_order[2]);
     end
     return false
@@ -131,16 +131,16 @@ local ai_funcs = {
   function() return AiSet("unit-vault", 1) end,
   function() return AiSet("unit-engineer", 5) end,
 
-  function() 
+  function()
     if (AiHotSpotExists()) then
       return AiSet("unit-magmapump", 4)
     else
       return false -- do nothing
-    end 
+    end
   end,
-  function() return AiSleep((SyncRand(500)+500)*GameSettings.Difficulty) end, 
+  function() return AiSleep((SyncRand(500)+500)*GameSettings.Difficulty) end,
   function() return AiSet("unit-nukepowerplant", 5) end,
-  function() return AiSleep((SyncRand(500)+500)*GameSettings.Difficulty) end, 
+  function() return AiSleep((SyncRand(500)+500)*GameSettings.Difficulty) end,
 
   function() return AiSet("unit-camp", 2) end,
 
@@ -181,7 +181,7 @@ local ai_funcs = {
   function() return AiSet("unit-biggunturret", 1) end,
   function() return AiSet("unit-vfac", 1) end,
   function() return AiSet("unit-gturret", 2) end,
-  
+
   function()
     LocalDebugPrint("waiting for vfac.");
     return false
@@ -193,15 +193,15 @@ local ai_funcs = {
     LocalDebugPrint("vfac finished.");
     return false
   end,
-  function() return AiForce(1, {"unit-assault", SyncRand(5)+1, 
+  function() return AiForce(1, {"unit-assault", SyncRand(5)+1,
                                 "unit-buggy", SyncRand(2)+1}) end,
-  
+
   function()
     LocalDebugPrint("waiting for force 1 (assaults + buggies).");
     return false
   end,
   function() return AiWaitForce(1) end,
-  function() return AiSleep((SyncRand(500)+500)*GameSettings.Difficulty) end, 
+  function() return AiSleep((SyncRand(500)+500)*GameSettings.Difficulty) end,
   function() return AiAttackWithForce(1) end,
 
   function()
@@ -221,7 +221,7 @@ local ai_funcs = {
 
   -- ============================================================
 
-  function() 
+  function()
     LocalDebugPrint("is starting loop.");
     state.loop_start = state.loop_pos;
     return false

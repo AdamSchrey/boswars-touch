@@ -1,9 +1,9 @@
---     ____                _       __               
+--     ____                _       __
 --    / __ )____  _____   | |     / /___ ___________
 --   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
---  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
--- /_____/\____/____/     |__/|__/\__,_/_/  /____/  
---                                              
+--  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+-- /_____/\____/____/     |__/|__/\__,_/_/  /____/
+--
 --       A futuristic real-time strategy game.
 --          This file is part of Bos Wars.
 --
@@ -15,12 +15,12 @@
 --      it under the terms of the GNU General Public License as published by
 --      the Free Software Foundation; either version 2 of the License, or
 --      (at your option) any later version.
---  
+--
 --      This program is distributed in the hope that it will be useful,
 --      but WITHOUT ANY WARRANTY; without even the implied warranty of
 --      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 --      GNU General Public License for more details.
---  
+--
 --      You should have received a copy of the GNU General Public License
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -28,7 +28,7 @@
 
 DefineAnimations("animations-cannon", {
     Still = {"frame 5", "wait 1", },
-    Attack = {"unbreakable begin", "frame 5", "wait 5", 
+    Attack = {"unbreakable begin", "frame 5", "wait 5",
               "frame 5", "sound bazoo-attack", "attack", "wait 1",
               "frame 10", "wait 15",
               "frame 5", "wait 170", "frame 5", "unbreakable end", "wait 1", },
@@ -66,7 +66,7 @@ DefineMissileType("missile-cannon", {
 	File = "units/cannon/weapon.png",
 	Size = {128, 128}, Frames = 6, NumDirections = 1,
 	ImpactSound = "rocket-impact", DrawLevel = 150,
-	Class = "missile-class-point-to-point", Sleep = 1, 
+	Class = "missile-class-point-to-point", Sleep = 1,
 	Speed = 20, Range = 3})
 
 MakeSound("cannon-ready", GetCurrentLuaPath().."/cannon.completed.wav")
@@ -119,8 +119,8 @@ DefineUnitType("unit-cannon", {
 })
 
 DefineAnimations("animations-dead-cannon", {
-    Death = {"unbreakable begin", "wait 1", "frame 0", "wait 2000", 
-        "frame 1", "wait 2000", "frame 2", "wait 2000", "frame 2", "wait 1", 
+    Death = {"unbreakable begin", "wait 1", "frame 0", "wait 2000",
+        "frame 1", "wait 2000", "frame 2", "wait 2000", "frame 2", "wait 1",
         "unbreakable end", "wait 1", },
     })
 

@@ -1,9 +1,9 @@
---     ____                _       __               
+--     ____                _       __
 --    / __ )____  _____   | |     / /___ ___________
 --   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
---  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
--- /_____/\____/____/     |__/|__/\__,_/_/  /____/  
---                                              
+--  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+-- /_____/\____/____/     |__/|__/\__,_/_/  /____/
+--
 --       A futuristic real-time strategy game.
 --          This file is part of Bos Wars.
 --
@@ -43,7 +43,7 @@ function RunBriefingMenu(objectivestext, briefingtext, briefingsound, background
   end
 
   menu = BosMenu(_("Briefing"), background)
-  local text = briefingtext .. 
+  local text = briefingtext ..
       "\n\n" ..
       _("Objectives:") ..
       "         \n" ..
@@ -86,7 +86,7 @@ end
 function AddCampaignFinalAssault(when, text)
   AddTrigger(
     function() return (GameCycle() >= when) end,
-    function() 
+    function()
       AddMessage(text)
       CreateUnit("unit-vault", 1, {60, 8})
       CreateUnit("unit-tank", 1, {59, 12})
@@ -107,7 +107,7 @@ function CreateMapStep(map, objectivestext, briefingtext, briefingsound, briefin
       return
     end
     Load(map) -- Needed to force the load of the presentation
-    RunMap(map, objectivestext) 
+    RunMap(map, objectivestext)
   end
   return RunCampaignMap
 end

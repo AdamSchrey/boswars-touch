@@ -1,9 +1,9 @@
---     ____                _       __               
+--     ____                _       __
 --    / __ )____  _____   | |     / /___ ___________
 --   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
---  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
--- /_____/\____/____/     |__/|__/\__,_/_/  /____/  
---                                              
+--  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+-- /_____/\____/____/     |__/|__/\__,_/_/  /____/
+--
 --       A futuristic real-time strategy game.
 --          This file is part of Bos Wars.
 --
@@ -55,7 +55,7 @@ function RunSpeedOptionsMenu(s)
   b:setFont(CFont:Get("game"))
   b:adjustSize();
   menu:add(b, offx + 32, offy + 36 * 2 + 6)
-  
+
   b = Label(_("fast"))
   b:setFont(CFont:Get("game"))
   b:adjustSize();
@@ -94,7 +94,7 @@ function AddSoundOptions(menu, offx, offy, centerx, bottom)
   b:setFont(CFont:Get("game"))
   b:adjustSize();
   menu:add(b, offx + 32, offy + 36 * 2 + 6)
-  
+
   b = Label(_("max"))
   b:setFont(CFont:Get("game"))
   b:adjustSize();
@@ -126,7 +126,7 @@ function AddSoundOptions(menu, offx, offy, centerx, bottom)
   b:setFont(CFont:Get("game"))
   b:adjustSize();
   menu:add(b, offx + 32, offy + 36 * 5 + 6)
-  
+
   b = Label(_("max"))
   b:setFont(CFont:Get("game"))
   b:adjustSize();
@@ -234,22 +234,22 @@ function BuildVideoOptionsMenu(menu)
 end
 
 function RunVideoOptionsMenu(s)
-  local menu 
+  local menu
   local continue = 1
 
   while continue == 1 do
     menu = BosMenu(_("Video Options"))
     BuildVideoOptionsMenu(menu)
     menu:addButton(_("~!OK"),
-      Video.Width / 2 - 100, 
-      Video.Height - 100, 
+      Video.Width / 2 - 100,
+      Video.Height - 100,
       function() menu:stop() end)
     continue = menu:run()
-  end 
+  end
 end
 
 function RunLanguageOptionsMenu(s)
-  local menu 
+  local menu
   local b
   local grid = {{}, {}, {}, {}, {}, {}}
   local offy = (Video.Height - 300) / 2
@@ -262,12 +262,12 @@ function RunLanguageOptionsMenu(s)
       bospo = "languages/bos-" .. po .. ".po"
     end
     local function SetLanguage()
-      SetTranslationsFiles(enginepo, bospo) 
+      SetTranslationsFiles(enginepo, bospo)
       preferences.StratagusTranslation = StratagusTranslation
       preferences.GameTranslation = GameTranslation
       SavePreferences()
-    end      
-    local rb = menu:addRadioButton(language, "lang", 
+    end
+    local rb = menu:addRadioButton(language, "lang",
                                    0, offy + i * 36, SetLanguage)
     grid[i][#grid[i] + 1] = rb
     i = i + 1
@@ -279,8 +279,8 @@ function RunLanguageOptionsMenu(s)
     end
     return rb
   end
-     
-  b = AddLanguage("English", "en", 
+
+  b = AddLanguage("English", "en",
         "languages/engine.pot", "languages/bos.pot")
   if StratagusTranslation == "" then
      b:setMarked(true)
@@ -322,7 +322,7 @@ function RunOptionsMenu(s)
   local continue = 1
 
   while continue == 1 do
-    menu = BosMenu(_("Options")) 
+    menu = BosMenu(_("Options"))
     BuildOptionsMenu(menu)
     continue = menu:run()
   end
