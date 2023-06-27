@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -247,14 +247,14 @@ int OggInit(CFile *f, OggData *data)
 #endif
 
 		// are we in the vorbis page ?
-		while (num_vorbis && num_vorbis < 3 && 
+		while (num_vorbis && num_vorbis < 3 &&
 		  (ret = ogg_stream_packetout(&data->astream, &packet))) {
 			if (ret < 0) {
 				return -1;
 			}
 			if (vorbis_synthesis_headerin(&data->vinfo, &data->vcomment, &packet)) {
 				return -1;
-				
+
 			}
 			++num_vorbis;
 		}

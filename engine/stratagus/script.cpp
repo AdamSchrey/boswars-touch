@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -151,7 +151,7 @@ static int report(int status, bool exitOnError)
 **  @par Parameters in the Lua stack:
 **    @li message (string) The error message last thrown.
 **
-**  @par Return values in the Lua stack: 
+**  @par Return values in the Lua stack:
 **    @li trace (string) Stack backtrace, with @a message prepended.
 */
 int luatraceback(lua_State *L)
@@ -896,7 +896,7 @@ class CSerializeLua
 public:
 	CSerializeLua(lua_State *l) : lstate(l), indent(0) {}
 
-	/** Whether a value was successfully serialized.  */ 
+	/** Whether a value was successfully serialized.  */
 	enum Result {
 		/** The value was serialized as requested.  */
 		OK,
@@ -928,7 +928,7 @@ private:
 	 */
 	std::vector<char> output;
 
-	/** Current indentation level.  */ 
+	/** Current indentation level.  */
 	int indent;
 
 	inline void AppendChar(char c);
@@ -1200,7 +1200,7 @@ CSerializeLua::Result CSerializeLua::AppendLuaTable(int index)
 		lua_pop(this->lstate, 1); // pop the metatable
 		return SKIP;
 	}
-	
+
 	this->AppendChar('{');
 	this->indent++;
 	Result result = this->AppendLuaFields(index, false);
@@ -1393,7 +1393,7 @@ CSerializeLua::Result CSerializeLua::AppendLuaFields(int table_index,
 	if (!is_first && !is_root) {
 		this->AppendChar(' ');
 	}
-	
+
 	return OK;
 }
 
@@ -1401,7 +1401,7 @@ CSerializeLua::Result CSerializeLua::AppendLuaFields(int table_index,
 **  Copy the Lua source code to a new string.
 **
 **  @return  The Lua source code as a string.
-**           The caller must eventually free it with delete[].    
+**           The caller must eventually free it with delete[].
 */
 char *CSerializeLua::StrDupOutput() const
 {
@@ -1459,10 +1459,10 @@ void CreateUserDirectories(void)
 	if (!s.empty()) {
 		UserDirectory = s + "/";
 	}
-	
+
 	UserDirectory += STRATAGUS_HOME_PATH;
 	makedir(UserDirectory.c_str(), 0777);
-	
+
 	// Create specific subdirectories
 	directory = UserDirectory + "logs/";
 	makedir(directory.c_str(), 0777);

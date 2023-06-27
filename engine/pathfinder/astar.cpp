@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -381,7 +381,7 @@ static void AStarCleanUp()
 
 /**
 **  Find the best node in the current open node set
-**  Returns the position of this node in the open node set 
+**  Returns the position of this node in the open node set
 */
 #define AStarFindMinimum() (OpenSetSize - 1)
 
@@ -412,7 +412,7 @@ static int AStarAddNode(int x, int y, int o, int costs)
 	int midCostToGoal;
 	int dist;
 	int midDist;
-	
+
 	if (OpenSetSize + 1 >= OpenSetMaxSize) {
 		fprintf(stderr, "A* internal error: raise Open Set Max Size "
 				"(current value %d)\n", OpenSetMaxSize);
@@ -451,7 +451,7 @@ static int AStarAddNode(int x, int y, int o, int costs)
 		}
 	}
 
-	if (OpenSetSize > bigi) { 
+	if (OpenSetSize > bigi) {
 		// free a the slot for our node
 		memmove(&OpenSet[bigi+1], &OpenSet[bigi], (OpenSetSize - bigi) * sizeof(Open));
 	}
@@ -469,7 +469,7 @@ static int AStarAddNode(int x, int y, int o, int costs)
 }
 
 /**
-**  Change the cost associated to an open node. 
+**  Change the cost associated to an open node.
 **  Can be further optimised knowing that the new cost MUST BE LOWER
 **  than the old one.
 */

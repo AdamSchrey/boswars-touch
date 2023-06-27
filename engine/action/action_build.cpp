@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -252,7 +252,7 @@ static void StartBuilding(CUnit *unit, CUnit *ontop)
 	type = unit->Orders[0]->Type;
 
 	build = MakeUnit(type, unit->Player);
-	
+
 	// If unable to make unit, stop, and report message
 	if (build == NoUnitP) {
 		// FIXME: Should we retry this?
@@ -288,7 +288,7 @@ static void StartBuilding(CUnit *unit, CUnit *ontop)
 
 	// Must set action before placing, otherwise it will incorrectly mark radar
 	build->Orders[0]->Action = UnitActionBuilt;
-	
+
 	// Must place after previous for map flags
 	build->Place(x, y);
 

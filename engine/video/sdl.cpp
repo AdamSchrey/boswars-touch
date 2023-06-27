@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -727,11 +727,11 @@ static void DumpSdlEvent(const SDL_Event *event)
 	case SDL_VIDEORESIZE:
 		DumpSdlResizeEvent(event->resize, "SDL_VIDEORESIZE");
 		break;
-		
+
 	case SDL_VIDEOEXPOSE:
 		DumpSdlExposeEvent(event->expose, "SDL_VIDEOEXPOSE");
 		break;
-		
+
 	case SDL_QUIT:
 		DumpSdlQuitEvent(event->quit, "SDL_QUIT");
 		break;
@@ -740,7 +740,7 @@ static void DumpSdlEvent(const SDL_Event *event)
 		printf("SDL_Event { type=%d, ... }\n",
 		       static_cast<int>(event->type));
 		break;
-		
+
 	}
 	fflush(stdout);
 }

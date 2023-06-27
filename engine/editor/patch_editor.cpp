@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -467,7 +467,7 @@ static gcn::Button *PatchNewButton(const std::string &caption)
 {
 	gcn::Color darkColor(38, 38, 78, 128);
 	gcn::Button *button;
-	
+
 	button = new gcn::Button(caption);
 	button->setSize(106, 28);
 	button->setBackgroundColor(darkColor);

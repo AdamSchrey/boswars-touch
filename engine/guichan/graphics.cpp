@@ -1,10 +1,10 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
  * Copyright (c) 2004, 2005 darkbits                        Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -53,7 +53,7 @@
  */
 
 /*
- * For comments regarding functions please see the header file. 
+ * For comments regarding functions please see the header file.
  */
 
 #include "guichan/graphics.h"
@@ -65,9 +65,9 @@ namespace gcn
 
     Graphics::Graphics()
     {
-        mFont = NULL;    
+        mFont = NULL;
     }
-  
+
     bool Graphics::pushClipArea(Rectangle area)
     {
         if (mClipStack.empty())
@@ -98,13 +98,13 @@ namespace gcn
 
     void Graphics::popClipArea()
     {
-    
+
         if (mClipStack.empty())
         {
             throw GCN_EXCEPTION("Tried to pop clip area from empty stack.");
-        }    
+        }
 
-        mClipStack.pop();    
+        mClipStack.pop();
     }
 
     const ClipRectangle& Graphics::getCurrentClipArea()
@@ -113,18 +113,18 @@ namespace gcn
         {
             throw GCN_EXCEPTION("The clip area stack is empty.");
         }
-        
+
         return mClipStack.top();
     }
-    
+
     void Graphics::drawImage(const Image* image, int dstX, int dstY)
     {
-        drawImage(image, 0, 0, dstX, dstY, image->getWidth(), image->getHeight());    
+        drawImage(image, 0, 0, dstX, dstY, image->getWidth(), image->getHeight());
     }
 
     void Graphics::setFont(Font* font)
     {
-        mFont = font;    
+        mFont = font;
     }
 
     void Graphics::drawText(const std::string& text, int x, int y,
@@ -137,7 +137,7 @@ namespace gcn
 
         switch (alignment)
         {
-          case LEFT:            
+          case LEFT:
               mFont->drawString(this, text, x, y);
               break;
           case CENTER:
@@ -148,6 +148,6 @@ namespace gcn
               break;
           default:
               throw GCN_EXCEPTION("Unknown alignment.");
-        }        
-    }    
+        }
+    }
 }

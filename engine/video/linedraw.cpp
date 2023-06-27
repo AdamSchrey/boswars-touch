@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -1770,7 +1770,7 @@ void DrawTransCircle(Uint32 color, int x, int y, int radius,
 	unsigned char alpha)
 {
 	GLubyte r, g, b;
-	
+
 	Video.GetRGB(color, NULL, &r, &g, &b);
 	color = Video.MapRGBA(0, r, g, b, alpha);
 	DrawCircle(color, x, y, radius);
@@ -1789,7 +1789,7 @@ void DrawTransCircleClip(Uint32 color, int x, int y, int radius,
 	unsigned char alpha)
 {
 	GLubyte r, g, b;
-	
+
 	Video.GetRGB(color, NULL, &r, &g, &b);
 	color = Video.MapRGBA(0, r, g, b, alpha);
 	DrawCircleClip(color, x, y, radius);
@@ -1850,7 +1850,7 @@ void FillTransCircle(Uint32 color, int x, int y,
 	int radius, unsigned char alpha)
 {
 	GLubyte r, g, b;
-	
+
 	Video.GetRGB(color, NULL, &r, &g, &b);
 	color = Video.MapRGBA(0, r, g, b, alpha);
 	FillCircle(color, x, y, radius);
@@ -1914,7 +1914,7 @@ void FillTransCircleClip(Uint32 color, int x, int y,
 	int radius, unsigned char alpha)
 {
 	GLubyte r, g, b;
-	
+
 	Video.GetRGB(color, NULL, &r, &g, &b);
 	color = Video.MapRGBA(0, r, g, b, alpha);
 	FillCircleClip(color, x, y, radius);

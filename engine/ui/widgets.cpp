@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -105,7 +105,7 @@ void initGuichan()
 	}
 
 	Input = new gcn::SDLInput();
-	
+
 	Gui = new gcn::Gui();
 	Gui->setGraphics(graphics);
 	Gui->setInput(Input);
@@ -125,7 +125,7 @@ void initGuichan()
 /**
 **  Free all guichan infrastructure
 */
-void freeGuichan() 
+void freeGuichan()
 {
 	if (Gui) {
 		delete Gui->getGraphics();
@@ -142,7 +142,7 @@ void freeGuichan()
 **
 **  @param event  event to handle, null if no more events for this frame
 */
-void handleInput(const SDL_Event *event) 
+void handleInput(const SDL_Event *event)
 {
 	if (event) {
 		if (Input) {
@@ -159,7 +159,7 @@ void handleInput(const SDL_Event *event)
 	}
 }
 
-void DrawGuichanWidgets() 
+void DrawGuichanWidgets()
 {
 	if (Gui) {
 		Gui->setUseDirtyDrawing(!UseOpenGL && !GameRunning && !Editor.Running && !PatchEditorRunning);
@@ -191,7 +191,7 @@ LuaActionListener::LuaActionListener(lua_State *l, lua_Object f) :
 **
 **  @param eventId  the identifier of the Widget
 */
-void LuaActionListener::action(const std::string &eventId) 
+void LuaActionListener::action(const std::string &eventId)
 {
 	callback.pushPreamble();
 	callback.pushString(eventId.c_str());
@@ -332,7 +332,7 @@ ImageButton::ImageButton(const std::string &caption) :
 **
 **  @param graphics  Graphics object to draw with
 */
-void ImageButton::draw(gcn::Graphics *graphics) 
+void ImageButton::draw(gcn::Graphics *graphics)
 {
 	if (!normalImage) {
 		Button::draw(graphics);
@@ -353,12 +353,12 @@ void ImageButton::draw(gcn::Graphics *graphics)
 	}
 	graphics->drawImage(img, 0, 0, 0, 0,
 		img->getWidth(), img->getHeight());
-    
+
 	graphics->setColor(getForegroundColor());
 
 	int textX;
 	int textY = getHeight() / 2 - getFont()->getHeight() / 2;
-        
+
 	switch (getAlignment()) {
 		case gcn::Graphics::LEFT:
 			textX = 4;
@@ -373,13 +373,13 @@ void ImageButton::draw(gcn::Graphics *graphics)
 			throw GCN_EXCEPTION("Unknown alignment.");
 	}
 
-	graphics->setFont(getFont());       
+	graphics->setFont(getFont());
 	if (isPressed()) {
 		graphics->drawText(getCaption(), textX + 4, textY + 4, getAlignment());
 	} else {
 		graphics->drawText(getCaption(), textX + 2, textY + 2, getAlignment());
 	}
-    
+
 	if (hasFocus()) {
 		graphics->drawRectangle(gcn::Rectangle(0, 0, getWidth(), getHeight()));
 	}
@@ -921,8 +921,8 @@ void MultiLineLabel::drawBorder(gcn::Graphics *graphics)
 		graphics->drawLine(i, i, width - i, i);
 		graphics->drawLine(i, i + 1, i, height - i - 1);
 		graphics->setColor(highlightColor);
-		graphics->drawLine(width - i, i + 1, width - i, height - i); 
-		graphics->drawLine(i, height - i, width - i - 1, height - i); 
+		graphics->drawLine(width - i, i + 1, width - i, height - i);
+		graphics->drawLine(i, height - i, width - i - 1, height - i);
 	}
 }
 
@@ -1057,7 +1057,7 @@ void ScrollingWidget::logic()
 {
 	setDirty(true);
 	if (container.getHeight() + containerY - speedY > 0 ) {
-		// the bottom of the container is lower than the top 
+		// the bottom of the container is lower than the top
 		// of the widget. It is thus still visible.
 		containerY -= speedY;
 		container.setY((int)containerY);
@@ -1468,7 +1468,7 @@ int StatBoxWidget::getPercent() const
 /**
 **  MenuScreen constructor
 */
-MenuScreen::MenuScreen() : 
+MenuScreen::MenuScreen() :
 	Container(), runLoop(true), logiclistener(0), drawUnder(false)
 {
 	setDimension(gcn::Rectangle(0, 0, Video.Width, Video.Height));

@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -78,7 +78,7 @@ static void CL_png_read_data(png_structp png_ptr, png_bytep data, png_size_t len
 **
 **  @param headerOnly  If true, load only the image header, not the pixels.
 **                     Can be called again later to load the pixels too.
-**                     
+**
 **
 **  @return   0 for success, -1 for error.
 */

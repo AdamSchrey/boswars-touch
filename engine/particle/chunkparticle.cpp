@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -43,7 +43,7 @@ static inline float deg2rad(int degrees) {
 
 
 CChunkParticle::CChunkParticle(CPosition position, Animation *smokeAnimation) :
-	CParticle(position), initialPos(position), nextSmokeTicks(0), age(0), 
+	CParticle(position), initialPos(position), nextSmokeTicks(0), age(0),
 	height(0.f)
 {
 	float radians = deg2rad(MyRand() % 360);

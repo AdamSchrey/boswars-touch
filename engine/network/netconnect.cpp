@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -458,7 +458,7 @@ void NetworkInitServerConnect(int openslots)
 	// preset the server (initially always slot 0)
 	strncpy_s(Hosts[0].PlyName, sizeof(Hosts[0].PlyName),
 		  LocalPlayerName.c_str(), _TRUNCATE);
-	
+
 	ServerSetupState.Clear();
 	LocalSetupState.Clear();
 	for (i = openslots; i < PlayerMax - 1; ++i) {
@@ -1226,7 +1226,7 @@ static void ClientParseConnecting(const CInitMessage *msg)
 **
 ** @return  true if the map name looks safe.
 */
-static bool IsSafeMapName(const char *mapname) 
+static bool IsSafeMapName(const char *mapname)
 {
 	char buf[256];
 	const char *ch;
@@ -1240,7 +1240,7 @@ static bool IsSafeMapName(const char *mapname)
 	if (strstr(buf, "//")) {
 		return false;
 	}
-	if (buf[0] == '\0') {	
+	if (buf[0] == '\0') {
 		return false;
 	}
 	ch = buf;

@@ -1,10 +1,10 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
  * Copyright (c) 2004, 2005 darkbits                        Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -53,7 +53,7 @@
  */
 
 /*
- * For comments regarding functions please see the header file. 
+ * For comments regarding functions please see the header file.
  */
 
 #include "guichan/exception.h"
@@ -120,14 +120,14 @@ namespace gcn
         mHorizontalMarkerMousePosition = 0;
 
         setContent(content);
-        addMouseListener(this); 
+        addMouseListener(this);
     }
 
     ScrollArea::~ScrollArea()
     {
-        setContent(NULL);        
+        setContent(NULL);
     }
-    
+
     void ScrollArea::setContent(Widget* widget)
     {
         if (mContent != NULL)
@@ -135,7 +135,7 @@ namespace gcn
             mContent->_setFocusHandler(NULL);
             mContent->_setParent(NULL);
         }
-    
+
         mContent = widget;
 
         if (mContent != NULL)
@@ -146,7 +146,7 @@ namespace gcn
 
         checkPolicies();
     }
-  
+
     Widget* ScrollArea::getContent()
     {
         return mContent;
@@ -186,12 +186,12 @@ namespace gcn
         int max = getVerticalMaxScroll();
 
         mVScroll = vScroll;
-    
+
         if (vScroll > max)
         {
             mVScroll = max;
         }
-    
+
         if (vScroll < 0)
         {
             mVScroll = 0;
@@ -206,9 +206,9 @@ namespace gcn
     void ScrollArea::setHorizontalScrollAmount(int hScroll)
     {
         int max = getHorizontalMaxScroll();
-    
+
         mHScroll = hScroll;
-    
+
         if (hScroll > max)
         {
             mHScroll = max;
@@ -238,7 +238,7 @@ namespace gcn
         {
             return 0;
         }
-        
+
         int value = mContent->getWidth() - getContentDimension().width + 2 * mContent->getBorderSize();
 
         if (value < 0)
@@ -247,7 +247,7 @@ namespace gcn
         }
 
         return value;
-    } 
+    }
 
     int ScrollArea::getVerticalMaxScroll()
     {
@@ -259,16 +259,16 @@ namespace gcn
         }
 
         int value;
-    
+
         value = mContent->getHeight() - getContentDimension().height + 2 * mContent->getBorderSize();
-    
+
         if (value < 0)
         {
             return 0;
         }
 
         return value;
-    } 
+    }
 
     void ScrollArea::setScrollbarWidth(int width)
     {
@@ -299,24 +299,24 @@ namespace gcn
 
     void ScrollArea::_mouseInputMessage(const MouseInput &mouseInput)
     {
-        BasicContainer::_mouseInputMessage(mouseInput);        
-    
+        BasicContainer::_mouseInputMessage(mouseInput);
+
         if (getContentDimension().isPointInRect(mouseInput.x, mouseInput.y))
         {
             if (mContent != NULL)
             {
                 if (!mContent->hasMouse())
                 {
-                    mContent->_mouseInMessage();          
+                    mContent->_mouseInMessage();
                 }
-        
+
                 MouseInput mi = mouseInput;
-                
+
                 mi.x -= mContent->getX();
                 mi.y -= mContent->getY();
-                                
+
                 mContent->_mouseInputMessage(mi);
-            }      
+            }
         }
         else if (mContent && mContent->hasMouse())
         {
@@ -330,10 +330,10 @@ namespace gcn
         {
             mContent->_mouseOutMessage();
         }
-    
+
         BasicContainer::_mouseOutMessage();
     }
-  
+
     void ScrollArea::mousePress(int x, int y, int button)
     {
         if (getUpButtonDimension().isPointInRect(x, y))
@@ -355,7 +355,7 @@ namespace gcn
         {
             setHorizontalScrollAmount(getHorizontalScrollAmount() + 10);
             mRightButtonPressed = true;
-        }        
+        }
         else if (getVerticalMarkerDimension().isPointInRect(x, y))
         {
             mVerticalMarkerPressed = true;
@@ -365,7 +365,7 @@ namespace gcn
         {
             mHorizontalMarkerPressed = true;
             mHorizontalMarkerMousePosition = x - getHorizontalMarkerDimension().x;
-        } 
+        }
     }
 
     void ScrollArea::mouseRelease(int x, int y, int button)
@@ -386,7 +386,7 @@ namespace gcn
             int length = getVerticalMarkerDimension().height;
 
             Rectangle barDim = getVerticalBarDimension();
-      
+
             if ((barDim.height - length) > 0)
             {
                 setVerticalScrollAmount((getVerticalMaxScroll() * pos)
@@ -404,7 +404,7 @@ namespace gcn
             int length = getHorizontalMarkerDimension().width;
 
             Rectangle barDim = getHorizontalBarDimension();
-      
+
             if ((barDim.width - length) > 0)
             {
                 setHorizontalScrollAmount((getHorizontalMaxScroll() * pos)
@@ -413,7 +413,7 @@ namespace gcn
             else
             {
                 setHorizontalScrollAmount(0);
-            }     
+            }
             setDirty(true);
         }
     }
@@ -422,7 +422,7 @@ namespace gcn
     {
         graphics->setColor(getBackgroundColor());
         graphics->fillRectangle(getContentDimension());
-      
+
         if (mVBarVisible)
         {
             drawUpButton(graphics);
@@ -430,7 +430,7 @@ namespace gcn
             drawVBar(graphics);
             drawVMarker(graphics);
         }
-      
+
         if (mHBarVisible)
         {
             drawLeftButton(graphics);
@@ -438,7 +438,7 @@ namespace gcn
             drawHBar(graphics);
             drawHMarker(graphics);
         }
-      
+
         if (mHBarVisible && mVBarVisible)
         {
             graphics->setColor(getBaseColor());
@@ -450,7 +450,7 @@ namespace gcn
 
         if (mContent)
         {
-            Rectangle contdim = mContent->getDimension();        
+            Rectangle contdim = mContent->getDimension();
             graphics->pushClipArea(getContentDimension());
 
             if (mContent->getBorderSize() > 0)
@@ -459,12 +459,12 @@ namespace gcn
                 rec.x -= mContent->getBorderSize();
                 rec.y -= mContent->getBorderSize();
                 rec.width += 2 * mContent->getBorderSize();
-                rec.height += 2 * mContent->getBorderSize();                    
+                rec.height += 2 * mContent->getBorderSize();
                 graphics->pushClipArea(rec);
                 mContent->drawBorder(graphics);
                 graphics->popClipArea();
             }
-                
+
             graphics->pushClipArea(contdim);
             mContent->draw(graphics);
             graphics->popClipArea();
@@ -483,7 +483,7 @@ namespace gcn
         highlightColor.a = alpha;
         shadowColor = faceColor - 0x303030;
         shadowColor.a = alpha;
-        
+
         unsigned int i;
         for (i = 0; i < getBorderSize(); ++i)
         {
@@ -491,11 +491,11 @@ namespace gcn
             graphics->drawLine(i,i, width - i, i);
             graphics->drawLine(i,i + 1, i, height - i - 1);
             graphics->setColor(highlightColor);
-            graphics->drawLine(width - i,i + 1, width - i, height - i); 
-            graphics->drawLine(i,height - i, width - i - 1, height - i); 
+            graphics->drawLine(width - i,i + 1, width - i, height - i);
+            graphics->drawLine(i,height - i, width - i - 1, height - i);
         }
     }
-    
+
     void ScrollArea::drawHBar(Graphics* graphics)
     {
         Rectangle dim = getHorizontalBarDimension();
@@ -507,16 +507,16 @@ namespace gcn
         trackColor.a = alpha;
         Color shadowColor = getBaseColor() - 0x303030;
         shadowColor.a = alpha;
-        
+
         graphics->setColor(trackColor);
         graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
 
         graphics->setColor(shadowColor);
         graphics->drawLine(0, 0, dim.width, 0);
 
-        graphics->popClipArea();    
+        graphics->popClipArea();
     }
-  
+
     void ScrollArea::drawVBar(Graphics* graphics)
     {
         Rectangle dim = getVerticalBarDimension();
@@ -531,27 +531,27 @@ namespace gcn
 
         graphics->setColor(trackColor);
         graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
-    
+
         graphics->setColor(shadowColor);
         graphics->drawLine(0, 0, 0, dim.height);
-        
+
         graphics->popClipArea();
     }
-  
+
     void ScrollArea::drawUpButton(Graphics* graphics)
     {
         Rectangle dim = getUpButtonDimension();
         graphics->pushClipArea(dim);
-    
+
         Color highlightColor;
         Color shadowColor;
         Color faceColor;
         int offset;
         int alpha = getBaseColor().a;
-        
+
         if (mUpButtonPressed)
         {
-            faceColor = getBaseColor() - 0x303030;      
+            faceColor = getBaseColor() - 0x303030;
             faceColor.a = alpha;
             highlightColor = faceColor - 0x303030;
             highlightColor.a = alpha;
@@ -572,19 +572,19 @@ namespace gcn
             offset = 0;
         }
 
-        graphics->setColor(faceColor);      
+        graphics->setColor(faceColor);
         graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
 
         graphics->setColor(highlightColor);
         graphics->drawLine(0, 0, dim.width - 1, 0);
         graphics->drawLine(0, 1, 0, dim.height - 1);
-    
+
         graphics->setColor(shadowColor);
         graphics->drawLine(dim.width - 1, 0, dim.width - 1, dim.height - 1);
         graphics->drawLine(1, dim.height - 1, dim.width - 1, dim.height - 1);
-    
+
         graphics->setColor(getForegroundColor());
-    
+
         int i;
         int w = dim.height / 2;
         int h = w / 2 + 2;
@@ -595,12 +595,12 @@ namespace gcn
                                w + i + offset,
                                i + h + offset);
         }
-    
+
         graphics->popClipArea();
     }
 
     void ScrollArea::drawDownButton(Graphics* graphics)
-    {    
+    {
         Rectangle dim = getDownButtonDimension();
         graphics->pushClipArea(dim);
 
@@ -609,10 +609,10 @@ namespace gcn
         Color faceColor;
         int offset;
         int alpha = getBaseColor().a;
-        
+
         if (mDownButtonPressed)
         {
-            faceColor = getBaseColor() - 0x303030;      
+            faceColor = getBaseColor() - 0x303030;
             faceColor.a = alpha;
             highlightColor = faceColor - 0x303030;
             highlightColor.a = alpha;
@@ -632,20 +632,20 @@ namespace gcn
 
             offset = 0;
         }
-        
-        graphics->setColor(faceColor);      
+
+        graphics->setColor(faceColor);
         graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
 
         graphics->setColor(highlightColor);
         graphics->drawLine(0, 0, dim.width - 1, 0);
         graphics->drawLine(0, 1, 0, dim.height - 1);
-    
+
         graphics->setColor(shadowColor);
         graphics->drawLine(dim.width - 1, 0, dim.width - 1, dim.height - 1);
         graphics->drawLine(1, dim.height - 1, dim.width - 1, dim.height - 1);
-    
+
         graphics->setColor(getForegroundColor());
-    
+
         int i;
         int w = dim.height / 2;
         int h = w + 1;
@@ -654,9 +654,9 @@ namespace gcn
             graphics->drawLine(w - i + offset,
                                -i + h + offset,
                                w + i + offset,
-                               -i + h + offset);      
+                               -i + h + offset);
         }
-    
+
         graphics->popClipArea();
     }
 
@@ -670,10 +670,10 @@ namespace gcn
         Color faceColor;
         int offset;
         int alpha = getBaseColor().a;
-        
+
         if (mLeftButtonPressed)
         {
-            faceColor = getBaseColor() - 0x303030;      
+            faceColor = getBaseColor() - 0x303030;
             faceColor.a = alpha;
             highlightColor = faceColor - 0x303030;
             highlightColor.a = alpha;
@@ -693,18 +693,18 @@ namespace gcn
 
             offset = 0;
         }
-    
-        graphics->setColor(faceColor);      
+
+        graphics->setColor(faceColor);
         graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
 
         graphics->setColor(highlightColor);
         graphics->drawLine(0, 0, dim.width - 1, 0);
         graphics->drawLine(0, 1, 0, dim.height - 1);
-    
+
         graphics->setColor(shadowColor);
         graphics->drawLine(dim.width - 1, 0, dim.width - 1, dim.height - 1);
         graphics->drawLine(1, dim.height - 1, dim.width - 1, dim.height - 1);
-    
+
         graphics->setColor(getForegroundColor());
 
         int i;
@@ -715,9 +715,9 @@ namespace gcn
             graphics->drawLine(i + h + offset,
                                w - i + offset,
                                i + h + offset,
-                               w + i + offset);      
+                               w + i + offset);
         }
-    
+
         graphics->popClipArea();
     }
 
@@ -731,10 +731,10 @@ namespace gcn
         Color faceColor;
         int offset;
         int alpha = getBaseColor().a;
-        
+
         if (mRightButtonPressed)
         {
-            faceColor = getBaseColor() - 0x303030;      
+            faceColor = getBaseColor() - 0x303030;
             faceColor.a = alpha;
             highlightColor = faceColor - 0x303030;
             highlightColor.a = alpha;
@@ -754,20 +754,20 @@ namespace gcn
 
             offset = 0;
         }
-    
-        graphics->setColor(faceColor);      
+
+        graphics->setColor(faceColor);
         graphics->fillRectangle(Rectangle(0, 0, dim.width, dim.height));
 
         graphics->setColor(highlightColor);
         graphics->drawLine(0, 0, dim.width - 1, 0);
         graphics->drawLine(0, 1, 0, dim.height - 1);
-    
+
         graphics->setColor(shadowColor);
         graphics->drawLine(dim.width - 1, 0, dim.width - 1, dim.height - 1);
         graphics->drawLine(1, dim.height - 1, dim.width - 1, dim.height - 1);
-    
+
         graphics->setColor(getForegroundColor());
-    
+
         int i;
         int w = dim.width / 2;
         int h = w + 1;
@@ -776,10 +776,10 @@ namespace gcn
             graphics->drawLine(-i + h + offset,
                                w - i + offset,
                                -i + h + offset,
-                               w + i + offset);      
+                               w + i + offset);
         }
 
-        graphics->popClipArea(); 
+        graphics->popClipArea();
     }
 
     void ScrollArea::drawVMarker(Graphics* graphics)
@@ -794,15 +794,15 @@ namespace gcn
         highlightColor.a = alpha;
         Color shadowColor = faceColor - 0x303030;
         shadowColor.a = alpha;
-        
+
         graphics->setColor(faceColor);
         graphics->fillRectangle(Rectangle(1, 1, dim.width - 1, dim.height - 1));
-    
+
         graphics->setColor(highlightColor);
         graphics->drawLine(0, 0, dim.width - 1, 0);
         graphics->drawLine(0, 1, 0, dim.height - 1);
-    
-        graphics->setColor(shadowColor);    
+
+        graphics->setColor(shadowColor);
         graphics->drawLine(1, dim.height - 1, dim.width - 1, dim.height - 1);
         graphics->drawLine(dim.width - 1, 0, dim.width - 1, dim.height - 1);
 
@@ -813,7 +813,7 @@ namespace gcn
     {
         Rectangle dim = getHorizontalMarkerDimension();
         graphics->pushClipArea(dim);
-        
+
         int alpha = getBaseColor().a;
         Color faceColor = getBaseColor();
         faceColor.a = alpha;
@@ -822,34 +822,34 @@ namespace gcn
         Color shadowColor = faceColor - 0x303030;
         shadowColor.a = alpha;
 
-        graphics->setColor(faceColor);      
+        graphics->setColor(faceColor);
         graphics->fillRectangle(Rectangle(1, 1, dim.width - 1, dim.height - 1));
-    
+
         graphics->setColor(highlightColor);
         graphics->drawLine(0, 0, dim.width - 1, 0);
         graphics->drawLine(0, 1, 0, dim.height - 1);
-    
-        graphics->setColor(shadowColor);    
+
+        graphics->setColor(shadowColor);
         graphics->drawLine(1, dim.height - 1, dim.width - 1, dim.height - 1);
         graphics->drawLine(dim.width - 1, 0, dim.width - 1, dim.height - 1);
 
         graphics->popClipArea();
     }
-  
+
     void ScrollArea::logic()
     {
         checkPolicies();
 
         setVerticalScrollAmount(getVerticalScrollAmount());
         setHorizontalScrollAmount(getHorizontalScrollAmount());
-        
+
         if (mContent != NULL)
         {
             mContent->setPosition(-mHScroll + getContentDimension().x + mContent->getBorderSize(),
                                   -mVScroll + getContentDimension().y + mContent->getBorderSize());
 
             mContent->logic();
-        }    
+        }
     }
 
     void ScrollArea::moveToTop(Widget* widget)
@@ -905,9 +905,9 @@ namespace gcn
         else
         {
             throw GCN_EXCEPTION("Widget not in scrollarea.");
-        }    
+        }
     }
-  
+
     void ScrollArea::drawContent(Graphics* graphics)
     {
         if (mContent)
@@ -915,23 +915,23 @@ namespace gcn
             mContent->draw(graphics);
         }
     }
-  
+
     void ScrollArea::checkPolicies()
     {
         int w = getWidth();
         int h = getHeight();
-    
+
         mHBarVisible = false;
         mVBarVisible = false;
-    
-    
+
+
         if (!mContent)
         {
             mHBarVisible = (mHPolicy == SHOW_ALWAYS);
             mVBarVisible = (mVPolicy == SHOW_ALWAYS);
             return;
         }
-    
+
         if (mHPolicy == SHOW_AUTO &&
             mVPolicy == SHOW_AUTO)
         {
@@ -957,10 +957,10 @@ namespace gcn
             {
                 mHBarVisible = true;
             }
-      
+
             return;
         }
-    
+
         switch (mHPolicy)
         {
           case SHOW_NEVER:
@@ -1017,7 +1017,7 @@ namespace gcn
         {
             return Rectangle(0, 0, 0, 0);
         }
-    
+
         return Rectangle(getWidth() - mScrollbarWidth,
                          0,
                          mScrollbarWidth,
@@ -1038,11 +1038,11 @@ namespace gcn
                              mScrollbarWidth,
                              mScrollbarWidth);
         }
-    
+
         return Rectangle(getWidth() - mScrollbarWidth,
                          getHeight() - mScrollbarWidth,
                          mScrollbarWidth,
-                         mScrollbarWidth);          
+                         mScrollbarWidth);
     }
 
     Rectangle ScrollArea::getLeftButtonDimension()
@@ -1051,11 +1051,11 @@ namespace gcn
         {
             return Rectangle(0, 0, 0, 0);
         }
-    
+
         return Rectangle(0,
                          getHeight() - mScrollbarWidth,
                          mScrollbarWidth,
-                         mScrollbarWidth);    
+                         mScrollbarWidth);
     }
 
     Rectangle ScrollArea::getRightButtonDimension()
@@ -1076,14 +1076,14 @@ namespace gcn
         return Rectangle(getWidth() - mScrollbarWidth,
                          getHeight() - mScrollbarWidth,
                          mScrollbarWidth,
-                         mScrollbarWidth);          
+                         mScrollbarWidth);
     }
 
     Rectangle ScrollArea::getContentDimension()
     {
         if (mVBarVisible && mHBarVisible)
         {
-            return Rectangle(0, 0, getWidth() - mScrollbarWidth, 
+            return Rectangle(0, 0, getWidth() - mScrollbarWidth,
                              getHeight() - mScrollbarWidth);
         }
 
@@ -1096,7 +1096,7 @@ namespace gcn
         {
             return Rectangle(0, 0, getWidth(), getHeight() - mScrollbarWidth);
         }
-    
+
         return Rectangle(0, 0, getWidth(), getHeight());
     }
 
@@ -1112,19 +1112,19 @@ namespace gcn
             return Rectangle(getWidth() - mScrollbarWidth,
                              getUpButtonDimension().height,
                              mScrollbarWidth,
-                             getHeight() 
+                             getHeight()
                              - getUpButtonDimension().height
                              - getDownButtonDimension().height
                              - mScrollbarWidth);
         }
-    
+
         return Rectangle(getWidth() - mScrollbarWidth,
                          getUpButtonDimension().height,
                          mScrollbarWidth,
-                         getHeight() 
+                         getHeight()
                          - getUpButtonDimension().height
                          - getDownButtonDimension().height);
-    } 
+    }
 
     Rectangle ScrollArea::getHorizontalBarDimension()
     {
@@ -1137,16 +1137,16 @@ namespace gcn
         {
             return Rectangle(getLeftButtonDimension().width,
                              getHeight() - mScrollbarWidth,
-                             getWidth() 
+                             getWidth()
                              - getLeftButtonDimension().width
                              - getRightButtonDimension().width
-                             - mScrollbarWidth, 
+                             - mScrollbarWidth,
                              mScrollbarWidth);
         }
 
         return Rectangle(getLeftButtonDimension().width,
                          getHeight() - mScrollbarWidth,
-                         getWidth() 
+                         getWidth()
                          - getLeftButtonDimension().width
                          - getRightButtonDimension().width,
                          mScrollbarWidth);
@@ -1163,8 +1163,8 @@ namespace gcn
         Rectangle barDim = getVerticalBarDimension();
 
         if (mContent && mContent->getHeight() != 0)
-        {      
-            length = (barDim.height * getContentDimension().height) 
+        {
+            length = (barDim.height * getContentDimension().height)
                 / mContent->getHeight();
         }
         else
@@ -1191,7 +1191,7 @@ namespace gcn
         {
             pos = 0;
         }
-    
+
         return Rectangle(barDim.x, barDim.y + pos, mScrollbarWidth, length);
     }
 
@@ -1206,8 +1206,8 @@ namespace gcn
         Rectangle barDim = getHorizontalBarDimension();
 
         if (mContent && mContent->getWidth() != 0)
-        {      
-            length = (barDim.width * getContentDimension().width) 
+        {
+            length = (barDim.width * getContentDimension().width)
                 / mContent->getWidth();
         }
         else
@@ -1224,7 +1224,7 @@ namespace gcn
         {
             length = barDim.width;
         }
-    
+
         if (getHorizontalMaxScroll() != 0)
         {
             pos = ((barDim.width - length) * getHorizontalScrollAmount())
@@ -1241,13 +1241,13 @@ namespace gcn
     void ScrollArea::scrollToRectangle(const Rectangle& rectangle)
     {
         Rectangle contentDim = getContentDimension();
-    
+
         if (rectangle.x + rectangle.width
             > getHorizontalScrollAmount() + contentDim.width)
         {
             setHorizontalScrollAmount(rectangle.x + rectangle.width - contentDim.width);
         }
-    
+
         if (rectangle.y + rectangle.height
             > getVerticalScrollAmount() + contentDim.height)
         {
@@ -1258,7 +1258,7 @@ namespace gcn
         {
             setHorizontalScrollAmount(rectangle.x);
         }
-    
+
         if (rectangle.y < getVerticalScrollAmount())
         {
             setVerticalScrollAmount(rectangle.y);
@@ -1266,19 +1266,19 @@ namespace gcn
     }
 
     void ScrollArea::mouseWheelUp(int x, int y)
-    {    
+    {
         if (hasMouse())
         {
             setVerticalScrollAmount(getVerticalScrollAmount() - getContentDimension().height / 8);
-        }    
+        }
     }
 
     void ScrollArea::mouseWheelDown(int x, int y)
-    {    
+    {
         if (hasMouse())
         {
             setVerticalScrollAmount(getVerticalScrollAmount() + getContentDimension().height / 8);
-        }    
+        }
     }
 }
 

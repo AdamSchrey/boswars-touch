@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -118,7 +118,7 @@ static COrder *GetNextOrder(CUnit *unit, int flush)
 static void RemoveOrder(CUnit *unit, int order)
 {
 	int i;
-	
+
 	Assert(0 <= order && order < unit->OrderCount);
 	if (order != 0) {
 		delete unit->Orders[order];
@@ -747,7 +747,7 @@ bool TerrainAllowsTraining(const CUnit *trainer, const CUnitType *traineeType)
 	// Ignore any units in the way.  Especially ignore buildings
 	// because the trainer unit itself is probably a building.
 	const unsigned obstacles = traineeType->MovementMask & MapFieldPatchMask;
-	
+
 	for (int y = yMin; y < yEnd; y++) {
 		for (int x = xMin; x < xEnd; x++) {
 			if (Map.IsFieldExplored(trainer->Player, x, y)

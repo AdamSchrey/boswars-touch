@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -722,7 +722,7 @@ static int CclCreateUnit(lua_State *l)
 
 	if (SaveGameLoading) {
         	return 1;
-        }    
+        }
 
 	LuaCheckArgs(l, 3);
 
@@ -1111,7 +1111,7 @@ static int CclSlotUsage(lua_State *l)
 	if (n == 0) {
 		return 0;
 	}
-	
+
 	lua_pushnil(l); // push nil key to start table traversal
 	for (unsigned int i = 0; i < n; ++i) {
 		lua_next(l, 2); // get next slot table

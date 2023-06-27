@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -372,7 +372,7 @@ static void ExpandPath(std::string &newpath, const std::string &path)
 
 extern gcn::Gui *Gui;
 
-void StartMap(const std::string &filename, bool clean) 
+void StartMap(const std::string &filename, bool clean)
 {
 	std::string nc, rc;
 
@@ -411,7 +411,7 @@ void StartMap(const std::string &filename, bool clean)
 	delete container;
 }
 
-void StartSavedGame(const std::string &filename) 
+void StartSavedGame(const std::string &filename)
 {
 	std::string path;
 
@@ -517,13 +517,13 @@ void Exit(int err)
 	NetworkQuit();
 
 	ExitNetwork1();
-	
+
 	CleanModules();
 	FreeBurningBuildingFrames();
-	// FreeGraphics must be called before exit to avoid the static 
+	// FreeGraphics must be called before exit to avoid the static
 	// deinitialization fiasco.
 	FreeGraphics();
-	
+
 #ifdef DEBUG
 	FreeSounds();
 	FreePlayerColors();
@@ -609,7 +609,7 @@ static void RedirectOutput()
 {
 	char path[MAX_PATH];
 	int pathlen;
-	
+
 	pathlen = GetModuleFileName(NULL, path, sizeof(path));
 	while (pathlen > 0 && path[pathlen] != '\\') {
 		--pathlen;
@@ -669,7 +669,7 @@ static void VideoModeOption(const char *arg)
 				return;
 		}
 	}
-			
+
 	if (sscanf(arg, "%d%*[Xx]%d %c", &width, &height, &garbage) == 2) {
 		// Too small resolutions can cause segmentation faults
 		// when the engine tries to draw outside the screen.
@@ -681,8 +681,8 @@ static void VideoModeOption(const char *arg)
 		Video.Width = width;
 		Video.Height = height;
 		return;
-	} 
-	
+	}
+
 	Usage();
 	ExitFatal(-1);
 }

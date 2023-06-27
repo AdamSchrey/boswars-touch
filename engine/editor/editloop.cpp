@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -747,7 +747,7 @@ static void RecalculateShownPatches(const std::string &theme)
 /**
 **  Draw a table with the players
 */
-static void DrawPlayers() 
+static void DrawPlayers()
 {
 	int x = UI.InfoPanel.X + 8;
 	int y = UI.InfoPanel.Y + 4 + IconHeight + 10;
@@ -775,7 +775,7 @@ static void DrawPlayers()
 		o << i;
 		VideoDrawTextCentered(x + i * 20 + 9, y + 3, SmallFont, o.str());
 	}
-	
+
 	x = UI.InfoPanel.X + 4;
 	y += 18 * 1 + 4;
 	if (Editor.SelectedPlayer != -1)
@@ -1253,7 +1253,7 @@ static void ShowPatchInfo(const CPatch *patch, int mapX, int mapY)
 
 	const CMapField *field = Map.Field(mapX, mapY);
 	o << _("Field") << " (" << mapX << ", " << mapY << ")";
-	
+
 	int comma = 0;
 	Assert(!(field->Flags & MapFieldTransparent));
 	if (field->Flags & MapFieldUnpassable)
@@ -2050,7 +2050,7 @@ static void EditorCallbackButtonDown(unsigned button)
 				break;
 		}
 	}
-	
+
 	//
 	// Click on player area
 	//
@@ -2616,7 +2616,7 @@ void StartEditor(const std::string &filename)
 		Map.Info.Description.clear();
 		ValidateMapSize(Map.Info.MapWidth, Map.Info.MapHeight);
 	}
-	
+
 	// Run the editor.
 	EditorMainLoop();
 

@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -266,7 +266,7 @@ void CMap::Clean(void)
 **
 **  @param mapname  map filename
 */
-void LoadStratagusMapInfo(const std::string &mapname) 
+void LoadStratagusMapInfo(const std::string &mapname)
 {
 	// Set the default map setup by replacing .smp with .sms
 	size_t loc = mapname.find(".smp");
@@ -274,7 +274,7 @@ void LoadStratagusMapInfo(const std::string &mapname)
 		Map.Info.Filename = mapname;
 		Map.Info.Filename.replace(loc, 4, ".sms");
 	}
-	
+
 	LuaLoadFile(mapname);
 }
 

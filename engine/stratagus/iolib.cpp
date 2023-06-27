@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -342,7 +342,7 @@ long CFile::tell()
 /**
 **  Find a file with its correct extension ("" or ".gz")
 **
-**  @param file      The string with the file path. Upon success, the string 
+**  @param file      The string with the file path. Upon success, the string
 **                   is replaced by the full filename witht he correct extension.
 **  @param filesize  Size of the file buffer
 **
@@ -521,13 +521,13 @@ int ReadDataDirectory(const char *dirname, int (*filter)(char *, FileList *),
 
 
 
-void FileWriter::printf(const char *format, ...) 
+void FileWriter::printf(const char *format, ...)
 {
 	char static_buf[1024];
 	char *buf = static_buf;
 	int ret;
 	int buf_size = sizeof(static_buf);
-	
+
 	va_list ap;
 	va_start(ap, format);
 	buf[buf_size - 1] = '\0';

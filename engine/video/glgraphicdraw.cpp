@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -173,7 +173,7 @@ void DrawTexture(const CGraphic *g, GLuint *textures,
 			Assert(0.0f <= clip_tx_beg);
 			Assert(clip_tx_beg < clip_tx_end);
 			Assert(clip_tx_end <= 1.0f);
-			
+
 			int texture = tex_gy_beg / GLMaxTextureSize
 				* ((g->GraphicWidth - 1) / GLMaxTextureSize + 1)
 				+ tex_gx_beg / GLMaxTextureSize;

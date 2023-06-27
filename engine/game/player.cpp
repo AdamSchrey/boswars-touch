@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -135,7 +135,7 @@ void CPlayer::AddToUnitsConsumingResources(CUnit *unit, int costs[MaxCosts])
 	Assert(UnitsConsumingResourcesRequested[unit] == NULL);
 
 	int *c;
-	
+
 	c = new int[MaxCosts];
 	memset(c, 0, MaxCosts * sizeof(int));
 	UnitsConsumingResourcesActual[unit] = c;
@@ -219,7 +219,7 @@ void CalculateRequestedAmount(CUnitType *utype, int bcosts[MaxCosts], int costs[
 	}
 }
 
-/** 
+/**
 **  Go through the list of units owned by the player and rebuild
 **  the UnitsConsumingResources list.
 */
@@ -644,10 +644,10 @@ void CPlayer::SetName(const std::string &name)
 /**
 **  Clear all player data excepts members which don't change.
 **
-**  The fields that are not cleared are 
+**  The fields that are not cleared are
 **  UnitLimit, BuildingLimit, TotalUnitLimit and Allow.
 */
-void CPlayer::Clear() 
+void CPlayer::Clear()
 {
 	Index = 0;
 	Name.clear();

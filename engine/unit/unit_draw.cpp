@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -609,7 +609,7 @@ void ShowOrder(const CUnit *unit)
 	if (unit->Destroyed) {
 		return;
 	}
-	
+
 	if (unit->Player != ThisPlayer && !ThisPlayer->IsAllied(unit)) {
         	return;
 	}
@@ -916,7 +916,7 @@ static int DrawLevelCompare(const void *v1, const void *v2) {
 	if (y1 != y2) {
 		return y1 - y2;
 	}
-	
+
 	// Use X positions in case Y positions are equal.
 	if (c1->X != c2->X) {
 		return c1->X - c2->X;

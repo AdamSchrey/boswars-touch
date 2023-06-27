@@ -291,7 +291,7 @@ TOLUA_API int tolua_isvaluenil (lua_State* L, int lo, tolua_Error* err) {
 		return 0; /* somebody else should chack this */
 	if (!lua_isnil(L, lo))
 		return 0;
-	
+
 	err->index = lo;
 	err->array = 0;
 	err->type = "value";

@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -1995,9 +1995,9 @@ void LetUnitDie(CUnit *unit)
 	}
 	if (type->DeathExplosion) {
 		type->DeathExplosion->pushPreamble();
-		type->DeathExplosion->pushInteger(unit->X * TileSizeX + 
+		type->DeathExplosion->pushInteger(unit->X * TileSizeX +
 				type->TileWidth * TileSizeX / 2);
-		type->DeathExplosion->pushInteger(unit->Y * TileSizeY + 
+		type->DeathExplosion->pushInteger(unit->Y * TileSizeY +
 				type->TileHeight * TileSizeY / 2);
 		type->DeathExplosion->run();
 	}

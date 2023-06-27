@@ -1,10 +1,10 @@
-/*      _______   __   __   __   ______   __   __   _______   __   __                 
- *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\                
- *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /                 
- *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /                  
- *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /                   
- * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /                    
- * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/                      
+/*      _______   __   __   __   ______   __   __   _______   __   __
+ *     / _____/\ / /\ / /\ / /\ / ____/\ / /\ / /\ / ___  /\ /  |\/ /\
+ *    / /\____\// / // / // / // /\___\// /_// / // /\_/ / // , |/ / /
+ *   / / /__   / / // / // / // / /    / ___  / // ___  / // /| ' / /
+ *  / /_// /\ / /_// / // / // /_/_   / / // / // /\_/ / // / |  / /
+ * /______/ //______/ //_/ //_____/\ /_/ //_/ //_/ //_/ //_/ /|_/ /
+ * \______\/ \______\/ \_\/ \_____\/ \_\/ \_\/ \_\/ \_\/ \_\/ \_\/
  *
  * Copyright (c) 2004, 2005 darkbits                        Js_./
  * Per Larsson a.k.a finalman                          _RqZ{a<^_aa
@@ -53,7 +53,7 @@
  */
 
 /*
- * For comments regarding functions please see the header file. 
+ * For comments regarding functions please see the header file.
  */
 
 #include "guichan/basiccontainer.h"
@@ -93,7 +93,7 @@ namespace gcn
         mFocusHandler = NULL;
         mFocusable = false;
         mClickTimeStamp = 0;
-        mClickCount = 0;        
+        mClickCount = 0;
         mHasMouse = false;
         mVisible = true;
         mTabIn = true;
@@ -101,9 +101,9 @@ namespace gcn
         mEnabled = true;
         mClickButton = 0;
         mHotKey = 0;
-        
+
         mCurrentFont = NULL;
-        mWidgets.push_back(this); 
+        mWidgets.push_back(this);
         mDirty = true;
     }
 
@@ -113,9 +113,9 @@ namespace gcn
         {
             getParent()->_announceDeath(this);
         }
-        
+
         _setFocusHandler(NULL);
-    
+
         mWidgets.remove(this);
     }
 
@@ -126,7 +126,7 @@ namespace gcn
 
     BasicContainer* Widget::getParent() const
     {
-        return mParent;    
+        return mParent;
     }
 
     void Widget::setWidth(int width)
@@ -168,7 +168,7 @@ namespace gcn
     {
         return mDimension.y;
     }
-  
+
     void Widget::setPosition(int x, int y)
     {
         mDimension.x = x;
@@ -189,12 +189,12 @@ namespace gcn
     {
         return mBorderSize;
     }
-    
+
     const Rectangle& Widget::getDimension() const
     {
         return mDimension;
     }
-  
+
     const std::string& Widget::getEventId() const
     {
         return mEventId;
@@ -204,7 +204,7 @@ namespace gcn
     {
         mEventId = eventId;
     }
-  
+
     bool Widget::hasFocus() const
     {
         if (!mFocusHandler)
@@ -226,22 +226,22 @@ namespace gcn
         {
             mFocusHandler->focusNone();
         }
-    
+
         mFocusable = focusable;
     }
 
     bool Widget::isFocusable() const
     {
-        return mFocusable && isVisible() && isEnabled();        
+        return mFocusable && isVisible() && isEnabled();
     }
-  
+
     void Widget::requestFocus()
     {
         if (mFocusHandler == NULL)
         {
             throw GCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
         }
-        
+
         if (isFocusable())
         {
             mFocusHandler->requestFocus(this);
@@ -261,7 +261,7 @@ namespace gcn
         if (mParent)
         {
             mParent->moveToBottom(this);
-        }    
+        }
     }
 
     void Widget::setVisible(bool visible)
@@ -269,20 +269,20 @@ namespace gcn
         if (!visible && hasFocus())
         {
             mFocusHandler->focusNone();
-        }    
+        }
         mVisible = visible;
     }
-  
+
     bool Widget::isVisible() const
     {
         if (getParent() == NULL)
-        {            
+        {
             return mVisible;
         }
         else
         {
             return mVisible && getParent()->isVisible();
-        }            
+        }
     }
 
     void Widget::setBaseColor(const Color& color)
@@ -304,7 +304,7 @@ namespace gcn
     {
         return mForegroundColor;
     }
-  
+
     void Widget::setBackgroundColor(const Color& color)
     {
         mBackgroundColor = color;
@@ -332,12 +332,12 @@ namespace gcn
             releaseModalFocus();
             mFocusHandler->remove(this);
         }
-    
+
         if (focusHandler)
         {
             focusHandler->add(this);
         }
-    
+
         mFocusHandler = focusHandler;
     }
 
@@ -348,54 +348,54 @@ namespace gcn
 
     void Widget::addActionListener(ActionListener* actionListener)
     {
-        mActionListeners.push_back(actionListener);    
+        mActionListeners.push_back(actionListener);
     }
-  
+
     void Widget::removeActionListener(ActionListener* actionListener)
     {
-        mActionListeners.remove(actionListener);    
+        mActionListeners.remove(actionListener);
     }
-  
+
     void Widget::addKeyListener(KeyListener* keyListener)
     {
-        mKeyListeners.push_back(keyListener);    
+        mKeyListeners.push_back(keyListener);
     }
-  
+
     void Widget::removeKeyListener(KeyListener* keyListener)
     {
-        mKeyListeners.remove(keyListener);    
+        mKeyListeners.remove(keyListener);
     }
-  
+
     void Widget::addMouseListener(MouseListener* mouseListener)
     {
-        mMouseListeners.push_back(mouseListener);    
+        mMouseListeners.push_back(mouseListener);
     }
-  
+
     void Widget::removeMouseListener(MouseListener* mouseListener)
     {
-        mMouseListeners.remove(mouseListener);    
+        mMouseListeners.remove(mouseListener);
     }
-  
+
     void Widget::_mouseInputMessage(const MouseInput& mouseInput)
     {
         if (mFocusHandler == NULL)
         {
             throw GCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
         }
-                
+
         if (!mEnabled || (mFocusHandler->getModalFocused() != NULL &&
                           !hasModalFocus()))
         {
             return;
         }
-                
+
         int x = mouseInput.x;
         int y = mouseInput.y;
         int b = mouseInput.getButton();
         int ts = mouseInput.getTimeStamp();
 
         MouseListenerIterator iter;
-    
+
         switch(mouseInput.getType())
         {
           case MouseInput::MOTION:
@@ -404,17 +404,17 @@ namespace gcn
                   (*iter)->mouseMotion(x, y);
               }
               break;
-        
+
           case MouseInput::PRESS:
               if (hasMouse())
               {
                   requestFocus();
                   mFocusHandler->requestDrag(this);
               }
-                
+
               if (b != MouseInput::WHEEL_UP && b != MouseInput::WHEEL_DOWN)
               {
-                    
+
                   for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
                   {
                       (*iter)->mousePress(x, y, b);
@@ -460,7 +460,7 @@ namespace gcn
               {
                   mFocusHandler->dragNone();
               }
-                
+
               if (b != MouseInput::WHEEL_UP && b != MouseInput::WHEEL_DOWN)
               {
                   for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
@@ -481,7 +481,7 @@ namespace gcn
                   else
                   {
                       mClickButton = 0;
-                      mClickCount = 0;            
+                      mClickCount = 0;
                   }
               }
               else
@@ -491,7 +491,7 @@ namespace gcn
               }
               setDirty(true);
               break;
-        }    
+        }
     }
 
     bool Widget::_keyInputMessage(const KeyInput& keyInput)
@@ -500,16 +500,16 @@ namespace gcn
         {
             throw GCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
         }
-                
+
         if (!mEnabled || (mFocusHandler->getModalFocused() != NULL &&
                           !hasModalFocus()))
         {
             return false;
         }
-        
+
         KeyListenerIterator iter;
         bool keyProcessed = false;
-    
+
         switch(keyInput.getType())
         {
           case KeyInput::PRESS:
@@ -521,7 +521,7 @@ namespace gcn
                   }
               }
               break;
-        
+
           case KeyInput::RELEASE:
               for (iter = mKeyListeners.begin(); iter != mKeyListeners.end(); ++iter)
               {
@@ -529,7 +529,7 @@ namespace gcn
                   {
                       keyProcessed = true;
                   }
-              }        
+              }
               break;
         }
 
@@ -550,7 +550,7 @@ namespace gcn
         for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
         {
             (*iter)->mouseIn();
-        }    
+        }
     }
 
     void Widget::_mouseOutMessage()
@@ -562,7 +562,7 @@ namespace gcn
         for (iter = mMouseListeners.begin(); iter != mMouseListeners.end(); ++iter)
         {
             (*iter)->mouseOut();
-        }    
+        }
     }
 
     void Widget::getAbsolutePosition(int& x, int& y) const
@@ -580,9 +580,9 @@ namespace gcn
         getParent()->getAbsolutePosition(parentX, parentY);
 
         x = parentX + mDimension.x;
-        y = parentY + mDimension.y;    
+        y = parentY + mDimension.y;
     }
-    
+
     void Widget::generateAction()
     {
         generateAction(mEventId);
@@ -596,7 +596,7 @@ namespace gcn
             (*iter)->action(eventId);
         }
     }
-    
+
     Font* Widget::getFont() const
     {
         if (mCurrentFont == NULL)
@@ -607,15 +607,15 @@ namespace gcn
             }
 
             return mGlobalFont;
-        }    
-    
+        }
+
         return mCurrentFont;
     }
-  
+
     void Widget::setGlobalFont(Font* font)
     {
         mGlobalFont = font;
-        
+
         std::list<Widget*>::iterator iter;
         for (iter = mWidgets.begin(); iter != mWidgets.end(); ++iter)
         {
@@ -623,14 +623,14 @@ namespace gcn
             {
                 (*iter)->fontChanged();
             }
-        }    
+        }
     }
-  
+
     void Widget::setFont(Font* font)
     {
         mCurrentFont = font;
-        fontChanged();    
-    } 
+        fontChanged();
+    }
 
     void Widget::setHotKey(const int key)
     {
@@ -659,7 +659,7 @@ namespace gcn
     bool Widget::widgetExists(const Widget* widget)
     {
         bool result = false;
-        
+
         std::list<Widget*>::iterator iter;
         for (iter = mWidgets.begin(); iter != mWidgets.end(); ++iter)
         {
@@ -676,7 +676,7 @@ namespace gcn
     {
         return mTabIn;
     }
-        
+
     void Widget::setTabInEnabled(bool enabled)
     {
         mTabIn = enabled;
@@ -686,7 +686,7 @@ namespace gcn
     {
         return mTabOut;
     }
-        
+
     void Widget::setTabOutEnabled(bool enabled)
     {
         mTabOut = enabled;
@@ -714,9 +714,9 @@ namespace gcn
         {
             throw GCN_EXCEPTION("No focushandler set (did you add the widget to the gui?).");
         }
-        
+
         return mFocusHandler->isDragged(this);
-    }    
+    }
 
     void Widget::requestModalFocus()
     {
@@ -737,7 +737,7 @@ namespace gcn
 
         mFocusHandler->releaseModalFocus(this);
     }
-    
+
     bool Widget::hasModalFocus() const
     {
         if (mFocusHandler == NULL)

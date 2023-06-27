@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -88,7 +88,7 @@ public:
 	virtual int getHeight() const { return Height(); }
 	virtual int getWidth(const std::string &text) const
 		{ return Width(text); }
-	virtual void drawString(gcn::Graphics *graphics, const std::string &text, 
+	virtual void drawString(gcn::Graphics *graphics, const std::string &text,
 		int x, int y);
 
 private:

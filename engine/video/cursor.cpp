@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -249,7 +249,7 @@ static void DrawBuildingCursor(void)
 		while (w--) {
 			if (f && (ontop ||
 					CanBuildOn(mx + w, my + h, MapFogFilterFlags(ThisPlayer, mx + w, my + h,
-						mask & ((NumSelected && 
+						mask & ((NumSelected &&
 							Selected[0]->X == mx + w && Selected[0]->Y == my + h) ?
 								~(MapFieldLandUnit | MapFieldSeaUnit) : -1)))) &&
 					Map.IsFieldExplored(ThisPlayer, mx + w, my + h))  {

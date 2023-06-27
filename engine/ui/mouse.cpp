@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -149,12 +149,12 @@ static CUnitType *CanBuildSomethingOnTop(const CUnit *builder, const CUnit *base
 					// Better return neither.
 					return NULL;
 				}
-			
+
 				foundType = buildingType;
 			}
 		}
 	}
-	
+
 	return foundType;
 }
 
@@ -354,7 +354,7 @@ void DoRightButton(int sx, int sy)
 					} else {
 						if (CanTarget(type, dest->Type)) {
 							SendCommandAttack(unit, x, y, dest, flush);
-						} else { 
+						} else {
 							// No valid target
 							SendCommandAttack(unit, x, y, NoUnitP, flush);
 						}
@@ -413,7 +413,7 @@ void DoRightButton(int sx, int sy)
 		// Manage new order.
 		if (!CanMove(unit) && dest) {
 			// Go and repair
-			if (dest->Type->RepairHP && 
+			if (dest->Type->RepairHP &&
 				  (dest->Player == unit->Player || unit->IsAllied(dest))) {
 				dest->Blink = 4;
 				SendCommandRepair(unit, x, y, dest, flush);
@@ -844,7 +844,7 @@ void UIHandleMouseMove(int x, int y)
 		if (CursorOn == CursorOnMap || CursorOn == CursorOnMinimap) {
 			GameCursor = UI.YellowHair.Cursor;
 			if (UnitUnderCursor && !UnitUnderCursor->Type->Decoration) {
-				if (UnitUnderCursor->Player == ThisPlayer || 
+				if (UnitUnderCursor->Player == ThisPlayer ||
 						ThisPlayer->IsAllied(UnitUnderCursor)) {
 					GameCursor = UI.GreenHair.Cursor;
 				} else if (UnitUnderCursor->Player->Index != PlayerNumNeutral) {

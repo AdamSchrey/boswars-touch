@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -583,7 +583,7 @@ CUnit *AttackUnitsInDistance(const CUnit *unit, int range)
 	type = unit->Type;
 	n = UnitCache.Select(x - range, y - range, x + range + type->TileWidth,
 		y + range + type->TileHeight, table, UnitMax);
-	
+
 	if (range > 25 && n > 9) {
 		referenceunit = unit;
 		qsort((void*)table, n, sizeof(CUnit*), &CompareUnitDistance);

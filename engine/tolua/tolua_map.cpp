@@ -256,7 +256,7 @@ static int tolua_bnd_setpeer(lua_State* L) {
 		lua_pushstring(L, "Invalid argument #1 to setpeer: userdata expected.");
 		lua_error(L);
 	};
-	
+
 	if (lua_isnil(L, -1)) {
 
 		lua_pop(L, 1);
@@ -531,7 +531,7 @@ TOLUA_API void tolua_cclass (lua_State* L, const char* lname, const char* name, 
 	mapsuper(L,name,base);
 
 	lua_pushstring(L,lname);
-	
+
 	push_collector(L, name, col);
 	/*
 	luaL_getmetatable(L,name);
@@ -540,7 +540,7 @@ TOLUA_API void tolua_cclass (lua_State* L, const char* lname, const char* name, 
 
 	lua_rawset(L,-3);
 	*/
-	
+
 	luaL_getmetatable(L,name);
 	lua_rawset(L,-3);              /* assign class metatable to module */
 
@@ -554,7 +554,7 @@ TOLUA_API void tolua_cclass (lua_State* L, const char* lname, const char* name, 
 	lua_rawset(L,-3);
 	lua_pop(L,1);
 	*/
-	
+
 
 }
 

@@ -1,9 +1,9 @@
-//     ____                _       __               
+//     ____                _       __
 //    / __ )____  _____   | |     / /___ ___________
 //   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-// /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-//                                              
+//  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+// /_____/\____/____/     |__/|__/\__,_/_/  /____/
+//
 //       A futuristic real-time strategy game.
 //          This file is part of Bos Wars.
 //
@@ -57,10 +57,10 @@ CTimer GameTimer;               /// The game timer
 
 /* Index of the trigger in the _trigger_ table where TriggersEachCycle will
    start at the next cycle. */
-static int nextTrigger; 
+static int nextTrigger;
 
-/* Trigger activation flags loaded from a saved game. Only triggers defined 
-   by AddTrigger which have the true flag in ActiveTriggers will be 
+/* Trigger activation flags loaded from a saved game. Only triggers defined
+   by AddTrigger which have the true flag in ActiveTriggers will be
    effectively added. */
 static bool *ActiveTriggers;
 

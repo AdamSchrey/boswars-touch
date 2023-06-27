@@ -83,7 +83,7 @@ CPatchManager::updateMapFlags(int x1, int y1, int x2, int y2)
 			int offsetX, offsetY;
 			CPatch *patch = this->getPatch(i, j, &offsetX, &offsetY);
 			unsigned short flags;
-			
+
 			if (patch) {
 				flags = patch->getType()->getFlag(offsetX, offsetY);
 			} else {
@@ -94,7 +94,7 @@ CPatchManager::updateMapFlags(int x1, int y1, int x2, int y2)
 
 			Map.Field(i, j)->Flags = (flags & MapFieldPatchMask)
 				| (Map.Field(i, j)->Flags & ~MapFieldPatchMask);
-				
+
 			Map.Field(i, j)->Cost = 1 << (flags & MapFieldSpeedMask);
 		}
 	}
@@ -325,14 +325,14 @@ CPatchManager::clear()
 		}
 		loadedAll = false;
 	}
-	
+
 	i = this->patchTypesMap.begin();
 	while(i != this->patchTypesMap.end()) {
 		std::map<std::string, CPatchType *>::iterator p = i;
 		++i;
 		if (p->second->isCustomPatch()) {
 			delete p->second;
-			this->patchTypesMap.erase(p);	
+			this->patchTypesMap.erase(p);
 		}
 	}
 }
