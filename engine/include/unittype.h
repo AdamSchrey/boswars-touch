@@ -728,11 +728,9 @@ extern std::vector<CUnitType *> UnitTypes;   /// All unit-types
 */
 class CUnitTypeVar {
 public:
-	CUnitTypeVar() : Variable(NULL), NumberVariable(0) {}
+	CUnitTypeVar() : Variable(NULL) {}
 
 	CVariable *Variable;                /// Array of user defined variables (default value for unittype).
-//	EventType *Event;                   /// Array of functions sets to call when en event occurs.
-	int NumberVariable;                 /// Number of defined variables.
 
 	std::vector<CDecoVar *> DecoVar;    /// Array to describe how showing variable.
 };

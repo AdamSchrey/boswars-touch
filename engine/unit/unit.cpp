@@ -204,12 +204,10 @@ void CUnit::Init(CUnitType *type)
 
 	Frame = type->StillFrame;
 
-	if (UnitTypeVar.NumberVariable) {
-		Assert(!Variable);
-		Variable = new CVariable[UnitTypeVar.NumberVariable];
-		memcpy(Variable, Type->Variable,
-			UnitTypeVar.NumberVariable * sizeof(*Variable));
-	}
+	Assert(!Variable);
+	Variable = new CVariable[NVARALREADYDEFINED];
+	memcpy(Variable, Type->Variable,
+		NVARALREADYDEFINED * sizeof(*Variable));
 
 	// Set a heading for the unit if it Handles Directions
 	// Don't set a building heading, as only 1 construction direction
@@ -285,10 +283,8 @@ void CUnit::AssignToPlayer(CPlayer *player)
 	Stats = &Type->Stats[Player->Index];
 	Colors = &player->UnitColors;
 	if (!SaveGameLoading) {
-		if (UnitTypeVar.NumberVariable) {
-			memcpy(Variable, Stats->Variables,
-				UnitTypeVar.NumberVariable * sizeof(*Variable));
-		}
+		memcpy(Variable, Stats->Variables,
+			NVARALREADYDEFINED * sizeof(*Variable));
 	}
 }
 

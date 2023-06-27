@@ -322,7 +322,7 @@ static void HandleBuffs(CUnit *unit, int amount)
 	}
 
 	// User defined variables
-	for (int i = 0; i < UnitTypeVar.NumberVariable; i++) {
+	for (int i = 0; i < NVARALREADYDEFINED; i++) {
 		if (unit->Variable[i].Enable && unit->Variable[i].Increase) {
 			unit->Variable[i].Value += unit->Variable[i].Increase;
 			if (unit->Variable[i].Value <= 0) {

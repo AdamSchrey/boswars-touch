@@ -379,7 +379,7 @@ int AdjustVariable::Cast(CUnit *caster, const SpellType *spell,
 	int i;
 	CUnit *unit;    // unit to modify.
 
-	for (i = 0; i < UnitTypeVar.NumberVariable; ++i) {
+	for (i = 0; i < NVARALREADYDEFINED; ++i) {
 		unit = (this->Var[i].TargetIsCaster) ? caster : target;
 		if (!unit) {
 			continue;
@@ -752,7 +752,7 @@ static bool PassCondition(const CUnit *caster, const SpellType *spell, const CUn
 		return true;
 	}
 
-	for (int i = 0; i < UnitTypeVar.NumberVariable; i++) { // for custom variables
+	for (int i = 0; i < NVARALREADYDEFINED; i++) { // for custom variables
 		const CUnit *unit;
 
 		unit = (condition->Variable[i].ConditionApplyOnCaster) ? caster : target;

@@ -151,9 +151,9 @@ void UpdateStats(int reset)
 			for (int player = 0; player < PlayerMax; ++player) {
 				stats = &type->Stats[player];
 				if (!stats->Variables) {
-					stats->Variables = new CVariable[UnitTypeVar.NumberVariable];
+					stats->Variables = new CVariable[NVARALREADYDEFINED];
 				}
-				for (int i = 0; i < UnitTypeVar.NumberVariable; ++i) {
+				for (int i = 0; i < NVARALREADYDEFINED; ++i) {
 					stats->Variables[i] = type->Variable[i];
 				}
 			}
@@ -296,9 +296,9 @@ CUnitType *NewUnitTypeSlot(const std::string &ident)
 	}
 	type->Slot = UnitTypes.size();
 	type->Ident = ident;
-	type->Variable = new CVariable[UnitTypeVar.NumberVariable];
+	type->Variable = new CVariable[NVARALREADYDEFINED];
 	memcpy(type->Variable, UnitTypeVar.Variable,
-		UnitTypeVar.NumberVariable * sizeof(*type->Variable));
+		NVARALREADYDEFINED * sizeof(*type->Variable));
 
 	UnitTypes.push_back(type);
 	UnitTypeMap[type->Ident] = type;
@@ -509,7 +509,6 @@ void CleanUnitTypes(void)
 
 	delete[] UnitTypeVar.Variable;
 	UnitTypeVar.Variable = NULL;
-	UnitTypeVar.NumberVariable = 0;
 	for (std::vector<CDecoVar *>::iterator it = UnitTypeVar.DecoVar.begin();
 			it != UnitTypeVar.DecoVar.end(); ++it) {
 		delete (*it);

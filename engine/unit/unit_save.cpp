@@ -382,7 +382,7 @@ void SaveUnit(const CUnit *unit, CFile *file)
 	file->printf(" \"seen-state\", %d, ", unit->Seen.State);
 	file->printf("\"ttl\", %lu, ", unit->TTL);
 
-	for (i = 0; i < UnitTypeVar.NumberVariable; i++) {
+	for (i = 0; i < NVARALREADYDEFINED; i++) {
 		file->printf("\"%s\", {Value = %d, Max = %d, Increase = %d, Enable = %s},\n  ",
 			VariableNames[i], unit->Variable[i].Value, unit->Variable[i].Max,
 			unit->Variable[i].Increase, unit->Variable[i].Enable ? "true" : "false");

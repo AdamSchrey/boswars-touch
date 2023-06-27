@@ -209,7 +209,7 @@ static SpellActionType *CclSpellAction(lua_State *l)
 		AdjustVariable *spellaction = new AdjustVariable;
 		lua_rawgeti(l, -1, j + 1);
 		LuaCheckTable(l, -1);
-		spellaction->Var = new SpellActionTypeAdjustVariable[UnitTypeVar.NumberVariable];
+		spellaction->Var = new SpellActionTypeAdjustVariable[NVARALREADYDEFINED];
 		for (lua_pushnil(l); lua_next(l, -2); lua_pop(l, 1)) {
 			int i;
 
@@ -424,9 +424,9 @@ static void CclSpellCondition(lua_State *l, ConditionInfo *condition)
 	//
 
 	// Flags are defaulted to 0(CONDITION_TRUE)
-	condition->Variable = new ConditionInfoVariable[UnitTypeVar.NumberVariable];
+	condition->Variable = new ConditionInfoVariable[NVARALREADYDEFINED];
 	// Initialize min/max stuff to values with no effect.
-	for (i = 0; i < UnitTypeVar.NumberVariable; i++) {
+	for (i = 0; i < NVARALREADYDEFINED; i++) {
 		condition->Variable[i].MinValue = -1;
 		condition->Variable[i].MaxValue = -1;
 		condition->Variable[i].MinMax = -1;

@@ -1033,7 +1033,7 @@ void DefineVariableField(lua_State *l, CVariable *var, int lua_index)
 */
 int GetVariableIndex(const char *varname)
 {
-	for (int i = 0; i < UnitTypeVar.NumberVariable; ++i) {
+	for (int i = 0; i < NVARALREADYDEFINED; ++i) {
 		if (!strcmp(varname, VariableNames[i])) {
 			return i;
 		}
@@ -1262,7 +1262,6 @@ void UpdateUnitVariables(const CUnit *unit)
 void InitDefinedVariables()
 {
 	UnitTypeVar.Variable = new CVariable[NVARALREADYDEFINED];
-	UnitTypeVar.NumberVariable = NVARALREADYDEFINED;
 }
 
 /**
