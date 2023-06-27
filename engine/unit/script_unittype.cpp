@@ -87,7 +87,7 @@ const char *VariableNames[NVARALREADYDEFINED] = {
 	"HitPoints", "Build", "Charge", "Transport",
 	"Training", "GiveResource", "Kill", "Armor", "SightRange",
 	"AttackRange", "PiercingDamage", "BasicDamage", "PosX", "PosY", "RadarRange",
-	"RadarJammerRange", "AutoRepairRange", "Slot"};
+	"RadarJammerRange", "AutoRepairRange"};
 
 /*----------------------------------------------------------------------------
 --  Functions
@@ -1237,10 +1237,6 @@ void UpdateUnitVariables(const CUnit *unit)
 	// RadarJammerRange
 	unit->Variable[RADARJAMMER_INDEX].Value = unit->Stats->Variables[RADARJAMMER_INDEX].Value;
 	unit->Variable[RADARJAMMER_INDEX].Max = unit->Stats->Variables[RADARJAMMER_INDEX].Value;
-
-	// SlotNumber
-	unit->Variable[SLOT_INDEX].Value = unit->Slot;
-	unit->Variable[SLOT_INDEX].Max = UnitSlotFree - 1;
 
 	for (int i = 0; i < NVARALREADYDEFINED; i++) { // default values
 		unit->Variable[i].Enable &= unit->Variable[i].Max > 0;
