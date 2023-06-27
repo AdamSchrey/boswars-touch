@@ -578,7 +578,7 @@ int SelectGroupFromUnit(CUnit *unit)
 **
 **  @return           the number of units found.
 */
-static int SelectOrganicUnitsInTable(CUnit **table, int num_units)
+static int SelectMobileUnitsInTable(CUnit **table, int num_units)
 {
 	CUnit *unit;
 	int n;
@@ -699,7 +699,7 @@ int AddSelectedUnitsInRectangle(int x0, int y0, int x1, int y1)
 
 	// Now we should only have mobile (organic) units belonging to us,
 	// so if there's no such units in the rectangle, do nothing.
-	if (!(n = SelectOrganicUnitsInTable(table, toggle_num))) {
+	if (!(n = SelectMobileUnitsInTable(table, toggle_num))) {
 		return NumSelected;
 	}
 
@@ -748,7 +748,7 @@ int SelectUnitsInRectangle (int sx0, int sy0, int sx1, int sy1)
 	//
 	// 1) search for the player units selectable with rectangle
 	//
-	if ((n = SelectOrganicUnitsInTable(table, r))) {
+	if ((n = SelectMobileUnitsInTable(table, r))) {
 		ChangeSelectedUnits(table, n);
 		return n;
 	}
