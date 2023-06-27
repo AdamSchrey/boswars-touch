@@ -300,22 +300,7 @@ void SaveUnit(const CUnit *unit, CFile *file)
 	file->printf("\"tile\", {%d, %d}, ", unit->X, unit->Y);
 	file->printf("\"seen-tile\", {%d, %d}, ", unit->Seen.X, unit->Seen.Y);
 	file->printf("\"refs\", %lu, ", unit->Refs);
-#if 0
-	// latimerius: why is this so complex?
-	// JOHNS: An unit can be owned by a new player and have still the old stats
-	for (i = 0; i < PlayerMax; ++i) {
-		if (&unit->Type->Stats[i] == unit->Stats) {
-			file->printf("\"stats\", %d,\n  ", i);
-			break;
-		}
-	}
-	// latimerius: what's the point of storing a pointer value anyway?
-	if (i == PlayerMax) {
-		file->printf("\"stats\", \"S%08X\",\n  ", (int)unit->Stats);
-	}
-#else
 	file->printf("\"stats\", %d,\n  ", unit->Player->Index);
-#endif
 	file->printf("\"pixel\", {%d, %d}, ", unit->IX, unit->IY);
 	file->printf("\"seen-pixel\", {%d, %d}, ", unit->Seen.IX, unit->Seen.IY);
 	file->printf("\"frame\", %d, ", unit->Frame);
