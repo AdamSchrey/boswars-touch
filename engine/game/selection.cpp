@@ -569,9 +569,12 @@ int SelectGroupFromUnit(CUnit *unit)
 }
 
 /**
-**  Select the units selecteable by rectangle in a local table.
+**  Select the (mobile) units "selecteable by rectangle" in a local table.
 **  Act like a filter: The source table is modified.
 **  Return the original table if no unit is found.
+**  Actually it doesn't check if the units are mobile or not. It simply
+**  relies on the SelectableByRectangle flag of each unit type. It just
+**  happens that that flag is usually set only for mobile units.
 **
 **  @param table      Input/Output table of units.
 **  @param num_units  Number of units in input table.
