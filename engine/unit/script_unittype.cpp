@@ -86,7 +86,7 @@ static std::vector<LabelsLaterStruct> LabelsLater;
 const char *VariableNames[NVARALREADYDEFINED] = {
 	"HitPoints", "Build", "Charge", "Transport",
 	"Training", "GiveResource", "Kill", "Armor", "SightRange",
-	"AttackRange", "PiercingDamage", "BasicDamage", "PosX", "PosY", "RadarRange",
+	"AttackRange", "PiercingDamage", "BasicDamage", "RadarRange",
 	"RadarJammerRange", "AutoRepairRange"};
 
 /*----------------------------------------------------------------------------
@@ -1223,12 +1223,6 @@ void UpdateUnitVariables(const CUnit *unit)
 	// AttackRange
 	unit->Variable[ATTACKRANGE_INDEX].Value = type->Variable[ATTACKRANGE_INDEX].Max;
 	unit->Variable[ATTACKRANGE_INDEX].Max = type->Variable[ATTACKRANGE_INDEX].Max;
-
-	// Position
-	unit->Variable[POSX_INDEX].Value = unit->X;
-	unit->Variable[POSX_INDEX].Max = Map.Info.MapWidth;
-	unit->Variable[POSY_INDEX].Value = unit->Y;
-	unit->Variable[POSY_INDEX].Max = Map.Info.MapHeight;
 
 	// RadarRange
 	unit->Variable[RADAR_INDEX].Value = type->Variable[RADAR_INDEX].Value;
