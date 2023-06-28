@@ -586,6 +586,7 @@ static int SelectMobileUnitsInTable(CUnit **table, int num_units)
 	CUnit *unit;
 	int n;
 	int i;
+	int attackers = 0;
 
 	for (n = i = 0; i < num_units; ++i) {
 		unit = table[i];
@@ -602,7 +603,23 @@ static int SelectMobileUnitsInTable(CUnit **table, int num_units)
 		if (n == MaxSelectable) {
 			break;
 		}
+		if (unit->Type->CanAttack) {
+			attackers++;
+		}
 	}
+	if (attackers && n > attackers) {
+		/* There's a mix of attackers and non attackers. Filter out the
+		 * non attackers. */
+		num_units = n;
+		for (n = i = 0; i < num_units; ++i) {
+			unit = table[i];
+			if (!unit->Type->CanAttack) {
+				continue;
+			}
+			table[n++] = unit;
+		}
+	}
+
 	return n;
 }
 

@@ -1,6 +1,7 @@
 Change log for Bos Wars
 -----------------------
 
+- Selection rectangle a mix of mobile units, only select attackers (François Beerten)
 - Migrate to SDL 2.0 (François Beerten)
 - Add existing tutorial to main menu (Andy Alt)
 - Set Timeout for opening title screen (Andy Alt)
