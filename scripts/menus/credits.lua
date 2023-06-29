@@ -9,7 +9,7 @@
 --
 --      credits.lua - Credits menu.
 --
---      (c) Copyright 2005-2013 by Francois Beerten
+--      (c) Copyright 2005-2023 by Francois Beerten
 --
 --      This program is free software; you can redistribute it and/or modify
 --      it under the terms of the GNU General Public License as published by
