@@ -104,45 +104,14 @@ static void MovieCallbackMouseExit(void)
 */
 static int OutputTheora(OggData *data, SDL_Texture *yuv_overlay, SDL_Rect *rect)
 {
-#if 0
-	int i;
 	yuv_buffer yuv;
-	int crop_offset;
 
 	theora_decode_YUVout(&data->tstate, &yuv);
 
-	if (SDL_MUSTLOCK(TheScreen)) {
-		if (SDL_LockSurface(TheScreen) < 0) {
-			return - 1;
-		}
-	}
+	SDL_UpdateYUVTexture(yuv_overlay, NULL, yuv.y, yuv.y_stride, yuv.u, yuv.uv_stride, yuv.v, yuv.uv_stride);
+	SDL_RenderCopy(TheRenderer, yuv_overlay, NULL, NULL);
+	SDL_RenderPresent(TheRenderer);
 
-	if (SDL_LockYUVOverlay(yuv_overlay) < 0) {
-		return -1;
-	}
-
-	crop_offset = data->tinfo.offset_x + yuv.y_stride * data->tinfo.offset_y;
-	for (i = 0; i < yuv_overlay->h; ++i) {
-		memcpy(yuv_overlay->pixels[0] + yuv_overlay->pitches[0] * i,
-			yuv.y + crop_offset + yuv.y_stride * i, yuv_overlay->w);
-	}
-
-	crop_offset = (data->tinfo.offset_x / 2) + (yuv.uv_stride) *
-		(data->tinfo.offset_y / 2);
-	for (i = 0; i < yuv_overlay->h / 2; ++i) {
-		memcpy(yuv_overlay->pixels[1] + yuv_overlay->pitches[1] * i,
-			yuv.v + yuv.uv_stride * i, yuv_overlay->w / 2);
-		memcpy(yuv_overlay->pixels[2] + yuv_overlay->pitches[2] * i,
-			yuv.u + crop_offset + yuv.uv_stride * i, yuv_overlay->w / 2);
-	}
-
-	if (SDL_MUSTLOCK(TheScreen)) {
-		SDL_UnlockSurface(TheScreen);
-	}
-	SDL_UnlockYUVOverlay(yuv_overlay);
-
-	SDL_DisplayYUVOverlay(yuv_overlay, rect);
-#endif
 	return 0;
 }
 
@@ -191,7 +160,6 @@ int PlayMovie(const std::string &name)
 	char buffer[PATH_MAX];
 
 	LibraryFileName(name.c_str(), buffer, sizeof(buffer));
-#if 0
 	if (f.open(buffer, CL_OPEN_READ) == -1) {
 		fprintf(stderr, "Can't open file `%s'\n", name.c_str());
 		return -1;
@@ -218,8 +186,13 @@ int PlayMovie(const std::string &name)
 		rect.y = 0;
 	}
 
-	yuv_overlay = SDL_CreateYUVOverlay(data.tinfo.frame_width,
-		data.tinfo.frame_height, SDL_YV12_OVERLAY, TheScreen);
+	SDL_RenderClear(TheRenderer);
+	Video.ClearScreen();
+	yuv_overlay = SDL_CreateTexture(TheRenderer,
+									SDL_PIXELFORMAT_YV12,
+									SDL_TEXTUREACCESS_STREAMING,
+									data.tinfo.frame_width,
+									data.tinfo.frame_height);
 
 	if (yuv_overlay == NULL) {
 		fprintf(stderr, "SDL_CreateYUVOverlay: %s\n", SDL_GetError());
@@ -234,7 +207,7 @@ int PlayMovie(const std::string &name)
 				sample->SampleSize != 16) {
 			fprintf(stderr, "Unsupported sound format in movie\n");
 			delete sample;
-			SDL_FreeYUVOverlay(yuv_overlay);
+			SDL_DestroyTexture(yuv_overlay);
 			OggFree(&data);
 			f.close();
 			return 0;
@@ -285,13 +258,13 @@ int PlayMovie(const std::string &name)
 	}
 
 	StopMusic();
-	SDL_FreeYUVOverlay(yuv_overlay);
+	SDL_DestroyTexture(yuv_overlay);
 
 	OggFree(&data);
 	f.close();
 
 	SetCallbacks(old_callbacks);
-#endif
+
 	return 1;
 }
 
