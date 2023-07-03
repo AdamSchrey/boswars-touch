@@ -129,6 +129,8 @@ namespace gcn
         switch (event.type)
         {
           case SDL_KEYDOWN:
+              if (event.key.keysym.sym >= ' ')
+                  break;
 			  mLastKey = convertKeyCharacter(event.key.keysym);
 			  mIsRepeating = true;
               keyInput.setKey(mLastKey);
@@ -137,8 +139,19 @@ namespace gcn
               break;
 
           case SDL_KEYUP:
+              if (event.key.keysym.sym >= ' ')
+                  break;
 			  mIsRepeating = false;
               keyInput.setKey(convertKeyCharacter(event.key.keysym));
+              keyInput.setType(KeyInput::RELEASE);
+              mKeyInputQueue.push(keyInput);
+              break;
+
+          case SDL_TEXTINPUT:
+              mIsRepeating = false;
+              keyInput.setKey(event.text.text[0]);
+              keyInput.setType(KeyInput::PRESS);
+              mKeyInputQueue.push(keyInput);
               keyInput.setType(KeyInput::RELEASE);
               mKeyInputQueue.push(keyInput);
               break;

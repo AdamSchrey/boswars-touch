@@ -1389,8 +1389,8 @@ static void EditorUpdateDisplay()
 /**
 **  Handle key down.
 **
-**  @param key      Key scancode.
-**  @param keychar  Character code.
+**  @param key      Key character code.
+**  @param keychar  Character code (for text input only, otherwise 0).
 */
 static void EditorCallbackKeyDown(unsigned key, unsigned keychar)
 {

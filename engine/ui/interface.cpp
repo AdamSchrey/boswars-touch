@@ -952,39 +952,12 @@ int HandleKeyModifiersUp(unsigned key, unsigned keychar)
 	return 0;
 }
 
-/**
-**  Check if a key is from the keypad and convert to ascii
-*/
-static bool IsKeyPad(unsigned key, unsigned *kp)
-{
-	if (key >= SDLK_KP_0 && key <= SDLK_KP_9) {
-		*kp = SDLK_0 + (key - SDLK_KP_0);
-	} else if (key == SDLK_KP_PERIOD) {
-		*kp = SDLK_PERIOD;
-	} else if (key == SDLK_KP_DIVIDE) {
-		*kp = SDLK_SLASH;
-	} else if (key == SDLK_KP_MULTIPLY) {
-		*kp = SDLK_ASTERISK;
-	} else if (key == SDLK_KP_MINUS) {
-		*kp = SDLK_MINUS;
-	} else if (key == SDLK_KP_PLUS) {
-		*kp = SDLK_PLUS;
-	} else if (key == SDLK_KP_ENTER) {
-		*kp = SDLK_RETURN;
-	} else if (key == SDLK_KP_EQUALS) {
-		*kp = SDLK_EQUALS;
-	} else  {
-		*kp = SDLK_UNKNOWN;
-		return false;
-	}
-	return true;
-}
 
 /**
 **  Handle key down.
 **
-**  @param key      Key scancode.
-**  @param keychar  Character code.
+**  @param key      Key character code.
+**  @param keychar  Character code (for text input only, otherwise 0).
 */
 void HandleKeyDown(unsigned key, unsigned keychar)
 {
@@ -995,9 +968,12 @@ void HandleKeyDown(unsigned key, unsigned keychar)
 	// Handle All other keys
 
 	// Command line input: for message or cheat
-	unsigned kp = 0;
-	if (KeyState == KeyStateInput && (keychar || IsKeyPad(key, &kp))) {
-		InputKey(kp ? kp : keychar);
+	if (KeyState == KeyStateInput) {
+		if (key < ' ') {
+			InputKey(key);
+		} else if (keychar) {
+			InputKey(keychar);
+		}
 	} else {
 		// If no modifier look if button bound
 		if (!(KeyModifiers & (ModifierControl | ModifierAlt |
@@ -1346,7 +1322,10 @@ void InputKeyButtonPress(const EventCallback *callbacks,
 		KeyModifiers |= ModifierDoublePress;
 	}
 	DoubleKey = ikey;
-	LastIKey = ikey;
+	if (ikeychar)
+		LastIKey = 0;
+	else
+		LastIKey = ikey;
 	LastIKeyChar = ikeychar;
 	LastKeyTicks = ticks;
 	callbacks->KeyPressed(ikey, ikeychar);

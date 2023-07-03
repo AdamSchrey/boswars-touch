@@ -803,14 +803,17 @@ static void SdlDoEvent(const EventCallback *callbacks, const SDL_Event *event)
 
 		case SDL_KEYDOWN:
 			InputKeyButtonPress(callbacks, SDL_GetTicks(),
-				event->key.keysym.sym,
-				event->key.keysym.sym < 128 ? event->key.keysym.sym : 0);
+				event->key.keysym.sym, 0);
 			break;
 
 		case SDL_KEYUP:
 			InputKeyButtonRelease(callbacks, SDL_GetTicks(),
-				event->key.keysym.sym,
-				event->key.keysym.sym < 128 ? event->key.keysym.sym : 0);
+				event->key.keysym.sym, 0);
+			break;
+
+		case SDL_TEXTINPUT:
+			InputKeyButtonPress(callbacks, SDL_GetTicks(),
+				event->text.text[0], event->text.text[0]);
 			break;
 
 		case SDL_QUIT:
