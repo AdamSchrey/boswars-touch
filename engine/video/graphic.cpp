@@ -945,7 +945,6 @@ static int PowerOf2(int x)
 static void MakeTextures2(CGraphic *g, GLuint texture, CUnitColors *colors,
 	int ow, int oh)
 {
-#if 0
 	int h;
 	int w;
 	unsigned char *tex;
@@ -954,7 +953,7 @@ static void MakeTextures2(CGraphic *g, GLuint texture, CUnitColors *colors,
 	Uint32 ckey;
 	int useckey;
 	int bpp;
-	unsigned char alpha;
+	unsigned char alpha = 255;
 	Uint32 b;
 	Uint32 c;
 	Uint32 pc;
@@ -962,10 +961,9 @@ static void MakeTextures2(CGraphic *g, GLuint texture, CUnitColors *colors,
 	int maxw;
 	int maxh;
 
-	useckey = g->Surface->flags & SDL_SRCCOLORKEY;
 	f = g->Surface->format;
 	bpp = f->BytesPerPixel;
-	ckey = f->colorkey;
+	useckey = !SDL_GetColorKey(g->Surface, &ckey);
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	maxw = std::min(g->GraphicWidth - ow, GLMaxTextureSize);
@@ -974,11 +972,6 @@ static void MakeTextures2(CGraphic *g, GLuint texture, CUnitColors *colors,
 	h = PowerOf2(maxh);
 	tex = new unsigned char[w * h * 4];
 	memset(tex, 0, w * h * 4);
-	if (g->Surface->flags & SDL_SRCALPHA) {
-		alpha = f->alpha;
-	} else {
-		alpha = 0xff;
-	}
 
 	SDL_LockSurface(g->Surface);
 	glBindTexture(GL_TEXTURE_2D, texture);
@@ -1061,7 +1054,6 @@ static void MakeTextures2(CGraphic *g, GLuint texture, CUnitColors *colors,
 #endif
 	SDL_UnlockSurface(g->Surface);
 	delete[] tex;
-#endif
 }
 
 /**
