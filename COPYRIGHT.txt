@@ -113,7 +113,6 @@ As a special exception the sources are not required for the following files:
   units/bomber/unit_bomber_s.png
   units/camera/sfx_camera.select.wav
   units/camp/sfx_camp.die.wav
-  units/camp/sfx_camp.select.wav
   units/camp/training.camp.completed.wav
   units/camp/training.camp.underattack.wav
   units/chopper/ico_chopper.png
