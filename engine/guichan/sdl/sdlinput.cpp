@@ -175,8 +175,8 @@ namespace gcn
               break;
 
           case SDL_MOUSEMOTION:
-              mouseInput.x = event.button.x;
-              mouseInput.y = event.button.y;
+              mouseInput.x = event.motion.x;
+              mouseInput.y = event.motion.y;
               lastx = mouseInput.x;
               lasty = mouseInput.y;
               mouseInput.setButton(MouseInput::EMPTY);
