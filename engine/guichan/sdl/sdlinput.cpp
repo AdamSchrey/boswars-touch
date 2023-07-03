@@ -123,6 +123,8 @@ namespace gcn
     {
         KeyInput keyInput;
         MouseInput mouseInput;
+        static int lastx;
+        static int lasty;
 
         switch (event.type)
         {
@@ -161,9 +163,22 @@ namespace gcn
               mMouseInputQueue.push(mouseInput);
               break;
 
+          case SDL_MOUSEWHEEL:
+              mMouseDown = true;
+              mouseInput.x = lastx;
+              mouseInput.y = lasty;
+              mouseInput.setButton(
+                 (event.wheel.y < 0) ? MouseInput::WHEEL_DOWN : MouseInput::WHEEL_UP);
+              mouseInput.setType(MouseInput::PRESS);
+              mouseInput.setTimeStamp(SDL_GetTicks());
+              mMouseInputQueue.push(mouseInput);
+              break;
+
           case SDL_MOUSEMOTION:
               mouseInput.x = event.button.x;
               mouseInput.y = event.button.y;
+              lastx = mouseInput.x;
+              lasty = mouseInput.y;
               mouseInput.setButton(MouseInput::EMPTY);
               mouseInput.setType(MouseInput::MOTION);
               mouseInput.setTimeStamp(SDL_GetTicks());
