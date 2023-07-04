@@ -25,7 +25,8 @@ How to contact us
 For any questions, remarks or thanks you can contact us at:
 http://bos.seul.org/
 
-Or discuss with the team on irc on the channel #boswars at
+Or discuss with the team in our Matrix rooms
+<https://matrix.to/#/#boswars:matrix.org> or irc on the channel #boswars at
 irc.libera.chat.
 
 Please report bugs in our bug tracker:
