@@ -31,7 +31,6 @@
 //@{
 
 #include "SDL.h"
-#define __gl_glext_h_
 #include "SDL_opengl.h"
 #include "guichan/image.h"
 
