@@ -202,24 +202,49 @@ int NetSetNonBlocking(Socket sockfd)
 */
 unsigned long NetResolveHost(const std::string &host)
 {
-	unsigned long addr;
+	DebugPrint("NetResolverHost called\n");
 
-	if (!host.empty()) {
-		addr = inet_addr(host.c_str()); // try dot notation
-		if (addr == INADDR_NONE) {
-			struct hostent *he;
+	if (host.empty())
+		return INADDR_NONE;
 
-			he = 0;
-			he = gethostbyname(host.c_str());
-			if (he) {
-				addr = 0;
-				Assert(he->h_length == 4);
-				memcpy(&addr, he->h_addr, he->h_length);
-			}
-		}
-		return addr;
+	struct addrinfo hints;
+	struct addrinfo *result, *rp;
+
+	/* Obtain address(es) matching host/port */
+	memset(&hints, 0, sizeof(struct addrinfo));
+	hints.ai_family = AF_INET;
+	hints.ai_socktype = SOCK_DGRAM;
+	hints.ai_flags = 0;
+	hints.ai_protocol = 0;        /* Any protocol */
+
+	int s = getaddrinfo(host.c_str(), NULL, &hints, &result);
+	if (s != 0)
+	{
+		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(s));
+		return INADDR_NONE;
 	}
-	return INADDR_NONE;
+
+ 	int sockfd = -1;
+ 	unsigned long addr;
+	for (rp = result; rp != NULL; rp = rp->ai_next) {
+		sockfd = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
+		if (sockfd == 0) {
+			addr = inet_addr(rp->ai_addr->sa_data);
+			break;
+		}
+	}
+
+	freeaddrinfo(result);         /* No longer needed */
+
+	if (sockfd == -1) {
+		fputs("Unable to create socket\n", stderr);
+		return INADDR_NONE;;
+	}
+
+	if (close(sockfd) != 0)
+		perror("close");
+
+	return addr;
 }
 
 /**
