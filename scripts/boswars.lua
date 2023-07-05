@@ -45,6 +45,7 @@ DebugPrint("Bos Wars default config file loading ...\n")
 SetTitleScreens({
   Image = "intro/logo_boswars.png",
   StretchImage = false,
+  Timeout = 2,
   --Image = "intro/boswars_intro.ogg",
 })
 
