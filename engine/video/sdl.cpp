@@ -768,37 +768,29 @@ static void SdlDoEvent(const EventCallback *callbacks, const SDL_Event *event)
 				case SDL_WINDOWEVENT_LEAVE:
 				{
 					static bool InMainWindow = true;
+					static bool DoTogglePause = false;
 
 					if (InMainWindow && (event->window.event == SDL_WINDOWEVENT_LEAVE)) {
 						InputMouseExit(callbacks, SDL_GetTicks());
+						if (!GamePaused) {
+							DoTogglePause = true;
+							UiTogglePause();
+						}
+					} else if (!InMainWindow && (event->window.event == SDL_WINDOWEVENT_ENTER)) {
+						if (GamePaused && DoTogglePause) {
+							DoTogglePause = false;
+							UiTogglePause();
+						}
+						#if 0
+						if (UseOpenGL) {
+							Video.ResizeScreen(Video.Width, Video.Height);
+						}
+						#endif
 					}
 					InMainWindow = event->window.event == SDL_WINDOWEVENT_ENTER;
 				}
 				break;
 			}
-			#if 0
-			if (event->active.state & SDL_APPACTIVE) {
-				static bool IsVisible = true;
-				static bool DoTogglePause = false;
-
-				if (IsVisible && !event->active.gain) {
-					IsVisible = false;
-					if (!GamePaused) {
-						DoTogglePause = true;
-						UiTogglePause();
-					}
-				} else if (!IsVisible && event->active.gain) {
-					IsVisible = true;
-					if (GamePaused && DoTogglePause) {
-						DoTogglePause = false;
-						UiTogglePause();
-					}
-					if (UseOpenGL) {
-						Video.ResizeScreen(Video.Width, Video.Height);
-					}
-				}
-			}
-			#endif
 			break;
 
 		case SDL_KEYDOWN:
