@@ -37,8 +37,8 @@ complete 3d-model used to generate the image (e.g. including the raw images of
 the textures), or for music the midi files used to generate it (if done so) 
 with the addditional patch sets.
 
-The sources can be downloaded from the project website (http://bos.seul.org) or 
-got upon request.
+The sources can be downloaded from the project website (https://www.boswars.org)
+or got upon request.
 
 As a special exception the sources are not required for the following files:
   graphics/missiles/nuke.png

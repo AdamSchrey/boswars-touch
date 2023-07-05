@@ -25,7 +25,7 @@ to the doc/index.html file.
 ## How to contact us
 
 For any questions, remarks or thanks you can contact us at:
-http://bos.seul.org/
+https://www.boswars.org/
 
 Or discuss with the team in our Matrix rooms
 <https://matrix.to/#/#boswars:matrix.org> or irc on the channel #boswars at
