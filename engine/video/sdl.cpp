@@ -1145,7 +1145,7 @@ void ToggleFullScreen(void)
 	SDL_SetWindowFullscreen(TheWindow, flags ^ SDL_WINDOW_FULLSCREEN_DESKTOP);
 #endif
 
-	Video.FullScreen = (flags & SDL_WINDOW_FULLSCREEN_DESKTOP) ? 1 : 0;
+	Video.FullScreen = (flags & SDL_WINDOW_FULLSCREEN_DESKTOP) ? 0 : 1;
 }
 
 //@}
