@@ -1,10 +1,10 @@
 #! /usr/bin/env python
-#     ____                _       __               
+#     ____                _       __
 #    / __ )____  _____   | |     / /___ ___________
 #   / __  / __ \/ ___/   | | /| / / __ `/ ___/ ___/
-#  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  ) 
-# /_____/\____/____/     |__/|__/\__,_/_/  /____/  
-#                                              
+#  / /_/ / /_/ (__  )    | |/ |/ / /_/ / /  (__  )
+# /_____/\____/____/     |__/|__/\__,_/_/  /____/
+#
 #       A futuristic real-time strategy game.
 #          This file is part of Bos Wars.
 #
@@ -24,12 +24,12 @@ import sys
 import csv
 import re
 
-importantkeys = ['Name', 
+importantkeys = ['Name',
                  'EnergyValue', 'MagmaValue',
                  'MaxEnergyUtilizationRate', 'MaxMagmaUtilizationRate',
                  'EnergyProductionRate', 'MagmaProductionRate',
                  'EnergyStorageCapacity', 'MagmaStorageCapacity',
-                 'HitPoints', 'SightRange', 'Armor', 'BasicDamage', 
+                 'HitPoints', 'SightRange', 'Armor', 'BasicDamage',
                  'PiercingDamage', 'MaxAttackRange', 'MovementDelay',
                  'AttackDelay']
 
@@ -73,7 +73,7 @@ class ParsedScript:
         f.write(self.head)
         for unit in self.units:
             unit.regenerate(f)
-    
+
 class ParsedUnit:
     def __init__(self):
         self.orderedkeys = []
@@ -91,8 +91,8 @@ class ParsedUnit:
         f.write('})')
         f.write(self.rest)
     def writeCsv(self, statsfile):
-        statsfile.writerow(self.stats) 
-        
+        statsfile.writerow(self.stats)
+
 
 def stripComments(s):
     s = s.split('\n')
@@ -206,7 +206,7 @@ Usage = """
         csv
         regenerate
         update
-    
+
     When updating, the unitstats.csv file should use the semicolon (;) as
     delimiter and single quote (') as string quote.
 """
@@ -235,4 +235,4 @@ def main(args):
 
 if __name__ == '__main__':
     main(sys.argv)
-    
+

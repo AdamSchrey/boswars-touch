@@ -50,7 +50,7 @@ def find(startdir, pattern):
           if fnmatch.fnmatch(f, pattern) and not f.startswith("."):
              results.append(dirpath+'/'+f)
     return results
-    
+
 sources = find('engine', '*.cpp')
 
 def tolist(x):
@@ -60,7 +60,7 @@ def tolist(x):
         return list(x)
 
 class Gcc(object):
-  def __init__(self, cflags=[], ldflags=[], cc='g++', builddir='fbuild', 
+  def __init__(self, cflags=[], ldflags=[], cc='g++', builddir='fbuild',
                       usepkgconfig=True):
      self.cflags = gccflags + tolist(cflags)
      self.ldflags = tolist(ldflags)
@@ -143,7 +143,7 @@ def cmdline2list(s):
 as a Bourne shell would.
 
 If e.g. pkg-config --cflags lua5.1 outputs:
--DDEB_HOST_MULTIARCH=\"x86_64-linux-gnu\" -I/usr/include/lua5.1  
+-DDEB_HOST_MULTIARCH=\"x86_64-linux-gnu\" -I/usr/include/lua5.1
 this function can convert it to a list of words:
 ('-DDEB_HOST_MULTIARCH="x86_64-linux-gnu"', '-I/usr/include/lua5.1')
 that you can then pass to subprocess.list2cmdline and get the
@@ -314,8 +314,8 @@ def detectAlwaysDynamic(b):
        b.define('HAVE_STRCASESTR')
     if Check(b, function='strnlen'):
        b.define('HAVE_STRNLEN')
-    if (Check(b, header='X11/Xlib.h') and 
-        Check(b, header='X11/Xatom.h') and 
+    if (Check(b, header='X11/Xlib.h') and
+        Check(b, header='X11/Xatom.h') and
         CheckLib(b, 'X11')):
        b.define('HAVE_X')
     for i in incpaths:
@@ -445,7 +445,7 @@ def static(builddir='fbuild/static', **kwargs):
     p = os.popen(b.cc + ' -print-file-name=libstdc++.a')
     stdcxx = p.read().strip()
     run('ln', '-sf', stdcxx)
-    
+
     mkdir(builddir)
     detectAlwaysDynamic(b)
     b = StaticGcc(b.cflags,b.ldflags, b.cc,b.builddir, usepkgconfig=False)

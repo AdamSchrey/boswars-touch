@@ -12,7 +12,7 @@ Read more about how to use it and how it works on the project page:
 
  Copyright (c) 2009,
     Brush Technology.
- 
+
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 1. Redistributions of source code must retain the above copyright notice,
@@ -498,7 +498,7 @@ class StraceRunner(Runner):
         shell('strace', '-fo', outname, '-e',
               'trace=open,openat,%s,execve,exit_group,chdir,mkdir,rename,clone,vfork,fork' % self._stat_func,
               args, silent=False)
-        cwd = '.' 
+        cwd = '.'
         status = 0
         processes  = {}  # dictionary of processes (key = pid)
         unfinished = {}  # list of interrupted entries in strace log
@@ -524,7 +524,7 @@ class StraceRunner(Runner):
             execve_match = self._execve_re.match(line)
             mkdir_match = self._mkdir_re.match(line)
             rename_match = self._rename_re.match(line)
-            clone_match = self._clone_re.match(line)  
+            clone_match = self._clone_re.match(line)
 
             kill_match = self._kill_re.match(line)
             if kill_match:
@@ -549,12 +549,12 @@ class StraceRunner(Runner):
             elif stat_match:
                 match = stat_match
             elif mkdir_match:
-                match = mkdir_match                
+                match = mkdir_match
             elif rename_match:
                 match = rename_match
                 # the destination of a rename is an output file
                 is_output = True
-                
+
             if match:
                 name = match.group('name')
                 pid  = match.group('pid')
@@ -763,7 +763,7 @@ class Builder(object):
         # if just checking up-to-date-ness, set flag and do nothing more
         self.outofdate_flag = True
         return not self.checking
-  
+
     def store_deps(self, command, deps, outputs):
         if deps is not None or outputs is not None:
             deps_dict = {}
