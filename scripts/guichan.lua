@@ -377,7 +377,7 @@ Widget:setGlobalFont(Fonts["large"])
 
 -- Define the different menus ----------
 
-function RunResultsMenu()
+function RunResultsMenu(map)
   local menu
   local background = "graphics/screens/menu.png"
   local sx = Video.Width / 20
@@ -403,6 +403,7 @@ function RunResultsMenu()
 
   menu = BosMenu(_("Results"), background)
   menu:writeLargeText(result, sx*6, sy*5)
+  menu:writeText(map, sx*6, sy*6)
 
   -- The X coordinates of these widgets will be set after all the
   -- widgets have been created and their sizes are known.
@@ -454,7 +455,7 @@ function RunMap(map, objectives, fow, revealmap)
       loop = false
     end
   end
-  RunResultsMenu()
+  RunResultsMenu(map)
 end
 
 current_objectives = {}
@@ -615,7 +616,7 @@ function RunReplayMenu(s)
     ResetMapOptions()
     InitGameVariables()
     StartReplay("~logs/" .. browser:getSelectedItem(), reveal:isMarked())
-    RunResultsMenu()
+    RunResultsMenu("Replay")
     menu:stop()
   end
 
@@ -649,7 +650,7 @@ function RunLoadGameMenu(s)
           loop = false
         end
       end
-      RunResultsMenu()
+      RunResultsMenu("Saved Game")
       if currentCampaign ~= nil then
          if GameResult == GameVictory then
             position = position + 1
