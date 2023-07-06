@@ -966,15 +966,18 @@ void HandleKeyDown(unsigned key, unsigned keychar)
 	}
 
 	// Handle All other keys
-
-	// Command line input: for message or cheat
 	if (KeyState == KeyStateInput) {
+		// Command line input: for message or cheat
 		if (key < ' ') {
 			InputKey(key);
 		} else if (keychar) {
 			InputKey(keychar);
 		}
 	} else {
+		if (keychar) {
+			// Skip (undesired) SDL_TEXTINPUT event to avoid duplicate key events
+			return;
+		}
 		// If no modifier look if button bound
 		if (!(KeyModifiers & (ModifierControl | ModifierAlt |
 				ModifierSuper))) {
