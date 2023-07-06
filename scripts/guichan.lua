@@ -821,6 +821,12 @@ function RunEditorLoadMenu()
   return returnToMainMenu
 end
 
+function RunTutorial(s)
+    DebugPrint("Starting tutorial")
+    position = nil
+    RunCampaign("campaigns/tutorial/campaign.lua")
+end
+
 Load("scripts/menus/network.lua")
 Load("scripts/menus/options.lua")
 Load("scripts/menus/credits.lua")
@@ -837,8 +843,9 @@ function BuildMainMenu(menu)
 
   menu:addButton(_("~!Start Game"), x1, ystep * 2, RunStartGameMenu)
   menu:addButton(_("~!Load Game"), x1, ystep * 3, RunLoadGameMenu)
-  menu:addButton(_("~!Campaigns"), x2, ystep * 2, RunCampaignsMenu)
-  menu:addButton(_("Show ~!Replay"), x2, ystep * 3, RunReplayMenu)
+  menu:addButton(_("~!Tutorial"), x2, ystep * 2, RunTutorial)
+  menu:addButton(_("~!Campaigns"), x2, ystep * 3, RunCampaignsMenu)
+  menu:addButton(_("Show ~!Replay"), x2, ystep * 4, RunReplayMenu)
 
   menu:addButton(_("~!MultiPlayer"), x1, ystep * 5, RunMultiPlayerMenu)
   menu:addButton(_("~!Options"), x2, ystep * 5, function() RunOptionsMenu() menu:stop(1) end)
