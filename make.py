@@ -275,7 +275,7 @@ def detectLua(b):
     # Prefer that because it will call our C++ destructors on unwind.
     # This avoids memory leaks that would be very cumbersome to fix in
     # any other way.
-    libs = 'lua5.1-c++ lua5.1 lua51 lua'.split()
+    libs = 'lua5.1-c++ lua5.1 lua51 lua-5.1 lua'.split()
     if b.usepkgconfig:
         for i in libs:
             if pkgconfig(b, i):
