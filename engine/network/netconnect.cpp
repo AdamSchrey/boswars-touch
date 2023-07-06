@@ -133,6 +133,7 @@ unsigned char *CServerSetup::Serialize() const
 	*p++ = this->ResourcesOption;
 	*p++ = this->UnitsOption;
 	*p++ = this->FogOfWar;
+	*p++ = this->AllowCheats;
 	*p++ = this->RevealMap;
 	*p++ = this->GameTypeOption;
 	*p++ = this->Difficulty;
@@ -158,6 +159,7 @@ void CServerSetup::Deserialize(const unsigned char *p)
 	this->ResourcesOption = *p++;
 	this->UnitsOption = *p++;
 	this->FogOfWar = *p++;
+	this->AllowCheats = *p++;
 	this->RevealMap = *p++;
 	this->GameTypeOption = *p++;
 	this->Difficulty = *p++;

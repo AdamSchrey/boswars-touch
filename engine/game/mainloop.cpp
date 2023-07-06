@@ -370,6 +370,7 @@ void GameMainLoop(void)
 
 	CParticleManager::exit();
 
+	FlagAllowCheats = false;
 	FlagRevealMap = 0;
 	ReplayRevealMap = 0;
 	GamePaused = false;

@@ -669,6 +669,8 @@ static bool CommandKey(int key)
 */
 int HandleCheats(const std::string &input)
 {
+	if (!FlagAllowCheats)
+		return 0;
 	int ret = 0;
 
 #ifdef DEBUG

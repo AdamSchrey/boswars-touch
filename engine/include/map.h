@@ -284,6 +284,8 @@ extern unsigned char *VisionTable[3];
 	/// Companion table for fast lookups
 extern int *VisionLookup;
 
+extern int FlagAllowCheats;
+
 	/// Flag must reveal the map
 extern int FlagRevealMap;
 	/// Flag must reveal map when in replay

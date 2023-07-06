@@ -507,6 +507,7 @@ function ResetMapOptions()
   GameSettings.Difficulty = 3
   GameSettings.GameType = SettingsGameTypeMapDefault
   GameSettings.NoFogOfWar = false
+  GameSettings.AllowCheats = false
   GameSettings.RevealMap = 0
 end
 
@@ -542,6 +543,8 @@ function RunStartGameMenu(s)
   fow:setMarked(preferences.FogOfWar)
   local revealmap = menu:addCheckBox(_("Reveal map"), sx, sy*3+160,
     function(f) GameSettings.RevealMap = bool2int(f:isMarked()) end)
+  local allowcheats = menu:addCheckBox(_("Allow Cheats"), sx, sy*3+180,
+    function(f) GameSettings.AllowCheats = bool2int(f:isMarked()) end)
 
   ResetMapOptions()
   menu:writeText(_("Difficulty:"), sx, sy*11)
@@ -583,7 +586,7 @@ function RunStartGameMenu(s)
     SavePreferences()
     DebugPrint("Starting map -------")
     RunMap(browser:getSelectedMap(), nil, fow:isMarked(),
-           revealmap:isMarked())
+           revealmap:isMarked(), allowcheats:isMarked())
     PresentMap = OldPresentMap
     menu:stop()
   end
@@ -869,7 +872,7 @@ function RunMapFromCommandLine()
   ResetMapOptions()
   AllowAllUnits()
   if (CliMapName ~= "") then
-    RunMap(CliMapName, nil, true, false)
+    RunMap(CliMapName, nil, true, false, true)
   end
 end
 

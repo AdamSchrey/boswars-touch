@@ -661,6 +661,8 @@ void CreateGame(const std::string &filename, CMap *map)
 	GamePaused = true;
 #endif
 
+	FlagAllowCheats = GameSettings.AllowCheats;
+
 	if (FlagRevealMap) {
 		Map.Reveal();
 	}

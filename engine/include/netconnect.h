@@ -108,6 +108,7 @@ public:
 	Uint8  ResourcesOption;       /// Resources option
 	Uint8  UnitsOption;           /// Unit # option
 	Uint8  FogOfWar;              /// Fog of war option
+	Uint8  AllowCheats;
 	Uint8  RevealMap;             /// Reveal all the map
 	Uint8  GameTypeOption;        /// Game type option
 	Uint8  Difficulty;            /// Difficulty option

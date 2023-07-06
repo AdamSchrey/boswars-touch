@@ -50,6 +50,7 @@
 ----------------------------------------------------------------------------*/
 
 CMap Map;                        /// The current map
+int FlagAllowCheats;
 int FlagRevealMap;               /// Flag must reveal the map
 int ReplayRevealMap;             /// Reveal Map is replay
 char CurrentMapPath[1024];       /// Path of the current map

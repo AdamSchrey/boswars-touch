@@ -121,6 +121,7 @@ public:
 	int NumUnits;
 	int Difficulty;
 	bool NoFow;
+	int AllowCheats;
 	int RevealMap;
 	int MapRichness;
 	int GameType;
@@ -202,6 +203,7 @@ static FullReplay *StartReplay(void)
 	replay->Difficulty = GameSettings.Difficulty;
 	replay->NoFow = GameSettings.NoFogOfWar;
 	replay->GameType = GameSettings.GameType;
+	replay->AllowCheats = GameSettings.AllowCheats;
 	replay->RevealMap = GameSettings.RevealMap;
 	replay->MapRichness = GameSettings.MapRichness;
 	replay->Opponents = GameSettings.Opponents;
@@ -248,6 +250,7 @@ static void ApplyReplaySettings(void)
 	GameSettings.Difficulty = CurrentReplay->Difficulty;
 	Map.NoFogOfWar = GameSettings.NoFogOfWar = CurrentReplay->NoFow;
 	GameSettings.GameType = CurrentReplay->GameType;
+	FlagAllowCheats = GameSettings.AllowCheats = CurrentReplay->AllowCheats;
 	FlagRevealMap = GameSettings.RevealMap = CurrentReplay->RevealMap;
 	GameSettings.MapRichness = CurrentReplay->MapRichness;
 	GameSettings.Opponents = CurrentReplay->Opponents;
