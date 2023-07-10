@@ -9,7 +9,7 @@
 --
 --	radar.lua	-	Define the radar unit.
 --
---	(c) Copyright 2004-2005 by Fran�is Beerten.
+--	(c) Copyright 2004-2005 by François Beerten.
 --
 --      This program is free software; you can redistribute it and/or modify
 --      it under the terms of the GNU General Public License as published by
