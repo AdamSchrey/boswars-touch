@@ -719,11 +719,15 @@ int main(int argc, char **argv)
 		""
 	;
 
-	//
 	//  Setup some defaults.
-	//
+
 #ifndef MAC_BUNDLE
 	StratagusLibPath = STRATAGUS_LIB_PATH;
+	if (StratagusLibPath[0] == '~' && StratagusLibPath[1] == '~') {
+		char *basepath = SDL_GetBasePath();
+		Assert(basepath);
+		StratagusLibPath.replace(0, 2, basepath);
+	}
 #else
 	freopen("/tmp/stdout.txt", "w", stdout);
 	freopen("/tmp/stderr.txt", "w", stderr);
