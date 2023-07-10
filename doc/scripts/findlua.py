@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 "Output all lua functions defined in the engine source code."
 
-from __future__ import print_function
-
 import os
 import sys
 from stat import ST_MODE, S_ISDIR, S_ISREG

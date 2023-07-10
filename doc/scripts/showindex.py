@@ -3,7 +3,6 @@
   Usefull to check if all functions are documented.
 """
 
-from __future__ import print_command
 import os
 
 commands = []
