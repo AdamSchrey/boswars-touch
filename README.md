@@ -31,8 +31,8 @@ Or discuss with the team in our Matrix rooms
 <https://matrix.to/#/#boswars:matrix.org> or irc on the channel #boswars at
 irc.libera.chat.
 
-Please report bugs in our bug tracker:
-http://savannah.nongnu.org/bugs/?group=stratagus-bos
+Please report bugs in our [bug tracker](https://codeberg.org/boswars/boswars/issues):
+https://codeberg.org/boswars/boswars/issues
 
 
 Have fun,
