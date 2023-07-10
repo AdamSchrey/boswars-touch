@@ -38,7 +38,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 # so you can do "from fabricate import *" to simplify your build script
 __all__ = ['ExecutionError', 'shell', 'md5_hasher', 'mtime_hasher',
-           'Runner', 'AtimesRunner', 'StraceRunner', 'AlwaysRunner',
+           'Runner', 'StraceRunner', 'AlwaysRunner',
            'SmartRunner', 'Builder', 'default_builder',
            'setup', 'run', 'autoclean', 'memoize', 'outofdate', 'main']
 
@@ -217,211 +217,6 @@ class Runner(object):
     def ignore(self, name):
         return self._builder.ignore.search(name)
 
-
-
-class AtimesRunner(Runner):
-    def __init__(self, builder):
-        self._builder = builder
-        self.atimes = AtimesRunner.has_atimes(self._builder.dirs)
-        if self.atimes == 0:
-            raise RunnerUnsupportedException(
-                'atimes are not supported on this platform')
-
-    @staticmethod
-    def file_has_atimes(filename):
-        """ Return whether the given filesystem supports access time updates for
-            this file. Return:
-              - 0 if no a/mtimes not updated
-              - 1 if the atime resolution is at least one day and
-                the mtime resolution at least 2 seconds (as on FAT filesystems)
-              - 2 if the atime and mtime resolutions are both < ms
-                (NTFS filesystem has 100 ns resolution). """
-
-        def access_file(filename):
-            """ Access (read a byte from) file to try to update its access time. """
-            f = open(filename)
-            f.read(1)
-            f.close()
-
-        initial = os.stat(filename)
-        os.utime(filename, (
-            initial.st_atime-FAT_atime_resolution,
-            initial.st_mtime-FAT_mtime_resolution))
-
-        adjusted = os.stat(filename)
-        access_file(filename)
-        after = os.stat(filename)
-
-        # Check that a/mtimes actually moved back by at least resolution and
-        #  updated by a file access.
-        #  add NTFS_atime_resolution to account for float resolution factors
-        #  Comment on resolution/2 in atimes_runner()
-        if initial.st_atime-adjusted.st_atime > FAT_atime_resolution+NTFS_atime_resolution or \
-           initial.st_mtime-adjusted.st_mtime > FAT_mtime_resolution+NTFS_atime_resolution or \
-           initial.st_atime==adjusted.st_atime or \
-           initial.st_mtime==adjusted.st_mtime or \
-           not after.st_atime-FAT_atime_resolution/2 > adjusted.st_atime:
-            return 0
-
-        os.utime(filename, (
-            initial.st_atime-NTFS_atime_resolution,
-            initial.st_mtime-NTFS_mtime_resolution))
-        adjusted = os.stat(filename)
-
-        # Check that a/mtimes actually moved back by at least resolution
-        # Note: != comparison here fails due to float rounding error
-        #  double NTFS_atime_resolution to account for float resolution factors
-        if initial.st_atime-adjusted.st_atime > NTFS_atime_resolution*2 or \
-           initial.st_mtime-adjusted.st_mtime > NTFS_mtime_resolution*2 or \
-           initial.st_atime==adjusted.st_atime or \
-           initial.st_mtime==adjusted.st_mtime:
-            return 1
-
-        return 2
-
-    @staticmethod
-    def exists(path):
-        if not os.path.exists(path):
-            # Note: in linux, error may not occur: strace runner doesn't check
-            raise PathError("build dirs specified a non-existant path '%s'" % path)
-
-    @staticmethod
-    def has_atimes(paths):
-        """ Return whether a file created in each path supports atimes and mtimes.
-            Return value is the same as used by file_has_atimes
-            Note: for speed, this only tests files created at the top directory
-            of each path. A safe assumption in most build environments.
-            In the unusual case that any sub-directories are mounted
-            on alternate file systems that don't support atimes, the build may
-            fail to identify a dependency """
-
-        atimes = 2                  # start by assuming we have best atimes
-        for path in paths:
-            AtimesRunner.exists(path)
-            handle, filename = tempfile.mkstemp(dir=path)
-            try:
-                try:
-                    f = os.fdopen(handle, 'wb')
-                except:
-                    os.close(handle)
-                    raise
-                try:
-                    f.write(b'x')    # need a byte in the file for access test
-                finally:
-                    f.close()
-                atimes = min(atimes, AtimesRunner.file_has_atimes(filename))
-            finally:
-                os.remove(filename)
-        return atimes
-
-    def _file_times(self, path, depth):
-        """ Helper function for file_times().
-            Return a dict of file times, recursing directories that don't
-            start with self._builder.ignoreprefix """
-
-        AtimesRunner.exists(path)
-        names = os.listdir(path)
-        times = {}
-        ignoreprefix = self._builder.ignoreprefix
-        for name in names:
-            if ignoreprefix and name.startswith(ignoreprefix):
-                continue
-            if path == '.':
-                fullname = name
-            else:
-                fullname = os.path.join(path, name)
-            st = os.stat(fullname)
-            if stat.S_ISDIR(st.st_mode):
-                if depth > 1:
-                    times.update(self._file_times(fullname, depth-1))
-            elif stat.S_ISREG(st.st_mode):
-                times[fullname] = st.st_atime, st.st_mtime
-        return times
-
-    def file_times(self):
-        """ Return a dict of "filepath: (atime, mtime)" entries for each file
-            in self._builder.dirs. "filepath" is the absolute path, "atime" is
-            the access time, "mtime" the modification time.
-            Recurse directories that don't start with
-            self._builder.ignoreprefix and have depth less than
-            self._builder.dirdepth. """
-
-        times = {}
-        for path in self._builder.dirs:
-            times.update(self._file_times(path, self._builder.dirdepth))
-        return times
-
-    def _utime(self, filename, atime, mtime):
-        """ Call os.utime but ignore permission errors """
-        try:
-            os.utime(filename, (atime, mtime))
-        except OSError as e:
-            # ignore permission errors -- we can't build with files
-            # that we can't access anyway
-            if e.errno != 1:
-                raise
-
-    def _age_atimes(self, filetimes):
-        """ Age files' atimes and mtimes to be at least FAT_xx_resolution old.
-            Only adjust if the given filetimes dict says it isn't that old,
-            and return a new dict of filetimes with the ages adjusted. """
-        adjusted = {}
-        now = time.time()
-        for filename, entry in filetimes.items():
-            if now-entry[0] < FAT_atime_resolution or now-entry[1] < FAT_mtime_resolution:
-                entry = entry[0] - FAT_atime_resolution, entry[1] - FAT_mtime_resolution
-                self._utime(filename, entry[0], entry[1])
-            adjusted[filename] = entry
-        return adjusted
-
-    def __call__(self, *args):
-        """ Run command and return its dependencies and outputs, using before
-            and after access times to determine dependencies. """
-
-        originals = self.file_times()
-        if self.atimes == 2:
-            befores = originals
-            atime_resolution = 0
-            mtime_resolution = 0
-        else:
-            befores = self._age_atimes(originals)
-            atime_resolution = FAT_atime_resolution
-            mtime_resolution = FAT_mtime_resolution
-        shell(*args, **dict(silent=False))
-        afters = self.file_times()
-        deps = []
-        outputs = []
-        for name in afters:
-            if name in befores:
-                # if file exists before+after && mtime changed, add to outputs
-                # Note: Can't just check that atimes > than we think they were
-                #       before because os might have rounded them to a later
-                #       date than what we think we set them to in befores.
-                #       So we make sure they're > by at least 1/2 the
-                #       resolution.  This will work for anything with a
-                #       resolution better than FAT.
-                if afters[name][1]-mtime_resolution/2 > befores[name][1]:
-                    outputs.append(name)
-                elif afters[name][0]-atime_resolution/2 > befores[name][0]:
-                    # otherwise add to deps if atime changed
-                    if not self.ignore(name):
-                        deps.append(name)
-            else:
-                # file created (in afters but not befores), add as output
-                if not self.ignore(name):
-                    outputs.append(name)
-
-        if self.atimes < 2:
-            # Restore atimes of files we didn't access: not for any functional
-            # reason -- it's just to preserve the access time for the user's info
-            for name in deps:
-                originals.pop(name)
-            for name in originals:
-                original = originals[name]
-                if original != afters.get(name, None):
-                    self._utime(name, original[0], original[1])
-
-        return deps, outputs
 
 class StraceProcess(object):
     def __init__(self, cwd='.'):
@@ -634,14 +429,14 @@ class AlwaysRunner(Runner):
         return None, None
 
 class SmartRunner(Runner):
-    def __init__(self, builder, candidates=[StraceRunner,AtimesRunner, AlwaysRunner]):
+    def __init__(self, builder, candidates=[StraceRunner, AlwaysRunner]):
         self._builder = builder
         self._runner = None
         self._candidates = candidates
 
     def __call__(self, *args):
         """ Smart command runner that uses StraceRunner if it can,
-            otherwise AtimesRunner if available, otherwise AlwaysRunner.
+            otherwise AlwaysRunner.
             When first called, it caches which runner it used for next time."""
         if self._runner is None:
             for runner in self._candidates:
@@ -666,7 +461,7 @@ class Builder(object):
         (deps, outputs), where deps is a list of rel-path'd dependency files
         and outputs is a list of rel-path'd output files. The default runner
         is SmartRunner, which automatically picks one of StraceRunner,
-        AtimesRunner, or AlwaysRunner depending on your system.
+        or AlwaysRunner depending on your system.
         A "runner" class may have an __init__() function that takes the
         builder as a parameter.
     """
@@ -682,11 +477,6 @@ class Builder(object):
             "always_runner", or "smart_runner").
         "dirs" is a list of paths to look for dependencies (or outputs) in
             if using the strace or atimes runners.
-        "dirdepth" is the depth to recurse into the paths in "dirs" (default
-            essentially means infinitely). Set to 1 to just look at the
-            immediate paths in "dirs" and not recurse at all. This can be
-            useful to speed up the AtimesRunner if you're building in a large
-            tree and you don't care about all of the subdirectories.
         "ignoreprefix" prevents recursion into directories that start with
             prefix.  It defaults to '.' to ignore svn directories.
             Change it to '_svn' if you use _svn hidden directories.
@@ -712,7 +502,6 @@ class Builder(object):
         if dirs is None:
             dirs = ['.']
         self.dirs = dirs
-        self.dirdepth = dirdepth
         self.ignoreprefix = ignoreprefix
         if ignore is None:
             ignore = r'$x^'         # something that can't match
@@ -884,7 +673,6 @@ class Builder(object):
             self._deps.pop('.deps_version', None)
 
     _runner_map = {
-        'atimes_runner' : AtimesRunner,
         'strace_runner' : StraceRunner,
         'always_runner' : AlwaysRunner,
         'smart_runner' : SmartRunner,
@@ -917,9 +705,6 @@ class Builder(object):
                 rest = fullname[len(path):]
                 # files in dirs starting with ignoreprefix are not relevant
                 if os.sep+self.ignoreprefix in os.sep+os.path.dirname(rest):
-                    continue
-                # files deeper than dirdepth are not relevant
-                if rest.count(os.sep) > self.dirdepth:
                     continue
                 return True
         return False
