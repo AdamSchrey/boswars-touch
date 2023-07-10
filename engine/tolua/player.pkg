@@ -13,7 +13,7 @@ class CPlayer
 {
 	int Index;
 	string Name;
-	
+
 	PlayerTypes Type;
 	string AiName;
 
@@ -47,7 +47,7 @@ class CPlayer
 	tolua_property__s int TotalMagma;
 	int TotalRazings;
 	int TotalKills;
-	
+
 	bool IsEnemy(const CPlayer *x) const;
 	bool IsEnemy(const CUnit *x) const;
 	bool IsAllied(const CPlayer *x) const;

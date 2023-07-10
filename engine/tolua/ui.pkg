@@ -50,7 +50,7 @@ class CViewport
 class CFiller
 {
 	CFiller();
-	
+
 	CGraphic *G;
 	int X;
 	int Y;
@@ -98,7 +98,7 @@ class CPieMenu
 	int MouseButton;
 	int X[8];
 	int Y[8];
-	
+
 	void SetRadius(int radius);
 };
 
@@ -141,7 +141,7 @@ class CUserInterface
 {
 	string NormalFontColor;
 	string ReverseFontColor;
-	
+
 	vector<CFiller> Fillers;
 
 	CResourceInfo Resources[MaxCosts];
@@ -161,7 +161,7 @@ class CUserInterface
 	bool CompletedBarShadow;
 
 	CButtonPanel ButtonPanel;
-	
+
 	CPieMenu PieMenu;
 
 	CViewport *MouseViewport;
@@ -233,7 +233,7 @@ class Graphics
 	};
 };
 
-class Widget 
+class Widget
 {
 	virtual void setWidth(int width);
 	virtual int getWidth() const;
@@ -463,7 +463,7 @@ class Window : public BasicContainer
 	Window();
 	Window(const std::string caption);
 	Window(Widget *content, const std::string caption = "");
-	
+
 	virtual void setCaption(const std::string caption);
 	virtual const std::string &getCaption() const;
 	virtual void setAlignment(unsigned int alignment);
