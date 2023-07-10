@@ -43,6 +43,8 @@
 #define StratagusFormatString   "%d.%d.%d"
 	/// Stratagus printf format arguments
 #define StratagusFormatArgs(v)  (v) / 10000, ((v) / 100) % 100, (v) % 100
+
+#define ENGINE_YEAR 2023
 #endif
 
 // Macros to do stringification of macros with numerical values

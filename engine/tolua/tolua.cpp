@@ -1,6 +1,6 @@
 /*
 ** Lua binding: stratagus
-** Generated automatically by tolua++-1.0.92 on Tue Jun 13 09:27:03 2023.
+** Generated automatically by tolua++-1.0.92 on Tue Jul 11 04:53:19 2023.
 */
 
 #ifndef __cplusplus
@@ -369,6 +369,7 @@ static void tolua_reg_types (lua_State* tolua_S)
  tolua_usertype(tolua_S,"ScrollingWidget");
  tolua_usertype(tolua_S,"CGraphic");
  tolua_usertype(tolua_S,"StatBoxWidget");
+ tolua_usertype(tolua_S,"VersionInfo");
  tolua_usertype(tolua_S,"CUITimer");
  tolua_usertype(tolua_S,"Widget");
  tolua_usertype(tolua_S,"Label");
@@ -19636,6 +19637,67 @@ static int tolua_set_CliMapName(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* get function: major of class  VersionInfo */
+#ifndef TOLUA_DISABLE_tolua_get_VersionInfo_unsigned_major
+static int tolua_get_VersionInfo_unsigned_major(lua_State* tolua_S)
+{
+  VersionInfo* self = (VersionInfo*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'major'",NULL);
+#endif
+  tolua_pushnumber(tolua_S,(lua_Number)self->major);
+ return 1;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* get function: minor of class  VersionInfo */
+#ifndef TOLUA_DISABLE_tolua_get_VersionInfo_unsigned_minor
+static int tolua_get_VersionInfo_unsigned_minor(lua_State* tolua_S)
+{
+  VersionInfo* self = (VersionInfo*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'minor'",NULL);
+#endif
+  tolua_pushnumber(tolua_S,(lua_Number)self->minor);
+ return 1;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* get function: patchlevel of class  VersionInfo */
+#ifndef TOLUA_DISABLE_tolua_get_VersionInfo_unsigned_patchlevel
+static int tolua_get_VersionInfo_unsigned_patchlevel(lua_State* tolua_S)
+{
+  VersionInfo* self = (VersionInfo*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'patchlevel'",NULL);
+#endif
+  tolua_pushnumber(tolua_S,(lua_Number)self->patchlevel);
+ return 1;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* get function: year of class  VersionInfo */
+#ifndef TOLUA_DISABLE_tolua_get_VersionInfo_unsigned_year
+static int tolua_get_VersionInfo_unsigned_year(lua_State* tolua_S)
+{
+  VersionInfo* self = (VersionInfo*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'year'",NULL);
+#endif
+  tolua_pushnumber(tolua_S,(lua_Number)self->year);
+ return 1;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* get function: Version */
+#ifndef TOLUA_DISABLE_tolua_get_Version
+static int tolua_get_Version(lua_State* tolua_S)
+{
+   tolua_pushusertype(tolua_S,(void*)&Version,"const VersionInfo");
+ return 1;
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* Open function */
 TOLUA_API int tolua_stratagus_open (lua_State* tolua_S)
 {
@@ -20840,6 +20902,14 @@ TOLUA_API int tolua_stratagus_open (lua_State* tolua_S)
   tolua_function(tolua_S,"SyncRand",tolua_stratagus_SyncRand01);
   tolua_function(tolua_S,"Exit",tolua_stratagus_Exit00);
   tolua_variable(tolua_S,"CliMapName",tolua_get_CliMapName,tolua_set_CliMapName);
+  tolua_cclass(tolua_S,"VersionInfo","VersionInfo","",NULL);
+  tolua_beginmodule(tolua_S,"VersionInfo");
+   tolua_variable(tolua_S,"major",tolua_get_VersionInfo_unsigned_major,NULL);
+   tolua_variable(tolua_S,"minor",tolua_get_VersionInfo_unsigned_minor,NULL);
+   tolua_variable(tolua_S,"patchlevel",tolua_get_VersionInfo_unsigned_patchlevel,NULL);
+   tolua_variable(tolua_S,"year",tolua_get_VersionInfo_unsigned_year,NULL);
+  tolua_endmodule(tolua_S);
+  tolua_variable(tolua_S,"Version",tolua_get_Version,NULL);
  tolua_endmodule(tolua_S);
  return 1;
 }

@@ -216,6 +216,13 @@ extern int getopt(int argc, char *const *argv, const char *opt);
 
 extern void CreateUserDirectories(void);
 
+const struct VersionInfo Version = {
+	StratagusMajorVersion,
+	StratagusMinorVersion,
+	StratagusPatchLevel,
+	ENGINE_YEAR
+};
+
 /*----------------------------------------------------------------------------
 --  Variables
 ----------------------------------------------------------------------------*/

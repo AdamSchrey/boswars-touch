@@ -202,6 +202,14 @@ extern void GameMainLoop(void);             /// Game main loop
 	/// Show load progress
 extern void ShowLoadProgress(const char *fmt, ...) GCC_ATTR((format(printf, 1, 2)));
 
+struct VersionInfo {
+	const unsigned short major;
+	const unsigned short minor;
+	const unsigned short patchlevel;
+	const unsigned short year;
+};
+extern const struct VersionInfo Version;
+
 //@}
 
 #endif // !__STRATAGUS_H__
