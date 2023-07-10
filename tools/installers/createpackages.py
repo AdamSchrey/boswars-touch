@@ -21,7 +21,6 @@
 ##      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ##      GNU General Public License for more details.
 
-from __future__ import print_function
 import sys
 import os
 import tarfile
