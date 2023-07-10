@@ -39,6 +39,8 @@ bckground:Resize(Video.Width, Video.Height)
 backgroundWidget = ImageWidget(bckground)
 
 local SavedGame = false
+local VersionString = Version.major .. "." .. Version.minor .. "." .. Version.patchlevel
+local VersionInfoLine = "Bos Wars V" .. VersionString .. " (c) 1998-" .. Version.year .. " by the Bos Wars Team"
 
 function FilterList(originallist, pattern)
   local filteredlist = {}
@@ -498,8 +500,7 @@ function GameStarting()
 
   Cheater = false
 
-  -- FIXME: get the version from somewhere else
-  UI.StatusLine:Set("Bos Wars V2.8.0 (c) 1998-2023 by the Bos Wars Team.")
+  UI.StatusLine:Set(VersionInfoLine)
 end
 
 
@@ -856,6 +857,8 @@ function BuildMainMenu(menu)
 
   menu:addButton(_("E~!xit"), Video.Width / 2 - 100, Video.Height - 100,
                  function() menu:stop() end)
+
+  menu:addLabel(VersionInfoLine, Video.Width / 2, Video.Height - 50)
 
   if false then
      menu:addButton("~!Widgets Demo", x2, ystep * 7, RunWidgetsMenu)
