@@ -3,6 +3,7 @@
   Usefull to check if all functions are documented.
 """
 
+from __future__ import print_command
 import os
 
 commands = []
@@ -18,4 +19,4 @@ for infile in os.listdir('.'):
 commands.sort()
 
 for command in commands:
-     print command
+     print(command)

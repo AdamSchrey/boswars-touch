@@ -19,6 +19,8 @@
 #      but WITHOUT ANY WARRANTY; without even the implied warranty of
 #      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #      GNU General Public License for more details.
+
+from __future__ import print_function
 import os
 import sys
 import csv
@@ -192,10 +194,10 @@ def updateUnitStats(units):
     stats = readUnitStats()
     for unit in units:
         name = unit.stats['Name']
-        if stats.has_key(name):
+        if name in stats:
             up = stats[name]
             for k in up.keys():
-                if unit.stats.has_key(k) and k != 'Name':
+                if k in unit.stats and k != 'Name':
                     unit.stats[k] = removeCommas(up[k])
 
 Usage = """
@@ -211,7 +213,7 @@ Usage = """
     delimiter and single quote (') as string quote.
 """
 def printUsage(args):
-    print Usage % args[0]
+    print(Usage % args[0])
 
 def main(args):
     if len(args) == 1:

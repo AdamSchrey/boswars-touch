@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 "Output all lua functions defined in the engine source code."
 
+from __future__ import print_function
+
 import os
-import os, sys
-from stat import *
+import sys
+from stat import ST_MODE, S_ISDIR, S_ISREG
 
 # where to find the other stratagus tools
 toolpath = os.path.dirname(sys.argv[0]) + '/'
@@ -23,7 +25,7 @@ def walktree(top, callback):
             callback(pathname)
         else:
             # Unknown file type, print a message
-            print 'Skipping %s' % pathname
+            print('Skipping %s' % pathname)
 
 commands = []
 reffiles = {}
@@ -43,5 +45,5 @@ if __name__ == '__main__':
 
     commands.sort()
     for command in commands:
-       print command
+        print(command)
 

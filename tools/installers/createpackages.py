@@ -21,6 +21,7 @@
 ##      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ##      GNU General Public License for more details.
 
+from __future__ import print_function
 import sys
 import os
 import tarfile
@@ -43,7 +44,7 @@ def createTarArchive(archivename, namelist):
       printDot()
       tar.addfile(tarinfo, open(name, 'rb'))
   tar.close()
-  print
+  print()
 
 def createZipArchive(archivename, namelist):
   print("\nCreating %s.zip" % archivename)
@@ -52,7 +53,7 @@ def createZipArchive(archivename, namelist):
       z.write(name, archivename + "/" + name)
       printDot()
   z.close()
-  print
+  print()
 
 def listGitFiles():
    entries = os.popen('git ls-files').readlines()
