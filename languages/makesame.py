@@ -25,8 +25,8 @@
 
 import sys
 
-f = file(sys.argv[1])
-out = file(sys.argv[2], "wt")
+f = open(sys.argv[1])
+out = open(sys.argv[2], "wt")
 
 for line in f:
   if line.startswith("msgid "):
@@ -37,3 +37,5 @@ for line in f:
   else:
        out.write(line)
 
+f.close()
+out.close()
