@@ -1,6 +1,7 @@
 Change log for Bos Wars
 -----------------------
 
+- Add version and copyright info to main menu (Andy Alt)
 - Selection rectangle a mix of mobile units, only select attackers (François Beerten)
 - Migrate to SDL 2.0 (François Beerten)
 - Add existing tutorial to main menu (Andy Alt)
