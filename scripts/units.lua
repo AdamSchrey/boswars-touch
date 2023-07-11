@@ -174,7 +174,9 @@ for i,f in ipairs(list) do
      for ii,ff in ipairs(subdirlist) do
         if (string.find(ff, "^unit-.*%.lua$")) then
           DebugPrint("Loading unit: " .. ff)
+	  -- if not exist ModName/ModDirectory/units/unit.lua
           Load("units/"..f.."/"..ff)
+	  -- else Load ModName/ModDirectory/units/unit.lua
         end
      end
   end

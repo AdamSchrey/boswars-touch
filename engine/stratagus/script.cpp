@@ -1443,7 +1443,7 @@ char *SaveGlobal(lua_State *l, bool is_root)
 /**
 **  Create directories containing user settings and data.
 **
-**  More specifically: logs, saved games, preferences
+**  More specifically: logs, mods, saved games, preferences
 */
 void CreateUserDirectories(void)
 {
@@ -1465,6 +1465,8 @@ void CreateUserDirectories(void)
 
 	// Create specific subdirectories
 	directory = UserDirectory + "logs/";
+	makedir(directory.c_str(), 0777);
+	directory = UserDirectory + "mods/";
 	makedir(directory.c_str(), 0777);
 	directory = UserDirectory + "save/";
 	makedir(directory.c_str(), 0777);

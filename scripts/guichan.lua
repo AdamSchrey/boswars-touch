@@ -628,6 +628,32 @@ function RunReplayMenu(s)
   menu:run()
 end
 
+function RunModMenu(s)
+  local menu
+  menu = BosMenu(_("Select a Mod"))
+
+  AllowAllUnits()
+
+  local lister = CreateFilteringLister(".lua$",  ListFilesInDirectory)
+  local browser = menu:addBrowser("~mods/", lister, 300, 100, 300, 200)
+
+  function startmod(s)
+    DebugPrint("Activating mod -------")
+    ResetMapOptions()
+    InitGameVariables()
+    StartReplay("~mods/" .. browser:getSelectedItem(), reveal:isMarked())
+    RunResultsMenu("Replay")
+    menu:stop()
+  end
+
+  menu:addButton(_("Main Menu (~<Esc~>)"), Video.Width / 2 - 250, Video.Height - 100,
+                 function() menu:stop() end)
+  menu:addButton(_("~!Start"), Video.Width / 2 + 50 ,  Video.Height - 100,
+                 startreplaybutton)
+
+  menu:run()
+end
+
 
 function RunLoadGameMenu(s)
   local menu
@@ -844,6 +870,7 @@ function BuildMainMenu(menu)
 
   menu:addButton(_("~!Start Game"), x1, ystep * 2, RunStartGameMenu)
   menu:addButton(_("~!Load Game"), x1, ystep * 3, RunLoadGameMenu)
+  menu:addButton(_("Mo~!ds"), x1, ystep * 4, RunModMenu)
   menu:addButton(_("~!Tutorial"), x2, ystep * 2, RunTutorial)
   menu:addButton(_("~!Campaigns"), x2, ystep * 3, RunCampaignsMenu)
   menu:addButton(_("Show ~!Replay"), x2, ystep * 4, RunReplayMenu)
