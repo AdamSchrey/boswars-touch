@@ -132,8 +132,8 @@
 /*----------------------------------------------------------------------------
 --  General
 ----------------------------------------------------------------------------*/
-#ifndef STRATAGUS_LIB_PATH
-#define STRATAGUS_LIB_PATH  "~~/../../"      /// Where to find the data files
+#ifndef DEFAULT_DATA_PATH
+#define DEFAULT_DATA_PATH  "~~/../../"      /// Where to find the data files
 #endif
 
 #ifndef STRATAGUS_HOME_PATH
