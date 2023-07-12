@@ -139,7 +139,7 @@ def parseWaits(text, section):
 
 def parseScript(path):
     parsedscript = ParsedScript(path)
-    s = file(path, 'rt').read()
+    s = open(path, 'rt').read()
     elements = s.split('DefineUnitType(')
     parsedscript.head = elements[0]
     movement = parseWaits(s, 'Move')
@@ -164,7 +164,7 @@ def parseAllScripts():
     return units, scripts
 
 def generateStatsFile(units):
-    rawcsvfile = file('unitstats.csv', 'wb')
+    rawcsvfile = open('unitstats.csv', 'wt')
     statsfile = csv.DictWriter(rawcsvfile, importantkeys, extrasaction='ignore',
                                delimiter=';', quotechar="'")
     title = {}
@@ -177,11 +177,11 @@ def generateStatsFile(units):
 
 def regenerateScripts(scripts):
     for i in scripts:
-        f = file(i.path, 'wt')
+        f = open(i.path, 'wt')
         i.regenerate(f)
 
 def readUnitStats():
-    rawcsvfile = file('unitstats.csv', 'rb')
+    rawcsvfile = open('unitstats.csv', 'rt')
     stats = csv.DictReader(rawcsvfile, delimiter=';', quotechar="'")
     newstats = {}
     for r in stats:
