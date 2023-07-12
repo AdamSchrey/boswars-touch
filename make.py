@@ -301,7 +301,7 @@ def detectSdl(b):
     header = 'SDL.h'
     if '-DUSE_WIN32' in b.cflags:
         header = ''
-    if CheckLib(b, 'SDL', header=header):
+    if CheckLib(b, 'SDL2', header=header):
         return
     print('Did not find the SDL library, exiting !')
     sys.exit(1)
