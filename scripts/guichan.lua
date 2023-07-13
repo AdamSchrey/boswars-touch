@@ -512,6 +512,20 @@ function ResetMapOptions()
   GameSettings.RevealMap = 0
 end
 
+function MapBrowser(sx, sy, selectedmap, menu)
+  Load("maps/"..selectedmap..'/presentation.smp')
+  local browser = menu:addMapBrowser("maps/", sx*10, sy*2+20, sx*8, sy*6,
+                                     "maps/"..selectedmap)
+
+  -- Also show a selection for custom user maps
+  menu:writeText(_("Custom maps"), sx*10, sy*9+20)
+
+  Load("~maps/"..selectedmap..'/presentation.smp')
+  local browser = menu:addMapBrowser("~maps/", sx*10, sy*10+20, sx*8, sy*4,
+                                     "~maps/"..selectedmap)
+
+  return browser
+end
 
 function RunStartGameMenu(s)
   local menu
@@ -569,9 +583,8 @@ function RunStartGameMenu(s)
     OldPresentMap(description, nplayers, w, h, id)
   end
 
-  Load("maps/"..selectedmap..'/presentation.smp')
-  local browser = menu:addMapBrowser("maps/", sx*10, sy*2+20, sx*8, sy*11,
-                                     "maps/"..selectedmap)
+  local browser = MapBrowser(sx, sy, selectedmap, menu)
+
   local function cb(s)
     maptext:setCaption(browser:getSelectedItem())
     Load(browser:getSelectedMap())
@@ -795,9 +808,8 @@ function RunEditorLoadMenu()
     OldPresentMap(description, nplayers, w, h, id)
   end
 
-  Load("maps/"..selectedmap..'/presentation.smp')
-  local browser = menu:addMapBrowser("maps/", sx*10, sy*2+20, sx*8, sy*11,
-                                     "maps/"..selectedmap)
+  local browser = MapBrowser(sx, sy, selectedmap, menu)
+
   local function selectMap(s)
     maptext:setCaption(browser:getSelectedItem())
     Load(browser:getSelectedMap())
