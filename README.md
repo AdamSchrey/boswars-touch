@@ -64,7 +64,12 @@ parties. There are absolutely no security guarantees. Run at your own risk.
 
 To play multiplayer, find the hostname or the IP address of someone you
 want to play with and connect to him. There's currently no game server,
-meta server or lobby yet. It's on the long term roadmap.
+meta server or lobby yet. It's on the long term roadmap. You can join
+our Matrix lobby room to find other players much more easily, and also
+the [Matrix Matchmaking
+room](https://matrix.to/#/#libregaming-matchmaking:tchncs.de) (after
+joining the Matchmaking room, enter `.add boswars` and you'll be
+notified if someone enters `.match boswars`).
 
 Bos Wars uses UDP with port 6660 by default, you may start boswars
 with '-Pxxxx' flag to use port xxxx instead.
