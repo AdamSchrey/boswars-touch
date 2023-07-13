@@ -85,9 +85,14 @@ target directory:
 
     ./make.py install_data datadir=./packagedata/
 
-Or install Boswars executable and data:
+Or install Boswars and data with the executable:
 
     ./make.py install cflags=-DDEFAULT_DATA_PATH=/usr/lib/share/boswars bindir=./packaging/usr/bin datadir=./packaging/usr/share
 
 This will build a `release` version before installing data and executable.
 You will likely adjust DEFAULT_DATA_PATH depending on packaging needs.
+
+DEFAULT_DATA_PATH supports different types of paths:
+* absolute paths (typically starting with "/")
+* paths relative to the current working directory (typically starting with "./" or "../")
+* path relative to the location of the executable (starting with "~~/" which will be replaced by the executable path)
