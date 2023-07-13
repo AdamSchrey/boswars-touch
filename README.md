@@ -70,18 +70,19 @@ Bos Wars uses UDP with port 6660 by default, you may start boswars
 with '-Pxxxx' flag to use port xxxx instead.
 
 
-## Contact
+## Project
 
-For any questions, more documentation, remarks or thanks, see
-the [Bos Wars website](https://www.boswars.org/).
+For any more documentation, questions, constructive feedback,
+contributions or thanks, see the [Bos Wars
+website](https://www.boswars.org/). The website explains how to talk
+with team (like the [Matrix
+rooms](https://matrix.to/#/#boswars:matrix.org)) and how to help on the
+project with new maps, music, translations, patches, feedback
 
-Or discuss with the team in our [Matrix rooms](https://matrix.to/#/#boswars:matrix.org)
-or IRC on the channel #boswars at
-irc.libera.chat.
-
-Please report bugs in our [bug tracker](https://codeberg.org/boswars/boswars/issues).
-The bug tracker is for clear precise issues with running or building the
-game. For all other issues, it's best to first talk with the team.
+[Known bugs](https://codeberg.org/boswars/boswars/issues) are listed on
+the trackers of the [Bos Wars](https://www.boswars.org) project pages.
+The bug tracker is for clear, precise issues with running or building
+the game. For all other issues, it's best to first talk with the team.
 
 
 Have fun,
