@@ -35,35 +35,23 @@ Read the file COPYRIGHT.txt for the detailed copyright notice.
 
 ## Run Bos Wars
 
-Bos Wars is packaged by many distributions. The easiest way to install
-and run Bos Wars is to install the version packaged by the distribution.
-If it's not available yet for your distribution, it may help to ask the
-distribution to package the game.
-
-If you want to run the latest version, then you can use a generic package
-from the Bos Wars website. The linux packages there run on amd64/x86_64
+Builds of Bos Wars can be obtained in different ways. The Download section
+on the [Bos Wars website](https://www.boswars.org) has packages for amd64/x86_64
 Linux systems. You will need to install a minimal set of dependencies.
 For example on Debian with X11:
 
-```
     sudo apt install libsdl2-2.0 libz libgl1-mesa
-```
 
-After that, download the "tar.gz" package and unpack it in a directory:
-
-```
-    tar -xzvf boswars-DATE.tar.gz
-```
-
-Replace DATE by the date in the name of the package.
 And you can start the game:
 
-```
     cd boswars-DATE
     ./boswars
-```
 
-Finally there's the option to build from source code as explained in
+The program has different command line options, which can be listed with:
+
+    ./boswars --help
+
+There is also the option to build from source code as explained in
 [INSTALL.md](INSTALL.md). That page also contains important tips for
 packaging Bos Wars for distribution.
 
