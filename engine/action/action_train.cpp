@@ -160,9 +160,11 @@ void HandleActionTrain(CUnit *unit)
 		}
 	}
 
-	unit->Type->Animations->Train ?
-		UnitShowAnimation(unit, unit->Type->Animations->Train) :
+	if (unit->Type->Animations->Train) {
+		UnitShowAnimation(unit, unit->Type->Animations->Train);
+	} else {
 		UnitShowAnimation(unit, unit->Type->Animations->Still);
+	}
 	if (unit->Wait) {
 		unit->Wait--;
 		return;
@@ -173,20 +175,15 @@ void HandleActionTrain(CUnit *unit)
 	if (unit->Data.Train.Ticks >= pcost) {
 		unit->Data.Train.Ticks = pcost;
 
-		//
 		// Check if there are still unit slots.
-		//
 		if (NumUnits >= UnitMax) {
 			unit->Wait = CYCLES_PER_SECOND / 6;
 			return;
 		}
 
-		//
 		// Check if enough supply available.
-		//
 		food = player->CheckLimits(unit->Orders[0]->Type);
 		if (food < 0) {
-			unit->Data.Train.Ticks = pcost;
 			unit->Wait = CYCLES_PER_SECOND / 6;
 			return;
 		}
@@ -196,12 +193,6 @@ void HandleActionTrain(CUnit *unit)
 			nunit->X = unit->X;
 			nunit->Y = unit->Y;
 			type = unit->Type;
-
-			// DropOutOnSide set unit to belong to the building
-			// training it. This was an ugly hack, setting X and Y is enough,
-			// no need to add the unit only to be removed.
-			nunit->X = unit->X;
-			nunit->Y = unit->Y;
 
 			player->RemoveFromUnitsConsumingResources(unit);
 
@@ -252,9 +243,7 @@ void HandleActionTrain(CUnit *unit)
 			} else {
 				*nunit->Orders[0] = unit->NewOrder;
 
-				//
 				// FIXME: Pending command uses any references?
-				//
 				if (nunit->Orders[0]->Goal) {
 					nunit->Orders[0]->Goal->RefsIncrease();
 				}
