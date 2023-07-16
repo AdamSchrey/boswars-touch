@@ -37,9 +37,7 @@ extern std::string StratagusTranslation;
 
 /// The PO containing the translations for the game itself
 extern std::string GameTranslation;
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
+
 
 	/// Translate a string
 extern const char *Translate(const char *str) GCC_ATTR((format_arg(1)));

@@ -30,18 +30,11 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
-
 class CPlayer;
 class CFile;
 class CUnit;
 class CUnitType;
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 extern void AiEachCycle(CPlayer *player);   /// Called each game cycle
 extern void AiEachSecond(CPlayer *player);  /// Called each second

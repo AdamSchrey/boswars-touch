@@ -30,10 +30,6 @@
 
 //	This file contains code for both the ogg file format, and ogg vorbis.
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include "stratagus.h"
 
 #ifdef USE_VORBIS // {
@@ -54,9 +50,6 @@
 #include "movie.h"
 #include "sound_server.h"
 
-/*----------------------------------------------------------------------------
---  Declaration
-----------------------------------------------------------------------------*/
 
 class CSampleVorbis : public CSample
 {
@@ -76,9 +69,6 @@ public:
 	OggData Data;
 };
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 int OggGetNextPage(ogg_page *page, ogg_sync_state *sync, CFile *f)
 {

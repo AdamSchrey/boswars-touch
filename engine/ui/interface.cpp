@@ -28,14 +28,9 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "stratagus.h"
 #include "video.h"
 #include "sound.h"
@@ -60,22 +55,16 @@
 #include "widgets.h"
 #include "particle.h"
 
-/*----------------------------------------------------------------------------
---  Defines
-----------------------------------------------------------------------------*/
 
-	/// Scrolling area (<= 15 y)
+/// Scrolling area (<= 15 y)
 #define SCROLL_UP     15
-	/// Scrolling area (>= VideoHeight - 16 y)
+/// Scrolling area (>= VideoHeight - 16 y)
 #define SCROLL_DOWN   (Video.Height - 16)
-	/// Scrolling area (<= 15 y)
+/// Scrolling area (<= 15 y)
 #define SCROLL_LEFT   15
-	/// Scrolling area (>= VideoWidth - 16 x)
+/// Scrolling area (>= VideoWidth - 16 x)
 #define SCROLL_RIGHT  (Video.Width - 16)
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 static char Input[80];               /// line input for messages/long commands
 static int InputIndex;               /// current index into input
@@ -91,9 +80,6 @@ enum _iface_state_ InterfaceState;   /// Current interface state
 bool GodMode;                        /// Invincibility cheat
 enum _key_state_ KeyState;           /// current key state
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  Show input.

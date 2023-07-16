@@ -28,17 +28,11 @@
 
 //@{
 
-//----------------------------------------------------------------------------
-// Includes
-//----------------------------------------------------------------------------
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
 #include <string.h>
-
 #include "stratagus.h"
-
 #include "net_lowlevel.h"
 #include "player.h"
 #include "map.h"
@@ -50,17 +44,10 @@
 #include "version.h"
 
 
-//----------------------------------------------------------------------------
-// Declaration
-//----------------------------------------------------------------------------
-
 // received nothing from client for xx frames?
 #define CLIENT_LIVE_BEAT 60
 #define CLIENT_IS_DEAD 300
 
-//----------------------------------------------------------------------------
-// Variables
-//----------------------------------------------------------------------------
 
 int NetPlayers;                        /// How many network players
 int NetworkPort = NetworkDefaultPort;  /// Local network port to use
@@ -264,9 +251,6 @@ void CInitMessage::Deserialize(const unsigned char *p)
 	}
 }
 
-//----------------------------------------------------------------------------
-// Functions
-//----------------------------------------------------------------------------
 
 /**
 ** Send an InitConfig message across the Network

@@ -28,14 +28,9 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "stratagus.h"
 #include "unittype.h"
 #include "upgrade.h"
@@ -43,9 +38,6 @@
 #include "network.h"
 #include "player.h"
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  ButtonCheck for button enabled, always true.

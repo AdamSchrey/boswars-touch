@@ -33,10 +33,6 @@
 #include <string>
 #include <map>
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
-
 enum AnimationType {
 	AnimationNone,
 	AnimationFrame,
@@ -131,10 +127,6 @@ extern int NumAnimations;
 	/// Hash table of all the animations
 extern std::map<std::string, CAnimations *> AnimationMap;
 
-
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 	/// Get the animations structure by ident
 extern CAnimations *AnimationsByIdent(const std::string &ident);

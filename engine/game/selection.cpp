@@ -52,9 +52,6 @@
 
 #include "script.h"
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 int NumSelected;                 /// Number of selected units
 int TeamNumSelected[PlayerMax];  /// How many units selected
@@ -69,9 +66,6 @@ static CUnit **_TeamSelected[PlayerMax];  /// save of TeamSelected
 
 static unsigned GroupId;         /// Unique group # for automatic groups
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  Save selection to restore after.

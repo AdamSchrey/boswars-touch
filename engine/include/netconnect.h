@@ -33,9 +33,6 @@
 #include <string>
 #include "SDL.h"
 
-/*----------------------------------------------------------------------------
---  Defines
-----------------------------------------------------------------------------*/
 
 	/// Network protocol major version
 #define NetworkProtocolMajorVersion StratagusMajorVersion
@@ -55,9 +52,6 @@
 
 #define NetworkDefaultPort 6660  /// Default communication port
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
 
 /**
  * Number of bytes in the name of a network player,
@@ -201,9 +195,6 @@ enum _net_client_con_state_ {
 	ccs_incompatiblenetwork,  /// Incompatible netowrk version
 };
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 extern int NetPlayers;                /// Network players
 extern int NetworkPort;               /// Local network port to use
@@ -222,9 +213,6 @@ extern int NetLocalPlayerNumber;           /// Player number of local client
 extern CServerSetup ServerSetupState;      /// Network menu: Multiplayer Server Menu selections state
 extern CServerSetup LocalSetupState;       /// Network menu: Multiplayer Client Menu selections local state
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 extern void NetworkServerStartGame(void);       /// Server user has finally hit the start game button
 extern void NetworkGamePrepareGameSettings(void);

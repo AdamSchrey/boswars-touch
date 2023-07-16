@@ -28,19 +28,13 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include "stratagus.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <string>
 #include <map>
-
 #include "video.h"
 #include "map.h"
 #include "sound.h"
@@ -55,9 +49,6 @@
 #include "iolib.h"
 #include "luacallback.h"
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 std::vector<CUnitType *> UnitTypes;   /// unit-types definition
 std::map<std::string, CUnitType *> UnitTypeMap;
@@ -72,9 +63,6 @@ std::string DefaultResourceNames[MaxCosts];
 */
 std::string DefaultDisplayResourceNames[MaxCosts];
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 CUnitType::CUnitType() :
 	Slot(0), Width(0), Height(0), OffsetX(0), OffsetY(0), DrawLevel(0),

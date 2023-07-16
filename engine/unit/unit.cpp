@@ -28,18 +28,12 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
 #include <math.h>
-
 #include "stratagus.h"
-
 #include "unit.h"
 #include "unit_manager.h"
 #include "unit_cache.h"
@@ -63,9 +57,6 @@
 #include "spells.h"
 #include "luacallback.h"
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 CUnit *Units[MAX_UNIT_SLOTS];             /// Array of used slots
 int NumUnits;                             /// Number of slots used
@@ -76,10 +67,6 @@ static unsigned long HelpMeLastCycle;     /// Last cycle HelpMe sound played
 static int HelpMeLastX;                   /// Last X coordinate HelpMe sound played
 static int HelpMeLastY;                   /// Last Y coordinate HelpMe sound played
 
-
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 static void RemoveUnitFromContainer(CUnit *unit);
 static void UnitRemoveProductionAndStorage(CUnit *unit);

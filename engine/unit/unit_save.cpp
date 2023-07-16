@@ -28,13 +28,8 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <sstream>
 #include <iomanip>
-
 #include "stratagus.h"
 #include "unit.h"
 #include "unittype.h"
@@ -45,9 +40,6 @@
 #include "construct.h"
 #include "iolib.h"
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  Generate a unit reference, a printable unique string for unit.

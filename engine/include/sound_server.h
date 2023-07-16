@@ -31,10 +31,6 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Definitons
-----------------------------------------------------------------------------*/
-
 #define MaxVolume 255
 #define SOUND_BUFFER_SIZE 65536
 
@@ -69,9 +65,6 @@ enum _play_audio_flags_ {
 	PlayAudioLoadOnDemand = 8,  /// Load only if needed.
 };
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 extern CSample *LoadWav(const std::string &name, int flags);    /// Load a wav file
 extern CSample *LoadVorbis(const std::string &name, int flags); /// Load a vorbis file

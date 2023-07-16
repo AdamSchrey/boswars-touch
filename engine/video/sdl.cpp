@@ -28,10 +28,6 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
--- Includes
-----------------------------------------------------------------------------*/
-
 #include "stratagus.h"
 
 #ifdef DEBUG
@@ -40,7 +36,6 @@
 
 #include <map>
 #include <string>
-
 #include <stdlib.h>
 #include <string.h>
 
@@ -67,13 +62,6 @@
 #include "widgets.h"
 #include "editor.h"
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
-
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 SDL_Window *TheWindow; /// Internal screen
 SDL_Renderer *TheRenderer = NULL; /// Internal screen
@@ -100,9 +88,6 @@ const EventCallback *Callbacks;
 bool DumpAllSdlEvents;               /// Show all events received from SDL
 #endif
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 // ARB_texture_compression
 PFNGLCOMPRESSEDTEXIMAGE3DARBPROC    glCompressedTexImage3DARB;

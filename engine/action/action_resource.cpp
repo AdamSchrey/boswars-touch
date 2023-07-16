@@ -28,14 +28,9 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "stratagus.h"
 #include "player.h"
 #include "unit.h"
@@ -46,9 +41,6 @@
 #include "interface.h"
 #include "sound.h"
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
 
 #define SUB_START_RESOURCE 0
 #define SUB_MOVE_TO_RESOURCE 5
@@ -59,9 +51,6 @@
 int AlliedUnitRecyclingEfficiency[MaxCosts] = {0, 50};
 int EnemyUnitRecyclingEfficiency[MaxCosts] = {0, 40};
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  Move unit to resource.

@@ -30,10 +30,6 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -46,10 +42,6 @@
 #include "iolib.h"
 #include "iocompat.h"
 
-
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 static bool SoundInitialized;    /// is sound initialized
 static bool MusicPlaying;        /// flag true if playing music

@@ -29,10 +29,6 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include "stratagus.h"
 #include "player.h"
 #include "unittype.h"
@@ -42,9 +38,6 @@
 #include "ui.h"
 #include "../video/intern_video.h"
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 static const int FogOfWarOpacity = 128;           /// Fog of war Opacity.
 CGraphic *CMap::FogGraphic;
@@ -64,9 +57,6 @@ static unsigned short *VisibleTable;
 static SDL_Surface *OnlyFogSurface;
 static CGraphic *AlphaFogG = NULL;
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  Find out if a field is seen (By player, or by shared vision)

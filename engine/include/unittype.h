@@ -345,20 +345,12 @@
 **    over CUnitType::Sprite.  Used with OpenGL only.
 */
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include "SDL.h"
-
 #include <vector>
 #include "upgrade_structs.h"
 #include "unitsound.h"
 #include "icons.h"
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
 
 class CUnit;
 class CUnitType;
@@ -706,9 +698,6 @@ public:
 	CGraphic *ShadowSprite;          /// Shadow sprite image
 };
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 extern std::vector<CUnitType *> UnitTypes;   /// All unit-types
 
@@ -727,9 +716,6 @@ public:
 extern CUnitTypeVar UnitTypeVar;
 extern const char *VariableNames[];
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 extern CUnitType *CclGetUnitType(lua_State *l);      /// Access unit-type object
 extern void UnitTypeCclRegister(void);               /// Register ccl features

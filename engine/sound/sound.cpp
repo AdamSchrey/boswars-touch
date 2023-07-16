@@ -29,18 +29,11 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "stratagus.h"
-
 #include "SDL.h"
-
 #include "sound.h"
 #include "video.h"
 #include "sound.h"
@@ -54,9 +47,6 @@
 #include "ui.h"
 #include "widgets.h"
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 /**
 **  Various sounds used in game.
@@ -90,9 +80,6 @@ SelectionHandling SelectionHandler;
 static int ViewPointOffset;      /// Distance to Volume Mapping
 int DistanceSilent;              /// silent distance
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  "Randomly" choose a sample from a sound group.

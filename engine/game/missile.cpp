@@ -28,22 +28,14 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-
-
 #include "stratagus.h"
-
 #include <vector>
 #include <string>
 #include <map>
-
 #include "video.h"
 #include "font.h"
 #include "map.h"
@@ -60,9 +52,6 @@
 #include "trigger.h"
 #include "luacallback.h"
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
 
 unsigned int Missile::Count = 0;
 
@@ -76,9 +65,6 @@ static std::map<std::string, MissileType *> MissileTypeMap;
 
 std::vector<BurningBuildingFrame *> BurningBuildingFrames; /// Burning building frames
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  Load the graphics for a missile type

@@ -28,17 +28,12 @@
 
 //@{
 
-//----------------------------------------------------------------------------
-//  Includes
-//----------------------------------------------------------------------------
-
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #if defined(DEBUG)
 #include <setjmp.h>
 #endif
-
 #include "stratagus.h"
 #include "video.h"
 #include "map.h"
@@ -67,26 +62,19 @@
 #include "sound.h"
 #include "script.h"
 #include "particle.h"
-
 #include <guichan.h>
 void DrawGuichanWidgets();
 
-//----------------------------------------------------------------------------
-// Variables
-//----------------------------------------------------------------------------
 
-	/// variable set when we are scrolling via keyboard
+/// variable set when we are scrolling via keyboard
 int KeyScrollState = ScrollNone;
 
-	/// variable set when we are scrolling via mouse
+/// variable set when we are scrolling via mouse
 int MouseScrollState = ScrollNone;
 
 EventCallback GameCallbacks;   /// Game callbacks
 EventCallback EditorCallbacks; /// Editor callbacks
 
-//----------------------------------------------------------------------------
-// Functions
-//----------------------------------------------------------------------------
 
 /**
 **  Handle scrolling area.

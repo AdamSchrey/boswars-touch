@@ -146,10 +146,6 @@
 ** @see editor.h @see editor.cpp
 */
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -178,7 +174,6 @@ extern int getopt(int argc, char *const *argv, const char *opt);
 #endif
 
 #include "SDL.h"
-
 #include "stratagus.h"
 #include "unit_manager.h"
 #include "video.h"
@@ -223,9 +218,6 @@ const struct VersionInfo Version = {
 	ENGINE_YEAR
 };
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 std::string StratagusLibPath;        /// Path for data directory
 std::string LocalPlayerName;         /// Name of local player

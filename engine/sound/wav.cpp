@@ -28,26 +28,17 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
--- Includes
-----------------------------------------------------------------------------*/
 
 #include "stratagus.h"
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
 #include "SDL.h"
 #include "SDL_endian.h"
-
 #include "iolib.h"
 #include "sound_server.h"
 #include "wav.h"
 
-/*----------------------------------------------------------------------------
---  Declaration
-----------------------------------------------------------------------------*/
 
 /**
 **  Private wav data structure to handle wav streaming.
@@ -75,9 +66,6 @@ public:
 	WavData Data;
 };
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 int CSampleWavStream::Read(void *buf, int len)
 {

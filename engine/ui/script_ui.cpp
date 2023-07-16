@@ -28,14 +28,10 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "stratagus.h"
 #include "script.h"
 #include "interface.h"
@@ -49,9 +45,6 @@
 #include "unittype.h"
 #include "title.h"
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 std::string ClickMissile;        /// FIXME:docu
 std::string DamageMissile;       /// FIXME:docu
@@ -62,9 +55,6 @@ static int HandleCount = 1;     /// Lua handler count
 
 CPreference Preference;
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  Set speed of middle-mouse scroll

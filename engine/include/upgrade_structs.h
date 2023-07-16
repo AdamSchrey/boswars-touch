@@ -31,10 +31,6 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
-
 class CUnitType;
 class CVariable;
 class CIcon;
@@ -79,10 +75,6 @@ extern std::string DefaultResourceNames[MaxCosts];
 */
 extern std::string DefaultDisplayResourceNames[MaxCosts];
 
-
-/*----------------------------------------------------------------------------
---  upgrades and modifiers
-----------------------------------------------------------------------------*/
 
 /**
 **  Allow what a player can do. Every #CPlayer has an own allow struct.

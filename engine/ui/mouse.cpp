@@ -31,14 +31,10 @@
 #define ICON_SIZE_X (UI.ButtonPanel.Buttons[0].Style->Width)
 #define ICON_SIZE_Y (UI.ButtonPanel.Buttons[0].Style->Height)
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-
 #include "stratagus.h"
 #include "video.h"
 #include "map.h"
@@ -60,9 +56,6 @@
 #include "spells.h"
 #include "widgets.h"
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 int MouseButtons;                            /// Current pressed mouse buttons
 
@@ -77,9 +70,7 @@ bool LeaveStops;                             /// Mouse leaves windows stops scro
 
 enum _cursor_on_ CursorOn = CursorOnUnknown; /// Cursor on field
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
+
 static void HandlePieMenuMouseSelection(void);
 
 /**

@@ -30,10 +30,6 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
-
 class CUnit;
 class CUnitType;
 struct lua_State;
@@ -77,19 +73,12 @@ typedef struct {
 	CUnit *Active;    /// Unit which is selected or else under cursor unit.
 } TriggerDataType;
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 extern CTimer GameTimer; /// the game timer
 
 /// Some data accessible for script during the game.
 extern TriggerDataType TriggerData;
 
-
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 extern int TriggerGetPlayer(lua_State *l);/// get player number.
 extern const CUnitType *TriggerGetUnitType(lua_State *l); /// get the unit-type

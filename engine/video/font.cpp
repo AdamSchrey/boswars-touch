@@ -28,10 +28,6 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -49,9 +45,6 @@
 
 #include "intern_video.h"
 
-/*----------------------------------------------------------------------------
---  Types
-----------------------------------------------------------------------------*/
 
 namespace {
 	/**
@@ -188,9 +181,6 @@ private: // undefined
 	CFontFamily &operator =(const CFontFamily &);
 };
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 typedef std::map<std::string, CFontFamily *> FontFamiliesType;
 static FontFamiliesType FontFamilies;      /// Map of ident to font family.
@@ -243,9 +233,6 @@ void CFont::drawString(gcn::Graphics *graphics, const std::string &txt,
 	PopClipping();
 }
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 ** CFontFamily constructor.

@@ -30,10 +30,6 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
-
 class CFile;
 class CPlayer;
 
@@ -41,10 +37,10 @@ class CPlayer;
 --  General/Map functions
 ----------------------------------------------------------------------------*/
 
-	/// save the upgrades
+/// save the upgrades
 extern void SaveUpgrades(CFile *file);
 
-	/// Register CCL features for upgrades
+/// Register CCL features for upgrades
 extern void UpgradesCclRegister(void);
 
 // AllowStruct will be static in the player so will be

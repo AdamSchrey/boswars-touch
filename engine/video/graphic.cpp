@@ -28,29 +28,19 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "stratagus.h"
-
 #include <string>
 #include <map>
 #include <list>
-
 #include "video.h"
 #include "player.h"
 #include "intern_video.h"
 #include "iocompat.h"
 #include "iolib.h"
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 static enum {
 	ModuleNotInitialized,
@@ -93,9 +83,6 @@ struct CGraphicsModule {
 
 static CGraphicsModule GraphicsModule;
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  Video draw the graphic clipped.

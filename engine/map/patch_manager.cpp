@@ -28,10 +28,6 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include "stratagus.h"
 #include "patch_manager.h"
 #include "patch_type.h"
@@ -39,14 +35,9 @@
 #include "iolib.h"
 #include "map.h"
 #include "script.h"
-
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
-
-/*----------------------------------------------------------------------------
--- Functions
-----------------------------------------------------------------------------*/
 
 
 CPatchManager::CPatchManager() :

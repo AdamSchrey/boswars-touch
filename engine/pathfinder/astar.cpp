@@ -29,20 +29,11 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include "stratagus.h"
-
 #include <stdlib.h>
 #include <stdio.h>
-
 #include "pathfinder.h"
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
 
 struct Node {
 	char Direction;     /// Direction for trace back
@@ -61,9 +52,6 @@ struct Open {
 /// heuristic cost function for a*
 #define AStarCosts(sx,sy,ex,ey) std::max(abs(sx - ex), abs(sy - ey))
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 //  Convert heading into direction.
 //                      //  N NE  E SE  S SW  W NW
@@ -187,9 +175,6 @@ inline void ProfilePrint()
 #define ProfilePrint()
 #endif
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 // FIXME: this is duplicated from map_fog.cpp
 static void InitVisionTable(void)

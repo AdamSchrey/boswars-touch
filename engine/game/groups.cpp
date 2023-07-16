@@ -29,14 +29,9 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "stratagus.h"
 #include "unit.h"
 #include "unit_manager.h"
@@ -45,9 +40,6 @@
 #include "player.h"
 #include "iolib.h"
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 /**
 **  Defines a group of units.
@@ -58,10 +50,6 @@ struct CUnitGroup {
 };                                       /// group of units
 
 static CUnitGroup Groups[NUM_GROUPS];    /// Number of groups predefined
-
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  Initialize group part.

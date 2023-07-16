@@ -29,23 +29,13 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
--- Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "stratagus.h"
 #include "video.h"
-
 #include "intern_video.h"
 
-
-/*----------------------------------------------------------------------------
--- Declarations
-----------------------------------------------------------------------------*/
 
 /**
 ** Bitmask, denoting a postion left/right/above/below clip rectangle

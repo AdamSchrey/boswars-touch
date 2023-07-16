@@ -28,15 +28,10 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <setjmp.h>
-
 #include "stratagus.h"
 #include "script.h"
 #include "unittype.h"
@@ -48,10 +43,6 @@
 #include "unit.h"
 #include "iolib.h"
 
-
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 CTimer GameTimer;               /// The game timer
 
@@ -67,10 +58,6 @@ static bool *ActiveTriggers;
 /// Some data accessible for script during the game.
 TriggerDataType TriggerData;
 
-
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  Get player number.

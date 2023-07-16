@@ -29,14 +29,9 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "stratagus.h"
 #include "map.h"
 #include "minimap.h"
@@ -63,20 +58,12 @@
 #include "replay.h"
 #include "iolib.h"
 #include "iocompat.h"
-
 #include "script.h"
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 Settings GameSettings;  /// Game Settings
 static int LcmPreventRecurse;   /// prevent recursion through LoadGameMap
 GameResults GameResult;                      /// Outcome of the game
-
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 static void WriteCreateUnits(FileWriter *f);
 static void WriteCreateUnit(FileWriter *f, const CUnit *unit);

@@ -206,18 +206,12 @@
 ** @todo FIXME: continue docu
 */
 
-//----------------------------------------------------------------------------
-//  Includes
-//----------------------------------------------------------------------------
-
 #include "stratagus.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
 #include <string.h>
 #include <list>
-
 #include "net_lowlevel.h"
 #include "unit.h"
 #include "unit_manager.h"
@@ -234,10 +228,6 @@
 #include "sound.h"
 
 
-//----------------------------------------------------------------------------
-//  Declaration
-//----------------------------------------------------------------------------
-
 /**
 **  Network command input/output queue.
 */
@@ -251,9 +241,6 @@ public:
 	CNetworkCommand Data;    /// command content
 };
 
-//----------------------------------------------------------------------------
-//  Variables
-//----------------------------------------------------------------------------
 
 int NetworkNumInterfaces;                  /// Network number of interfaces
 Socket NetworkFildes = (Socket)-1;         /// Network file descriptor

@@ -28,10 +28,6 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include "stratagus.h"
 #include "video.h"
 #include "font.h"
@@ -43,9 +39,6 @@
 #include "editor.h"
 #include "script.h"
 
-/*----------------------------------------------------------------------------
--- Variables
-----------------------------------------------------------------------------*/
 
 // Guichan stuff we need
 gcn::Gui *Gui;         /// A Gui object - binds it all together
@@ -54,11 +47,6 @@ gcn::SDLInput *Input;  /// Input driver
 static EventCallback GuichanCallbacks;
 
 static std::stack<MenuScreen *> MenuStack;
-
-
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 
 static void MenuHandleButtonDown(unsigned buttons)

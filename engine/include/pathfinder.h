@@ -44,9 +44,6 @@
 #define AstarDebugPrint(x)
 #endif
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
 
 class CUnit;
 
@@ -71,9 +68,6 @@ enum _move_return_ {
 #define NewResetPath(unit) \
 	do { unit->Data.Move.Fast = 1; unit->Data.Move.Length = 0; } while (0)
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 	/// cost associated to move on a tile occupied by a fixed unit
 extern int AStarFixedUnitCrossingCost;
@@ -91,9 +85,6 @@ extern const int Heading2X[9];
 extern const int Heading2Y[9];
 extern const int XY2Heading[3][3];
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 	/// Init the pathfinder
 extern void InitPathfinder();

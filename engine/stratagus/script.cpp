@@ -28,16 +28,10 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <string.h>
 #include <signal.h>
-
 #include "stratagus.h"
-
 #include "unittype.h"
 #include "iolib.h"
 #include "iocompat.h"
@@ -61,9 +55,6 @@
 #include "player.h"
 #include "replay.h"
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 lua_State *Lua;                       /// Structure to work with lua files.
 
@@ -75,9 +66,6 @@ std::string CurrentLuaFile;           /// Lua file currently being interpreted
 
 int NoRandomPlacementMultiplayer = 0; /// Disable the random placement of players in muliplayer mode
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  FIXME: docu

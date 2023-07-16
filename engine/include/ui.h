@@ -30,33 +30,21 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <vector>
 #include <string>
 #include <map>
-
 #include "SDL.h"
 #include "upgrade_structs.h"
 #include "cursor.h"
 #include "interface.h"
 #include "minimap.h"
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
 
 class CUnit;
 class CFile;
 class CFont;
 class LuaActionListener;
 struct lua_State;
-
-/*----------------------------------------------------------------------------
---  Definitions
-----------------------------------------------------------------------------*/
 
 enum TextAlignment {
 	TextAlignUndefined,
@@ -460,9 +448,6 @@ public:
 /// SoundConfig Click;                  /// click noice used often
 };
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 extern CUserInterface UI;                           /// The user interface
 
@@ -474,9 +459,6 @@ extern ButtonAction *CurrentButtons;    /// Current Selected Buttons
 
 extern std::string UiGroupKeys;         /// Up to 11 keys used for group selection
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 	/// Initialize the ui
 extern void InitUserInterface(void);

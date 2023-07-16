@@ -235,18 +235,11 @@
 **    @see CAllow
 */
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <map>
 #include <string>
 #include "upgrade_structs.h"
 #include "video.h"
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
 
 typedef int lua_Object; // from tolua++.h
 struct lua_State;
@@ -314,11 +307,8 @@ enum NotifyType {
 	NotifyGreen,   /// Green alarm
 };
 
-/*----------------------------------------------------------------------------
---  Player type
-----------------------------------------------------------------------------*/
 
-	///  Player structure
+///  Player structure
 class CPlayer
 {
 public:
@@ -433,9 +423,6 @@ public:
 	bool IsTeamed(const CUnit *x) const;
 };
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 extern int NumPlayers;             /// How many player slots used
 extern CPlayer Players[PlayerMax];  /// All players
@@ -451,9 +438,6 @@ extern std::string PlayerColorNames[PlayerMax];  /// Player color names
 extern int PlayerColorIndexStart;
 extern int PlayerColorIndexCount;
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 	/// Init players
 extern void InitPlayers(void);

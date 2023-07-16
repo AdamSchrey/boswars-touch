@@ -30,25 +30,17 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Defines/Declarations
-----------------------------------------------------------------------------*/
-
 #define MI_FLAGS_ACTIVE     1  /// cursor on item
 #define MI_FLAGS_CLICKED    2  /// mouse button pressed down on item
 
 class ButtonStyle;
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
-	/// Draw menu button
+/// Draw menu button
 extern void DrawMenuButton(ButtonStyle *style, unsigned flags,
 	int x, int y, const std::string &text);
 
-
-	/// Pre menu setup
+/// Pre menu setup
 extern void PreMenuSetup(void);
 
 //@}

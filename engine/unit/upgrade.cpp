@@ -28,19 +28,13 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include "stratagus.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <string>
 #include <vector>
 #include <map>
-
 #include "upgrade.h"
 #include "player.h"
 #include "interface.h"
@@ -52,15 +46,7 @@
 #include "actions.h"
 #include "iolib.h"
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
-
 static void AllowUnitId(CPlayer *player, int id, int units);
-
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  Save state of the dependencies to file.

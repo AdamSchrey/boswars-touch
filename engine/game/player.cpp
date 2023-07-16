@@ -28,16 +28,11 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
--- Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
 #include <algorithm>
-
 #include "stratagus.h"
 #include "video.h"
 #include "sound.h"
@@ -53,9 +48,6 @@
 #include "iolib.h"
 #include "ui.h"
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 int NumPlayers;                  /// How many player slots used
 CPlayer Players[PlayerMax];       /// All players in play
@@ -77,9 +69,6 @@ std::string PlayerColorNames[PlayerMax];
 int PlayerColorIndexStart;
 int PlayerColorIndexCount;
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  Init players.

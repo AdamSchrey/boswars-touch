@@ -28,9 +28,6 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -53,16 +50,9 @@
 #include "player.h"
 #include "luacallback.h"
 
-/*----------------------------------------------------------------------------
---  Defines
-----------------------------------------------------------------------------*/
-
 // FIXME: make configurable
 #define CHARGE_FOR_NEW_UNITS  33         /// How many percent of max charge for new units
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 CAnimation *AnimationsArray[ANIMATIONS_MAXANIM];
 int NumAnimations;
@@ -89,9 +79,6 @@ const char *VariableNames[NVARALREADYDEFINED] = {
 	"AttackRange", "PiercingDamage", "BasicDamage", "RadarRange",
 	"RadarJammerRange", "AutoRepairRange"};
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 extern int GetSpriteIndex(const std::string &spriteName);
 

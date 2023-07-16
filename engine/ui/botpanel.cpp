@@ -29,19 +29,13 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <vector>
 #include <sstream>
-
 #include "stratagus.h"
-
 #include "unit.h"
 #include "unittype.h"
 #include "upgrade.h"
@@ -58,24 +52,14 @@
 #include "guichan/key.h"
 #include "guichan/sdl/sdlinput.h"
 
-/*----------------------------------------------------------------------------
---  Defines
-----------------------------------------------------------------------------*/
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
-
-	/// for unit buttons sub-menus etc.
+/// for unit buttons sub-menus etc.
 int CurrentButtonLevel;
-	/// All buttons for units
+/// All buttons for units
 std::vector<ButtonAction *> UnitButtonTable;
-	/// Pointer to current buttons
+/// Pointer to current buttons
 ButtonAction *CurrentButtons;
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  Initialize the buttons.

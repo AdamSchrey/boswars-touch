@@ -30,22 +30,15 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Wav
-----------------------------------------------------------------------------*/
 
-//
 //  Define values for WAV format
-//
 
 #define RIFF 0x46464952 /// "RIFF" chunk names.
 #define WAVE 0x45564157 /// "WAVE" chunk names.
 #define FMT  0x20746D66 /// "fmt " chunk names.
 #define DATA 0x61746164 /// "data" chunk names.
 
-/*
-**  Wav types
-*/
+/*  Wav types */
 #define WAV_UNKNOWN 0
 #define WAV_PCM_CODE 1
 #define WAV_ADPCM 2

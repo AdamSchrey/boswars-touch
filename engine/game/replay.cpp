@@ -28,12 +28,7 @@
 
 //@{
 
-//----------------------------------------------------------------------------
-// Includes
-//----------------------------------------------------------------------------
-
 #include <time.h>
-
 #include "stratagus.h"
 #include "replay.h"
 #include "version.h"
@@ -50,10 +45,6 @@
 #include "network.h"
 #include "interface.h"
 #include "actions.h"
-
-//----------------------------------------------------------------------------
-// Structures
-//----------------------------------------------------------------------------
 
 /**
 **  LogEntry structure.
@@ -130,15 +121,6 @@ public:
 	LogEntry *Commands;
 };
 
-//----------------------------------------------------------------------------
-// Constants
-//----------------------------------------------------------------------------
-
-
-//----------------------------------------------------------------------------
-// Variables
-//----------------------------------------------------------------------------
-
 bool CommandLogDisabled;           /// True if command log is off
 ReplayType ReplayGameType;         /// Replay game type
 static bool DisabledLog;           /// Disabled log for replay
@@ -151,9 +133,6 @@ static LogEntry *ReplayStep;
 static void AppendLog(LogEntry *log, CFile *dest);
 bool IsReplayGame();
 
-//----------------------------------------------------------------------------
-// Log commands
-//----------------------------------------------------------------------------
 
 /**
 ** Allocate & fill a new FullReplay structure, from GameSettings.

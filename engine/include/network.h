@@ -30,24 +30,14 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include "unit.h"
 #include "net_lowlevel.h"
 
-/*----------------------------------------------------------------------------
---  Defines
-----------------------------------------------------------------------------*/
 
 #define MaxNetworkCommands 9  /// Max Commands In A Packet
 
 #define IsNetworkGame() (NetworkFildes != (Socket)-1)
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
 
 class CUnit;
 class CUnitType;
@@ -221,9 +211,6 @@ public:
 	CNetworkCommand Command[MaxNetworkCommands];
 };
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 extern int NetworkNumInterfaces;  /// Network number of interfaces
 extern Socket NetworkFildes;      /// Network file descriptor
@@ -233,9 +220,6 @@ extern int NetworkLag;            /// Network lag (# game cycles)
 extern unsigned long NetworkStatus[PlayerMax];  /// Network status
 extern int NoRandomPlacementMultiplayer;        /// Removes randomization of player placements
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 extern void InitNetwork1(void);  /// Initialise network part 1 (ports)
 extern void InitNetwork2(void);  /// Initialise network part 2

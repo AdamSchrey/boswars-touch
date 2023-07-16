@@ -28,37 +28,21 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
--- Includes
-----------------------------------------------------------------------------*/
-
 #include "stratagus.h"
-
 #include <stdio.h>
-
 #include "SDL.h"
-
 #include "sound_server.h"
 #include "script.h"
 
-/*----------------------------------------------------------------------------
--- Declaration
-----------------------------------------------------------------------------*/
 
 #define SoundFrequency 44100 // sample rate of dsp
 
-/*----------------------------------------------------------------------------
--- Variables
-----------------------------------------------------------------------------*/
 
 static SDL_mutex *MusicFinishedMutex;     /// Mutex for MusicFinished
 static bool MusicFinished;                /// Music ended and we need a new file
 
 bool CallbackMusic;                       /// flag true callback ccl if stops
 
-/*----------------------------------------------------------------------------
--- Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  Callback for when music has finished

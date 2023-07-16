@@ -28,20 +28,13 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "stratagus.h"
-
 #include <string>
 #include <vector>
 #include <map>
-
 #include "video.h"
 #include "icons.h"
 #include "player.h"
@@ -49,17 +42,9 @@
 #include "menus.h"
 
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
-
 static std::vector<CIcon *> AllIcons;          /// Vector of all icons.
 std::map<std::string, CIcon *> Icons;          /// Map of ident to icon.
 
-
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  CIcon constructor

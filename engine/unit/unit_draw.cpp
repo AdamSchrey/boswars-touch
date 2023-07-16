@@ -28,18 +28,11 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "stratagus.h"
-
 #include <vector>
-
 #include "video.h"
 #include "editor.h"
 #include "unittype.h"
@@ -54,9 +47,6 @@
 #include "ui.h"
 #include "script.h"
 
-/*----------------------------------------------------------------------------
--- Variables
-----------------------------------------------------------------------------*/
 
 /**
 **  Decoration: health, charge.
@@ -93,10 +83,6 @@ unsigned long ShowOrdersCount;    /// Show orders for some time
 
 // FIXME: not all variables of this file are here
 // FIXME: perhaps split this file into two or three parts?
-
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 // FIXME: clean split screen support
 // FIXME: integrate this with global versions of these functions in map.c

@@ -94,22 +94,12 @@
 **    Pointer to this cursor-type. Used while runtime.
 */
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <vector>
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
 
 class CGraphic;
 class CUnitType;
 
-/*----------------------------------------------------------------------------
---  Definitions
-----------------------------------------------------------------------------*/
 
 	/// Private type which specifies the cursor-type
 class CCursor {
@@ -149,9 +139,6 @@ enum CursorStates {
 	CursorStatePieMenu,    /// Displaying Pie Menu
 };
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 extern std::vector<CCursor> AllCursors;/// cursor-types description
 
@@ -168,9 +155,6 @@ extern int CursorStartY;        /// rectangle started on screen Y
 extern int CursorStartScrMapX;  /// the same in screen map coordinate system
 extern int CursorStartScrMapY;  /// the same in screen map coordinate system
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 	/// Load all cursors
 extern void LoadCursors();

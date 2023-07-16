@@ -116,17 +116,10 @@
 **    Descriptive information of the map. See ::CMapInfo.
 */
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <string>
 #include <vector>
 #include "patch_manager.h"
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
 
 class CGraphic;
 class CPlayer;
@@ -272,9 +265,6 @@ public:
 	CMapInfo Info;                    /// descriptive information
 };
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 extern CMap Map;  /// The current map
 extern char CurrentMapPath[1024]; /// Path to the current map
@@ -292,9 +282,6 @@ extern int ReplayRevealMap;
 extern int TileSizeX; /// Size of a tile in X
 extern int TileSizeY; /// Size of a tile in Y
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 //
 // in map_fog.cpp
@@ -371,9 +358,6 @@ void MapMarkUnitSight(CUnit *unit);
 /// Unmark on vision table the Sight of the unit.
 void MapUnmarkUnitSight(CUnit *unit);
 
-/*----------------------------------------------------------------------------
---  Defines
-----------------------------------------------------------------------------*/
 
 	/// Can a unit with 'mask' enter the field
 inline bool CanMoveToMask(int x, int y, int mask) {

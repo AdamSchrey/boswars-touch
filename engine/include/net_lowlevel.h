@@ -30,10 +30,6 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <vector>
 
 #ifndef _MSC_VER
@@ -83,9 +79,6 @@ typedef struct _OLD_INTERFACE_INFO
 #define INADDR_NONE -1
 #endif
 
-/*----------------------------------------------------------------------------
---  Defines
-----------------------------------------------------------------------------*/
 
 #define NIPQUAD(ad) \
 	(int)(((ad) >> 24) & 0xff), (int)(((ad) >> 16) & 0xff), \
@@ -97,9 +90,6 @@ typedef SOCKET Socket;
 typedef int Socket;
 #endif
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
 
 struct SocketSet {
 	SocketSet() : MaxSockFD(0) {}
@@ -112,18 +102,12 @@ struct SocketSet {
 	Socket MaxSockFD;
 };
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 extern int NetLastSocket;              /// Last socket
 extern unsigned long NetLastHost;      /// Last host number (net format)
 extern int NetLastPort;                /// Last port number (net format)
 extern unsigned long NetLocalAddrs[];  /// Local IP-Addrs of this host (net format)
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 	/// Hardware dependend network init.
 extern int NetInit(void);

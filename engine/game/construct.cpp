@@ -28,32 +28,20 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "stratagus.h"
 #include "video.h"
 #include "map.h"
 #include "construct.h"
 #include "script.h"
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 /**
 **  Constructions.
 */
 static std::vector<CConstruction *> Constructions;
-
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  Initialize  the constructions.
@@ -140,8 +128,6 @@ CConstruction *ConstructionByIdent(const std::string &ident)
 	DebugPrint("Construction `%s' not found.\n" _C_ ident.c_str());
 	return NULL;
 }
-
-// ----------------------------------------------------------------------------
 
 /**
 **  Parse the construction.
@@ -274,8 +260,6 @@ static int CclDefineConstruction(lua_State *l)
 
 	return 0;
 }
-
-// ----------------------------------------------------------------------------
 
 /**
 **  Register CCL features for construction.

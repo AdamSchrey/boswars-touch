@@ -29,14 +29,9 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "stratagus.h"
 #include "unit_manager.h"
 #include "unittype.h"

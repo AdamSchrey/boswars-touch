@@ -53,17 +53,10 @@
 **    Contains the graphics of the font, Only 9 colors are supported.
 */
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <string>
 #include "SDL.h"
 #include "guichan/font.h"
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
 
 class CGraphic;
 class CFontFamily;
@@ -116,9 +109,6 @@ public:
 	SDL_Color Colors[MaxFontColors];
 };
 
-/*----------------------------------------------------------------------------
---  Definitions
-----------------------------------------------------------------------------*/
 
 /**
 **  FIXME: should be moved to lua
@@ -129,9 +119,6 @@ public:
 #define FontWhite "white"
 #define FontGrey "grey"
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 /**
 **  Font selector for the font functions.
@@ -141,9 +128,6 @@ extern CFont *SmallFont;       /// Small font used in stats
 extern CFont *GameFont;        /// Normal font used in game
 extern CFont *LargeFont;       /// Large font used in menus
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 	/// Set the default text colors for normal and reverse text
 extern void SetDefaultTextColors(const std::string &normal, const std::string &reverse);

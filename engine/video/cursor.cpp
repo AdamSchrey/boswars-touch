@@ -29,14 +29,9 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "stratagus.h"
 #include "video.h"
 #include "unittype.h"
@@ -47,12 +42,8 @@
 #include "interface.h"
 #include "ui.h"
 #include "editor.h"
-
 #include "intern_video.h"
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 /**
 **  Define cursor-types.
@@ -90,9 +81,6 @@ CCursor *GameCursor;                 /// current shown cursor-type
 
 static SDL_Surface *HiddenSurface;
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  Load all cursor sprites.

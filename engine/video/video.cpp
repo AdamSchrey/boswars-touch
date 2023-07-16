@@ -75,31 +75,19 @@
 **   @see sprite.cpp
 */
 
-/*----------------------------------------------------------------------------
--- Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
 #include "stratagus.h"
-
 #include <vector>
-
 #include "video.h"
 #include "font.h"
 #include "ui.h"
 #include "cursor.h"
 #include "iolib.h"
-
 #include "intern_video.h"
-
 #include "SDL.h"
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
 
 /**
 **  Structure of pushed clippings.
@@ -111,18 +99,12 @@ struct Clip {
 	int Y2;                             /// pushed clipping bottom right
 };
 
-/*----------------------------------------------------------------------------
---  Externals
-----------------------------------------------------------------------------*/
 
 extern void InitVideoSdl(void);         /// Init SDL video hardware driver
 
 extern void SdlLockScreen(void);        /// Do SDL hardware lock
 extern void SdlUnlockScreen(void);      /// Do SDL hardware unlock
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 CVideo Video;
 
@@ -156,10 +138,6 @@ Uint32 ColorRed;
 Uint32 ColorGreen;
 Uint32 ColorYellow;
 
-
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  Set clipping for graphic routines.
@@ -203,9 +181,6 @@ void PopClipping(void)
 	Clips.pop_back();
 }
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  Lock the screen for write access.

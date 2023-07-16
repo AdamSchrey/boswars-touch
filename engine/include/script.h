@@ -30,12 +30,7 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <string>
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -46,9 +41,6 @@ extern "C" {
 }
 #endif
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
 
 class CFile;
 
@@ -96,16 +88,10 @@ extern int LuaCall(int narg, int clear, bool exitOnError = true);
 		} \
 	} while (0)
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 extern std::string CclStartFile;   /// CCL start file
 extern int CclInConfigFile;        /// True while config file parsing
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 extern const char *LuaToString(lua_State *l, int index);
 extern const char *LuaToString(lua_State *l, int tableIndex, int stringIndex);

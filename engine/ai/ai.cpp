@@ -116,16 +116,10 @@
 ** Called if AI unit has completed training a new unit.
 */
 
-/*----------------------------------------------------------------------------
--- Includes
-----------------------------------------------------------------------------*/
-
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "stratagus.h"
-
 #include "player.h"
 #include "unit.h"
 #include "unittype.h"
@@ -137,9 +131,6 @@
 #include "ai_local.h"
 #include "iolib.h"
 
-/*----------------------------------------------------------------------------
--- Variables
-----------------------------------------------------------------------------*/
 
 /** List of all AI types.
  * DefineAiType keeps this in sync with the AiTypes Lua variable.  */
@@ -270,9 +261,6 @@ static void AiCheckUnits()
 	}
 }
 
-/*----------------------------------------------------------------------------
--- Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  Save state of player AI.

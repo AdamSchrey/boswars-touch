@@ -28,10 +28,6 @@
 
 //@{
 
-//----------------------------------------------------------------------------
-//  Includes
-//----------------------------------------------------------------------------
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
@@ -47,9 +43,6 @@
 #include "net_lowlevel.h"
 #include "network.h"
 
-//----------------------------------------------------------------------------
-//  Declarations
-//----------------------------------------------------------------------------
 
 #define MAX_LOC_IP 10
 
@@ -68,9 +61,6 @@ typedef const void *sendtobuftype;
 typedef const void *sendbuftype;
 #endif
 
-//----------------------------------------------------------------------------
-//  Variables
-//----------------------------------------------------------------------------
 
 int NetLastSocket;         /// Last socket
 unsigned long NetLastHost; /// Last host number (net format)
@@ -78,9 +68,6 @@ int NetLastPort;           /// Last port number (net format)
 
 unsigned long NetLocalAddrs[MAX_LOC_IP]; /// Local IP-Addrs of this host (net format)
 
-//----------------------------------------------------------------------------
-//  Low level functions
-//----------------------------------------------------------------------------
 
 #ifdef USE_WINSOCK // {
 

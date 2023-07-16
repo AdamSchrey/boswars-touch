@@ -31,18 +31,10 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <vector>
-
 #include "upgrade_structs.h"
 #include "unit.h"
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
 
 class CUnit;
 class CUnitType;
@@ -235,9 +227,6 @@ public:
 	std::vector<std::vector<CUnitType *> > Equiv;
 };
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 extern std::vector<CAiType *> AiTypes;   /// List of all AI types
 extern AiHelper AiHelpers; /// AI helper variables
@@ -245,9 +234,6 @@ extern AiHelper AiHelpers; /// AI helper variables
 extern int UnitTypeEquivs[UnitTypeMax + 1]; /// equivalence between unittypes
 extern PlayerAi *AiPlayer; /// Current AI player
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 //
 // Resource manager

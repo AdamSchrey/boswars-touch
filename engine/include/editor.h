@@ -34,9 +34,6 @@
 #include <string>
 #include "icons.h"
 
-/*----------------------------------------------------------------------------
---  Declarations
-----------------------------------------------------------------------------*/
 
 class CUnitType;
 class CPatchType;
@@ -114,9 +111,6 @@ public:
 	void TileSelectedPatch();
 };
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 extern CEditor Editor;
 
@@ -124,9 +118,6 @@ extern const char *EditorStartFile;  /// Editor CCL start file
 
 extern bool PatchEditorRunning;
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 extern void SetEditorSelectIcon(const std::string &icon);
 extern void SetEditorUnitsIcon(const std::string &icon);

@@ -33,14 +33,9 @@
 **               new orders are supported.
 */
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "stratagus.h"
 #include "unittype.h"
 #include "animation.h"
@@ -52,17 +47,11 @@
 #include "map.h"
 #include "pathfinder.h"
 
-/*----------------------------------------------------------------------------
---  Defines
-----------------------------------------------------------------------------*/
 
 #define WEAK_TARGET      2  /// Weak target, could be changed
 #define MOVE_TO_TARGET   4  /// Move to target state
 #define ATTACK_TARGET    5  /// Attack target state
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 /**
 **  Animate unit attack!

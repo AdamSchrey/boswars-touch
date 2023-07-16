@@ -28,15 +28,10 @@
 
 //@{
 
-/*----------------------------------------------------------------------------
---  Includes
-----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <sstream>
 #include <deque>
-
 #include "stratagus.h"
 #include "unittype.h"
 #include "unit_cache.h"
@@ -60,16 +55,13 @@
 #include "iocompat.h"
 #include "replay.h"
 #include "guichan.h"
-
 #include "script.h"
+
 
 extern void DoScrollArea(int state, bool fast);
 extern void DrawGuichanWidgets();
 extern void CleanGame();
 
-/*----------------------------------------------------------------------------
---  Defines
-----------------------------------------------------------------------------*/
 
 #define IconSpacing (IconWidth + 2)
 #define UNIT_ICON_X (IconSpacing)          /// Unit mode icon
@@ -79,9 +71,6 @@ extern void CleanGame();
 #define START_ICON_X (IconSpacing * 3)     /// Start mode icon
 #define START_ICON_Y (0)                   /// Start mode icon
 
-/*----------------------------------------------------------------------------
---  Variables
-----------------------------------------------------------------------------*/
 
 CEditor Editor;
 
@@ -244,9 +233,6 @@ public:
 
 static EditorPatchDropDownListener *editorPatchDropDownListener;
 
-/*----------------------------------------------------------------------------
---  Functions
-----------------------------------------------------------------------------*/
 
 extern void InitDefinedVariables();
 
