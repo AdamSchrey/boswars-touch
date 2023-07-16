@@ -706,20 +706,6 @@ static Target *NewTargetUnit(CUnit *unit)
 	return new Target(TargetUnit, unit, 0, 0);
 }
 
-#if 0
-/**
-**  Target constructor for position.
-**
-**  @param x  X position.
-**  @param y  Y position.
-**
-**  @return the new target.
-*/
-static Target *NewTargetPosition(int x, int y)
-{
-	return new Target(TargetPosition, NULL, x, y);
-}
-#endif
 
 // ****************************************************************************
 // Main local functions

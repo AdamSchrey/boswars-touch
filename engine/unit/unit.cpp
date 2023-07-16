@@ -2198,20 +2198,6 @@ void HitUnit(CUnit *attacker, CUnit *target, int damage)
 					MissileTypeByIdent(DamageMissile)->Range)->Damage = -damage;
 	}
 
-#if 0
-	// FIXME: want to show hits.
-	if (type->Organic) {
-		MakeMissile(MissileBlood,
-			target->X * TileSizeX + TileSizeX / 2,
-			target->Y * TileSizeY + TileSizeY / 2, 0, 0);
-	}
-	if (type->Building) {
-		MakeMissile(MissileSmallFire,
-			target->X * TileSizeX + (type->TileWidth * TileSizeX) / 2,
-			target->Y * TileSizeY + (type->TileHeight * TileSizeY) / 2, 0, 0);
-	}
-#endif
-
 	if (type->Building && !target->Burning) {
 		int f;
 		Missile *missile;

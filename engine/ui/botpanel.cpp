@@ -568,12 +568,7 @@ bool IsButtonAllowed(const CUnit *unit, const ButtonAction *buttonaction)
 			res = unit->Orders[0]->Action == UnitActionBuilt;
 			break;
 	}
-#if 0
-	// there is a additional check function -- call it
-	if (res && buttonaction->Disabled) {
-		return buttonaction->Disabled(unit, buttonaction);
-	}
-#endif
+
 	return res;
 }
 

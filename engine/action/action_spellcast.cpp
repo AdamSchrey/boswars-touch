@@ -58,30 +58,6 @@
 --  Functions
 ----------------------------------------------------------------------------*/
 
-#if 0
-
-/**
-**  Animate unit spell cast (it is attack really)!
-**
-**  @param unit  Unit, for that spell cast/attack animation is played.
-*/
-void AnimateActionSpellCast(CUnit *unit)
-{
-	int flags;
-
-	if (unit->Type->Animations) {
-		Assert(unit->Type->Animations->Attack);
-
-		flags = UnitShowAnimation(unit, unit->Type->Animations->Attack);
-
-		if (flags & AnimationMissile) { // FIXME: should cast spell ?
-			FireMissile(unit);          // we should not get here ??
-		}
-	}
-}
-
-#endif
-
 /**
 **  Handle moving to the target.
 **
