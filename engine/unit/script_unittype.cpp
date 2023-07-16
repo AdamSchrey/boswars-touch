@@ -61,17 +61,6 @@ std::map<std::string, CAnimations *> AnimationMap;/// Animation map
 
 CUnitTypeVar UnitTypeVar;    /// Variables for UnitType and unit.
 
-struct LabelsStruct {
-	CAnimation *Anim;
-	std::string Name;
-};
-static std::vector<LabelsStruct> Labels;
-
-struct LabelsLaterStruct {
-	CAnimation **Anim;
-	std::string Name;
-};
-static std::vector<LabelsLaterStruct> LabelsLater;
 
 const char *VariableNames[NVARALREADYDEFINED] = {
 	"HitPoints", "Build", "Charge", "Transport",
@@ -709,52 +698,6 @@ CUnitType *CclGetUnitType(lua_State *l)
 // ----------------------------------------------------------------------------
 
 /**
-**  Add a label
-*/
-static void AddLabel(lua_State *l, CAnimation *anim, const std::string &name)
-{
-	LabelsStruct label;
-	label.Anim = anim;
-	label.Name = name;
-	Labels.push_back(label);
-}
-
-/**
-**  Find a label
-*/
-static CAnimation *FindLabel(lua_State *l, const std::string &name)
-{
-	for (int i = 0; i < (int)Labels.size(); ++i) {
-		if (Labels[i].Name == name) {
-			return Labels[i].Anim;
-		}
-	}
-	LuaError(l, "Label not found: %s" _C_ name.c_str());
-	return NULL;
-}
-
-/**
-**  Find a label later
-*/
-static void FindLabelLater(lua_State *l, CAnimation **anim, const std::string &name)
-{
-	LabelsLaterStruct label;
-	label.Anim = anim;
-	label.Name = name;
-	LabelsLater.push_back(label);
-}
-
-/**
-**  Fix labels
-*/
-static void FixLabels(lua_State *l)
-{
-	for (int i = 0; i < (int)LabelsLater.size(); ++i) {
-		*LabelsLater[i].Anim = FindLabel(l, LabelsLater[i].Name);
-	}
-}
-
-/**
 **  Parse an animation frame
 */
 static void ParseAnimationFrame(lua_State *l, const char *str,
@@ -844,26 +787,6 @@ static void ParseAnimationFrame(lua_State *l, const char *str,
 		} else {
 			LuaError(l, "Unbreakable must be 'begin' or 'end'.  Found: %s" _C_ op2);
 		}
-	} else if (!strcmp(op1, "label")) {
-		anim->Type = AnimationLabel;
-		AddLabel(l, anim, op2);
-	} else if (!strcmp(op1, "goto")) {
-		anim->Type = AnimationGoto;
-		FindLabelLater(l, &anim->D.Goto.Goto, op2);
-	} else if (!strcmp(op1, "random-goto")) {
-		char *label;
-
-		anim->Type = AnimationRandomGoto;
-		label = strchr(op2, ' ');
-		if (!label) {
-			LuaError(l, "Missing random-goto label");
-		} else {
-			while (*label == ' ') {
-				*label++ = '\0';
-			}
-		}
-		anim->D.RandomGoto.Random = atoi(op2);
-		FindLabelLater(l, &anim->D.RandomGoto.Goto, label);
 	} else {
 		LuaError(l, "Unknown animation: %s" _C_ op1);
 	}
@@ -886,8 +809,6 @@ static CAnimation *ParseAnimation(lua_State *l, int idx)
 	args = lua_objlen(l, idx);
 	anim = new CAnimation[args + 1];
 	tail = NULL;
-	Labels.clear();
-	LabelsLater.clear();
 
 	for (j = 0; j < args; ++j) {
 		str = LuaToString(l, idx, j + 1);
@@ -899,7 +820,6 @@ static CAnimation *ParseAnimation(lua_State *l, int idx)
 			tail = &anim[j];
 		}
 	}
-	FixLabels(l);
 
 	return anim;
 }

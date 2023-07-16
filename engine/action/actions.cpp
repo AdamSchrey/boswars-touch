@@ -188,16 +188,6 @@ int UnitShowAnimationScaled(CUnit *unit, const CAnimation *anim, int scale)
 				break;
 
 			case AnimationNone:
-			case AnimationLabel:
-				break;
-
-			case AnimationGoto:
-				unit->Anim.Anim = unit->Anim.Anim->D.Goto.Goto;
-				break;
-			case AnimationRandomGoto:
-				if (SyncRand() % 100 < unit->Anim.Anim->D.RandomGoto.Random) {
-					unit->Anim.Anim = unit->Anim.Anim->D.RandomGoto.Goto;
-				}
 				break;
 		}
 

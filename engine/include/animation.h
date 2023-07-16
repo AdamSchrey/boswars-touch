@@ -47,9 +47,6 @@ enum AnimationType {
 	AnimationRandomRotate,
 	AnimationMove,
 	AnimationUnbreakable,
-	AnimationLabel,
-	AnimationGoto,
-	AnimationRandomGoto,
 };
 
 class CAnimation {
