@@ -50,9 +50,6 @@
 #include "player.h"
 #include "luacallback.h"
 
-// FIXME: make configurable
-#define CHARGE_FOR_NEW_UNITS  33         /// How many percent of max charge for new units
-
 
 CAnimation *AnimationsArray[ANIMATIONS_MAXANIM];
 int NumAnimations;
@@ -391,7 +388,7 @@ static int CclDefineUnitType(lua_State *l)
 			type->BurnDamageRate = LuaToNumber(l, -1);
 		} else if (!strcmp(value, "MaxCharge")) {
 			type->Variable[CHARGE_INDEX].Max = LuaToNumber(l, -1);
-			type->Variable[CHARGE_INDEX].Value = (type->Variable[CHARGE_INDEX].Max * CHARGE_FOR_NEW_UNITS) / 100;
+			type->Variable[CHARGE_INDEX].Value = 0;
 			type->Variable[CHARGE_INDEX].Increase = 1;
 			type->Variable[CHARGE_INDEX].Enable = 1;
 		} else if (!strcmp(value, "TileSize")) {
