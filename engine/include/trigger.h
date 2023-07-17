@@ -64,20 +64,7 @@ public:
 #define ALL_BUILDINGS ((const CUnitType *)-3)
 
 
-/**
-**  Data to referer game info when game running.
-*/
-typedef struct {
-	CUnit *Attacker;  /// Unit which send the missile.
-	CUnit *Defender;  /// Unit which is hit by missile.
-	CUnit *Active;    /// Unit which is selected or else under cursor unit.
-} TriggerDataType;
-
-
 extern CTimer GameTimer; /// the game timer
-
-/// Some data accessible for script during the game.
-extern TriggerDataType TriggerData;
 
 
 extern int TriggerGetPlayer(lua_State *l);/// get player number.

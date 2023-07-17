@@ -55,9 +55,6 @@ static int nextTrigger;
    effectively added. */
 static bool *ActiveTriggers;
 
-/// Some data accessible for script during the game.
-TriggerDataType TriggerData;
-
 
 /**
 **  Get player number.
