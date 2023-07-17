@@ -32,18 +32,10 @@
 #include <string.h>
 #include <ctype.h>
 #include <errno.h>
-
+#include "SDL.h"
 #include "stratagus.h"
 #include "util.h"
 
-#ifdef USE_WIN32
-#define WIN32_LEAN_AND_MEAN
-#undef NOUSER
-#include <windows.h>
-#elif defined(HAVE_X)
-#include <X11/Xlib.h>
-#include <X11/Xatom.h>
-#endif
 
 /*----------------------------------------------------------------------------
 --  Random
@@ -413,93 +405,26 @@ int getopt(int argc, char *const *argv, const char *opts)
 */
 int GetClipboard(std::string &str)
 {
-#if defined(USE_WIN32) || defined(HAVE_X)
 	int i;
-	unsigned char *clipboard;
-#ifdef USE_WIN32
-	HGLOBAL handle;
-#elif defined(HAVE_X)
-	Display *display;
-	Window window;
-	Atom rettype;
-	unsigned long nitem;
-	unsigned long dummy;
-	int retform;
-	XEvent event;
-#endif
+	char *clipboard = SDL_GetClipboardText();
 
-#ifdef USE_WIN32
-	if (!IsClipboardFormatAvailable(CF_TEXT) || !OpenClipboard(NULL)) {
-		return -1;
-	}
-	handle = GetClipboardData(CF_TEXT);
-	if (!handle) {
-		CloseClipboard();
-		return -1;
-	}
-	clipboard = (unsigned char *)GlobalLock(handle);
-	if (!clipboard) {
-		CloseClipboard();
-		return -1;
-	}
-#elif defined(HAVE_X)
-	if (!(display = XOpenDisplay(NULL))) {
+	if (clipboard[0] == 0) {
+		// empty clipboard or error => no text to paste
+		SDL_free(clipboard);
 		return -1;
 	}
 
-	// Creates a non maped temporary X window to hold the selection
-	if (!(window = XCreateSimpleWindow(display,
-			DefaultRootWindow(display), 0, 0, 1, 1, 0, 0, 0))) {
-		XCloseDisplay(display);
-		return -1;
-	}
-
-	XConvertSelection(display, XA_PRIMARY, XA_STRING, XA_STRING,
-		window, CurrentTime);
-
-	XNextEvent(display, &event);
-
-	if (event.type != SelectionNotify ||
-			event.xselection.property != XA_STRING) {
-		return -1;
-	}
-
-	XGetWindowProperty(display, window, XA_STRING, 0, 1024, False,
-		XA_STRING, &rettype, &retform, &nitem, &dummy, &clipboard);
-
-	XDestroyWindow(display, window);
-	XCloseDisplay(display);
-
-	if (rettype != XA_STRING || retform != 8) {
-		if (clipboard != NULL) {
-			XFree(clipboard);
-		}
-		clipboard = NULL;
-	}
-
-	if (clipboard == NULL) {
-		return -1;
-	}
-#endif
 	// Only allow ascii characters
 	for (i = 0; clipboard[i] != '\0'; ++i) {
 		if (clipboard[i] < 32 || clipboard[i] > 126) {
+			SDL_free(clipboard);
 			return -1;
 		}
 	}
-	str = (char *)clipboard;
-#ifdef USE_WIN32
-	GlobalUnlock(handle);
-	CloseClipboard();
-#elif defined(HAVE_X)
-	if (clipboard != NULL) {
-		XFree(clipboard);
-	}
-#endif
+	str = clipboard;
+	SDL_free(clipboard);
+
 	return 0;
-#else
-	return -1;
-#endif
 }
 
 
