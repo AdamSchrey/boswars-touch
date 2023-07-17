@@ -38,7 +38,7 @@ Read the file COPYRIGHT.txt for the detailed copyright notice.
 Builds of Bos Wars can be obtained in different ways. The Download section
 on the [Bos Wars website](https://www.boswars.org) has packages for amd64/x86_64
 Linux systems. You will need to install a minimal set of dependencies.
-For example on Debian with X11:
+For example on Debian:
 
     sudo apt install libsdl2-2.0 libz libgl1-mesa
 
