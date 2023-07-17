@@ -1,6 +1,7 @@
 Change log for Bos Wars
 -----------------------
 
+- Missile silo can fire once before reloading (François Beerten)
 - Rename STRATAGUS_LIB_PATH to DEFAULT_DATA_PATH (François Beerten)
 - Data path relative to the executable location (François Beerten)
 - Add version and copyright info to main menu (Andy Alt)
