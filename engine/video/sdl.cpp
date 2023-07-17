@@ -1015,7 +1015,7 @@ int Str2SdlKey(const char *str)
 */
 bool SdlGetGrabMouse(void)
 {
-	return SDL_GetRelativeMouseMode();
+	return SDL_GetWindowGrab(TheWindow);
 }
 
 /**
@@ -1028,9 +1028,9 @@ void ToggleGrabMouse(int mode)
 	bool grabbed = SdlGetGrabMouse();
 
 	if (mode <= 0 && grabbed) {
-		SDL_SetRelativeMouseMode(SDL_FALSE);
+		SDL_SetWindowGrab(TheWindow, SDL_FALSE);
 	} else if (mode >= 0 && !grabbed) {
-		SDL_SetRelativeMouseMode(SDL_TRUE);
+		SDL_SetWindowGrab(TheWindow, SDL_TRUE);
 	}
 }
 
