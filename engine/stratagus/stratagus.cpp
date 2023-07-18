@@ -574,7 +574,7 @@ static void Usage(void)
 		"  -P port       Network port to use\n"
 		"  -L lag        Network lag in # frames (default 10 = 333ms)\n"
 		"  -U update     Network update rate in # frames (default 5=6x per s)\n"
-		"  -v mode       Video mode WIDTHxHEIGHT, at least 640x480.  Abbreviations:\n"
+		"  -V mode       Video mode WIDTHxHEIGHT, at least 640x480.  Abbreviations:\n"
 		"                  1=640x480, 2=800x600, 3=1024x768, 4=1280x960, 5=1600x1200.\n"
 		"  -D bpp        Video mode depth = bits per pixel (for Win32/TNT)\n"
 		"  -F            Full screen video mode\n"
@@ -760,7 +760,7 @@ int main(int argc, char **argv)
 	//  Parse commandline
 	//
 	for (;;) {
-		switch (getopt(argc, argv, "c:d:ehlP:v:D:E:FL:S:f:U:W?")) {
+		switch (getopt(argc, argv, "c:d:ehlP:V:D:E:FL:S:f:U:W?")) {
 			case 'c':
 				CclStartFile = optarg;
 				continue;
@@ -796,7 +796,7 @@ int main(int argc, char **argv)
 			case 'P':
 				NetworkPort = atoi(optarg);
 				continue;
-			case 'v':
+			case 'V':
 				VideoModeOption(optarg);
 				continue;
 			case 'L':
