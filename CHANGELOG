@@ -1,6 +1,9 @@
 Change log for Bos Wars
 -----------------------
 
+- Man page from boswars help and version options (François Beerten)
+- Add command line option to display version info (François Beerten)
+- Command line video mode option uses '-V' instead of '-v' (François Beerten)
 - Missile silo can fire once before reloading (François Beerten)
 - Rename STRATAGUS_LIB_PATH to DEFAULT_DATA_PATH (François Beerten)
 - Data path relative to the executable location (François Beerten)
