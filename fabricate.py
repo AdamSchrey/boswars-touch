@@ -536,7 +536,8 @@ class Builder(object):
         # use runner to run command and collect dependencies
         self.echo_command(command)
         deps, outputs = self.runner(*arglist)
-        self.store_deps(command, deps, outputs)
+        if outputs:
+            self.store_deps(command, deps, outputs)
 
     def prepare(self, args):
         arglist = args_to_list(args)
