@@ -559,7 +559,6 @@ void ExitFatal(int err)
 */
 static void Usage(void)
 {
-	PrintVersionInfo();
 	printf(
 		"\n\n"
 		"Usage: boswars [OPTIONS] [MAP-PRESENTATION-FILE]\n"
@@ -573,6 +572,7 @@ static void Usage(void)
 		"  -e            Show all events received from SDL (requires DEBUG)\n"
 #endif
 		"  -h            Help shows this page\n"
+		"  -v            Display version information\n"
 		"  -l            Disable command log\n"
 		"  -P port       Network port to use\n"
 		"  -L lag        Network lag in # frames (default 10 = 333ms)\n"
@@ -763,7 +763,7 @@ int main(int argc, char **argv)
 	//  Parse commandline
 	//
 	for (;;) {
-		switch (getopt(argc, argv, "c:d:ehlP:V:D:E:FL:S:f:U:W?")) {
+		switch (getopt(argc, argv, "c:d:ehvlP:V:D:E:FL:S:f:U:W?")) {
 			case 'c':
 				CclStartFile = optarg;
 				continue;
@@ -831,6 +831,10 @@ int main(int argc, char **argv)
 			case 'f':
 				FastForwardCycle = atol(optarg);
 				continue;
+			case 'v':
+				PrintVersionInfo();
+				ExitFatal(-1);
+				break;
 			case -1:
 				break;
 			case '?':
