@@ -560,6 +560,8 @@ static void Usage(void)
 	printf(
 		"\n\n"
 		"Usage: boswars [OPTIONS] [MAP-PRESENTATION-FILE]\n"
+		"\n"
+		"Options:\n"
 		"  -c file.lua   Configuration start file (default scripts/boswars.lua)\n"
 		"  -d datapath   Path to Bos Wars data\n"
 		"  -E file.lua   Load this script file when starting the map editor\n"
@@ -579,8 +581,13 @@ static void Usage(void)
 		"  -S speed      Video sync speed (100 = 30 frames/s)\n"
 		"  -f cycle      Fast forward until the cycle number\n"
 		"  -W            Windowed video mode\n"
+		"\n"
 		"Specifying MAP-PRESENTATION-FILE starts a single-player game in that map.\n"
-		"Example: boswars maps/islandwar.map/presentation.smp\n");
+		"\n"
+		"Examples:\n"
+		"    boswars                                      Run Bos Wars\n"
+		"    boswars maps/islandwar.map/presentation.smp  Run Island War map\n"
+		);
 }
 
 #ifdef REDIRECT_OUTPUT
