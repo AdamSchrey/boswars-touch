@@ -446,7 +446,8 @@ static void PrintVersionInfo(void)
 		"Jon Gabrielson, Andreas Arens, Nehal Mistry, Jimmy Salmon, Francois Beerten and others.\n"
 		"\t(https://www.boswars.org)"
 		"\n"
-		"Copyright (c) 1998-2023 by the Bos Wars and Stratagus Project.\n"
+		"Copyright (c) 1998-" SN(ENGINE_YEAR)
+		" by the Bos Wars and Stratagus Project.\n"
 		"Bos Wars may be copied only under the terms of the GNU General Public License\n"
 		"which must be distributed with this program.\n"
 		"\n"
