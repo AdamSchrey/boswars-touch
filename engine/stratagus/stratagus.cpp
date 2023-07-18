@@ -222,10 +222,6 @@ const struct VersionInfo Version = {
 std::string StratagusLibPath;        /// Path for data directory
 std::string LocalPlayerName;         /// Name of local player
 
-	/// Name, Version, Copyright
-static std::string NameLine =
-	"Bos Wars V" VERSION ", (c) 1998-2023 by the Bos Wars and Stratagus Project.";
-
 std::string CliMapName;          /// Filename of the map given on the command line
 std::string CompileOptions;          /// Compile options.
 
@@ -443,10 +439,12 @@ void StartReplay(const std::string &filename, bool reveal)
 */
 static void PrintHeader(void)
 {
-	fprintf(stdout, "%s\n  written by Lutz Sammer, Fabrice Rossi, Vladi Shabanski, Patrice Fortier,\n"
+	fprintf(stdout,
+		"Bos Wars V" VERSION ", (c) 1998-2023 by the Bos Wars and Stratagus Project.\n"
+		"  written by Lutz Sammer, Fabrice Rossi, Vladi Shabanski, Patrice Fortier,\n"
 		"Jon Gabrielson, Andreas Arens, Nehal Mistry, Jimmy Salmon, Francois Beerten and others.\n"
 		"\t(http://www.boswars.org)"
-		"\nCompile options %s", NameLine.c_str(), CompileOptions.c_str());
+		"\nCompile options %s", CompileOptions.c_str());
 }
 
 /**
