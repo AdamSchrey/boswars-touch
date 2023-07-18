@@ -520,6 +520,13 @@ def install(installdir='./dist', datadir=None, bindir=None, builddir='fbuild/rel
     shutil.copy2(builddir+'/'+ 'boswars', installdir)
 
 
+def manpage(builddir='fbuild/release/', **kwargs):
+    release(builddir=builddir, **kwargs)
+    run('help2man', '--help-option=-h', '--section=6', '-N',
+        '--version-option=-v',
+        builddir + '/boswars', '-o', 'boswars.6')
+
+
 setup(default='default')
 if __name__ == '__main__':
     import optparse
