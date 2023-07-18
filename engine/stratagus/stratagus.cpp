@@ -437,7 +437,7 @@ void StartReplay(const std::string &filename, bool reveal)
 /**
 **  Print headerline, copyright, ...
 */
-static void PrintHeader(void)
+static void PrintVersionInfo(void)
 {
 	fprintf(stdout,
 		"Bos Wars " VERSION "\n"
@@ -458,7 +458,7 @@ static void PrintHeader(void)
 */
 static int main1(int argc, char **argv)
 {
-	PrintHeader();
+	PrintVersionInfo();
 	printf(
 		"\n"
 		"\n"
@@ -559,7 +559,7 @@ void ExitFatal(int err)
 */
 static void Usage(void)
 {
-	PrintHeader();
+	PrintVersionInfo();
 	printf(
 		"\n\n"
 		"Usage: boswars [OPTIONS] [MAP-PRESENTATION-FILE]\n"
