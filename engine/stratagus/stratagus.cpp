@@ -440,11 +440,14 @@ void StartReplay(const std::string &filename, bool reveal)
 static void PrintHeader(void)
 {
 	fprintf(stdout,
-		"Bos Wars V" VERSION ", (c) 1998-2023 by the Bos Wars and Stratagus Project.\n"
-		"  written by Lutz Sammer, Fabrice Rossi, Vladi Shabanski, Patrice Fortier,\n"
+		"Bos Wars " VERSION "\n"
+		"\n"
+		"Copyright (c) 1998-2023 by the Bos Wars and Stratagus Project.\n"
+		"Written by Lutz Sammer, Fabrice Rossi, Vladi Shabanski, Patrice Fortier,\n"
 		"Jon Gabrielson, Andreas Arens, Nehal Mistry, Jimmy Salmon, Francois Beerten and others.\n"
-		"\t(http://www.boswars.org)"
-		"\nCompile options %s", CompileOptions.c_str());
+		"\t(https://www.boswars.org)"
+		"\n"
+		"\nBuild options: %s\n", CompileOptions.c_str());
 }
 
 /**
