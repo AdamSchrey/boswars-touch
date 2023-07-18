@@ -96,3 +96,9 @@ DEFAULT_DATA_PATH supports different types of paths:
 * absolute paths (typically starting with "/")
 * paths relative to the current working directory (typically starting with "./" or "../")
 * path relative to the location of the executable (starting with "~~/" which will be replaced by the executable path)
+
+A man page for Bos Wars can be generated from the executable with
+"help2man". The make.py tool automates building a "release" build and
+after that generation of a man page with:
+
+    ./make.py manpage
