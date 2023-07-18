@@ -442,12 +442,20 @@ static void PrintVersionInfo(void)
 	fprintf(stdout,
 		"Bos Wars " VERSION "\n"
 		"\n"
-		"Copyright (c) 1998-2023 by the Bos Wars and Stratagus Project.\n"
 		"Written by Lutz Sammer, Fabrice Rossi, Vladi Shabanski, Patrice Fortier,\n"
 		"Jon Gabrielson, Andreas Arens, Nehal Mistry, Jimmy Salmon, Francois Beerten and others.\n"
 		"\t(https://www.boswars.org)"
 		"\n"
-		"\nBuild options: %s\n", CompileOptions.c_str());
+		"Copyright (c) 1998-2023 by the Bos Wars and Stratagus Project.\n"
+		"Bos Wars may be copied only under the terms of the GNU General Public License\n"
+		"which must be distributed with this program.\n"
+		"\n"
+		"DISCLAIMER:\n"
+		"This software is provided as-is.  The author(s) can not be held liable for any\n"
+		"damage that might arise from the use of this software.\n"
+		"Use it at your own risk.\n"
+		"\n"
+		"Build options: %s\n", CompileOptions.c_str());
 }
 
 /**
@@ -459,17 +467,6 @@ static void PrintVersionInfo(void)
 static int main1(int argc, char **argv)
 {
 	PrintVersionInfo();
-	printf(
-		"\n"
-		"\n"
-		"Bos Wars may be copied only under the terms of the GNU General Public License\n"
-		"which must be distributed with this program.\n"
-		"\n"
-		"DISCLAIMER:\n"
-		"This software is provided as-is.  The author(s) can not be held liable for any\n"
-		"damage that might arise from the use of this software.\n"
-		"Use it at your own risk.\n"
-		"\n");
 
 	// Video display is inited by lua
 
