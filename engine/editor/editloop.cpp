@@ -1385,6 +1385,11 @@ static void EditorCallbackKeyDown(unsigned key, unsigned keychar)
 		return;
 	}
 
+    if (keychar) {
+         // Skip (undesired) SDL_TEXTINPUT event to avoid duplicate key events
+         return;
+    }
+
 	switch (key)
 	{
 		case 'f': // ALT+F, CTRL+F toggle fullscreen

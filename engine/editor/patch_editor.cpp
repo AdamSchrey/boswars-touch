@@ -225,6 +225,11 @@ static void PatchEditorCallbackKeyDown(unsigned key, unsigned keychar)
 		return;
 	}
 
+    if (keychar) {
+         // Skip (undesired) SDL_TEXTINPUT event to avoid duplicate key events
+         return;
+    }
+
 	switch (key) {
 		case 'f': // ALT+F, CTRL+F toggle fullscreen
 			if (!(KeyModifiers & (ModifierAlt | ModifierControl))) {
