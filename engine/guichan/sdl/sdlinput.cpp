@@ -129,7 +129,7 @@ namespace gcn
         switch (event.type)
         {
           case SDL_KEYDOWN:
-              if (event.key.keysym.sym >= ' ')
+              if (event.key.keysym.sym >= ' ' && !(event.key.keysym.sym & (1<<30)))
                   break;
 			  mLastKey = convertKeyCharacter(event.key.keysym);
 			  mIsRepeating = true;
@@ -139,7 +139,7 @@ namespace gcn
               break;
 
           case SDL_KEYUP:
-              if (event.key.keysym.sym >= ' ')
+              if (event.key.keysym.sym >= ' ' && !(event.key.keysym.sym & (1<<30)))
                   break;
 			  mIsRepeating = false;
               keyInput.setKey(convertKeyCharacter(event.key.keysym));
