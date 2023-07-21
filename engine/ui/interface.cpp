@@ -69,8 +69,6 @@
 static char Input[80];               /// line input for messages/long commands
 static int InputIndex;               /// current index into input
 static char InputStatusLine[99];     /// Last input status line
-std::string DefaultGroupKeys = "0123456789`";/// Default group keys
-std::string UiGroupKeys = DefaultGroupKeys;/// Up to 11 keys, last unselect. Default for qwerty
 bool GameRunning;                    /// Current running state
 bool GamePaused;                     /// Current pause state
 bool GameObserve;                    /// Observe mode
@@ -466,16 +464,6 @@ bool HandleCommandKey(int key)
 */
 static bool CommandKey(int key)
 {
-	size_t p;
-
-	// FIXME: don't handle unicode well. Should work on all latin keyboard.
-	if ((p = UiGroupKeys.find(key)) != std::string::npos) {
-		key = '0' + p;
-		if (key > '9') {
-			key = SDLK_BACKQUOTE;
-		}
-	}
-
 	switch (key) {
 		// Return enters chat/input mode.
 		case SDLK_RETURN:

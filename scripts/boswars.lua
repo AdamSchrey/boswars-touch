@@ -190,7 +190,6 @@ if (preferences == nil) then
     PlayerName = nil,
     FogOfWar = true,
     ShowCommandKey = true,
-    GroupKeys = "0123456789`",
     GameSpeed = 30,
     EffectsEnabled = true,
     EffectsVolume = 128,
@@ -223,7 +222,6 @@ SetVideoFullScreen(preferences.VideoFullScreen)
 SetMaxOpenGLTexture(preferences.MaxOpenGLTexture)
 SetFogOfWar(preferences.FogOfWar)
 UI.ButtonPanel.ShowCommandKey = preferences.ShowCommandKey
-SetGroupKeys(preferences.GroupKeys)
 if GetGameSpeed() < 0 then
   SetGameSpeed(preferences.GameSpeed)
 end
