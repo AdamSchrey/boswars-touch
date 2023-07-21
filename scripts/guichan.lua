@@ -544,6 +544,7 @@ function RunStartGameMenu(s)
   fow:setMarked(preferences.FogOfWar)
   local revealmap = menu:addCheckBox(_("Reveal map"), sx, sy*3+160,
     function(f) GameSettings.RevealMap = bool2int(f:isMarked()) end)
+  revealmap:setMarked(true)
 
   ResetMapOptions()
   menu:writeText(_("Difficulty:"), sx, sy*11)
