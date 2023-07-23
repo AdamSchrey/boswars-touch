@@ -322,6 +322,7 @@ static void VideoDrawChar(const CGraphic *g,
 
 	SDL_SetPaletteColors(g->Surface->format->palette, FontColor->Colors, 0, MaxFontColors);
 	SDL_BlitSurface(g->Surface, &srect, TheScreen, &drect);
+	SDL_SetTextureColorMod(g->texture, FontColor->Colors[1].r, FontColor->Colors[1].g, FontColor->Colors[1].b);
 	SDL_RenderCopy(TheRenderer, g->texture, &srect, &drect);
 }
 
@@ -908,6 +909,18 @@ CFont *CFont::New(const std::string &ident, CGraphic *g)
 	// Make sure we'll call CGraphic::Free(g) on any exception.
 	CGraphicPtr gptr;
 	gptr.G = g;
+
+	/* For fonts the color in the texture must be white to allow
+	 * changing the color. But it is already created when loading the
+	 * graphic. Destroy and recreate it for the font.
+	 * Ideally, the font graphics would already be white without needing
+	 * this hack. */
+	g->Load();
+	SDL_DestroyTexture(g->texture);
+	SDL_Color pal[256];
+	memset(pal, 0xff, sizeof(pal));
+	SDL_SetPaletteColors(g->Surface->format->palette, pal, 0, 256);
+	g->texture = SDL_CreateTextureFromSurface(TheRenderer, g->Surface);
 
 	FontFamiliesType::iterator found = FontFamilies.find(ident);
 	if (found != FontFamilies.end()) {
