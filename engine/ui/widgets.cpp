@@ -81,7 +81,7 @@ void initGuichan()
 {
 	gcn::Graphics *graphics;
 
-	if (UseOpenGL) {
+	if (false) {
 		graphics = new MyOpenGLGraphics();
 	} else {
 		graphics = new gcn::SDLGraphics();
@@ -98,7 +98,7 @@ void initGuichan()
 	Gui->setGraphics(graphics);
 	Gui->setInput(Input);
 	Gui->setTop(NULL);
-	Gui->setUseDirtyDrawing(!UseOpenGL);
+	Gui->setUseDirtyDrawing(true);
 
 	GuichanCallbacks.ButtonPressed = &MenuHandleButtonDown;
 	GuichanCallbacks.ButtonReleased = &MenuHandleButtonUp;
@@ -150,7 +150,7 @@ void handleInput(const SDL_Event *event)
 void DrawGuichanWidgets()
 {
 	if (Gui) {
-		Gui->setUseDirtyDrawing(!UseOpenGL && !GameRunning && !Editor.Running && !PatchEditorRunning);
+		Gui->setUseDirtyDrawing(!GameRunning && !Editor.Running && !PatchEditorRunning);
 		Gui->draw();
 	}
 }

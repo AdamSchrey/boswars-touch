@@ -112,24 +112,20 @@ void CGraphic::DrawClip(int x, int y) const
 */
 void CGraphic::DrawSub(int gx, int gy, int w, int h, int x, int y) const
 {
-	if (!UseOpenGL) {
-		SDL_Rect srect = {
-			static_cast<Sint16>(gx),
-			static_cast<Sint16>(gy),
-			static_cast<Uint16>(w),
-			static_cast<Uint16>(h)
-		};
-		SDL_Rect drect = {
-			static_cast<Sint16>(x),
-			static_cast<Sint16>(y),
-			0, // SDL_BlitSurface ignores the width and height.
-			0
-		};
+	SDL_Rect srect = {
+		static_cast<Sint16>(gx),
+		static_cast<Sint16>(gy),
+		static_cast<Uint16>(w),
+		static_cast<Uint16>(h)
+	};
+	SDL_Rect drect = {
+		static_cast<Sint16>(x),
+		static_cast<Sint16>(y),
+		0, // SDL_BlitSurface ignores the width and height.
+		0
+	};
 
-		SDL_BlitSurface(Surface, &srect, TheScreen, &drect);
-	} else {
-		DrawTexture(this, Textures, gx, gy, gx + w, gy + h, x, y, 0);
-	}
+	SDL_BlitSurface(Surface, &srect, TheScreen, &drect);
 }
 
 /**
@@ -164,18 +160,11 @@ void CGraphic::DrawSubClip(int gx, int gy, int w, int h, int x, int y) const
 void CGraphic::DrawSubTrans(int gx, int gy, int w, int h, int x, int y,
 	unsigned char alpha) const
 {
-	if (!UseOpenGL) {
-		Uint8 oldalpha = 255;
-		SDL_GetSurfaceAlphaMod(Surface, &oldalpha);
-		SDL_SetSurfaceAlphaMod(Surface, alpha);
-		DrawSub(gx, gy, w, h, x, y);
-		SDL_SetSurfaceAlphaMod(Surface, oldalpha);
-	} else {
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-		glColor4ub(255, 255, 255, alpha);
-		DrawSub(gx, gy, w, h, x, y);
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-	}
+	Uint8 oldalpha = 255;
+	SDL_GetSurfaceAlphaMod(Surface, &oldalpha);
+	SDL_SetSurfaceAlphaMod(Surface, alpha);
+	DrawSub(gx, gy, w, h, x, y);
+	SDL_SetSurfaceAlphaMod(Surface, oldalpha);
 }
 
 /**
@@ -207,42 +196,9 @@ void CGraphic::DrawSubClipTrans(int gx, int gy, int w, int h, int x, int y,
 */
 void CGraphic::DrawFrame(unsigned frame, int x, int y) const
 {
-	if (!UseOpenGL) {
-		DrawSub((frame % (Surface->w / Width)) * Width,
-			(frame / (Surface->w / Width)) * Height,
-			Width, Height, x, y);
-	} else {
-		int sx, sy, ex, ey, n;
-
-		n = GraphicWidth / Width;
-		sx = (frame % n) * Width;
-		ex = sx + Width;
-		sy = (frame / n) * Height;
-		ey = sy + Height;
-		DrawTexture(this, Textures, sx, sy, ex, ey, x, y, 0);
-	}
-}
-
-void CGraphic::DoDrawFrameClip(GLuint *textures,
-	unsigned frame, int x, int y) const
-{
-	int ox;
-	int oy;
-	int skip;
-	int w;
-	int h;
-	int sx, sy, n;
-
-	n = GraphicWidth / Width;
-	sx = (frame % n) * Width;
-	sy = (frame / n) * Height;
-
-	w = Width;
-	h = Height;
-	CLIP_RECTANGLE_OFS(x, y, w, h, ox, oy, skip);
-	skip = skip; // avoid a compiler warning
-
-	DrawTexture(this, textures, sx + ox, sy + oy, sx + ox + w, sy + oy + h, x, y, 0);
+	DrawSub((frame % (Surface->w / Width)) * Width,
+		(frame / (Surface->w / Width)) * Height,
+		Width, Height, x, y);
 }
 
 /**
@@ -254,41 +210,23 @@ void CGraphic::DoDrawFrameClip(GLuint *textures,
 */
 void CGraphic::DrawFrameClip(unsigned frame, int x, int y) const
 {
-	if (!UseOpenGL) {
-		DrawSubClip((frame % (Surface->w / Width)) * Width,
-			(frame / (Surface->w / Width)) * Height,
-			Width, Height, x, y);
-	} else {
-		DoDrawFrameClip(Textures, frame, x, y);
-	}
+	DrawSubClip((frame % (Surface->w / Width)) * Width,
+		(frame / (Surface->w / Width)) * Height,
+		Width, Height, x, y);
 }
 
 void CGraphic::DrawFrameTrans(unsigned frame, int x, int y, int alpha) const
 {
-	if (!UseOpenGL) {
-		DrawSubTrans((frame % (Surface->w / Width)) * Width,
-			(frame / (Surface->w / Width)) * Height,
-			Width, Height, x, y, alpha);
-	} else {
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-		glColor4ub(255, 255, 255, alpha);
-		DrawFrame(frame, x, y);
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-	}
+	DrawSubTrans((frame % (Surface->w / Width)) * Width,
+		(frame / (Surface->w / Width)) * Height,
+		Width, Height, x, y, alpha);
 }
 
 void CGraphic::DrawFrameClipTrans(unsigned frame, int x, int y, int alpha) const
 {
-	if (!UseOpenGL) {
-		DrawSubClipTrans((frame % (Surface->w / Width)) * Width,
-			(frame / (Surface->w / Width)) * Height,
-			Width, Height, x, y, alpha);
-	} else {
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-		glColor4ub(255, 255, 255, alpha);
-		DrawFrameClip(frame, x, y);
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-	}
+	DrawSubClipTrans((frame % (Surface->w / Width)) * Width,
+		(frame / (Surface->w / Width)) * Height,
+		Width, Height, x, y, alpha);
 }
 
 /**
@@ -302,15 +240,8 @@ void CGraphic::DrawFrameClipTrans(unsigned frame, int x, int y, int alpha) const
 void CPlayerColorGraphic::DrawPlayerColorFrameClip(int player, unsigned frame,
 	int x, int y)
 {
-	if (!UseOpenGL) {
-		GraphicPlayerPixels(&Players[player], this);
-		DrawFrameClip(frame, x, y);
-	} else {
-		if (!PlayerColorTextures[player]) {
-			MakePlayerColorTexture(this, player);
-		}
-		DoDrawFrameClip(PlayerColorTextures[player], frame, x, y);
-	}
+	GraphicPlayerPixels(&Players[player], this);
+	DrawFrameClip(frame, x, y);
 }
 
 
@@ -324,60 +255,19 @@ void CPlayerColorGraphic::DrawPlayerColorFrameClip(int player, unsigned frame,
 */
 void CGraphic::DrawFrameX(unsigned frame, int x, int y) const
 {
-	if (!UseOpenGL) {
-		SDL_Rect srect;
-		SDL_Rect drect;
+	SDL_Rect srect;
+	SDL_Rect drect;
 
-		srect.x = (SurfaceFlip->w - (frame % (SurfaceFlip->w /
-			Width)) * Width) - Width;
-		srect.y = (frame / (SurfaceFlip->w / Width)) * Height;
-		srect.w = Width;
-		srect.h = Height;
+	srect.x = (SurfaceFlip->w - (frame % (SurfaceFlip->w /
+		Width)) * Width) - Width;
+	srect.y = (frame / (SurfaceFlip->w / Width)) * Height;
+	srect.w = Width;
+	srect.h = Height;
 
-		drect.x = x;
-		drect.y = y;
+	drect.x = x;
+	drect.y = y;
 
-		SDL_BlitSurface(SurfaceFlip, &srect, TheScreen, &drect);
-	} else {
-		int sx, sy, ex, ey, n;
-
-		n = GraphicWidth / Width;
-		sx = (frame % n) * Width;
-		ex = sx + Width;
-		sy = (frame / n) * Height;
-		ey = sy + Height;
-		DrawTexture(this, Textures, sx, sy, ex, ey, x, y, 1);
-	}
-}
-
-void CGraphic::DoDrawFrameClipX(GLuint *textures, unsigned frame,
-	int x, int y) const
-{
-	int ox;
-	int oy;
-	int skip;
-	int w;
-	int h;
-	int sx, sy, n;
-
-	n = GraphicWidth / Width;
-	sx = (frame % n) * Width;
-	sy = (frame / n) * Height;
-
-	w = Width;
-	h = Height;
-	CLIP_RECTANGLE_OFS(x, y, w, h, ox, oy, skip);
-	skip = skip; // avoid a compiler warning
-
-	if (w < Width) {
-		if (ox == 0) {
-			ox += Width - w;
-		} else {
-			ox = 0;
-		}
-	}
-
-	DrawTexture(this, textures, sx + ox, sy + oy, sx + ox + w, sy + oy + h, x, y, 1);
+	SDL_BlitSurface(SurfaceFlip, &srect, TheScreen, &drect);
 }
 
 /**
@@ -389,95 +279,77 @@ void CGraphic::DoDrawFrameClipX(GLuint *textures, unsigned frame,
 */
 void CGraphic::DrawFrameClipX(unsigned frame, int x, int y) const
 {
-	if (!UseOpenGL) {
-		SDL_Rect srect;
-		SDL_Rect drect;
-		int oldx;
-		int oldy;
+	SDL_Rect srect;
+	SDL_Rect drect;
+	int oldx;
+	int oldy;
 
-		srect.x = (SurfaceFlip->w - (frame % (SurfaceFlip->w /
-				Width)) * Width) - Width;
-		srect.y = (frame / (SurfaceFlip->w / Width)) * Height;
-		srect.w = Width;
-		srect.h = Height;
+	srect.x = (SurfaceFlip->w - (frame % (SurfaceFlip->w /
+			Width)) * Width) - Width;
+	srect.y = (frame / (SurfaceFlip->w / Width)) * Height;
+	srect.w = Width;
+	srect.h = Height;
 
-		oldx = x;
-		oldy = y;
-		CLIP_RECTANGLE(x, y, srect.w, srect.h);
-		srect.x += x - oldx;
-		srect.y += y - oldy;
+	oldx = x;
+	oldy = y;
+	CLIP_RECTANGLE(x, y, srect.w, srect.h);
+	srect.x += x - oldx;
+	srect.y += y - oldy;
 
-		drect.x = x;
-		drect.y = y;
+	drect.x = x;
+	drect.y = y;
 
-		SDL_BlitSurface(SurfaceFlip, &srect, TheScreen, &drect);
-	} else {
-		DoDrawFrameClipX(Textures, frame, x, y);
-	}
+	SDL_BlitSurface(SurfaceFlip, &srect, TheScreen, &drect);
 }
 
 void CGraphic::DrawFrameTransX(unsigned frame, int x, int y, int alpha) const
 {
-	if (!UseOpenGL) {
-		SDL_Rect srect;
-		SDL_Rect drect;
-		Uint8 oldalpha;
+	SDL_Rect srect;
+	SDL_Rect drect;
+	Uint8 oldalpha;
 
-		srect.x = (SurfaceFlip->w - (frame % (SurfaceFlip->w /
-			Width)) * Width) - Width;
-		srect.y = (frame / (SurfaceFlip->w / Width)) * Height;
-		srect.w = Width;
-		srect.h = Height;
+	srect.x = (SurfaceFlip->w - (frame % (SurfaceFlip->w /
+		Width)) * Width) - Width;
+	srect.y = (frame / (SurfaceFlip->w / Width)) * Height;
+	srect.w = Width;
+	srect.h = Height;
 
-		drect.x = x;
-		drect.y = y;
+	drect.x = x;
+	drect.y = y;
 
-		SDL_GetSurfaceAlphaMod(Surface, &oldalpha);
-		SDL_SetSurfaceAlphaMod(Surface, alpha);
-		SDL_BlitSurface(SurfaceFlip, &srect, TheScreen, &drect);
-		SDL_SetSurfaceAlphaMod(Surface, oldalpha);
-	} else {
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-		glColor4ub(255, 255, 255, alpha);
-		DrawFrameX(frame, x, y);
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-	}
+	SDL_GetSurfaceAlphaMod(Surface, &oldalpha);
+	SDL_SetSurfaceAlphaMod(Surface, alpha);
+	SDL_BlitSurface(SurfaceFlip, &srect, TheScreen, &drect);
+	SDL_SetSurfaceAlphaMod(Surface, oldalpha);
 }
 
 void CGraphic::DrawFrameClipTransX(unsigned frame, int x, int y, int alpha) const
 {
-	if (!UseOpenGL) {
-		SDL_Rect srect;
-		SDL_Rect drect;
-		int oldx;
-		int oldy;
-		Uint8 oldalpha;
+	SDL_Rect srect;
+	SDL_Rect drect;
+	int oldx;
+	int oldy;
+	Uint8 oldalpha;
 
-		srect.x = (SurfaceFlip->w - (frame % (SurfaceFlip->w /
-			Width)) * Width) - Width;
-		srect.y = (frame / (SurfaceFlip->w / Width)) * Height;
-		srect.w = Width;
-		srect.h = Height;
+	srect.x = (SurfaceFlip->w - (frame % (SurfaceFlip->w /
+		Width)) * Width) - Width;
+	srect.y = (frame / (SurfaceFlip->w / Width)) * Height;
+	srect.w = Width;
+	srect.h = Height;
 
-		oldx = x;
-		oldy = y;
-		CLIP_RECTANGLE(x, y, srect.w, srect.h);
-		srect.x += x - oldx;
-		srect.y += y - oldy;
+	oldx = x;
+	oldy = y;
+	CLIP_RECTANGLE(x, y, srect.w, srect.h);
+	srect.x += x - oldx;
+	srect.y += y - oldy;
 
-		drect.x = x;
-		drect.y = y;
+	drect.x = x;
+	drect.y = y;
 
-		SDL_GetSurfaceAlphaMod(Surface, &oldalpha);
-		SDL_SetSurfaceAlphaMod(Surface, alpha);
-		SDL_BlitSurface(SurfaceFlip, &srect, TheScreen, &drect);
-		SDL_SetSurfaceAlphaMod(Surface, oldalpha);
-	} else {
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-		glColor4ub(255, 255, 255, alpha);
-		DrawFrameClipX(frame, x, y);
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-	}
+	SDL_GetSurfaceAlphaMod(Surface, &oldalpha);
+	SDL_SetSurfaceAlphaMod(Surface, alpha);
+	SDL_BlitSurface(SurfaceFlip, &srect, TheScreen, &drect);
+	SDL_SetSurfaceAlphaMod(Surface, oldalpha);
 }
 
 /**
@@ -491,15 +363,8 @@ void CGraphic::DrawFrameClipTransX(unsigned frame, int x, int y, int alpha) cons
 void CPlayerColorGraphic::DrawPlayerColorFrameClipX(int player, unsigned frame,
 	int x, int y)
 {
-	if (!UseOpenGL) {
-		GraphicPlayerPixels(&Players[player], this);
-		DrawFrameClipX(frame, x, y);
-	} else {
-		if (!PlayerColorTextures[player]) {
-			MakePlayerColorTexture(this, player);
-		}
-		DoDrawFrameClipX(PlayerColorTextures[player], frame, x, y);
-	}
+	GraphicPlayerPixels(&Players[player], this);
+	DrawFrameClipX(frame, x, y);
 }
 
 /*----------------------------------------------------------------------------
@@ -717,11 +582,6 @@ void CGraphic::Load()
 	}
 
 	NumFrames = GraphicWidth / Width * GraphicHeight / Height;
-
-	if (UseOpenGL) {
-		MakeTexture(this);
-		Graphics.push_back(this);
-	}
 }
 
 /**
@@ -761,27 +621,6 @@ void CGraphic::Free(CGraphic *g)
 
 	--g->Refs;
 	if (!g->Refs) {
-		// No more uses of this graphic
-		if (UseOpenGL) {
-			if (g->Textures) {
-				glDeleteTextures(g->NumTextures, g->Textures);
-				delete[] g->Textures;
-			}
-			CPlayerColorGraphic *cg = dynamic_cast<CPlayerColorGraphic *>(g);
-			if (cg) {
-				for (int i = 0; i < PlayerMax; ++i) {
-					if (cg->PlayerColorTextures[i]) {
-						glDeleteTextures(cg->NumTextures, cg->PlayerColorTextures[i]);
-						delete[] cg->PlayerColorTextures[i];
-					}
-				}
-			}
-
-			if (GraphicsState == ModuleOK) {
-				Graphics.remove(g);
-			}
-		}
-
 		FreeSurface(&g->Surface);
 		FreeSurface(&g->SurfaceFlip);
 
@@ -794,66 +633,12 @@ void CGraphic::Free(CGraphic *g)
 	}
 }
 
-/**
-**  Free OpenGL graphics
-*/
-void FreeOpenGLGraphics()
-{
-	CGraphicsModule::AssertOK();
-
-	std::list<CGraphic *>::iterator i;
-	for (i = Graphics.begin(); i != Graphics.end(); ++i) {
-		if ((*i)->Textures) {
-			glDeleteTextures((*i)->NumTextures, (*i)->Textures);
-		}
-		CPlayerColorGraphic *cg = dynamic_cast<CPlayerColorGraphic *>(*i);
-		if (cg) {
-			for (int j = 0; j < PlayerMax; ++j) {
-				if (cg->PlayerColorTextures[j]) {
-					glDeleteTextures(cg->NumTextures, cg->PlayerColorTextures[j]);
-				}
-			}
-		}
-	}
-}
-
-/**
-**  Reload OpenGL graphics
-*/
-void ReloadGraphics()
-{
-	CGraphicsModule::AssertOK();
-	std::list<CGraphic *>::iterator i;
-	for (i = Graphics.begin(); i != Graphics.end(); ++i) {
-		if ((*i)->Textures) {
-			delete[] (*i)->Textures;
-			(*i)->Textures = NULL;
-			MakeTexture(*i);
-		}
-		CPlayerColorGraphic *cg = dynamic_cast<CPlayerColorGraphic *>(*i);
-		if (cg) {
-			for (int j = 0; j < PlayerMax; ++j) {
-				if (cg->PlayerColorTextures[j]) {
-					delete[] cg->PlayerColorTextures[j];
-					cg->PlayerColorTextures[j] = NULL;
-					MakePlayerColorTexture(cg, j);
-				}
-			}
-		}
-	}
-}
 
 /**
 **  Flip graphic and store in graphic->SurfaceFlip
 */
 void CGraphic::Flip()
 {
-	if (UseOpenGL) {
-		// OpenGL mode does not use SurfaceFlip; instead,
-		// it swaps the texture coordinates when drawing.
-		return;
-	}
-
 	int i;
 	int j;
 	SDL_Surface *s;
@@ -900,215 +685,6 @@ void CGraphic::Flip()
 	SDL_UnlockSurface(s);
 }
 
-/**
-**  Find the next power of 2 >= x
-*/
-static int PowerOf2(int x)
-{
-	int i;
-	for (i = 1; i < x; i <<= 1) ;
-	return i;
-}
-
-/**
-**  Make an OpenGL texture or textures out of a graphic object.
-**
-**  @param g        The graphic object.
-**  @param texture  Texture.
-**  @param colors   Unit colors.
-**  @param ow       Offset width.
-**  @param oh       Offset height.
-*/
-static void MakeTextures2(CGraphic *g, GLuint texture, CUnitColors *colors,
-	int ow, int oh)
-{
-	int h;
-	int w;
-	unsigned char *tex;
-	unsigned char *tp;
-	const unsigned char *sp;
-	Uint32 ckey;
-	int useckey;
-	int bpp;
-	unsigned char alpha = 255;
-	Uint32 b;
-	Uint32 c;
-	Uint32 pc;
-	SDL_PixelFormat *f;
-	int maxw;
-	int maxh;
-
-	f = g->Surface->format;
-	bpp = f->BytesPerPixel;
-	useckey = !SDL_GetColorKey(g->Surface, &ckey);
-
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	maxw = std::min(g->GraphicWidth - ow, GLMaxTextureSize);
-	maxh = std::min(g->GraphicHeight - oh, GLMaxTextureSize);
-	w = PowerOf2(maxw);
-	h = PowerOf2(maxh);
-	tex = new unsigned char[w * h * 4];
-	memset(tex, 0, w * h * 4);
-
-	SDL_LockSurface(g->Surface);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	for (int i = 0; i < maxh; ++i) {
-		sp = (const unsigned char *)g->Surface->pixels + ow * bpp +
-			(oh + i) * g->Surface->pitch;
-		tp = tex + i * w * 4;
-		for (int j = 0; j < maxw; ++j) {
-			if (bpp == 1) {
-				if (useckey && *sp == ckey) {
-					tp[3] = 0;
-				} else {
-					SDL_Color p = f->palette->colors[*sp];
-					tp[0] = p.r;
-					tp[1] = p.g;
-					tp[2] = p.b;
-					tp[3] = alpha;
-				}
-				if (colors) {
-					for (int z = 0; z < PlayerColorIndexCount; ++z) {
-						if (*sp == PlayerColorIndexStart + z) {
-							SDL_Color p = colors->Colors[z];
-							tp[0] = p.r;
-							tp[1] = p.g;
-							tp[2] = p.b;
-							tp[3] = 0xff;
-							break;
-						}
-					}
-				}
-				++sp;
-			} else {
-				if (bpp == 4) {
-					c = *(Uint32 *)sp;
-				} else {
-					c = (sp[f->Rshift >> 3] << f->Rshift) |
-						(sp[f->Gshift >> 3] << f->Gshift) |
-						(sp[f->Bshift >> 3] << f->Bshift);
-					c |= ((alpha | (alpha << 8) | (alpha << 16) | (alpha << 24)) ^
-						(f->Rmask | f->Gmask | f->Bmask));
-				}
-				*(Uint32 *)tp = c;
-				if (colors) {
-					b = (c & f->Bmask) >> f->Bshift;
-					if (b && ((c & f->Rmask) >> f->Rshift) == 0 &&
-							((c & f->Gmask) >> f->Gshift) == b) {
-						pc = ((colors->Colors[0].r * b / 255) << f->Rshift) |
-							((colors->Colors[0].g * b / 255) << f->Gshift) |
-							((colors->Colors[0].b * b / 255) << f->Bshift);
-						if (bpp == 4) {
-							pc |= (c & f->Amask);
-						} else {
-							pc |= (0xFFFFFFFF ^ (f->Rmask | f->Gmask | f->Bmask));
-						}
-						*(Uint32 *)tp = pc;
-					}
-				}
-				sp += bpp;
-			}
-			tp += 4;
-		}
-	}
-
-	GLint internalformat = GL_RGBA;
-	if (GLTextureCompressionSupported && UseGLTextureCompression) {
-		internalformat = GL_COMPRESSED_RGBA;
-	}
-
-	glTexImage2D(GL_TEXTURE_2D, 0, internalformat, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex);
-
-#ifdef DEBUG
-	int x;
-	if ((x = glGetError())) {
-		DebugPrint("glTexImage2D(%x)\n" _C_ x);
-	}
-#endif
-	SDL_UnlockSurface(g->Surface);
-	delete[] tex;
-}
-
-/**
-**  Make an OpenGL texture or textures out of a graphic object.
-**
-**  @param g       The graphic object.
-**  @param player  Player number.
-**  @param colors  Unit colors.
-*/
-static void MakeTextures(CGraphic *g, int player, CUnitColors *colors)
-{
-	int i;
-	int tw;
-	int th;
-	GLuint *textures;
-
-	tw = (g->GraphicWidth - 1) / GLMaxTextureSize + 1;
-	th = (g->GraphicHeight - 1) / GLMaxTextureSize + 1;
-
-	i = g->GraphicWidth % GLMaxTextureSize;
-	if (i == 0) {
-		i = GLMaxTextureSize;
-	}
-	g->TextureWidth = (GLfloat)i / PowerOf2(i);
-	i = g->GraphicHeight % GLMaxTextureSize;
-	if (i == 0) {
-		i = GLMaxTextureSize;
-	}
-	g->TextureHeight = (GLfloat)i / PowerOf2(i);
-
-	g->NumTextures = tw * th;
-	if (g->NumTextures > 1) {
-		tw = tw;
-	}
-	CPlayerColorGraphic *cg = dynamic_cast<CPlayerColorGraphic *>(g);
-	if (!colors || !cg) {
-		textures = g->Textures = new GLuint[g->NumTextures];
-		glGenTextures(g->NumTextures, g->Textures);
-	} else {
-		textures = cg->PlayerColorTextures[player] = new GLuint[cg->NumTextures];
-		glGenTextures(cg->NumTextures, cg->PlayerColorTextures[player]);
-	}
-
-	for (int j = 0; j < th; ++j) {
-		for (i = 0; i < tw; ++i) {
-			MakeTextures2(g, textures[j * tw + i], colors, GLMaxTextureSize * i, GLMaxTextureSize * j);
-		}
-	}
-}
-
-/**
-**  Make an OpenGL texture or textures out of a graphic object.
-**
-**  @param g  The graphic object.
-*/
-void MakeTexture(CGraphic *g)
-{
-	if (g->Textures) {
-		return;
-	}
-
-	MakeTextures(g, 0, NULL);
-}
-
-/**
-**  Make an OpenGL texture with the player colors.
-**
-**  @param g       The graphic to texture with player colors.
-**  @param player  Player number to make textures for.
-*/
-void MakePlayerColorTexture(CPlayerColorGraphic *g, int player)
-{
-	if (g->PlayerColorTextures[player]) {
-		return;
-	}
-
-	MakeTextures(g, player, &Players[player].UnitColors);
-}
 
 /**
 **  Resize a graphic
@@ -1136,12 +712,6 @@ void CGraphic::Resize(int w, int h)
 	if (Resized) {
 		FreeSurface(&Surface);
 		FreeSurface(&SurfaceFlip);
-
-		if (UseOpenGL && Textures) {
-			glDeleteTextures(NumTextures, Textures);
-			delete[] Textures;
-			Textures = NULL;
-		}
 
 		this->Width = this->Height = 0;
 		this->Load();
@@ -1250,13 +820,6 @@ void CGraphic::Resize(int w, int h)
 
 	Width = GraphicWidth = w;
 	Height = GraphicHeight = h;
-
-	if (UseOpenGL && Textures) {
-		glDeleteTextures(NumTextures, Textures);
-		delete[] Textures;
-		Textures = NULL;
-		MakeTexture(this);
-	}
 }
 
 /**
@@ -1312,19 +875,9 @@ void CGraphic::MakeShadow()
 	SDL_SetPaletteColors(Surface->format->palette, colors, 0, 256);
 	SDL_SetSurfaceAlphaMod(Surface, 128);
 
-	if (!UseOpenGL) {
-		if (SurfaceFlip) {
-			SDL_SetPaletteColors(SurfaceFlip->format->palette, colors, 0, 256);
-			SDL_SetSurfaceAlphaMod(SurfaceFlip, 128);
-		}
-	}
-	if (UseOpenGL) {
-		if (Textures) {
-			glDeleteTextures(NumTextures, Textures);
-			delete[] Textures;
-			Textures = NULL;
-		}
-		MakeTexture(this);
+	if (SurfaceFlip) {
+		SDL_SetPaletteColors(SurfaceFlip->format->palette, colors, 0, 256);
+		SDL_SetSurfaceAlphaMod(SurfaceFlip, 128);
 	}
 }
 

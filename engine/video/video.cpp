@@ -108,8 +108,6 @@ extern void SdlUnlockScreen(void);      /// Do SDL hardware unlock
 
 CVideo Video;
 
-bool UseOpenGL;                      /// Use OpenGL
-
 char VideoForceFullScreen;           /// fullscreen set from commandline
 
 unsigned long NextFrameTicks;        /// Ticks of begin of the next frame
@@ -214,11 +212,6 @@ void CVideo::ClearScreen(void)
 bool CVideo::ResizeScreen(int w, int h)
 {
 	if (VideoValidResolution(w, h)) {
-		if (UseOpenGL) {
-			FreeOpenGLGraphics();
-			FreeOpenGLFonts();
-			UI.Minimap.FreeOpenGL();
-		}
 		Width = w;
 		Height = h;
 		SDL_RenderSetLogicalSize(TheRenderer, w, h);
@@ -235,9 +228,6 @@ bool CVideo::ResizeScreen(int w, int h)
                                         0x000000FF,
                                         0);
 		SetClipping(0, 0, Video.Width - 1, Video.Height - 1);
-		if (UseOpenGL) {
-			ReloadOpenGL();
-		}
 		return true;
 	}
 	return false;

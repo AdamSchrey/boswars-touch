@@ -129,9 +129,6 @@ public:
 	~CFontFamily();
 
 	void MeasureWidths();
-	void MakeFontColorGraphics();
-	CGraphic *FontColorGraphic(CFontColor *);
-	void FreeFontColorGraphics();
 
 	/**
 	** A font that does not recognize any markup in strings.
@@ -169,12 +166,6 @@ public:
 private:
 	/// Ident of the font.
 	const std::string Ident;
-
-	/**
-	** Textures for each CFontColor.  Used for OpenGL only.
-	*/
-	typedef std::map<CFontColor *, CGraphic *> FontColorGraphicsType;
-	FontColorGraphicsType FontColorGraphics;
 
 private: // undefined
 	CFontFamily(const CFontFamily &);
@@ -253,7 +244,6 @@ CFontFamily::CFontFamily(const std::string &ident)
 */
 CFontFamily::~CFontFamily()
 {
-	this->FreeFontColorGraphics();
 	delete[] this->CharWidth;
 }
 
@@ -317,25 +307,21 @@ bool CFont::IsPlainText() const
 static void VideoDrawChar(const CGraphic *g,
 	int gx, int gy, int w, int h, int x, int y)
 {
-	if (!UseOpenGL) {
-		SDL_Rect srect = {
-			static_cast<Sint16>(gx),
-			static_cast<Sint16>(gy),
-			static_cast<Uint16>(w),
-			static_cast<Uint16>(h)
-		};
-		SDL_Rect drect = {
-			static_cast<Sint16>(x),
-			static_cast<Sint16>(y),
-			0, // SDL_BlitSurface ignores the width and height.
-			0
-		};
+	SDL_Rect srect = {
+		static_cast<Sint16>(gx),
+		static_cast<Sint16>(gy),
+		static_cast<Uint16>(w),
+		static_cast<Uint16>(h)
+	};
+	SDL_Rect drect = {
+		static_cast<Sint16>(x),
+		static_cast<Sint16>(y),
+		0, // SDL_BlitSurface ignores the width and height.
+		0
+	};
 
-		SDL_SetPaletteColors(g->Surface->format->palette, FontColor->Colors, 0, MaxFontColors);
-		SDL_BlitSurface(g->Surface, &srect, TheScreen, &drect);
-	} else {
-		g->DrawSub(gx, gy, w, h, x, y);
-	}
+	SDL_SetPaletteColors(g->Surface->format->palette, FontColor->Colors, 0, MaxFontColors);
+	SDL_BlitSurface(g->Surface, &srect, TheScreen, &drect);
 }
 
 /**
@@ -566,11 +552,7 @@ static int DoDrawText(int x, int y, CFontFamily *fontFamily,
 		DrawChar = VideoDrawChar;
 	}
 
-	if (!UseOpenGL) {
-		g = fontFamily->G;
-	} else {
-		g = fontFamily->FontColorGraphic(FontColor);
-	}
+	g = fontFamily->G;
 
 	rev = NULL;
 	width = 0;
@@ -587,26 +569,17 @@ static int DoDrawText(int x, int y, CFontFamily *fontFamily,
 				case '!':
 					rev = FontColor;
 					FontColor = ReverseTextColor;
-					if (UseOpenGL) {
-						g = fontFamily->FontColorGraphic(FontColor);
-					}
 					++pos;
 					continue;
 				case '<':
 					LastTextColor = FontColor;
 					FontColor = ReverseTextColor;
-					if (UseOpenGL) {
-						g = fontFamily->FontColorGraphic(FontColor);
-					}
 					++pos;
 					continue;
 				case '>':
 					rev = LastTextColor;  // swap last and current color
 					LastTextColor = FontColor;
 					FontColor = rev;
-					if (UseOpenGL) {
-						g = fontFamily->FontColorGraphic(FontColor);
-					}
 					++pos;
 					continue;
 
@@ -624,13 +597,6 @@ static int DoDrawText(int x, int y, CFontFamily *fontFamily,
 					color[p - (text.c_str() + pos)] = '\0';
 					pos = p - text.c_str() + 1;
 					LastTextColor = FontColor;
-					CFontColor *fc = CFontColor::Get(color);
-					if (fc) {
-						FontColor = fc;
-						if (UseOpenGL) {
-							g = fontFamily->FontColorGraphic(fc);
-						}
-					}
 					delete[] color;
 					continue;
 			}
@@ -651,9 +617,6 @@ static int DoDrawText(int x, int y, CFontFamily *fontFamily,
 		width += w + 1;
 		if (rev) {
 			FontColor = rev;
-			if (UseOpenGL) {
-				g = fontFamily->FontColorGraphic(FontColor);
-			}
 			rev = NULL;
 		}
 	}
@@ -907,100 +870,6 @@ void CFontFamily::MeasureWidths()
 	SDL_UnlockSurface(G->Surface);
 }
 
-/**
-**  Make or retrieve a variant of the graphic, colorized for the
-**  specified CFontColor.  This function is used for OpenGL only.
-**
-**  @param fc Which color you want.  This function saves the address
-**  of the CFontColor object and uses that for checking whether a
-**  suitably colorized variant already exists.
-**
-**  @return The colorized graphic.  The caller must not free it.
-*/
-CGraphic *CFontFamily::FontColorGraphic(CFontColor *fc)
-{
-	// Only OpenGL needs color-specific textures.
-	Assert(UseOpenGL);
-
-	FontColorGraphicsType::iterator found
-		= this->FontColorGraphics.find(fc);
-	if (found != this->FontColorGraphics.end()) {
-		// already loaded
-		return found->second;
-	}
-
-	// The CGraphic we'll create will not have its own Surface;
-	// instead, it shares the Surface of this->G.  To prevent
-	// CGraphic::Free from freeing the shared surface, we reset
-	// newg->Surface to NULL immediately after MakeTexture.
-	// We must do that even if MakeTexture throws std::bad_alloc.
-	// Use a destructor rather than try...catch, for better
-	// backtraces on uncaught exceptions.
-	struct CSurfaceSharingGraphicPtr: CGraphicPtr
-	{
-		~CSurfaceSharingGraphicPtr()
-		{
-			if (this->G) {
-				this->G->Surface = NULL;
-			}
-		}
-	};
-
-	CSurfaceSharingGraphicPtr newg;
-	newg.G = new CGraphic;
-	newg->Width = this->G->Width;
-	newg->Height = this->G->Height;
-	newg->NumFrames = this->G->NumFrames;
-	newg->GraphicWidth = this->G->GraphicWidth;
-	newg->GraphicHeight = this->G->GraphicHeight;
-
-	SDL_Surface *s = this->G->Surface;
-	SDL_LockSurface(s);
-	for (int j = 0; j < MaxFontColors; ++j) {
-		s->format->palette->colors[j] = fc->Colors[j];
-	}
-	SDL_UnlockSurface(s);
-
-	newg->Surface = s;
-	MakeTexture(newg);
-	newg->Surface = NULL;
-
-	this->FontColorGraphics.insert(
-		FontColorGraphicsType::value_type(fc, newg));
-	return newg.Detach();
-}
-
-/**
-**  Makes colorized variants of the graphic for all known CFontColor
-**  objects.  This function is used for OpenGL only.
-*/
-void CFontFamily::MakeFontColorGraphics()
-{
-	// Only OpenGL needs color-specific textures.
-	Assert(UseOpenGL);
-
-	for (int i = 0; i < (int)AllFontColors.size(); ++i) {
-		CFontColor *fc = AllFontColors[i];
-		this->FontColorGraphic(fc);
-	}
-}
-
-/**
-**  Frees all colorized variants of the graphic.  This function is
-**  needed for OpenGL only, but is safe to call without OpenGL too.
-*/
-void CFontFamily::FreeFontColorGraphics()
-{
-	// Clear the map regardless of whether the CFontColor
-	// objects still exist.
-	for (FontColorGraphicsType::iterator iter
-		     = this->FontColorGraphics.begin();
-	     iter != this->FontColorGraphics.end();
-	     ++iter) {
-		CGraphic::Free(iter->second);
-	}
-	this->FontColorGraphics.clear();
-}
 
 /**
 **  Load all fonts.
@@ -1015,9 +884,6 @@ void LoadFonts()
 			ShowLoadProgress("Fonts %s", g->File.c_str());
 			g->Load();
 			fontFamily->MeasureWidths();
-			if (UseOpenGL) {
-				fontFamily->MakeFontColorGraphics();
-			}
 		}
 	}
 
@@ -1027,32 +893,6 @@ void LoadFonts()
 	LargeFont = CFont::Get("large");
 }
 
-/**
-**  Free OpenGL fonts
-*/
-void FreeOpenGLFonts()
-{
-	for (FontFamiliesType::iterator iter = FontFamilies.begin();
-	     iter != FontFamilies.end(); ++iter) {
-		CFontFamily *fontFamily = iter->second;
-		fontFamily->FreeFontColorGraphics();
-	}
-}
-
-/**
-**  Reload OpenGL fonts
-*/
-void ReloadFonts()
-{
-	for (FontFamiliesType::iterator iter = FontFamilies.begin();
-	     iter != FontFamilies.end(); ++iter) {
-		CFontFamily *fontFamily = iter->second;
-		fontFamily->FreeFontColorGraphics();
-		if (fontFamily->G) {
-			fontFamily->MakeFontColorGraphics();
-		}
-	}
-}
 
 /**
 **  Create a new font
@@ -1071,9 +911,6 @@ CFont *CFont::New(const std::string &ident, CGraphic *g)
 	FontFamiliesType::iterator found = FontFamilies.find(ident);
 	if (found != FontFamilies.end()) {
 		CFontFamily *fontFamily = found->second;
-		if (fontFamily->G != g) {
-			fontFamily->FreeFontColorGraphics();
-		}
 		swap(fontFamily->G, gptr);
 		return &fontFamily->MarkupFont;
 	} else {

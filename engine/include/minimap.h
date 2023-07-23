@@ -39,7 +39,6 @@ public:
 	void UpdateTerrain();
 	void Update();
 	void Create();
-	void FreeOpenGL();
 	void Reload();
 	void Destroy();
 	void Draw(int vx, int vy);

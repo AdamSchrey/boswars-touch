@@ -157,10 +157,6 @@ extern int GetHotKey(const std::string &text);
 
 	/// Load and initialize the fonts
 extern void LoadFonts();
-	/// Free OpenGL fonts
-extern void FreeOpenGLFonts();
-	/// Reload OpenGL fonts
-extern void ReloadFonts();
 	/// Cleanup the font module
 extern void CleanFonts();
 

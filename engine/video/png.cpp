@@ -361,58 +361,43 @@ void SaveScreenshotPNG(const std::string &name)
 
 	png_write_info(png_ptr, info_ptr);
 
-	if (UseOpenGL) {
-		unsigned char *pixels = new unsigned char[Video.Width * Video.Height * 3];
-		if (!pixels) {
-			fprintf(stderr, "Out of memory\n");
-			exit(1);
-		}
-		glReadBuffer(GL_FRONT);
-		glReadPixels(0, 0, Video.Width, Video.Height, GL_RGB, GL_UNSIGNED_BYTE,
-			pixels);
-		for (i = 0; i < Video.Height; ++i) {
-			png_write_row(png_ptr, pixels + (Video.Height - 1 - i) * Video.Width * 3);
-		}
-		delete[] pixels;
-	} else {
-		unsigned char *row = new unsigned char[Video.Width * 3];
-		SDL_PixelFormat *fmt = TheScreen->format;
+	unsigned char *row = new unsigned char[Video.Width * 3];
+	SDL_PixelFormat *fmt = TheScreen->format;
 
-		for (i = 0; i < Video.Height; ++i) {
-			switch (Video.Depth) {
-				case 15:
-				case 16: {
-					Uint16 c;
-					for (j = 0; j < Video.Width; ++j) {
-						c = ((Uint16 *)TheScreen->pixels)[j + i * Video.Width];
-						row[j * 3 + 0] = ((c & fmt->Rmask) >> fmt->Rshift) << fmt->Rloss;
-						row[j * 3 + 1] = ((c & fmt->Gmask) >> fmt->Gshift) << fmt->Gloss;
-						row[j * 3 + 2] = ((c & fmt->Bmask) >> fmt->Bshift) << fmt->Bloss;
-					}
-					break;
+	for (i = 0; i < Video.Height; ++i) {
+		switch (Video.Depth) {
+			case 15:
+			case 16: {
+				Uint16 c;
+				for (j = 0; j < Video.Width; ++j) {
+					c = ((Uint16 *)TheScreen->pixels)[j + i * Video.Width];
+					row[j * 3 + 0] = ((c & fmt->Rmask) >> fmt->Rshift) << fmt->Rloss;
+					row[j * 3 + 1] = ((c & fmt->Gmask) >> fmt->Gshift) << fmt->Gloss;
+					row[j * 3 + 2] = ((c & fmt->Bmask) >> fmt->Bshift) << fmt->Bloss;
 				}
-				case 24: {
-					char *c;
-					c = (char *)TheScreen->pixels + i * Video.Width * 3;
-					memcpy(row, c, Video.Width * 3);
-					break;
-				}
-				case 32: {
-					Uint32 c;
-					for (j = 0; j < Video.Width; ++j) {
-						c = ((Uint32 *)TheScreen->pixels)[j + i * Video.Width];
-						row[j * 3 + 0] = ((c & fmt->Rmask) >> fmt->Rshift);
-						row[j * 3 + 1] = ((c & fmt->Gmask) >> fmt->Gshift);
-						row[j * 3 + 2] = ((c & fmt->Bmask) >> fmt->Bshift);
-					}
-					break;
-				}
+				break;
 			}
-			png_write_row(png_ptr, row);
+			case 24: {
+				char *c;
+				c = (char *)TheScreen->pixels + i * Video.Width * 3;
+				memcpy(row, c, Video.Width * 3);
+				break;
+			}
+			case 32: {
+				Uint32 c;
+				for (j = 0; j < Video.Width; ++j) {
+					c = ((Uint32 *)TheScreen->pixels)[j + i * Video.Width];
+					row[j * 3 + 0] = ((c & fmt->Rmask) >> fmt->Rshift);
+					row[j * 3 + 1] = ((c & fmt->Gmask) >> fmt->Gshift);
+					row[j * 3 + 2] = ((c & fmt->Bmask) >> fmt->Bshift);
+				}
+				break;
+			}
 		}
-
-		delete[] row;
+		png_write_row(png_ptr, row);
 	}
+
+	delete[] row;
 
 	png_write_end(png_ptr, info_ptr);
 

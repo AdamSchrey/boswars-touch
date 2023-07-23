@@ -70,10 +70,6 @@ SDL_Surface *TheScreen; /// Internal screen
 
 static SDL_Rect Rects[100];
 static int NumRects;
-GLint GLMaxTextureSize;             /// Max texture size supported on the video card
-GLint GLMaxTextureSizeOverride;     /// User-specified limit for ::GLMaxTextureSize
-bool GLTextureCompressionSupported; /// Is OpenGL texture compression supported
-bool UseGLTextureCompression;       /// Use OpenGL texture compression
 
 static std::map<int, std::string> Key2Str;
 static std::map<std::string, int> Str2Key;
@@ -87,16 +83,6 @@ const EventCallback *Callbacks;
 #ifdef DEBUG
 bool DumpAllSdlEvents;               /// Show all events received from SDL
 #endif
-
-
-// ARB_texture_compression
-PFNGLCOMPRESSEDTEXIMAGE3DARBPROC    glCompressedTexImage3DARB;
-PFNGLCOMPRESSEDTEXIMAGE2DARBPROC    glCompressedTexImage2DARB;
-PFNGLCOMPRESSEDTEXIMAGE1DARBPROC    glCompressedTexImage1DARB;
-PFNGLCOMPRESSEDTEXSUBIMAGE3DARBPROC glCompressedTexSubImage3DARB;
-PFNGLCOMPRESSEDTEXSUBIMAGE2DARBPROC glCompressedTexSubImage2DARB;
-PFNGLCOMPRESSEDTEXSUBIMAGE1DARBPROC glCompressedTexSubImage1DARB;
-PFNGLGETCOMPRESSEDTEXIMAGEARBPROC   glGetCompressedTexImageARB;
 
 /*----------------------------------------------------------------------------
 --  Sync
@@ -131,131 +117,6 @@ void SetVideoSync(void)
 /*----------------------------------------------------------------------------
 --  Video
 ----------------------------------------------------------------------------*/
-
-/**
-**  Check if an extension is supported
-*/
-static bool IsExtensionSupported(const char *extension)
-{
-	const GLubyte *extensions = NULL;
-	const GLubyte *start;
-	GLubyte *ptr, *terminator;
-	int len;
-
-	// Extension names should not have spaces.
-	ptr = (GLubyte *)strchr(extension, ' ');
-	if (ptr || *extension == '\0') {
-		return false;
-	}
-
-	extensions = glGetString(GL_EXTENSIONS);
-	len = strlen(extension);
-	start = extensions;
-	while (true) {
-		ptr = (GLubyte *)strstr((const char *)start, extension);
-		if (!ptr) {
-			break;
-		}
-
-		terminator = ptr + len;
-		if (ptr == start || *(ptr - 1) == ' ') {
-			if (*terminator == ' ' || *terminator == '\0') {
-				return true;
-			}
-		}
-		start = terminator;
-	}
-	return false;
-}
-
-/**
-**  Initialize OpenGL extensions
-*/
-static void InitOpenGLExtensions()
-{
-	// ARB_texture_compression
-	if (IsExtensionSupported("GL_ARB_texture_compression"))
-	{
-		glCompressedTexImage3DARB =
-			(PFNGLCOMPRESSEDTEXIMAGE3DARBPROC)SDL_GL_GetProcAddress("glCompressedTexImage3DARB");
-		glCompressedTexImage2DARB =
-			(PFNGLCOMPRESSEDTEXIMAGE2DARBPROC)SDL_GL_GetProcAddress("glCompressedTexImage2DARB");
-		glCompressedTexImage1DARB =
-			(PFNGLCOMPRESSEDTEXIMAGE1DARBPROC)SDL_GL_GetProcAddress("glCompressedTexImage1DARB");
-		glCompressedTexSubImage3DARB =
-			(PFNGLCOMPRESSEDTEXSUBIMAGE3DARBPROC)SDL_GL_GetProcAddress("glCompressedTexSubImage3DARB");
-		glCompressedTexSubImage2DARB =
-			(PFNGLCOMPRESSEDTEXSUBIMAGE2DARBPROC)SDL_GL_GetProcAddress("glCompressedTexSubImage2DARB");
-		glCompressedTexSubImage1DARB =
-			(PFNGLCOMPRESSEDTEXSUBIMAGE1DARBPROC)SDL_GL_GetProcAddress("glCompressedTexSubImage1DARB");
-		glGetCompressedTexImageARB =
-			(PFNGLGETCOMPRESSEDTEXIMAGEARBPROC)SDL_GL_GetProcAddress("glGetCompressedTexImageARB");
-
-		if (glCompressedTexImage3DARB && glCompressedTexImage2DARB &&
-			glCompressedTexImage1DARB && glCompressedTexSubImage3DARB &&
-			glCompressedTexSubImage2DARB && glCompressedTexSubImage1DARB &&
-			glGetCompressedTexImageARB)
-		{
-			GLTextureCompressionSupported = true;
-		}
-		else
-		{
-			GLTextureCompressionSupported = false;
-		}
-	}
-}
-
-/**
-**  Initialize OpenGL
-*/
-static void InitOpenGL(void)
-{
-	InitOpenGLExtensions();
-
-	glViewport(0, 0, (GLsizei)Video.Width, (GLsizei)Video.Height);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0, Video.Width, Video.Height, 0, -1, 1);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(0.375, 0.375, 0.);
-
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClearDepth(1.0f);
-	glShadeModel(GL_FLAT);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_BLEND);
-	glEnable(GL_TEXTURE_2D);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_LINE_SMOOTH);
-	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-
-	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &GLMaxTextureSize);
-	if (GLMaxTextureSize == 0) {
-		// FIXME: try to use GL_PROXY_TEXTURE_2D to get a valid size
-#if 0
-		glTexImage2D(GL_PROXY_TEXTURE_2D, 0, GL_RGBA, size, size, 0,
-			GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-		glGetTexLevelParameterfv(GL_PROXY_TEXTURE_2D, 0,
-			GL_TEXTURE_INTERNAL_FORMAT, &internalFormat);
-#endif
-		fprintf(stderr, "GL_MAX_TEXTURE_SIZE is 0, using 256 by default\n");
-		GLMaxTextureSize = 256;
-	}
-	if (GLMaxTextureSize > GLMaxTextureSizeOverride
-	    && GLMaxTextureSizeOverride > 0) {
-		GLMaxTextureSize = GLMaxTextureSizeOverride;
-	}
-}
-
-void ReloadOpenGL()
-{
-	InitOpenGL();
-	ReloadGraphics();
-	ReloadFonts();
-	UI.Minimap.Reload();
-}
 
 #if defined(DEBUG) && !defined(USE_WIN32)
 static void CleanExit(int signum)
@@ -439,10 +300,6 @@ void InitVideoSdl(void)
 	// Turn cursor off, we use our own.
 	SDL_ShowCursor(0);
 
-	if (UseOpenGL) {
-		InitOpenGL();
-	}
-
 	InitKey2Str();
 
 	ColorBlack = Video.MapRGB(TheScreen->format, 0, 0, 0);
@@ -481,15 +338,13 @@ int VideoValidResolution(int w, int h)
 */
 void InvalidateArea(int x, int y, int w, int h)
 {
-	if (!UseOpenGL) {
-		Assert(NumRects != sizeof(Rects) / sizeof(*Rects));
-		Assert(x >= 0 && y >= 0 && x + w <= Video.Width && y + h <= Video.Height);
-		Rects[NumRects].x = x;
-		Rects[NumRects].y = y;
-		Rects[NumRects].w = w;
-		Rects[NumRects].h = h;
-		++NumRects;
-	}
+	Assert(NumRects != sizeof(Rects) / sizeof(*Rects));
+	Assert(x >= 0 && y >= 0 && x + w <= Video.Width && y + h <= Video.Height);
+	Rects[NumRects].x = x;
+	Rects[NumRects].y = y;
+	Rects[NumRects].w = w;
+	Rects[NumRects].h = h;
+	++NumRects;
 }
 
 /**
@@ -497,13 +352,11 @@ void InvalidateArea(int x, int y, int w, int h)
 */
 void Invalidate(void)
 {
-	if (!UseOpenGL) {
-		Rects[0].x = 0;
-		Rects[0].y = 0;
-		Rects[0].w = Video.Width;
-		Rects[0].h = Video.Height;
-		NumRects = 1;
-	}
+	Rects[0].x = 0;
+	Rects[0].y = 0;
+	Rects[0].w = Video.Width;
+	Rects[0].h = Video.Height;
+	NumRects = 1;
 }
 
 
@@ -725,11 +578,6 @@ static void SdlDoEvent(const EventCallback *callbacks, const SDL_Event *event)
 							DoTogglePause = false;
 							UiTogglePause();
 						}
-						#if 0
-						if (UseOpenGL) {
-							Video.ResizeScreen(Video.Width, Video.Height);
-						}
-						#endif
 					}
 					InMainWindow = event->window.event == SDL_WINDOWEVENT_ENTER;
 				}
@@ -891,7 +739,7 @@ void WaitEventsOneFrame()
 		SkipGameCycle = SkipFrames;
 	}
 
-	if (!UseOpenGL && (GameRunning || Editor.Running || PatchEditorRunning)) {
+	if (GameRunning || Editor.Running || PatchEditorRunning) {
 		Video.ClearScreen();
 	}
 }
@@ -901,16 +749,11 @@ void WaitEventsOneFrame()
 */
 void RealizeVideoMemory(void)
 {
-	if (UseOpenGL) {
-		SDL_GL_SwapWindow(TheWindow);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	} else {
-		if (NumRects) {
-			SDL_UpdateTexture(TheTexture, NULL, TheScreen->pixels, TheScreen->pitch);
-			SDL_RenderCopy(TheRenderer, TheTexture, NULL, NULL);
-			SDL_RenderPresent(TheRenderer);
-			NumRects = 0;
-		}
+	if (NumRects) {
+		SDL_UpdateTexture(TheTexture, NULL, TheScreen->pixels, TheScreen->pitch);
+		SDL_RenderCopy(TheRenderer, TheTexture, NULL, NULL);
+		SDL_RenderPresent(TheRenderer);
+		NumRects = 0;
 	}
 	HideCursor();
 }
@@ -920,10 +763,8 @@ void RealizeVideoMemory(void)
 */
 void SdlLockScreen(void)
 {
-	if (!UseOpenGL) {
-		if (SDL_MUSTLOCK(TheScreen)) {
-			SDL_LockSurface(TheScreen);
-		}
+	if (SDL_MUSTLOCK(TheScreen)) {
+		SDL_LockSurface(TheScreen);
 	}
 }
 
@@ -932,10 +773,8 @@ void SdlLockScreen(void)
 */
 void SdlUnlockScreen(void)
 {
-	if (!UseOpenGL) {
-		if (SDL_MUSTLOCK(TheScreen)) {
-			SDL_UnlockSurface(TheScreen);
-		}
+	if (SDL_MUSTLOCK(TheScreen)) {
+		SDL_UnlockSurface(TheScreen);
 	}
 }
 
@@ -1030,33 +869,30 @@ void ToggleFullScreen(void)
 	// save the contents of the screen.
 	framesize = w * h * TheScreen->format->BytesPerPixel;
 
-	if (!UseOpenGL) {
-		if (!(pixels = new unsigned char[framesize])) { // out of memory
+	if (!(pixels = new unsigned char[framesize])) { // out of memory
+		return;
+	}
+	SDL_LockSurface(TheScreen);
+	memcpy(pixels, TheScreen->pixels, framesize);
+
+	if (TheScreen->format->palette) {
+		ncolors = TheScreen->format->palette->ncolors;
+		if (!(palette = new SDL_Color[ncolors])) {
+			delete[] pixels;
 			return;
 		}
-		SDL_LockSurface(TheScreen);
-		memcpy(pixels, TheScreen->pixels, framesize);
-
-		if (TheScreen->format->palette) {
-			ncolors = TheScreen->format->palette->ncolors;
-			if (!(palette = new SDL_Color[ncolors])) {
-				delete[] pixels;
-				return;
-			}
-			memcpy(palette, TheScreen->format->palette->colors,
-				ncolors * sizeof(SDL_Color));
-		}
-		SDL_UnlockSurface(TheScreen);
+		memcpy(palette, TheScreen->format->palette->colors,
+			ncolors * sizeof(SDL_Color));
 	}
+	SDL_UnlockSurface(TheScreen);
+
 
 	TheScreen = SDL_SetVideoMode(w, h, bpp, flags ^ SDL_FULLSCREEN);
 	if (!TheScreen) {
 		TheScreen = SDL_SetVideoMode(w, h, bpp, flags);
 		if (!TheScreen) { // completely screwed.
-			if (!UseOpenGL) {
-				delete[] pixels;
-				delete[] palette;
-			}
+			delete[] pixels;
+			delete[] palette;
 			fprintf(stderr, "Toggle to fullscreen, crashed all\n");
 			Exit(-1);
 		}
@@ -1067,20 +903,16 @@ void ToggleFullScreen(void)
 	SDL_ShowCursor(SDL_ENABLE);
 	SDL_ShowCursor(SDL_DISABLE);
 
-	if (UseOpenGL) {
-		ReloadOpenGL();
-	} else {
-		SDL_LockSurface(TheScreen);
-		memcpy(TheScreen->pixels, pixels, framesize);
-		delete[] pixels;
+	SDL_LockSurface(TheScreen);
+	memcpy(TheScreen->pixels, pixels, framesize);
+	delete[] pixels;
 
-		if (TheScreen->format->palette) {
-			// !!! FIXME : No idea if that flags param is right.
-			SDL_SetPalette(TheScreen, SDL_LOGPAL, palette, 0, ncolors);
-			delete[] palette;
-		}
-		SDL_UnlockSurface(TheScreen);
+	if (TheScreen->format->palette) {
+		// !!! FIXME : No idea if that flags param is right.
+		SDL_SetPalette(TheScreen, SDL_LOGPAL, palette, 0, ncolors);
+		delete[] palette;
 	}
+	SDL_UnlockSurface(TheScreen);
 
 	SDL_SetClipRect(TheScreen, &clip);
 

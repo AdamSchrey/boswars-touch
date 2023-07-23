@@ -269,7 +269,7 @@ void DrawCursor(void)
 		DrawBuildingCursor();
 	}
 
-	if (!UseOpenGL && !GameRunning && !Editor.Running && !PatchEditorRunning && GameCursor) {
+	if (!GameRunning && !Editor.Running && !PatchEditorRunning && GameCursor) {
 		if (!HiddenSurface ||
 			HiddenSurface->w != GameCursor->G->getWidth() ||
 			HiddenSurface->h != GameCursor->G->getHeight())
@@ -313,7 +313,7 @@ void DrawCursor(void)
 */
 void HideCursor(void)
 {
-	if (!UseOpenGL && !GameRunning && !Editor.Running && !PatchEditorRunning && GameCursor) {
+	if (!GameRunning && !Editor.Running && !PatchEditorRunning && GameCursor) {
 		SDL_Rect dstRect = {
 			static_cast<Sint16>(CursorX - GameCursor->HotX),
 			static_cast<Sint16>(CursorY - GameCursor->HotY),

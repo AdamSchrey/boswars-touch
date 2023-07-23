@@ -31,20 +31,16 @@
 //@{
 
 #include "SDL.h"
-#include "SDL_opengl.h"
 #include "guichan/image.h"
 
 class CFontFamily;
-
-extern bool UseOpenGL;
 
 
 class CGraphic : public gcn::Image {
 protected:
 	CGraphic() : Surface(NULL), SurfaceFlip(NULL),
 		Width(0), Height(0), NumFrames(1), GraphicWidth(0), GraphicHeight(0),
-		Refs(1), Resized(false),
-		TextureWidth(0.f), TextureHeight(0.f), Textures(NULL), NumTextures(0)
+		Refs(1), Resized(false)
 	{
 	}
 	~CGraphic() {}
@@ -61,14 +57,12 @@ public:
 
 	// Draw frame
 	void DrawFrame(unsigned frame, int x, int y) const;
-	void DoDrawFrameClip(GLuint *textures, unsigned frame, int x, int y) const;
 	void DrawFrameClip(unsigned frame, int x, int y) const;
 	void DrawFrameTrans(unsigned frame, int x, int y, int alpha) const;
 	void DrawFrameClipTrans(unsigned frame, int x, int y, int alpha) const;
 
 	// Draw frame flipped horizontally
 	void DrawFrameX(unsigned frame, int x, int y) const;
-	void DoDrawFrameClipX(GLuint *textures, unsigned frame, int x, int y) const;
 	void DrawFrameClipX(unsigned frame, int x, int y) const;
 	void DrawFrameTransX(unsigned frame, int x, int y, int alpha) const;
 	void DrawFrameClipTransX(unsigned frame, int x, int y, int alpha) const;
@@ -106,10 +100,6 @@ public:
 	int GraphicHeight;         /// Original graphic height
 	int Refs;                  /// Uses of this graphic
 	bool Resized;              /// Image has been resized
-	GLfloat TextureWidth;      /// Width of the texture
-	GLfloat TextureHeight;     /// Height of the texture
-	GLuint *Textures;          /// Texture names
-	int NumTextures;           /// Number of textures
 
 	friend class CFontFamily;
 };
@@ -118,7 +108,6 @@ class CPlayerColorGraphic : public CGraphic
 {
 protected:
 	CPlayerColorGraphic() {
-		memset(PlayerColorTextures, 0, sizeof(PlayerColorTextures));
 	}
 
 public:
@@ -127,8 +116,6 @@ public:
 
 	static CPlayerColorGraphic *New(const std::string &file, int w = 0, int h = 0);
 	static CPlayerColorGraphic *ForceNew(const std::string &file, int w = 0, int h = 0);
-
-	GLuint *PlayerColorTextures[PlayerMax];/// Textures with player colors
 };
 
 	/// A platform independent color
@@ -256,37 +243,16 @@ public:
 	void FillTransCircleClip(Uint32 color, int x, int y, int radius, unsigned char alpha);
 
 	inline Uint32 MapRGB(SDL_PixelFormat *f, Uint8 r, Uint8 g, Uint8 b) {
-		if (!UseOpenGL) {
-			return SDL_MapRGB(f, r, g, b);
-		} else {
-			return MapRGBA(f, r, g, b, 0xFF);
-		}
+		return SDL_MapRGB(f, r, g, b);
 	}
 	inline Uint32 MapRGBA(SDL_PixelFormat *f, Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
-		if (!UseOpenGL) {
-			return SDL_MapRGBA(f, r, g, b, a);
-		} else {
-			return ((r << RSHIFT) | (g << GSHIFT) | (b << BSHIFT) | (a << ASHIFT));
-		}
+		return SDL_MapRGBA(f, r, g, b, a);
 	}
 	inline void GetRGB(Uint32 c, SDL_PixelFormat *f, Uint8 *r, Uint8 *g, Uint8 *b) {
-		if (!UseOpenGL) {
-			SDL_GetRGB(c, f, r, g, b);
-		} else {
-			*r = (c >> RSHIFT) & 0xff;
-			*g = (c >> GSHIFT) & 0xff;
-			*b = (c >> BSHIFT) & 0xff;
-		}
+		SDL_GetRGB(c, f, r, g, b);
 	}
 	inline void GetRGBA(Uint32 c, SDL_PixelFormat *f, Uint8 *r, Uint8 *g, Uint8 *b, Uint8 *a) {
-		if (!UseOpenGL) {
-			SDL_GetRGBA(c, f, r, g, b, a);
-		} else {
-			*r = (c >> RSHIFT) & 0xff;
-			*g = (c >> GSHIFT) & 0xff;
-			*b = (c >> BSHIFT) & 0xff;
-			*a = (c >> ASHIFT) & 0xff;
-		}
+		SDL_GetRGBA(c, f, r, g, b, a);
 	}
 
 	int Width;
@@ -330,15 +296,6 @@ extern SDL_Texture *TheTexture;
 	/// The SDL screen
 extern SDL_Surface *TheScreen;
 
-	/// Max texture size supported on the video card
-extern GLint GLMaxTextureSize;
-	/// User-specified limit for ::GLMaxTextureSize
-extern GLint GLMaxTextureSizeOverride;
-	/// Is OpenGL texture compression supported
-extern bool GLTextureCompressionSupported;
-	/// Use OpenGL texture compression
-extern bool UseGLTextureCompression;
-
 	/// initialize the video part
 extern void InitVideo(void);
 
@@ -347,18 +304,6 @@ extern int VideoValidResolution(int w, int h);
 
 	/// Load graphic from PNG file
 extern int LoadGraphicPNG(CGraphic *g, bool headerOnly);
-
-	/// Make an OpenGL texture
-extern void MakeTexture(CGraphic *graphic);
-	/// Make an OpenGL texture of the player color pixels only.
-extern void MakePlayerColorTexture(CPlayerColorGraphic *graphic, int player);
-
-	/// Free OpenGL graphics
-extern void FreeOpenGLGraphics();
-	/// Reload OpenGL graphics
-extern void ReloadGraphics();
-	/// Reload OpenGL
-extern void ReloadOpenGL();
 
 	/// Initializes video synchronization.
 extern void SetVideoSync(void);
@@ -426,21 +371,7 @@ extern Uint32 ColorRed;
 extern Uint32 ColorGreen;
 extern Uint32 ColorYellow;
 
-void DrawTexture(const CGraphic *g, GLuint *textures,
-	int gx_beg, int gy_beg, int gx_end, int gy_end,
-	int sx_beg, int sy_beg, int flip);
-
 extern void FreeGraphics();
-
-
-// ARB_texture_compression
-extern PFNGLCOMPRESSEDTEXIMAGE3DARBPROC    glCompressedTexImage3DARB;
-extern PFNGLCOMPRESSEDTEXIMAGE2DARBPROC    glCompressedTexImage2DARB;
-extern PFNGLCOMPRESSEDTEXIMAGE1DARBPROC    glCompressedTexImage1DARB;
-extern PFNGLCOMPRESSEDTEXSUBIMAGE3DARBPROC glCompressedTexSubImage3DARB;
-extern PFNGLCOMPRESSEDTEXSUBIMAGE2DARBPROC glCompressedTexSubImage2DARB;
-extern PFNGLCOMPRESSEDTEXSUBIMAGE1DARBPROC glCompressedTexSubImage1DARB;
-extern PFNGLGETCOMPRESSEDTEXIMAGEARBPROC   glGetCompressedTexImageARB;
 
 //@}
 
