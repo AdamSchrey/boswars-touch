@@ -121,11 +121,13 @@ void CGraphic::DrawSub(int gx, int gy, int w, int h, int x, int y) const
 	SDL_Rect drect = {
 		static_cast<Sint16>(x),
 		static_cast<Sint16>(y),
-		0, // SDL_BlitSurface ignores the width and height.
-		0
+		static_cast<Uint16>(w),
+		static_cast<Uint16>(h)
 	};
 
 	SDL_BlitSurface(Surface, &srect, TheScreen, &drect);
+	if (texture)
+		SDL_RenderCopy(TheRenderer, texture, &srect, &drect);
 }
 
 /**
@@ -266,8 +268,11 @@ void CGraphic::DrawFrameX(unsigned frame, int x, int y) const
 
 	drect.x = x;
 	drect.y = y;
+	drect.w = Width;
+	drect.h = Height;
 
 	SDL_BlitSurface(SurfaceFlip, &srect, TheScreen, &drect);
+	SDL_RenderCopy(TheRenderer, texture, &srect, &drect);
 }
 
 /**
@@ -298,8 +303,12 @@ void CGraphic::DrawFrameClipX(unsigned frame, int x, int y) const
 
 	drect.x = x;
 	drect.y = y;
+	drect.w = srect.w;
+	drect.h = srect.h;
 
 	SDL_BlitSurface(SurfaceFlip, &srect, TheScreen, &drect);
+	SDL_RenderCopyEx(TheRenderer, texture, &srect, &drect, 0, NULL,
+			SDL_FLIP_HORIZONTAL);
 }
 
 void CGraphic::DrawFrameTransX(unsigned frame, int x, int y, int alpha) const
@@ -321,6 +330,8 @@ void CGraphic::DrawFrameTransX(unsigned frame, int x, int y, int alpha) const
 	SDL_SetSurfaceAlphaMod(Surface, alpha);
 	SDL_BlitSurface(SurfaceFlip, &srect, TheScreen, &drect);
 	SDL_SetSurfaceAlphaMod(Surface, oldalpha);
+	SDL_RenderCopyEx(TheRenderer, texture, &srect, &drect, 0, NULL,
+			SDL_FLIP_HORIZONTAL);
 }
 
 void CGraphic::DrawFrameClipTransX(unsigned frame, int x, int y, int alpha) const
@@ -350,6 +361,8 @@ void CGraphic::DrawFrameClipTransX(unsigned frame, int x, int y, int alpha) cons
 	SDL_SetSurfaceAlphaMod(Surface, alpha);
 	SDL_BlitSurface(SurfaceFlip, &srect, TheScreen, &drect);
 	SDL_SetSurfaceAlphaMod(Surface, oldalpha);
+	SDL_RenderCopyEx(TheRenderer, texture, &srect, &drect, 0, NULL,
+			SDL_FLIP_HORIZONTAL);
 }
 
 /**
@@ -582,6 +595,8 @@ void CGraphic::Load()
 	}
 
 	NumFrames = GraphicWidth / Width * GraphicHeight / Height;
+
+	texture = SDL_CreateTextureFromSurface(TheRenderer, Surface);
 }
 
 /**
@@ -621,6 +636,7 @@ void CGraphic::Free(CGraphic *g)
 
 	--g->Refs;
 	if (!g->Refs) {
+		SDL_DestroyTexture(g->texture);
 		FreeSurface(&g->Surface);
 		FreeSurface(&g->SurfaceFlip);
 

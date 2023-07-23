@@ -316,12 +316,13 @@ static void VideoDrawChar(const CGraphic *g,
 	SDL_Rect drect = {
 		static_cast<Sint16>(x),
 		static_cast<Sint16>(y),
-		0, // SDL_BlitSurface ignores the width and height.
-		0
+		static_cast<Uint16>(w),
+		static_cast<Uint16>(h)
 	};
 
 	SDL_SetPaletteColors(g->Surface->format->palette, FontColor->Colors, 0, MaxFontColors);
 	SDL_BlitSurface(g->Surface, &srect, TheScreen, &drect);
+	SDL_RenderCopy(TheRenderer, g->texture, &srect, &drect);
 }
 
 /**

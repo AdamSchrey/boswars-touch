@@ -201,7 +201,7 @@ void CVideo::UnlockScreen(void)
 */
 void CVideo::ClearScreen(void)
 {
-	FillRectangle(ColorBlack, 0, 0, Video.Width, Video.Height);
+	SDL_RenderClear(TheRenderer);
 }
 
 /**

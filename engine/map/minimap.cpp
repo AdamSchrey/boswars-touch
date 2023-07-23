@@ -53,6 +53,7 @@
 
 static SDL_Surface *MinimapSurface;        /// generated minimap
 static SDL_Surface *MinimapTerrainSurface; /// generated minimap terrain
+static SDL_Texture *MinimapTexture;
 
 static int *Minimap2MapX;                  /// fast conversion table
 static int *Minimap2MapY;                  /// fast conversion table
@@ -118,6 +119,7 @@ void CMinimap::Create(void)
 		W, H, f->BitsPerPixel, f->Rmask, f->Gmask, f->Bmask, f->Amask);
 	MinimapSurface = SDL_CreateRGBSurface(SDL_SWSURFACE,
 		W, H, f->BitsPerPixel, f->Rmask, f->Gmask, f->Bmask, f->Amask);
+	MinimapTexture = SDL_CreateTextureFromSurface(TheRenderer, MinimapSurface);
 
 	UpdateTerrain();
 
@@ -401,10 +403,11 @@ void CMinimap::Draw(int vx, int vy)
 	SDL_Rect drect = {
 		static_cast<Sint16>(X),
 		static_cast<Sint16>(Y),
-		0, // SDL_BlitSurface ignores the width and height.
-		0
+		W,
+		H
 	};
-	SDL_BlitSurface(MinimapSurface, NULL, TheScreen, &drect);
+	SDL_UpdateTexture(MinimapTexture, NULL, MinimapSurface->pixels, MinimapSurface->pitch);
+	SDL_RenderCopy(TheRenderer, MinimapTexture, NULL, &drect);
 
 	DrawEvents();
 }
@@ -447,6 +450,8 @@ void CMinimap::Destroy()
 {
 	SDL_FreeSurface(MinimapTerrainSurface);
 	MinimapTerrainSurface = NULL;
+	SDL_DestroyTexture(MinimapTexture);
+	MinimapTexture = NULL;
 	if (MinimapSurface) {
 		SDL_FreeSurface(MinimapSurface);
 		MinimapSurface = NULL;

@@ -295,6 +295,7 @@ void DrawCursor(void)
 			static_cast<Uint16>(GameCursor->G->getHeight())
 		};
 		SDL_BlitSurface(TheScreen, &srcRect, HiddenSurface, NULL);
+		//SDL_RenderCopy(TheRenderer, HiddenSurface, &srcrect, NULL);
 	}
 
 	//

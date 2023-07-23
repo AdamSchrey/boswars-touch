@@ -40,7 +40,8 @@ class CGraphic : public gcn::Image {
 protected:
 	CGraphic() : Surface(NULL), SurfaceFlip(NULL),
 		Width(0), Height(0), NumFrames(1), GraphicWidth(0), GraphicHeight(0),
-		Refs(1), Resized(false)
+		Refs(1), Resized(false),
+		texture(0)
 	{
 	}
 	~CGraphic() {}
@@ -102,6 +103,8 @@ public:
 	bool Resized;              /// Image has been resized
 
 	friend class CFontFamily;
+
+	SDL_Texture *texture;
 };
 
 class CPlayerColorGraphic : public CGraphic
