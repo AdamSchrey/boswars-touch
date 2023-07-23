@@ -834,13 +834,6 @@ void GraphicPlayerPixels(CPlayer *player, const CGraphic *sprite)
 	SDL_LockSurface(sprite->Surface);
 	SDL_SetPaletteColors(sprite->Surface->format->palette, player->UnitColors.Colors,
 		PlayerColorIndexStart, PlayerColorIndexCount);
-	if (sprite->SurfaceFlip) {
-		// The flipped surface is supposed to have a similar palette.
-		Assert(sprite->SurfaceFlip->format->palette->ncolors
-		       == sprite->Surface->format->palette->ncolors);
-		SDL_SetPaletteColors(sprite->SurfaceFlip->format->palette,
-			player->UnitColors.Colors, PlayerColorIndexStart, PlayerColorIndexCount);
-	}
 	SDL_UnlockSurface(sprite->Surface);
 }
 

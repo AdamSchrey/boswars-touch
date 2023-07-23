@@ -38,7 +38,7 @@ class CFontFamily;
 
 class CGraphic : public gcn::Image {
 protected:
-	CGraphic() : Surface(NULL), SurfaceFlip(NULL),
+	CGraphic() : Surface(NULL),
 		Width(0), Height(0), NumFrames(1), GraphicWidth(0), GraphicHeight(0),
 		Refs(1), Resized(false),
 		texture(0)
@@ -78,7 +78,7 @@ public:
 
 	bool LoadGraphicSize(int *w, int *h);
 	void Load();
-	void Flip();
+	void Flip() {/* TODO REMOVE */}
 	void Resize(int w, int h);
 	bool TransparentPixel(int x, int y);
 	void MakeShadow();
@@ -93,7 +93,6 @@ public:
 	std::string File;          /// Filename
 	std::string HashFile;      /// Filename used in hash
 	SDL_Surface *Surface;      /// Surface
-	SDL_Surface *SurfaceFlip;  /// Flipped surface
 	int Width;                 /// Width of a frame
 	int Height;                /// Height of a frame
 	int NumFrames;             /// Number of frames
