@@ -117,9 +117,6 @@ SetHoldClickDelay(1000)
 --	Enable minimap terrain by default.
 SetMinimapTerrain(true)
 
---  Use OpenGL texture compression if supported
-UseGLTextureCompression = false
-
 -------------------------------------------------------------------------------
 --	Define default resources
 -------------------------------------------------------------------------------
@@ -200,14 +197,7 @@ if (preferences == nil) then
     TipNumber = 0,
     ShowTips = true,
     GrabMouse = false,
-    UseOpenGL = false,
   }
-end
-
--- If the user's preferences.lua does not yet have this setting,
--- then add it, to make it easier to discover.
-if (preferences.MaxOpenGLTexture == nil) then
-   preferences.MaxOpenGLTexture = 512
 end
 
 -- If PlayerName is not in the preferences, then use
@@ -216,10 +206,8 @@ if preferences.PlayerName ~= nil then
   SetLocalPlayerName(preferences.PlayerName)
 end
 
-UseOpenGL = preferences.UseOpenGL
 SetVideoResolution(preferences.VideoWidth, preferences.VideoHeight)
 SetVideoFullScreen(preferences.VideoFullScreen)
-SetMaxOpenGLTexture(preferences.MaxOpenGLTexture)
 SetFogOfWar(preferences.FogOfWar)
 UI.ButtonPanel.ShowCommandKey = preferences.ShowCommandKey
 if GetGameSpeed() < 0 then
