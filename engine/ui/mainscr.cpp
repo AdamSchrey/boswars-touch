@@ -208,10 +208,6 @@ static void DrawUnitStats(const CUnit *unit)
 static void DrawTrainingUnits(const CUnit *unit)
 {
 	if (unit->OrderCount == 1 || unit->Orders[1]->Action != UnitActionTrain) {
-		if (!UI.SingleTrainingText.empty()) {
-			VideoDrawText(UI.SingleTrainingTextX, UI.SingleTrainingTextY,
-				UI.SingleTrainingFont, UI.SingleTrainingText);
-		}
 		if (UI.SingleTrainingButton) {
 			CUIButton *button = UI.SingleTrainingButton;
 			bool mouseOver = (ButtonAreaUnderCursor == ButtonAreaTraining && ButtonUnderCursor == 0);
@@ -221,10 +217,6 @@ static void DrawTrainingUnits(const CUnit *unit)
 				button->X, button->Y, "");
 		}
 	} else {
-		if (!UI.TrainingText.empty()) {
-			VideoDrawTextCentered(UI.TrainingTextX, UI.TrainingTextY,
-				UI.TrainingFont, UI.TrainingText);
-		}
 		if (!UI.TrainingButtons.empty()) {
 			size_t currentButton = 0;
 

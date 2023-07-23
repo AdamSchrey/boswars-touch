@@ -364,16 +364,8 @@ public:
 	int MaxSelectedTextY;               /// if > maximum units selected
 
 	CUIButton *SingleTrainingButton;    /// Button for single training
-	std::string SingleTrainingText;     /// Text for single training
-	CFont *SingleTrainingFont;          /// Font for single traning
-	int SingleTrainingTextX;            /// X text position single training
-	int SingleTrainingTextY;            /// Y text position single training
 
 	std::vector<CUIButton> TrainingButtons;/// Training buttons
-	std::string TrainingText;           /// Multiple Training Text
-	CFont *TrainingFont;                /// Multiple Training Font
-	int TrainingTextX;                  /// Multiple Training X Text position
-	int TrainingTextY;                  /// Multiple Training Y Text position
 
 	std::vector<CUIButton> TransportingButtons;/// Button info for transporting
 
