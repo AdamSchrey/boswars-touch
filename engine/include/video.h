@@ -84,7 +84,6 @@ public:
 	bool LoadGraphicSize(int *w, int *h);
 	void Load();
 	void Flip();
-	void UseDisplayFormat();
 	void Resize(int w, int h);
 	bool TransparentPixel(int x, int y);
 	void MakeShadow();

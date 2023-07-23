@@ -901,16 +901,6 @@ void CGraphic::Flip()
 }
 
 /**
-**  Convert the SDL surface to the display format
-*/
-void CGraphic::UseDisplayFormat()
-{
-	if (UseOpenGL) {
-		return;
-	}
-}
-
-/**
 **  Find the next power of 2 >= x
 */
 static int PowerOf2(int x)
