@@ -417,10 +417,6 @@ public:
 	// Game timer
 	CUITimer Timer;                     /// game timer
 
-	// Offsets for 640x480 center used by menus
-	int Offset640X;                     /// Offset for 640x480 X position
-	int Offset480Y;                     /// Offset for 640x480 Y position
-
 	//
 	//  Cursors used.
 	//

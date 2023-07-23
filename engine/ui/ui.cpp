@@ -67,7 +67,7 @@ CUserInterface::CUserInterface() :
 	ViewportMode(VIEWPORT_SINGLE), MouseViewport(NULL),
 	SelectedViewport(NULL), NumViewports(0),
 	MessageFont(NULL), MessageScrollSpeed(5),
-	ViewportCursorColor(0), Offset640X(0), Offset480Y(0)
+	ViewportCursorColor(0)
 {
 	memset(&CompletedBarColorRGB, 0, sizeof(CompletedBarColorRGB));
 
@@ -101,9 +101,6 @@ CUserInterface::CUserInterface() :
 */
 void InitUserInterface(void)
 {
-	UI.Offset640X = (Video.Width - 640) / 2;
-	UI.Offset480Y = (Video.Height - 480) / 2;
-
 	//
 	// Calculations
 	//
