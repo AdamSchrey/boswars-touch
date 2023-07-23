@@ -18,17 +18,17 @@ love hearing from you how it worked and what adaptations were needed.
 
 On Debian, the runtime dependencies can be installed with:
 
-    sudo apt install libsdl2-2.0 liblua5.1 libtheora libogg libpng12 libvorbis libgl1-mesa
+    sudo apt install libsdl2-2.0 liblua5.1 libtheora libogg libpng12 libvorbis
 
 And the build dependencies can be installed with:
 
     sudo apt install iblua5.1-dev libtolua++5.1-dev libtheora-dev libogg-dev \
-      libpng12-dev libsdl2-dev libvorbis-dev libx11-dev libgl1-mesa-dev \
+      libpng12-dev libsdl2-dev libvorbis-dev \
       x11proto-core-dev build-essential
 
 On Fedora, these packages should help: lua-devel tolua++-devel
 libtheora-devel libogg-devel libpng-devel SDL2-devel
-libvorbis-devel libX11-devel mesa-libGL-devel
+libvorbis-devel
 
 
 ## Sources

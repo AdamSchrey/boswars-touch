@@ -285,15 +285,6 @@ def detectLua(b):
     print('Did not find the Lua library, exiting !')
     sys.exit(1)
 
-def detectOpenGl(b):
-    libs = 'GL opengl3 opengl32'.split()
-    if sys.platform == 'darwin':
-        b.incpath('/System/Library/Frameworks/OpenGL.framework/Libraries/')
-    r = CheckLibAlternatives(b, libs)
-    if not r:
-       print('Did not find the OpenGL library, exiting !')
-       sys.exit(1)
-
 def detectSdl(b):
     if b.usepkgconfig and pkgconfig(b, 'sdl2'):
         return
@@ -308,7 +299,6 @@ def detectSdl(b):
 
 def detectAlwaysDynamic(b):
     RequireLib(b, 'z', 'zlib.h')
-    detectOpenGl(b)
     detectSdl(b)
     if Check(b, function='strcasestr'):
        b.define('HAVE_STRCASESTR')
