@@ -9,7 +9,8 @@
 //
 /**@name graphic.cpp - The general graphic functions. */
 //
-//      (c) Copyright 1999-2006 by Lutz Sammer, Nehal Mistry, and Jimmy Salmon
+//      (c) Copyright 1999-2023 by Lutz Sammer, Nehal Mistry, Jimmy Salmon
+//             and François Beerten.
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -163,10 +164,27 @@ void CGraphic::DrawSubTrans(int gx, int gy, int w, int h, int x, int y,
 	unsigned char alpha) const
 {
 	Uint8 oldalpha = 255;
+	SDL_Rect srect = {
+		static_cast<Sint16>(gx),
+		static_cast<Sint16>(gy),
+		static_cast<Uint16>(w),
+		static_cast<Uint16>(h)
+	};
+	SDL_Rect drect = {
+		static_cast<Sint16>(x),
+		static_cast<Sint16>(y),
+		static_cast<Uint16>(w),
+		static_cast<Uint16>(h)
+	};
+
 	SDL_GetSurfaceAlphaMod(Surface, &oldalpha);
 	SDL_SetSurfaceAlphaMod(Surface, alpha);
-	DrawSub(gx, gy, w, h, x, y);
+	SDL_BlitSurface(Surface, &srect, TheScreen, &drect);
 	SDL_SetSurfaceAlphaMod(Surface, oldalpha);
+	if (texture) {
+		SDL_SetTextureAlphaMod(texture, alpha);
+		SDL_RenderCopy(TheRenderer, texture, &srect, &drect);
+	}
 }
 
 /**

@@ -320,26 +320,11 @@ void UpdateFogOfWarChange(void)
 */
 void VideoDrawOnlyFog(int x, int y)
 {
-	int oldx;
-	int oldy;
-	SDL_Rect srect;
-	SDL_Rect drect;
+	SDL_Rect drect = {x, y, TileSizeX, TileSizeY};
 
-	srect.x = 0;
-	srect.y = 0;
-	srect.w = OnlyFogSurface->w;
-	srect.h = OnlyFogSurface->h;
+	CLIP_RECTANGLE(drect.x, drect.y, drect.w, drect.h);
 
-	oldx = x;
-	oldy = y;
-	CLIP_RECTANGLE(x, y, srect.w, srect.h);
-	srect.x += x - oldx;
-	srect.y += y - oldy;
-
-	drect.x = x;
-	drect.y = y;
-
-	SDL_BlitSurface(OnlyFogSurface, &srect, TheScreen, &drect);
+	Video.FillTransRectangleClip(ColorBlack, x, y, TileSizeX, TileSizeY, FogOfWarOpacity);
 }
 
 /*----------------------------------------------------------------------------
@@ -457,7 +442,7 @@ static void DrawFogOfWarTile(int sx, int sy, int dx, int dy)
 
 	if (IsMapFieldVisibleTable(x, y) || ReplayRevealMap) {
 		if (tile && tile != tile2) {
-			AlphaFogG->DrawFrameClip(tile, dx, dy);
+			Map.FogGraphic->DrawFrameClipTrans(tile, dx, dy, FogOfWarOpacity);
 		}
 	} else {
 		VideoDrawOnlyFog(dx, dy);
