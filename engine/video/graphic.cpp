@@ -260,8 +260,23 @@ void CGraphic::DrawFrameClipTrans(unsigned frame, int x, int y, int alpha) const
 void CPlayerColorGraphic::DrawPlayerColorFrameClip(int player, unsigned frame,
 	int x, int y)
 {
-	GraphicPlayerPixels(&Players[player], this);
 	DrawFrameClip(frame, x, y);
+	if (playercolortexture) {
+		SDL_Color c = Players[player].UnitColors.Colors[0];
+		SDL_Rect srect;
+		SDL_Rect drect = {x, y, Width, Height};
+
+		CLIP_RECTANGLE(drect.x, drect.y, drect.w, drect.h);
+		srect.x = (frame % (Surface->w / Width)) * Width;
+		srect.y = (frame / (Surface->w / Width)) * Height;
+		srect.x += drect.x - x;
+		srect.y += drect.y - y;
+		srect.w = drect.w;
+		srect.h = drect.h;
+
+		SDL_SetTextureColorMod(playercolortexture, c.r, c.g, c.b);
+		SDL_RenderCopy(TheRenderer, playercolortexture, &srect, &drect);
+	}
 }
 
 
@@ -399,8 +414,25 @@ void CGraphic::DrawFrameClipTransX(unsigned frame, int x, int y, int alpha) cons
 void CPlayerColorGraphic::DrawPlayerColorFrameClipX(int player, unsigned frame,
 	int x, int y)
 {
-	GraphicPlayerPixels(&Players[player], this);
 	DrawFrameClipX(frame, x, y);
+	if (playercolortexture) {
+		SDL_Color c = Players[player].UnitColors.Colors[0];
+		SDL_Rect srect;
+		SDL_Rect drect = {x, y, Width, Height};
+
+		CLIP_RECTANGLE(drect.x, drect.y, drect.w, drect.h);
+		srect.x = (Surface->w - (frame % (Surface->w /
+				Width)) * Width) - Width;
+		srect.y = (frame / (Surface->w / Width)) * Height;
+		srect.x += drect.x - x;
+		srect.y += drect.y - y;
+		srect.w = drect.w;
+		srect.h = drect.h;
+
+		SDL_SetTextureColorMod(playercolortexture, c.r, c.g, c.b);
+		SDL_RenderCopyEx(TheRenderer, playercolortexture, &srect, &drect, 0, NULL,
+				SDL_FLIP_HORIZONTAL);
+	}
 }
 
 /*----------------------------------------------------------------------------
@@ -445,6 +477,7 @@ CGraphic *CGraphic::New(const std::string &file, int w, int h)
 	return g;
 }
 
+
 /**
 **  Make a new player color graphic object.
 **
@@ -482,6 +515,39 @@ CPlayerColorGraphic *CPlayerColorGraphic::New(const std::string &file, int w, in
 
 	return g;
 }
+
+void CPlayerColorGraphic::createPlayerColorMask(void)
+{
+	Assert(PlayerColorIndexCount);
+
+	if (Surface->format->palette == NULL) {
+		// Cannot set the player colors when there is no palette.
+		return;
+	}
+
+	// Skip units whose color palette does not cover the indexes
+	// for the player color.
+	if (Surface->format->palette->ncolors < PlayerColorIndexStart + PlayerColorIndexCount) {
+		return;
+	}
+
+	SDL_Color colors[256];
+	SDL_Color empty = {0, 0, 0, 0};
+	for (int i = 0; i < 256; i++) {
+		colors[i] = empty;
+	}
+	Uint8 c = 255;
+	Uint8 delta = 255 / (PlayerColorIndexCount + 1);
+	for (int i = 0; i < PlayerColorIndexCount; i++) {
+		SDL_Color playercol = {c, c, c, 255};
+		colors[PlayerColorIndexStart + i] = playercol;
+		c -= delta;
+	}
+	SDL_SetPaletteColors(Surface->format->palette, colors, 0, 256);
+
+	playercolortexture = SDL_CreateTextureFromSurface(TheRenderer, Surface);
+}
+
 
 /**
 **  Make a new graphic object.  Don't reuse a graphic from the hash table.

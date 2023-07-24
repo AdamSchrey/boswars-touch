@@ -382,6 +382,7 @@ void LoadUnitTypeSprite(CUnitType *type)
 	if (!type->File.empty()) {
 		type->Sprite = CPlayerColorGraphic::New(type->File, type->Width, type->Height);
 		type->Sprite->Load();
+		type->Sprite->createPlayerColorMask();
 		if (type->Flip) {
 			type->Sprite->Flip();
 		}

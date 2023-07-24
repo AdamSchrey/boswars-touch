@@ -109,8 +109,16 @@ public:
 class CPlayerColorGraphic : public CGraphic
 {
 protected:
-	CPlayerColorGraphic() {
+	CPlayerColorGraphic(): playercolortexture(0) {
 	}
+
+	virtual ~CPlayerColorGraphic() {
+		if (playercolortexture) {
+			SDL_DestroyTexture(playercolortexture);
+		}
+	}
+
+	SDL_Texture *playercolortexture;
 
 public:
 	void DrawPlayerColorFrameClipX(int player, unsigned frame, int x, int y);
@@ -118,6 +126,7 @@ public:
 
 	static CPlayerColorGraphic *New(const std::string &file, int w = 0, int h = 0);
 	static CPlayerColorGraphic *ForceNew(const std::string &file, int w = 0, int h = 0);
+	void createPlayerColorMask(void);
 };
 
 	/// A platform independent color

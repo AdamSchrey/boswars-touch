@@ -69,6 +69,7 @@ void LoadConstructions(void)
 			ShowLoadProgress("Construction %s", file);
 			(*i)->Sprite = CPlayerColorGraphic::New(file, (*i)->Width, (*i)->Height);
 			(*i)->Sprite->Load();
+			(*i)->Sprite->createPlayerColorMask();
 		}
 		file = (*i)->ShadowFile.File.c_str();
 		(*i)->ShadowWidth = (*i)->ShadowFile.Width;
