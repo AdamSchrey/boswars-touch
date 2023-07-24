@@ -858,6 +858,7 @@ void CGraphic::MakeShadow()
 
 	SDL_SetPaletteColors(Surface->format->palette, colors, 0, 256);
 	SDL_SetSurfaceAlphaMod(Surface, 128);
+	SDL_SetTextureAlphaMod(texture, 128);
 }
 
 void FreeGraphics()
