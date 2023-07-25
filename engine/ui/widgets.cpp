@@ -204,17 +204,7 @@ void initGuichan()
 {
 	gcn::Graphics *graphics;
 
-	if (false) {
-		graphics = new GcnBoswarsGraphics();
-	} else {
-		graphics = new gcn::SDLGraphics();
-
-		// Set the target for the graphics object to be the screen.
-		// In other words, we will draw to the screen.
-		// Note, any surface will do, it doesn't have to be the screen.
-		((gcn::SDLGraphics *)graphics)->setTarget(TheScreen);
-	}
-
+	graphics = new GcnBoswarsGraphics();
 	Input = new gcn::SDLInput();
 
 	Gui = new gcn::Gui();
