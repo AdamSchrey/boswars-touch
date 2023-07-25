@@ -75,10 +75,16 @@ static void MenuHandleKeyRepeat(unsigned key, unsigned keychar)
 
 
 /*----------------------------------------------------------------------------
-  --  MyOpenGLGraphics
+  --  GcnBoswarsGraphics
   ----------------------------------------------------------------------------*/
 
-class MyOpenGLGraphics : public gcn::Graphics
+/** Guichan-BosWars Engine Graphics Primitives
+ *
+ * This class implements the gcn::Graphics interface. That interface
+ * provides access to display primitives like rectangles, lines,
+ * circles or drawing images.
+ */
+class GcnBoswarsGraphics : public gcn::Graphics
 {
 public:
 	virtual void _beginDraw();
@@ -99,18 +105,18 @@ private:
 	gcn::Color mColor;
 };
 
-void MyOpenGLGraphics::_beginDraw()
+void GcnBoswarsGraphics::_beginDraw()
 {
 	gcn::Rectangle area(0, 0, Video.Width, Video.Height);
 	pushClipArea(area);
 }
 
-void MyOpenGLGraphics::_endDraw()
+void GcnBoswarsGraphics::_endDraw()
 {
 	popClipArea();
 }
 
-void MyOpenGLGraphics::drawImage(const gcn::Image* image, int srcX, int srcY,
+void GcnBoswarsGraphics::drawImage(const gcn::Image* image, int srcX, int srcY,
 	int dstX, int dstY, int width, int height)
 {
 	const gcn::ClipRectangle &r = this->getCurrentClipArea();
@@ -128,14 +134,14 @@ void MyOpenGLGraphics::drawImage(const gcn::Image* image, int srcX, int srcY,
 	PopClipping();
 }
 
-void MyOpenGLGraphics::drawPoint(int x, int y)
+void GcnBoswarsGraphics::drawPoint(int x, int y)
 {
 	gcn::Color c = this->getColor();
 	Video.DrawPixelClip(Video.MapRGBA(c.r, c.g, c.b, c.a),
 		x + mClipStack.top().xOffset, y + mClipStack.top().yOffset);
 }
 
-void MyOpenGLGraphics::drawLine(int x1, int y1, int x2, int y2)
+void GcnBoswarsGraphics::drawLine(int x1, int y1, int x2, int y2)
 {
 	gcn::Color c = this->getColor();
 	Video.DrawLineClip(Video.MapRGBA(c.r, c.g, c.b, c.a),
@@ -143,7 +149,7 @@ void MyOpenGLGraphics::drawLine(int x1, int y1, int x2, int y2)
 		x2 + mClipStack.top().xOffset, y2 + mClipStack.top().yOffset);
 }
 
-void MyOpenGLGraphics::drawRectangle(const gcn::Rectangle& rectangle)
+void GcnBoswarsGraphics::drawRectangle(const gcn::Rectangle& rectangle)
 {
 	gcn::Rectangle area = rectangle;
 	gcn::ClipRectangle top = mClipStack.top();
@@ -165,7 +171,7 @@ void MyOpenGLGraphics::drawRectangle(const gcn::Rectangle& rectangle)
 		x1, y1, x2 - x1, y2 - y1, mColor.a);
 }
 
-void MyOpenGLGraphics::fillRectangle(const gcn::Rectangle& rectangle)
+void GcnBoswarsGraphics::fillRectangle(const gcn::Rectangle& rectangle)
 {
 	gcn::Rectangle area = rectangle;
 	gcn::ClipRectangle top = mClipStack.top();
@@ -199,7 +205,7 @@ void initGuichan()
 	gcn::Graphics *graphics;
 
 	if (false) {
-		graphics = new MyOpenGLGraphics();
+		graphics = new GcnBoswarsGraphics();
 	} else {
 		graphics = new gcn::SDLGraphics();
 
