@@ -74,6 +74,123 @@ static void MenuHandleKeyRepeat(unsigned key, unsigned keychar)
 }
 
 
+/*----------------------------------------------------------------------------
+  --  MyOpenGLGraphics
+  ----------------------------------------------------------------------------*/
+
+class MyOpenGLGraphics : public gcn::Graphics
+{
+public:
+	virtual void _beginDraw();
+	virtual void _endDraw();
+
+	virtual void drawImage(const gcn::Image *image, int srcX, int srcY,
+		int dstX, int dstY, int width, int height);
+
+	virtual void drawPoint(int x, int y);
+	virtual void drawLine(int x1, int y1, int x2, int y2);
+	virtual void drawRectangle(const gcn::Rectangle &rectangle);
+	virtual void fillRectangle(const gcn::Rectangle &rectangle);
+
+	virtual void setColor(const gcn::Color &color) { mColor = color; }
+	virtual const gcn::Color &getColor() { return mColor; }
+
+private:
+	gcn::Color mColor;
+};
+
+void MyOpenGLGraphics::_beginDraw()
+{
+	gcn::Rectangle area(0, 0, Video.Width, Video.Height);
+	pushClipArea(area);
+}
+
+void MyOpenGLGraphics::_endDraw()
+{
+	popClipArea();
+}
+
+void MyOpenGLGraphics::drawImage(const gcn::Image* image, int srcX, int srcY,
+	int dstX, int dstY, int width, int height)
+{
+	const gcn::ClipRectangle &r = this->getCurrentClipArea();
+	int right = std::min(r.x + r.width - 1, Video.Width - 1);
+	int bottom = std::min(r.y + r.height - 1, Video.Height - 1);
+
+	if (r.x > right || r.y > bottom) {
+		return;
+	}
+
+	PushClipping();
+	SetClipping(r.x, r.y, right, bottom);
+	((CGraphic *)image)->DrawSubClip(srcX, srcY, width, height,
+		dstX + mClipStack.top().xOffset, dstY + mClipStack.top().yOffset);
+	PopClipping();
+}
+
+void MyOpenGLGraphics::drawPoint(int x, int y)
+{
+	gcn::Color c = this->getColor();
+	Video.DrawPixelClip(Video.MapRGBA(c.r, c.g, c.b, c.a),
+		x + mClipStack.top().xOffset, y + mClipStack.top().yOffset);
+}
+
+void MyOpenGLGraphics::drawLine(int x1, int y1, int x2, int y2)
+{
+	gcn::Color c = this->getColor();
+	Video.DrawLineClip(Video.MapRGBA(c.r, c.g, c.b, c.a),
+		x1 + mClipStack.top().xOffset, y1 + mClipStack.top().yOffset,
+		x2 + mClipStack.top().xOffset, y2 + mClipStack.top().yOffset);
+}
+
+void MyOpenGLGraphics::drawRectangle(const gcn::Rectangle& rectangle)
+{
+	gcn::Rectangle area = rectangle;
+	gcn::ClipRectangle top = mClipStack.top();
+	gcn::Color c = this->getColor();
+
+	area.x += top.xOffset;
+	area.y += top.yOffset;
+
+	if (!area.intersect(top) || c.a == 0) {
+		return;
+	}
+
+	int x1 = std::max(area.x, top.x);
+	int y1 = std::max(area.y, top.y);
+	int x2 = std::min(area.x + area.width, top.x + top.width);
+	int y2 = std::min(area.y + area.height, top.y + top.height);
+
+	Video.DrawTransRectangle(Video.MapRGB(c.r, c.g, c.b),
+		x1, y1, x2 - x1, y2 - y1, mColor.a);
+}
+
+void MyOpenGLGraphics::fillRectangle(const gcn::Rectangle& rectangle)
+{
+	gcn::Rectangle area = rectangle;
+	gcn::ClipRectangle top = mClipStack.top();
+	gcn::Color c = this->getColor();
+
+	area.x += top.xOffset;
+	area.y += top.yOffset;
+
+	if (!area.intersect(top) || c.a == 0) {
+		return;
+	}
+
+	int x1 = std::max(area.x, top.x);
+	int y1 = std::max(area.y, top.y);
+	int x2 = std::min(area.x + area.width, top.x + top.width);
+	int y2 = std::min(area.y + area.height, top.y + top.height);
+
+	Video.FillTransRectangle(Video.MapRGB(c.r, c.g, c.b),
+		x1, y1, x2 - x1, y2 - y1, c.a);
+}
+
+/*----------------------------------------------------------------------------
+  -- Guichan glue code
+  ---------------------------------------------------------------------------- */
+
 /**
 **  Initializes the GUI stuff
 */
@@ -191,100 +308,6 @@ void LuaActionListener::action(const std::string &eventId)
 */
 LuaActionListener::~LuaActionListener()
 {
-}
-
-
-/*----------------------------------------------------------------------------
---  MyOpenGLGraphics
-----------------------------------------------------------------------------*/
-
-
-void MyOpenGLGraphics::_beginDraw()
-{
-	gcn::Rectangle area(0, 0, Video.Width, Video.Height);
-	pushClipArea(area);
-}
-
-void MyOpenGLGraphics::_endDraw()
-{
-	popClipArea();
-}
-
-void MyOpenGLGraphics::drawImage(const gcn::Image* image, int srcX, int srcY,
-	int dstX, int dstY, int width, int height)
-{
-	const gcn::ClipRectangle &r = this->getCurrentClipArea();
-	int right = std::min(r.x + r.width - 1, Video.Width - 1);
-	int bottom = std::min(r.y + r.height - 1, Video.Height - 1);
-
-	if (r.x > right || r.y > bottom) {
-		return;
-	}
-
-	PushClipping();
-	SetClipping(r.x, r.y, right, bottom);
-	((CGraphic *)image)->DrawSubClip(srcX, srcY, width, height,
-		dstX + mClipStack.top().xOffset, dstY + mClipStack.top().yOffset);
-	PopClipping();
-}
-
-void MyOpenGLGraphics::drawPoint(int x, int y)
-{
-	gcn::Color c = this->getColor();
-	Video.DrawPixelClip(Video.MapRGBA(c.r, c.g, c.b, c.a),
-		x + mClipStack.top().xOffset, y + mClipStack.top().yOffset);
-}
-
-void MyOpenGLGraphics::drawLine(int x1, int y1, int x2, int y2)
-{
-	gcn::Color c = this->getColor();
-	Video.DrawLineClip(Video.MapRGBA(c.r, c.g, c.b, c.a),
-		x1 + mClipStack.top().xOffset, y1 + mClipStack.top().yOffset,
-		x2 + mClipStack.top().xOffset, y2 + mClipStack.top().yOffset);
-}
-
-void MyOpenGLGraphics::drawRectangle(const gcn::Rectangle& rectangle)
-{
-	gcn::Rectangle area = rectangle;
-	gcn::ClipRectangle top = mClipStack.top();
-	gcn::Color c = this->getColor();
-
-	area.x += top.xOffset;
-	area.y += top.yOffset;
-
-	if (!area.intersect(top) || c.a == 0) {
-		return;
-	}
-
-	int x1 = std::max(area.x, top.x);
-	int y1 = std::max(area.y, top.y);
-	int x2 = std::min(area.x + area.width, top.x + top.width);
-	int y2 = std::min(area.y + area.height, top.y + top.height);
-
-	Video.DrawTransRectangle(Video.MapRGB(c.r, c.g, c.b),
-		x1, y1, x2 - x1, y2 - y1, mColor.a);
-}
-
-void MyOpenGLGraphics::fillRectangle(const gcn::Rectangle& rectangle)
-{
-	gcn::Rectangle area = rectangle;
-	gcn::ClipRectangle top = mClipStack.top();
-	gcn::Color c = this->getColor();
-
-	area.x += top.xOffset;
-	area.y += top.yOffset;
-
-	if (!area.intersect(top) || c.a == 0) {
-		return;
-	}
-
-	int x1 = std::max(area.x, top.x);
-	int y1 = std::max(area.y, top.y);
-	int x2 = std::min(area.x + area.width, top.x + top.width);
-	int y2 = std::min(area.y + area.height, top.y + top.height);
-
-	Video.FillTransRectangle(Video.MapRGB(c.r, c.g, c.b),
-		x1, y1, x2 - x1, y2 - y1, c.a);
 }
 
 
