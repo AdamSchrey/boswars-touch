@@ -753,7 +753,6 @@ void WaitEventsOneFrame()
 void RealizeVideoMemory(void)
 {
 	if (NumRects) {
-		SDL_UpdateTexture(TheTexture, NULL, TheScreen->pixels, TheScreen->pitch);
 		SDL_RenderPresent(TheRenderer);
 		NumRects = 0;
 	}

@@ -126,9 +126,8 @@ void CGraphic::DrawSub(int gx, int gy, int w, int h, int x, int y) const
 		static_cast<Uint16>(h)
 	};
 
-	SDL_BlitSurface(Surface, &srect, TheScreen, &drect);
-	if (texture)
-		SDL_RenderCopy(TheRenderer, texture, &srect, &drect);
+	Assert(texture);
+	SDL_RenderCopy(TheRenderer, texture, &srect, &drect);
 }
 
 /**
@@ -163,7 +162,6 @@ void CGraphic::DrawSubClip(int gx, int gy, int w, int h, int x, int y) const
 void CGraphic::DrawSubTrans(int gx, int gy, int w, int h, int x, int y,
 	unsigned char alpha) const
 {
-	Uint8 oldalpha = 255;
 	SDL_Rect srect = {
 		static_cast<Sint16>(gx),
 		static_cast<Sint16>(gy),
@@ -177,10 +175,6 @@ void CGraphic::DrawSubTrans(int gx, int gy, int w, int h, int x, int y,
 		static_cast<Uint16>(h)
 	};
 
-	SDL_GetSurfaceAlphaMod(Surface, &oldalpha);
-	SDL_SetSurfaceAlphaMod(Surface, alpha);
-	SDL_BlitSurface(Surface, &srect, TheScreen, &drect);
-	SDL_SetSurfaceAlphaMod(Surface, oldalpha);
 	if (texture) {
 		SDL_SetTextureAlphaMod(texture, alpha);
 		SDL_RenderCopy(TheRenderer, texture, &srect, &drect);
@@ -304,7 +298,6 @@ void CGraphic::DrawFrameX(unsigned frame, int x, int y) const
 	drect.w = Width;
 	drect.h = Height;
 
-	SDL_BlitSurface(Surface, &srect, TheScreen, &drect);
 	SDL_RenderCopyEx(TheRenderer, texture, &srect, &drect, 0, NULL,
 			SDL_FLIP_HORIZONTAL);
 }
@@ -340,7 +333,6 @@ void CGraphic::DrawFrameClipX(unsigned frame, int x, int y) const
 	drect.w = srect.w;
 	drect.h = srect.h;
 
-	SDL_BlitSurface(Surface, &srect, TheScreen, &drect);
 	SDL_RenderCopyEx(TheRenderer, texture, &srect, &drect, 0, NULL,
 			SDL_FLIP_HORIZONTAL);
 }
@@ -349,7 +341,6 @@ void CGraphic::DrawFrameTransX(unsigned frame, int x, int y, int alpha) const
 {
 	SDL_Rect srect;
 	SDL_Rect drect;
-	Uint8 oldalpha;
 
 	srect.x = (Surface->w - (frame % (Surface->w /
 		Width)) * Width) - Width;
@@ -360,10 +351,6 @@ void CGraphic::DrawFrameTransX(unsigned frame, int x, int y, int alpha) const
 	drect.x = x;
 	drect.y = y;
 
-	SDL_GetSurfaceAlphaMod(Surface, &oldalpha);
-	SDL_SetSurfaceAlphaMod(Surface, alpha);
-	SDL_BlitSurface(Surface, &srect, TheScreen, &drect);
-	SDL_SetSurfaceAlphaMod(Surface, oldalpha);
 	SDL_SetTextureAlphaMod(texture, alpha);
 	SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 	SDL_RenderCopyEx(TheRenderer, texture, &srect, &drect, 0, NULL,
@@ -376,7 +363,6 @@ void CGraphic::DrawFrameClipTransX(unsigned frame, int x, int y, int alpha) cons
 	SDL_Rect drect;
 	int oldx;
 	int oldy;
-	Uint8 oldalpha;
 
 	srect.x = (Surface->w - (frame % (Surface->w /
 		Width)) * Width) - Width;
@@ -393,10 +379,6 @@ void CGraphic::DrawFrameClipTransX(unsigned frame, int x, int y, int alpha) cons
 	drect.x = x;
 	drect.y = y;
 
-	SDL_GetSurfaceAlphaMod(Surface, &oldalpha);
-	SDL_SetSurfaceAlphaMod(Surface, alpha);
-	SDL_BlitSurface(Surface, &srect, TheScreen, &drect);
-	SDL_SetSurfaceAlphaMod(Surface, oldalpha);
 	SDL_SetTextureAlphaMod(texture, alpha);
 	SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 	SDL_RenderCopyEx(TheRenderer, texture, &srect, &drect, 0, NULL,

@@ -321,7 +321,6 @@ static void VideoDrawChar(const CGraphic *g,
 	};
 
 	SDL_SetPaletteColors(g->Surface->format->palette, FontColor->Colors, 0, MaxFontColors);
-	SDL_BlitSurface(g->Surface, &srect, TheScreen, &drect);
 	SDL_SetTextureColorMod(g->texture, FontColor->Colors[1].r, FontColor->Colors[1].g, FontColor->Colors[1].b);
 	SDL_RenderCopy(TheRenderer, g->texture, &srect, &drect);
 }

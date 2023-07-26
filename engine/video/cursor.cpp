@@ -287,7 +287,7 @@ void DrawCursor(void)
 				TheScreen->format->Bmask,
 				TheScreen->format->Amask);
 		}
-
+#if 0
 		SDL_Rect srcRect = {
 			static_cast<Sint16>(CursorX - GameCursor->HotX),
 			static_cast<Sint16>(CursorY - GameCursor->HotY),
@@ -296,6 +296,7 @@ void DrawCursor(void)
 		};
 		SDL_BlitSurface(TheScreen, &srcRect, HiddenSurface, NULL);
 		//SDL_RenderCopy(TheRenderer, HiddenSurface, &srcrect, NULL);
+#endif
 	}
 
 	//
@@ -315,6 +316,7 @@ void DrawCursor(void)
 void HideCursor(void)
 {
 	if (!GameRunning && !Editor.Running && !PatchEditorRunning && GameCursor) {
+#if 0
 		SDL_Rect dstRect = {
 			static_cast<Sint16>(CursorX - GameCursor->HotX),
 			static_cast<Sint16>(CursorY - GameCursor->HotY),
@@ -322,6 +324,7 @@ void HideCursor(void)
 			0
 		};
  		SDL_BlitSurface(HiddenSurface, NULL, TheScreen, &dstRect);
+#endif
 	}
 }
 

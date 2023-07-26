@@ -287,7 +287,7 @@ void FillRectangle(Uint32 color, int x, int y, int w, int h)
 		static_cast<Uint16>(w),
 		static_cast<Uint16>(h)
 	};
-	SDL_FillRect(TheScreen, &drect, color);
+
 	set_renderer_color(color, 255);
 	SDL_RenderFillRect(TheRenderer, &drect);
 }
