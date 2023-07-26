@@ -852,6 +852,8 @@ void CGraphic::Resize(int w, int h)
 
 	Width = GraphicWidth = w;
 	Height = GraphicHeight = h;
+	SDL_DestroyTexture(texture);
+	texture = SDL_CreateTextureFromSurface(TheRenderer, Surface);
 }
 
 /**
