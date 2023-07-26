@@ -79,8 +79,6 @@ CUnitType *CursorBuilding;           /// building cursor
 /*--- DRAW SPRITE CURSOR ---------------------------------------------------*/
 CCursor *GameCursor;                 /// current shown cursor-type
 
-static SDL_Surface *HiddenSurface;
-
 
 /**
 **  Load all cursor sprites.
@@ -269,36 +267,6 @@ void DrawCursor(void)
 		DrawBuildingCursor();
 	}
 
-	if (!GameRunning && !Editor.Running && !PatchEditorRunning && GameCursor) {
-		if (!HiddenSurface ||
-			HiddenSurface->w != GameCursor->G->getWidth() ||
-			HiddenSurface->h != GameCursor->G->getHeight())
-		{
-			if (HiddenSurface) {
-				SDL_FreeSurface(HiddenSurface);
-			}
-
-			HiddenSurface = SDL_CreateRGBSurface(SDL_SWSURFACE,
-				GameCursor->G->getWidth(),
-				GameCursor->G->getHeight(),
-				TheScreen->format->BitsPerPixel,
-				TheScreen->format->Rmask,
-				TheScreen->format->Gmask,
-				TheScreen->format->Bmask,
-				TheScreen->format->Amask);
-		}
-#if 0
-		SDL_Rect srcRect = {
-			static_cast<Sint16>(CursorX - GameCursor->HotX),
-			static_cast<Sint16>(CursorY - GameCursor->HotY),
-			static_cast<Uint16>(GameCursor->G->getWidth()),
-			static_cast<Uint16>(GameCursor->G->getHeight())
-		};
-		SDL_BlitSurface(TheScreen, &srcRect, HiddenSurface, NULL);
-		//SDL_RenderCopy(TheRenderer, HiddenSurface, &srcrect, NULL);
-#endif
-	}
-
 	//
 	//  Last, Normal cursor.
 	//  Cursor may not exist if we are loading a game or something. Only
@@ -310,23 +278,6 @@ void DrawCursor(void)
 	}
 }
 
-/**
-**  Hide the cursor
-*/
-void HideCursor(void)
-{
-	if (!GameRunning && !Editor.Running && !PatchEditorRunning && GameCursor) {
-#if 0
-		SDL_Rect dstRect = {
-			static_cast<Sint16>(CursorX - GameCursor->HotX),
-			static_cast<Sint16>(CursorY - GameCursor->HotY),
-			0,
-			0
-		};
- 		SDL_BlitSurface(HiddenSurface, NULL, TheScreen, &dstRect);
-#endif
-	}
-}
 
 /**
 **  Animate the cursor.

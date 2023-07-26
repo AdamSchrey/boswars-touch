@@ -784,7 +784,6 @@ void RealizeVideoMemory(void)
 	}
 	SDL_SetRenderDrawColor(TheRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(TheRenderer);
-	HideCursor();
 }
 
 /**

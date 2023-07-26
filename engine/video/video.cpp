@@ -83,7 +83,6 @@
 #include "video.h"
 #include "font.h"
 #include "ui.h"
-#include "cursor.h"
 #include "iolib.h"
 #include "intern_video.h"
 #include "SDL.h"
