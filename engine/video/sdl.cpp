@@ -280,8 +280,10 @@ void InitVideoSdl(void)
 		exit(1);
 	}
 
-	if (!TheRenderer)
+	if (!TheRenderer) {
 		TheRenderer = SDL_CreateRenderer(TheWindow, -1, 0);
+		SDL_RenderClear(TheRenderer);
+	}
 	SDL_RenderSetLogicalSize(TheRenderer, Video.Width, Video.Height);
 	SDL_SetRenderDrawColor(TheRenderer, 0, 0, 0, 255);
 	TheScreen = SDL_CreateRGBSurface(0, Video.Width, Video.Height, 32,
@@ -755,6 +757,8 @@ void RealizeVideoMemory(void)
 		SDL_RenderPresent(TheRenderer);
 		NumRects = 0;
 	}
+	SDL_SetRenderDrawColor(TheRenderer, 0, 0, 0, 255);
+	SDL_RenderClear(TheRenderer);
 	HideCursor();
 }
 
