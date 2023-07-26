@@ -102,10 +102,6 @@ struct Clip {
 
 extern void InitVideoSdl(void);         /// Init SDL video hardware driver
 
-extern void SdlLockScreen(void);        /// Do SDL hardware lock
-extern void SdlUnlockScreen(void);      /// Do SDL hardware unlock
-
-
 CVideo Video;
 
 char VideoForceFullScreen;           /// fullscreen set from commandline
@@ -179,22 +175,6 @@ void PopClipping(void)
 	Clips.pop_back();
 }
 
-
-/**
-**  Lock the screen for write access.
-*/
-void CVideo::LockScreen(void)
-{
-	SdlLockScreen();
-}
-
-/**
-**  Unlock the screen for write access.
-*/
-void CVideo::UnlockScreen(void)
-{
-	SdlUnlockScreen();
-}
 
 /**
 **  Clear the video screen.

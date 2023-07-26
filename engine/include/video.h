@@ -213,9 +213,6 @@ class CVideo
 public:
 	CVideo() : Width(0), Height(0), Depth(0), FullScreen(false) {}
 
-	void LockScreen();
-	void UnlockScreen();
-
 	void ClearScreen();
 	bool ResizeScreen(int x, int y);
 

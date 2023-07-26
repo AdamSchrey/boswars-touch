@@ -788,26 +788,6 @@ void RealizeVideoMemory(void)
 }
 
 /**
-**  Lock the screen for write access.
-*/
-void SdlLockScreen(void)
-{
-	if (SDL_MUSTLOCK(TheScreen)) {
-		SDL_LockSurface(TheScreen);
-	}
-}
-
-/**
-**  Unlock the screen for write access.
-*/
-void SdlUnlockScreen(void)
-{
-	if (SDL_MUSTLOCK(TheScreen)) {
-		SDL_UnlockSurface(TheScreen);
-	}
-}
-
-/**
 **  Convert a SDLKey to a string
 */
 const char *SdlKey2Str(int key)
