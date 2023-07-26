@@ -54,8 +54,6 @@ int *VisionLookup;
 
 static unsigned short *VisibleTable;
 
-static CGraphic *AlphaFogG = NULL;
-
 
 /**
 **  Find out if a field is seen (By player, or by shared vision)
@@ -512,60 +510,7 @@ void CViewport::DrawMapFogOfWar() const
 */
 void CMap::InitFogOfWar(void)
 {
-	Uint8 r, g, b;
-	SDL_Surface *s = NULL;
-
 	FogGraphic->Load();
-
-	if (!AlphaFogG) {
-		//
-		// Generate Alpha Fog surface.
-		//
-		if (FogGraphic->Surface->format->BytesPerPixel == 1) {
-			s = SDL_ConvertSurfaceFormat(FogGraphic->Surface, SDL_PIXELFORMAT_RGBA32, 0);
-			SDL_SetSurfaceAlphaMod(s, FogOfWarOpacity);
-		} else {
-			int i;
-			int j;
-			Uint32 c;
-			Uint8 a;
-			SDL_PixelFormat *f;
-
-			// Copy the top row to a new surface
-			f = FogGraphic->Surface->format;
-			s = SDL_CreateRGBSurface(SDL_SWSURFACE, FogGraphic->Surface->w, TileSizeY,
-				f->BitsPerPixel, f->Rmask, f->Gmask, f->Bmask, f->Amask);
-			SDL_LockSurface(s);
-			SDL_LockSurface(FogGraphic->Surface);
-			for (i = 0; i < s->h; ++i) {
-				memcpy((Uint8 *)s->pixels + i * s->pitch,
-					(Uint8 *)FogGraphic->Surface->pixels + i * FogGraphic->Surface->pitch,
-					FogGraphic->Surface->w * f->BytesPerPixel);
-			}
-			SDL_UnlockSurface(FogGraphic->Surface);
-
-			// Convert any non-transparent pixels to use FogOfWarOpacity as alpha
-			for (j = 0; j < s->h; ++j) {
-				for (i = 0; i < s->w; ++i) {
-					c = *(Uint32 *)&((Uint8*)s->pixels)[i * 4 + j * s->pitch];
-					SDL_GetRGBA(c, s->format, &r, &g, &b, &a);
-					if (a) {
-						c = SDL_MapRGBA(s->format, r, g, b, FogOfWarOpacity);
-						*(Uint32 *)&((Uint8*)s->pixels)[i * 4 + j * s->pitch] = c;
-					}
-
-				}
-			}
-			SDL_UnlockSurface(s);
-		}
-		AlphaFogG = CGraphic::New("");
-		AlphaFogG->Surface = s;
-		AlphaFogG->Width = TileSizeX;
-		AlphaFogG->Height = TileSizeY;
-		AlphaFogG->GraphicWidth = s->w;
-		AlphaFogG->GraphicHeight = s->h;
-		AlphaFogG->NumFrames = 1;
-	}
 
 	delete[] VisibleTable;
 	VisibleTable = new unsigned short[Info.MapWidth * Info.MapHeight];
@@ -581,9 +526,6 @@ void CMap::CleanFogOfWar()
 
 	CGraphic::Free(FogGraphic);
 	FogGraphic = NULL;
-
-	CGraphic::Free(AlphaFogG);
-	AlphaFogG = NULL;
 }
 
 /**
