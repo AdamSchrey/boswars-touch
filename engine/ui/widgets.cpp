@@ -211,7 +211,7 @@ void initGuichan()
 	Gui->setGraphics(graphics);
 	Gui->setInput(Input);
 	Gui->setTop(NULL);
-	Gui->setUseDirtyDrawing(true);
+	Gui->setUseDirtyDrawing(false);
 
 	GuichanCallbacks.ButtonPressed = &MenuHandleButtonDown;
 	GuichanCallbacks.ButtonReleased = &MenuHandleButtonUp;
@@ -263,7 +263,7 @@ void handleInput(const SDL_Event *event)
 void DrawGuichanWidgets()
 {
 	if (Gui) {
-		Gui->setUseDirtyDrawing(!GameRunning && !Editor.Running && !PatchEditorRunning);
+		Gui->setUseDirtyDrawing(false);
 		Gui->draw();
 	}
 }
