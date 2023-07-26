@@ -54,7 +54,6 @@ int *VisionLookup;
 
 static unsigned short *VisibleTable;
 
-static SDL_Surface *OnlyFogSurface;
 static CGraphic *AlphaFogG = NULL;
 
 
@@ -514,23 +513,11 @@ void CViewport::DrawMapFogOfWar() const
 void CMap::InitFogOfWar(void)
 {
 	Uint8 r, g, b;
-	Uint32 color;
 	SDL_Surface *s = NULL;
 
 	FogGraphic->Load();
 
 	if (!AlphaFogG) {
-		//
-		// Generate Only Fog surface.
-		//
-		OnlyFogSurface = SDL_CreateRGBSurface(SDL_SWSURFACE, TileSizeX, TileSizeY,
-			32, RMASK, GMASK, BMASK, AMASK);
-
-		SDL_GetRGB(ColorBlack, TheScreen->format, &r, &g, &b);
-		color = SDL_MapRGBA(OnlyFogSurface->format, r, g, b, FogOfWarOpacity);
-
-		SDL_FillRect(OnlyFogSurface, NULL, color);
-
 		//
 		// Generate Alpha Fog surface.
 		//
@@ -594,10 +581,6 @@ void CMap::CleanFogOfWar()
 
 	CGraphic::Free(FogGraphic);
 	FogGraphic = NULL;
-
-	if (OnlyFogSurface) {
-		OnlyFogSurface = NULL;
-	}
 
 	CGraphic::Free(AlphaFogG);
 	AlphaFogG = NULL;
