@@ -61,6 +61,7 @@
 #include "minimap.h"
 #include "widgets.h"
 #include "editor.h"
+#include "iolib.h"
 
 
 SDL_Window *TheWindow; /// Internal screen
@@ -743,10 +744,40 @@ void WaitEventsOneFrame()
 
 
 /**
+**  Save a screenshot.
+*/
+static void Screenshot(void)
+{
+	CFile fd;
+	char filename[30];
+	int i;
+
+	for (i = 1; i <= 99; ++i) {
+		// FIXME: what if we can't write to this directory?
+		sprintf_s(filename, sizeof(filename), "screen%02d.png", i);
+		if (fd.open(filename, CL_OPEN_READ) == -1) {
+			break;
+		}
+		fd.close();
+	}
+	SaveScreenshotPNG(filename);
+}
+
+int needScreenshot = 0;
+
+/**
 **  Realize video memory.
 */
 void RealizeVideoMemory(void)
 {
+	if (needScreenshot) {
+		Screenshot();
+		if (GameRunning) {
+			SetMessage("%s", _("Screenshot made."));
+		}
+		needScreenshot = 0;
+	}
+
 	if (NumRects) {
 		SDL_RenderPresent(TheRenderer);
 		NumRects = 0;

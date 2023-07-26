@@ -827,25 +827,8 @@ static int InputKey(int key)
 	return 0;
 }
 
-/**
-**  Save a screenshot.
-*/
-static void Screenshot(void)
-{
-	CFile fd;
-	char filename[30];
-	int i;
 
-	for (i = 1; i <= 99; ++i) {
-		// FIXME: what if we can't write to this directory?
-		sprintf_s(filename, sizeof(filename), "screen%02d.png", i);
-		if (fd.open(filename, CL_OPEN_READ) == -1) {
-			break;
-		}
-		fd.close();
-	}
-	SaveScreenshotPNG(filename);
-}
+extern int needScreenshot;
 
 /**
 **  Update KeyModifiers if a key is pressed.
@@ -880,10 +863,7 @@ int HandleKeyModifiersDown(unsigned key, unsigned keychar)
 			return 1;
 		case SDLK_SYSREQ:
 		case SDLK_PRINTSCREEN:
-			Screenshot();
-			if (GameRunning) {
-				SetMessage("%s", _("Screenshot made."));
-			}
+			needScreenshot = 1;
 			return 1;
 		default:
 			break;

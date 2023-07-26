@@ -322,8 +322,6 @@ void SaveScreenshotPNG(const std::string &name)
 	png_structp png_ptr;
 	png_infop info_ptr;
 	int i;
-	int j;
-
 
 	fp = fopen(name.c_str(), "wb");
 	if (fp == NULL) {
@@ -357,51 +355,22 @@ void SaveScreenshotPNG(const std::string &name)
 		PNG_COLOR_TYPE_RGB, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT,
 		PNG_FILTER_TYPE_DEFAULT);
 
-	Video.LockScreen();
-
 	png_write_info(png_ptr, info_ptr);
 
-	unsigned char *row = new unsigned char[Video.Width * 3];
-	SDL_PixelFormat *fmt = TheScreen->format;
+	unsigned char *pixels = new unsigned char[Video.Width * Video.Height * 3];
+	unsigned char *row = pixels;
+
+	SDL_RenderReadPixels(TheRenderer, NULL, SDL_PIXELFORMAT_RGB24,
+		pixels, Video.Width * 3);
 
 	for (i = 0; i < Video.Height; ++i) {
-		switch (Video.Depth) {
-			case 15:
-			case 16: {
-				Uint16 c;
-				for (j = 0; j < Video.Width; ++j) {
-					c = ((Uint16 *)TheScreen->pixels)[j + i * Video.Width];
-					row[j * 3 + 0] = ((c & fmt->Rmask) >> fmt->Rshift) << fmt->Rloss;
-					row[j * 3 + 1] = ((c & fmt->Gmask) >> fmt->Gshift) << fmt->Gloss;
-					row[j * 3 + 2] = ((c & fmt->Bmask) >> fmt->Bshift) << fmt->Bloss;
-				}
-				break;
-			}
-			case 24: {
-				char *c;
-				c = (char *)TheScreen->pixels + i * Video.Width * 3;
-				memcpy(row, c, Video.Width * 3);
-				break;
-			}
-			case 32: {
-				Uint32 c;
-				for (j = 0; j < Video.Width; ++j) {
-					c = ((Uint32 *)TheScreen->pixels)[j + i * Video.Width];
-					row[j * 3 + 0] = ((c & fmt->Rmask) >> fmt->Rshift);
-					row[j * 3 + 1] = ((c & fmt->Gmask) >> fmt->Gshift);
-					row[j * 3 + 2] = ((c & fmt->Bmask) >> fmt->Bshift);
-				}
-				break;
-			}
-		}
 		png_write_row(png_ptr, row);
+		row += Video.Width * 3;
 	}
 
-	delete[] row;
+	delete[] pixels;
 
 	png_write_end(png_ptr, info_ptr);
-
-	Video.UnlockScreen();
 
 	/* clean up after the write, and free any memory allocated */
 	png_destroy_write_struct(&png_ptr, &info_ptr);
