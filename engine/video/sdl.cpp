@@ -65,7 +65,6 @@
 
 SDL_Window *TheWindow; /// Internal screen
 SDL_Renderer *TheRenderer = NULL; /// Internal screen
-SDL_Texture *TheTexture; /// Internal screen
 SDL_Surface *TheScreen; /// Internal screen
 
 static SDL_Rect Rects[100];
@@ -291,10 +290,6 @@ void InitVideoSdl(void)
 										0x0000FF00,
 										0x000000FF,
 										0);
-	TheTexture = SDL_CreateTexture(TheRenderer,
-									  SDL_PIXELFORMAT_ARGB8888,
-									  SDL_TEXTUREACCESS_STREAMING,
-									  Video.Width, Video.Height);
 
 	Video.FullScreen = (SDL_GetWindowFlags(TheWindow) & SDL_WINDOW_FULLSCREEN_DESKTOP) ? 1 : 0;
 	Video.Depth = TheScreen->format->BitsPerPixel;

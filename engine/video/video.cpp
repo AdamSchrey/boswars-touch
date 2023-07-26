@@ -215,11 +215,6 @@ bool CVideo::ResizeScreen(int w, int h)
 		Width = w;
 		Height = h;
 		SDL_RenderSetLogicalSize(TheRenderer, w, h);
-		SDL_DestroyTexture(TheTexture);
-		TheTexture = SDL_CreateTexture(TheRenderer,
-                                      SDL_PIXELFORMAT_ARGB8888,
-                                      SDL_TEXTUREACCESS_STREAMING,
-                                      w, h);
 		SDL_SetWindowSize(TheWindow, w, h);
 		SDL_FreeSurface(TheScreen);
 		TheScreen = SDL_CreateRGBSurface(0, w, h, 32,

@@ -301,7 +301,6 @@ extern void SetPlayersPalette(void);
 
 extern SDL_Window *TheWindow;
 extern SDL_Renderer *TheRenderer;
-extern SDL_Texture *TheTexture;
 
 	/// initialize the video part
 extern void InitVideo(void);
