@@ -576,7 +576,7 @@ void CMap::InitFogOfWar(void)
 			for (j = 0; j < s->h; ++j) {
 				for (i = 0; i < s->w; ++i) {
 					c = *(Uint32 *)&((Uint8*)s->pixels)[i * 4 + j * s->pitch];
-					Video.GetRGBA(c, s->format, &r, &g, &b, &a);
+					SDL_GetRGBA(c, s->format, &r, &g, &b, &a);
 					if (a) {
 						c = SDL_MapRGBA(s->format, r, g, b, FogOfWarOpacity);
 						*(Uint32 *)&((Uint8*)s->pixels)[i * 4 + j * s->pitch] = c;

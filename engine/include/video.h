@@ -252,12 +252,6 @@ public:
 	inline Uint32 MapRGBA(Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
 		return SDL_MapRGBA(TheScreen->format, r, g, b, a);
 	}
-	inline void GetRGB(Uint32 c, SDL_PixelFormat *f, Uint8 *r, Uint8 *g, Uint8 *b) {
-		SDL_GetRGB(c, f, r, g, b);
-	}
-	inline void GetRGBA(Uint32 c, SDL_PixelFormat *f, Uint8 *r, Uint8 *g, Uint8 *b, Uint8 *a) {
-		SDL_GetRGBA(c, f, r, g, b, a);
-	}
 
 	int Width;
 	int Height;
