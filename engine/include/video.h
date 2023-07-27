@@ -193,6 +193,10 @@ typedef struct _event_callback_ {
 #endif
 
 
+/// The SDL screen
+extern SDL_Surface *TheScreen;
+
+
 class CVideo
 {
 public:
@@ -242,8 +246,8 @@ public:
 	void FillCircleClip(Uint32 color, int x, int y, int radius);
 	void FillTransCircleClip(Uint32 color, int x, int y, int radius, unsigned char alpha);
 
-	inline Uint32 MapRGB(SDL_PixelFormat *f, Uint8 r, Uint8 g, Uint8 b) {
-		return SDL_MapRGB(f, r, g, b);
+	inline Uint32 MapRGB(Uint8 r, Uint8 g, Uint8 b) {
+		return SDL_MapRGB(TheScreen->format, r, g, b);
 	}
 	inline Uint32 MapRGBA(SDL_PixelFormat *f, Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
 		return SDL_MapRGBA(f, r, g, b, a);
@@ -293,8 +297,6 @@ extern void SetPlayersPalette(void);
 extern SDL_Window *TheWindow;
 extern SDL_Renderer *TheRenderer;
 extern SDL_Texture *TheTexture;
-	/// The SDL screen
-extern SDL_Surface *TheScreen;
 
 	/// initialize the video part
 extern void InitVideo(void);

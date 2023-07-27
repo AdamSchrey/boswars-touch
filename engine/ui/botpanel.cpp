@@ -285,7 +285,7 @@ static void DrawPopup()
 {
 	ButtonAction *button = &CurrentButtons[ButtonUnderCursor];
 	CUIButton *uibutton = &UI.ButtonPanel.Buttons[ButtonUnderCursor];
-	Uint32 backgroundColor = Video.MapRGB(TheScreen->format, 255, 255, 200);
+	Uint32 backgroundColor = Video.MapRGB(255, 255, 200);
 
 	// Draw hint
 	if (button->Action != ButtonBuild && button->Action != ButtonTrain) {

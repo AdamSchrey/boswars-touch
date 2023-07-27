@@ -261,7 +261,7 @@ void MyOpenGLGraphics::drawRectangle(const gcn::Rectangle& rectangle)
 	int x2 = std::min(area.x + area.width, top.x + top.width);
 	int y2 = std::min(area.y + area.height, top.y + top.height);
 
-	Video.DrawTransRectangle(Video.MapRGB(0, c.r, c.g, c.b),
+	Video.DrawTransRectangle(Video.MapRGB(c.r, c.g, c.b),
 		x1, y1, x2 - x1, y2 - y1, mColor.a);
 }
 
@@ -283,7 +283,7 @@ void MyOpenGLGraphics::fillRectangle(const gcn::Rectangle& rectangle)
 	int x2 = std::min(area.x + area.width, top.x + top.width);
 	int y2 = std::min(area.y + area.height, top.y + top.height);
 
-	Video.FillTransRectangle(Video.MapRGB(0, c.r, c.g, c.b),
+	Video.FillTransRectangle(Video.MapRGB(c.r, c.g, c.b),
 		x1, y1, x2 - x1, y2 - y1, c.a);
 }
 

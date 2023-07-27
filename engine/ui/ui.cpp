@@ -115,7 +115,7 @@ void InitUserInterface(void)
 
 	SetViewportMode(VIEWPORT_SINGLE);
 
-	UI.CompletedBarColor = Video.MapRGB(TheScreen->format,
+	UI.CompletedBarColor = Video.MapRGB(
 		UI.CompletedBarColorRGB.r,
 		UI.CompletedBarColorRGB.g,
 		UI.CompletedBarColorRGB.b);

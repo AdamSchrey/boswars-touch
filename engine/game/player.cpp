@@ -81,7 +81,7 @@ void InitPlayers(void)
 			Players[p].Type = PlayerNobody;
 		}
 		for (int x = 0; x < PlayerColorIndexCount; ++x) {
-			PlayerColors[p][x] = Video.MapRGB(TheScreen->format,
+			PlayerColors[p][x] = Video.MapRGB(
 				PlayerColorsRGB[p][x].r,
 				PlayerColorsRGB[p][x].g, PlayerColorsRGB[p][x].b);
 		}

@@ -222,7 +222,7 @@ static int CclPlayer(lua_State *l)
 			r = LuaToNumber(l, j + 1, 1);
 			g = LuaToNumber(l, j + 1, 2);
 			b = LuaToNumber(l, j + 1, 3);
-			player->Color = Video.MapRGB(TheScreen->format, r, g, b);
+			player->Color = Video.MapRGB(r, g, b);
 		} else {
 		   LuaError(l, "Unsupported tag: %s" _C_ value);
 		}

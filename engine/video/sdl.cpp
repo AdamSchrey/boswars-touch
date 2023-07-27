@@ -302,17 +302,17 @@ void InitVideoSdl(void)
 
 	InitKey2Str();
 
-	ColorBlack = Video.MapRGB(TheScreen->format, 0, 0, 0);
-	ColorDarkGreen = Video.MapRGB(TheScreen->format, 48, 100, 4);
-	ColorDarkBlue = Video.MapRGB(TheScreen->format, 0, 0, 96);
-	ColorBlue = Video.MapRGB(TheScreen->format, 0, 0, 252);
-	ColorCyan = Video.MapRGB(TheScreen->format, 0, 160, 208);
-	ColorOrange = Video.MapRGB(TheScreen->format, 248, 140, 20);
-	ColorWhite = Video.MapRGB(TheScreen->format, 252, 248, 240);
-	ColorGray = Video.MapRGB(TheScreen->format, 128, 128, 128);
-	ColorRed = Video.MapRGB(TheScreen->format, 252, 0, 0);
-	ColorGreen = Video.MapRGB(TheScreen->format, 0, 252, 0);
-	ColorYellow = Video.MapRGB(TheScreen->format, 252, 252, 0);
+	ColorBlack = Video.MapRGB(0, 0, 0);
+	ColorDarkGreen = Video.MapRGB(48, 100, 4);
+	ColorDarkBlue = Video.MapRGB(0, 0, 96);
+	ColorBlue = Video.MapRGB(0, 0, 252);
+	ColorCyan = Video.MapRGB(0, 160, 208);
+	ColorOrange = Video.MapRGB(248, 140, 20);
+	ColorWhite = Video.MapRGB(252, 248, 240);
+	ColorGray = Video.MapRGB(128, 128, 128);
+	ColorRed = Video.MapRGB(252, 0, 0);
+	ColorGreen = Video.MapRGB(0, 252, 0);
+	ColorYellow = Video.MapRGB(252, 252, 0);
 
 	UI.MouseWarpX = UI.MouseWarpY = -1;
 }

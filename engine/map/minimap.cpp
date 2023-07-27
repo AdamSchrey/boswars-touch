@@ -269,7 +269,7 @@ static void DrawUnitOn(CUnit *unit, bool red_phase)
 	// Figure out what color to use
 	//
 	if (unit->Player->Index == PlayerNumNeutral) {
-		color = Video.MapRGB(TheScreen->format,
+		color = Video.MapRGB(
 			type->NeutralMinimapColorRGB.r,
 			type->NeutralMinimapColorRGB.g,
 			type->NeutralMinimapColorRGB.b);
