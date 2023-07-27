@@ -542,7 +542,7 @@ void CMap::InitFogOfWar(void)
 			32, RMASK, GMASK, BMASK, AMASK);
 
 		SDL_GetRGB(ColorBlack, TheScreen->format, &r, &g, &b);
-		color = Video.MapRGBA(OnlyFogSurface->format, r, g, b, FogOfWarOpacity);
+		color = SDL_MapRGBA(OnlyFogSurface->format, r, g, b, FogOfWarOpacity);
 
 		SDL_FillRect(OnlyFogSurface, NULL, color);
 
@@ -578,7 +578,7 @@ void CMap::InitFogOfWar(void)
 					c = *(Uint32 *)&((Uint8*)s->pixels)[i * 4 + j * s->pitch];
 					Video.GetRGBA(c, s->format, &r, &g, &b, &a);
 					if (a) {
-						c = Video.MapRGBA(s->format, r, g, b, FogOfWarOpacity);
+						c = SDL_MapRGBA(s->format, r, g, b, FogOfWarOpacity);
 						*(Uint32 *)&((Uint8*)s->pixels)[i * 4 + j * s->pitch] = c;
 					}
 

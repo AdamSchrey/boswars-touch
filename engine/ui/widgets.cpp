@@ -231,14 +231,14 @@ void MyOpenGLGraphics::drawImage(const gcn::Image* image, int srcX, int srcY,
 void MyOpenGLGraphics::drawPoint(int x, int y)
 {
 	gcn::Color c = this->getColor();
-	Video.DrawPixelClip(Video.MapRGBA(0, c.r, c.g, c.b, c.a),
+	Video.DrawPixelClip(Video.MapRGBA(c.r, c.g, c.b, c.a),
 		x + mClipStack.top().xOffset, y + mClipStack.top().yOffset);
 }
 
 void MyOpenGLGraphics::drawLine(int x1, int y1, int x2, int y2)
 {
 	gcn::Color c = this->getColor();
-	Video.DrawLineClip(Video.MapRGBA(0, c.r, c.g, c.b, c.a),
+	Video.DrawLineClip(Video.MapRGBA(c.r, c.g, c.b, c.a),
 		x1 + mClipStack.top().xOffset, y1 + mClipStack.top().yOffset,
 		x2 + mClipStack.top().xOffset, y2 + mClipStack.top().yOffset);
 }

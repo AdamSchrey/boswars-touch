@@ -172,7 +172,7 @@ void SetMinimapTerrainPixel(int x, int y, CColor color)
 {
 	int bpp = MinimapTerrainSurface->format->BytesPerPixel;
 	Uint8 *p = &((Uint8 *)MinimapTerrainSurface->pixels)[x * bpp + y * MinimapTerrainSurface->pitch];
-	Uint32 c = Video.MapRGBA(MinimapTerrainSurface->format, color.R, color.G, color.B, color.A);
+	Uint32 c = SDL_MapRGBA(MinimapTerrainSurface->format, color.R, color.G, color.B, color.A);
 	if (bpp == 2) {
 		*(Uint16 *)p = c;
 	} else {

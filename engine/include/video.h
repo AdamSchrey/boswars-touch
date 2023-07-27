@@ -249,8 +249,8 @@ public:
 	inline Uint32 MapRGB(Uint8 r, Uint8 g, Uint8 b) {
 		return SDL_MapRGB(TheScreen->format, r, g, b);
 	}
-	inline Uint32 MapRGBA(SDL_PixelFormat *f, Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
-		return SDL_MapRGBA(f, r, g, b, a);
+	inline Uint32 MapRGBA(Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
+		return SDL_MapRGBA(TheScreen->format, r, g, b, a);
 	}
 	inline void GetRGB(Uint32 c, SDL_PixelFormat *f, Uint8 *r, Uint8 *g, Uint8 *b) {
 		SDL_GetRGB(c, f, r, g, b);
