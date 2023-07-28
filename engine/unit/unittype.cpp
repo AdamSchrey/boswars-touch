@@ -373,9 +373,6 @@ void LoadUnitTypeSprite(CUnitType *type)
 		type->ShadowSprite = CGraphic::ForceNew(type->ShadowFile, type->ShadowWidth,
 			type->ShadowHeight);
 		type->ShadowSprite->Load();
-		if (type->Flip) {
-			type->ShadowSprite->Flip();
-		}
 		type->ShadowSprite->MakeShadow();
 	}
 
@@ -383,9 +380,6 @@ void LoadUnitTypeSprite(CUnitType *type)
 		type->Sprite = CPlayerColorGraphic::New(type->File, type->Width, type->Height);
 		type->Sprite->Load();
 		type->Sprite->createPlayerColorMask();
-		if (type->Flip) {
-			type->Sprite->Flip();
-		}
 	}
 }
 
