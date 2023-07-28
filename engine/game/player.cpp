@@ -809,35 +809,6 @@ void PlayersEachSecond(int player)
 }
 
 /**
-**  Change current color set to new player.
-**
-**  FIXME: use function pointer here.
-**
-**  @param player  Pointer to player.
-**  @param sprite  The sprite in which the colors should be changed.
-*/
-void GraphicPlayerPixels(CPlayer *player, const CGraphic *sprite)
-{
-	Assert(PlayerColorIndexCount);
-
-	if (sprite->Surface->format->palette == NULL) {
-		// Cannot set the player colors when there is no palette.
-		return;
-	}
-
-	// Skip units whose color palette does not cover the indexes
-	// for the player color.
-	if (sprite->Surface->format->palette->ncolors < PlayerColorIndexStart + PlayerColorIndexCount) {
-		return;
-	}
-
-	SDL_LockSurface(sprite->Surface);
-	SDL_SetPaletteColors(sprite->Surface->format->palette, player->UnitColors.Colors,
-		PlayerColorIndexStart, PlayerColorIndexCount);
-	SDL_UnlockSurface(sprite->Surface);
-}
-
-/**
 **  Setup the player colors for the current palette.
 **
 **  @todo  FIXME: could be called before PixelsXX is setup.
