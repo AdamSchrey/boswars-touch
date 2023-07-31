@@ -182,29 +182,15 @@ typedef struct _event_callback_ {
 
 } EventCallback;
 
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
-#define RSHIFT  0
+#define RSHIFT  16
 #define GSHIFT  8
-#define BSHIFT  16
+#define BSHIFT  0
 #define ASHIFT  24
-#define RMASK   0x000000ff
-#define GMASK   0x0000ff00
-#define BMASK   0x00ff0000
-#define AMASK   0xff000000
-#else
-#define RSHIFT  24
-#define GSHIFT  16
-#define BSHIFT  8
-#define ASHIFT  0
-#define RMASK   0xff000000
-#define GMASK   0x00ff0000
-#define BMASK   0x0000ff00
-#define AMASK   0x000000ff
-#endif
 
-
-/// The SDL screen
-extern SDL_Surface *TheScreen;
+#define RMASK   (0xff << (RSHIFT))
+#define GMASK   (0xff << (GSHIFT))
+#define BMASK   (0xff << (BSHIFT))
+#define AMASK   (0xff << (ASHIFT))
 
 
 class CVideo
@@ -254,10 +240,11 @@ public:
 	void FillTransCircleClip(Uint32 color, int x, int y, int radius, unsigned char alpha);
 
 	inline Uint32 MapRGB(Uint8 r, Uint8 g, Uint8 b) {
-		return SDL_MapRGB(TheScreen->format, r, g, b);
+		return MapRGBA(r, g, b, 255);
 	}
 	inline Uint32 MapRGBA(Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
-		return SDL_MapRGBA(TheScreen->format, r, g, b, a);
+		return ((Uint32)r << RSHIFT) | ((Uint32)g << GSHIFT)
+			| ((Uint32)b << BSHIFT) | ((Uint32)a << ASHIFT);
 	}
 
 	int Width;

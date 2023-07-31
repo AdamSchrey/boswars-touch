@@ -195,12 +195,6 @@ bool CVideo::ResizeScreen(int w, int h)
 		Height = h;
 		SDL_RenderSetLogicalSize(TheRenderer, w, h);
 		SDL_SetWindowSize(TheWindow, w, h);
-		SDL_FreeSurface(TheScreen);
-		TheScreen = SDL_CreateRGBSurface(0, w, h, 32,
-                                        0x00FF0000,
-                                        0x0000FF00,
-                                        0x000000FF,
-                                        0);
 		SetClipping(0, 0, Video.Width - 1, Video.Height - 1);
 		return true;
 	}

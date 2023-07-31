@@ -451,7 +451,9 @@ void SavePlayers(CFile *file)
 		file->printf("\n  \"total-razings\", %d,", p->TotalRazings);
 		file->printf("\n  \"total-kills\", %d,", p->TotalKills);
 
-		SDL_GetRGB(p->Color, TheScreen->format, &r, &g, &b);
+		r = (p->Color >> RSHIFT) & 0xFF;
+		g = (p->Color >> GSHIFT) & 0xFF;
+		b = (p->Color >> BSHIFT) & 0xFF;
 		file->printf("\n  \"color\", { %d, %d, %d }", r, g, b); // no comma after last parameter
 
 		// UnitColors done by init code.

@@ -44,7 +44,6 @@
 #include "SDL.h"
 
 
-extern SDL_Surface *TheScreen;
 static bool MovieStop;
 
 

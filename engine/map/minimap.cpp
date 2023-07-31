@@ -114,11 +114,10 @@ void CMinimap::Create(void)
 		Map2MinimapY[n] = (n * lowMinimapScaleY) / MINIMAP_FAC;
 	}
 
-	SDL_PixelFormat *f = TheScreen->format;
 	MinimapTerrainSurface = SDL_CreateRGBSurface(SDL_SWSURFACE,
-		W, H, f->BitsPerPixel, f->Rmask, f->Gmask, f->Bmask, f->Amask);
+		W, H, 32, RMASK, GMASK, BMASK, AMASK);
 	MinimapSurface = SDL_CreateRGBSurface(SDL_SWSURFACE,
-		W, H, f->BitsPerPixel, f->Rmask, f->Gmask, f->Bmask, f->Amask);
+		W, H, 32, RMASK, GMASK, BMASK, AMASK);
 	MinimapTexture = SDL_CreateTextureFromSurface(TheRenderer, MinimapSurface);
 
 	UpdateTerrain();

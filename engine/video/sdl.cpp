@@ -66,7 +66,6 @@
 
 SDL_Window *TheWindow; /// Internal screen
 SDL_Renderer *TheRenderer = NULL; /// Internal screen
-SDL_Surface *TheScreen; /// Internal screen
 
 static SDL_Rect Rects[100];
 static int NumRects;
@@ -286,14 +285,9 @@ void InitVideoSdl(void)
 	}
 	SDL_RenderSetLogicalSize(TheRenderer, Video.Width, Video.Height);
 	SDL_SetRenderDrawColor(TheRenderer, 0, 0, 0, 255);
-	TheScreen = SDL_CreateRGBSurface(0, Video.Width, Video.Height, 32,
-										0x00FF0000,
-										0x0000FF00,
-										0x000000FF,
-										0);
 
 	Video.FullScreen = (SDL_GetWindowFlags(TheWindow) & SDL_WINDOW_FULLSCREEN_DESKTOP) ? 1 : 0;
-	Video.Depth = TheScreen->format->BitsPerPixel;
+	Video.Depth = 32;
 
 	// Turn cursor off, we use our own.
 	SDL_ShowCursor(0);
