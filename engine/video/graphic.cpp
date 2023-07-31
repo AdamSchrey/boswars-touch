@@ -896,18 +896,9 @@ bool CGraphic::TransparentPixel(int x, int y)
 
 /**
 **  Make shadow sprite
-**
-**  @todo FIXME: 32bpp
 */
 void CGraphic::MakeShadow()
 {
-	SDL_Color colors[256];
-
-	// Set all colors in the palette to black and use 50% alpha
-	memset(colors, 0, sizeof(colors));
-
-	SDL_SetPaletteColors(Surface->format->palette, colors, 0, 256);
-	SDL_SetSurfaceAlphaMod(Surface, 128);
 	SDL_SetTextureAlphaMod(texture, 128);
 }
 
