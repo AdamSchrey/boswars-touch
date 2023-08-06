@@ -35,39 +35,14 @@
 #include "script.h"
 
 
-#define SoundFrequency 44100 // sample rate of dsp
-
-
-static SDL_mutex *MusicFinishedMutex;     /// Mutex for MusicFinished
-static bool MusicFinished;                /// Music ended and we need a new file
-
 bool CallbackMusic;                       /// flag true callback ccl if stops
 
-
-/**
-**  Callback for when music has finished
-**  Note: we are in the sdl audio thread
-*/
-static void MusicFinishedCallback(void)
-{
-	SDL_LockMutex(MusicFinishedMutex);
-	MusicFinished = true;
-	SDL_UnlockMutex(MusicFinishedMutex);
-}
 
 /**
 **  Check if music is finished and play the next song
 */
 void CheckMusicFinished(bool force)
 {
-	bool proceed;
-
-	SDL_LockMutex(MusicFinishedMutex);
-	proceed = MusicFinished;
-	(void)proceed;
-	MusicFinished = false;
-	SDL_UnlockMutex(MusicFinishedMutex);
-
 	/* IsMusicPlaying() relies on a variable which is changed in another
 	 * thread. In theory, that could cause race conditions. The test
 	 * checks if the music music stopped. It cannot start at the same
@@ -93,9 +68,6 @@ void CheckMusicFinished(bool force)
 */
 void InitMusic(void)
 {
-	MusicFinished = false;
-	MusicFinishedMutex = SDL_CreateMutex();
-	SetMusicFinishedCallback(MusicFinishedCallback);
 }
 
 //@}
