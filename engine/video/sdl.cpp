@@ -776,8 +776,6 @@ void RealizeVideoMemory(void)
 		SDL_RenderPresent(TheRenderer);
 		NumRects = 0;
 	}
-	SDL_SetRenderDrawColor(TheRenderer, 0, 0, 0, 255);
-	SDL_RenderClear(TheRenderer);
 }
 
 /**

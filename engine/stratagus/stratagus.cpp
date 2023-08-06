@@ -388,6 +388,7 @@ void StartMap(const std::string &filename, bool clean)
 	}
 	GetDefaultTextColors(nc, rc);
 
+	Video.ClearScreen();
 	CreateGame(filename, &Map);
 
 	//  Play the game.

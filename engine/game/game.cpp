@@ -768,7 +768,6 @@ void CreateGame(const std::string &filename, CMap *map)
 	GameResult = GameNoResult;
 
 	CommandLog(NULL, NoUnitP, FlushCommands, -1, -1, NoUnitP, NULL, -1);
-	Video.ClearScreen();
 }
 
 /**
