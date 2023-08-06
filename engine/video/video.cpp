@@ -180,6 +180,7 @@ void PopClipping(void)
 */
 void CVideo::ClearScreen(void)
 {
+	SDL_SetRenderDrawColor(TheRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(TheRenderer);
 }
 
