@@ -64,10 +64,19 @@ void CheckMusicFinished(bool force)
 
 	SDL_LockMutex(MusicFinishedMutex);
 	proceed = MusicFinished;
+	(void)proceed;
 	MusicFinished = false;
 	SDL_UnlockMutex(MusicFinishedMutex);
 
-	if ((proceed || force) && SoundEnabled() && IsMusicEnabled() && CallbackMusic) {
+	/* IsMusicPlaying() relies on a variable which is changed in another
+	 * thread. In theory, that could cause race conditions. The test
+	 * checks if the music music stopped. It cannot start at the same
+	 * time as starting the music always happens in this thread. */
+	if (IsMusicPlaying())
+		return;
+
+	if (SoundEnabled() && IsMusicEnabled() && CallbackMusic) {
+		printf("Music stopped\n");
 		lua_pushstring(Lua, "MusicStopped");
 		lua_gettable(Lua, LUA_GLOBALSINDEX);
 		if (!lua_isfunction(Lua, -1)) {
