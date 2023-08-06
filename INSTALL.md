@@ -22,9 +22,8 @@ On Debian, the runtime dependencies can be installed with:
 
 And the build dependencies can be installed with:
 
-    sudo apt install iblua5.1-dev libtolua++5.1-dev libtheora-dev libogg-dev \
-      libpng12-dev libsdl2-dev libvorbis-dev \
-      x11proto-core-dev build-essential
+    sudo apt install liblua5.1-dev libtolua++5.1-dev libtheora-dev libogg-dev \
+      libpng-dev libsdl2-dev libvorbis-dev build-essential
 
 On Fedora, these packages should help: lua-devel tolua++-devel
 libtheora-devel libogg-devel libpng-devel SDL2-devel
