@@ -362,6 +362,7 @@ void GameMainLoop(void)
 	ReplayRevealMap = 0;
 	GamePaused = false;
 	GodMode = false;
+	StopMusic();
 
 	SetCallbacks(old_callbacks);
 }
