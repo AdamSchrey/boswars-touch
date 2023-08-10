@@ -9,7 +9,7 @@
 --
 --      editor.lua - In-game menus.
 --
---      (c) Copyright 2006-2010 by Francois Beerten and Jimmy Salmon
+--      (c) Copyright 2006-2023 by Francois Beerten and Jimmy Salmon
 --
 --      This program is free software; you can redistribute it and/or modify
 --      it under the terms of the GNU General Public License as published by
@@ -105,7 +105,7 @@ function RunEditorSaveMenu()
 
   local t = menu:addTextInputField("new.map", 16, 40, 224)
 
-  local browser = menu:addMapBrowser("maps/", 16, 70, 224, 166)
+  local browser = menu:addMapBrowser("~maps/", 16, 70, 224, 166)
   local function cb(s)
     t:setText(browser:getSelectedItem())
   end
@@ -116,7 +116,7 @@ function RunEditorSaveMenu()
     function()
       local mapname = browser.path .. t:getText()
       EditorSaveMap(mapname)
-      UI.StatusLine:Set("Saved map to: " .. mapname)
+      UI.StatusLine:Set("Saved map to: " .. t:getText())
       menu:stop()
     end)
 

@@ -207,6 +207,12 @@ function AddMenuHelpers(menu)
       bq:setList(bq.itemslist)
     end
 
+    function bq:changeRoot(newpath)
+      self.path = newpath
+      self.origpath = newpath
+      updateList()
+    end
+
     -- Change to the default directory and select the default file
     if (default == nil) then
       bq.path = path
@@ -571,7 +577,7 @@ function RunStartGameMenu(s)
   end
 
   Load("maps/"..selectedmap..'/presentation.smp')
-  local browser = menu:addMapBrowser("maps/", sx*10, sy*2+20, sx*8, sy*11,
+  local browser = menu:addMapBrowser("maps/", sx*10+10, sy*2+40, sx*8, sy*11,
                                      "maps/"..selectedmap)
   local function cb(s)
     maptext:setCaption(browser:getSelectedItem())
@@ -579,6 +585,11 @@ function RunStartGameMenu(s)
     selectedmap = browser:getSelectedItem()
   end
   browser:setActionCallback(cb)
+  local rootpaths = {"maps/", "~maps/"}
+  d = menu:addDropDown({_("Standard maps"), _("Custom maps")}, sx*10, sy*2+20,
+    function(dd) browser:changeRoot(rootpaths[dd:getSelected() + 1]) end)
+  d:setSelected(0)
+  d:setSize(sx*8, d:getHeight())
 
   AllowAllUnits()
   local function startgamebutton(s)
@@ -797,7 +808,7 @@ function RunEditorLoadMenu()
   end
 
   Load("maps/"..selectedmap..'/presentation.smp')
-  local browser = menu:addMapBrowser("maps/", sx*10, sy*2+20, sx*8, sy*11,
+  local browser = menu:addMapBrowser("maps/", sx*10+10, sy*2+40, sx*8, sy*11,
                                      "maps/"..selectedmap)
   local function selectMap(s)
     maptext:setCaption(browser:getSelectedItem())
@@ -805,6 +816,11 @@ function RunEditorLoadMenu()
     selectedmap = browser:getSelectedItem()
   end
   browser:setActionCallback(selectMap)
+  local rootpaths = {"maps/", "~maps/"}
+  d = menu:addDropDown({_("Standard maps"), _("Custom maps")}, sx*10, sy*2+20,
+    function(dd) browser:changeRoot(rootpaths[dd:getSelected() + 1]) end)
+  d:setSelected(0)
+  d:setSize(sx*8, d:getHeight())
 
   function starteditorbutton(s)
     ClearAiState()

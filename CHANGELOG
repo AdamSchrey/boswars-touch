@@ -1,6 +1,8 @@
 Change log for Bos Wars
 -----------------------
 
+- Run custom maps in the user directory (François Beerten)
+- Editor saves map in the user directory (François Beerten)
 - Remove OpenGL support (François Beerten)
 - Man page from boswars help and version options (François Beerten)
 - Add command line option to display version info (François Beerten)
