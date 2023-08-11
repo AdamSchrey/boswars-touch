@@ -9,7 +9,7 @@
 //
 /**@name editloop.cpp - The editor main loop. */
 //
-//      (c) Copyright 2002-2010 by Lutz Sammer and Jimmy Salmon
+//      (c) Copyright 2002-2023 by Lutz Sammer, Jimmy Salmon and Francois Beerten
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -2346,7 +2346,11 @@ int EditorSaveMap(const std::string &file)
 {
 	std::string fullName;
 
-	fullName = StratagusLibPath + "/" + file;
+	if (file[0] == '~') {
+		fullName = UserDirectory + file.substr(1);
+	} else {
+		fullName = StratagusLibPath + file;
+	}
 	if (SaveStratagusMap(fullName, &Map) == -1)
 	{
 		fprintf(stderr, "Cannot save map\n");

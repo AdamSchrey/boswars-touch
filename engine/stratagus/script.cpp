@@ -1458,6 +1458,8 @@ void CreateUserDirectories(void)
 	makedir(directory.c_str(), 0777);
 	directory = UserDirectory + "patches/";
 	makedir(directory.c_str(), 0777);
+	directory = UserDirectory + "maps/";
+	makedir(directory.c_str(), 0777);
 }
 
 /**
