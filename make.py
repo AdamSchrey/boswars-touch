@@ -505,7 +505,7 @@ def install(installdir='./dist', datadir=None, bindir=None, builddir='fbuild/rel
     datadir = datadir or installdir
     bindir = bindir or installdir
     release(builddir=builddir, **kwargs)
-    install_data(installdatadir)
+    install_data(datadir)
     shutil.copy2(builddir+'/'+ 'boswars', installdir)
 
 
