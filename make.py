@@ -496,7 +496,6 @@ def install_data(datadir='./dist'):
     copyfiles(glob.glob('scripts/*.lua'), datadir)
     copyfiles(glob.glob('scripts/*/*.lua'), datadir)
     copyfiles(glob.glob('scripts/*/*/*.lua'), datadir)
-    copyfiles(glob.glob('intro/*.*'), datadir)
     copyfiles(glob.glob('sounds/*.*'), datadir)
     copyfiles(glob.glob('sounds/ui/*.*'), datadir)
     copyfiles(glob.glob('units/*/*.*'), datadir)
