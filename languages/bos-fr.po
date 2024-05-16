@@ -18,11 +18,34 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=2; plural=(n > 1);\n"
 
-#: scripts/boswars.lua:127 scripts/menus/ingame/editor.lua:195
+#: campaigns/conquest/campaign.lua:82 scripts/guichan.lua:592
+#: scripts/guichan.lua:624 scripts/guichan.lua:668
+#: scripts/menus/campaigns.lua:61 scripts/menus/campaigns.lua:155
+msgid "~!Start"
+msgstr "~!Démarrer"
+
+#: campaigns/conquest/campaign.lua:87 scripts/guichan.lua:756
+#: scripts/guichan.lua:812 scripts/menus/campaigns.lua:66
+#: scripts/menus/ingame/editor.lua:120 scripts/menus/ingame/editor.lua:158
+#: scripts/menus/ingame/editor.lua:277 scripts/menus/ingame/game.lua:112
+#: scripts/menus/ingame/game.lua:304 scripts/menus/ingame/game.lua:352
+#: scripts/menus/ingame/game.lua:365 scripts/menus/network.lua:176
+#: scripts/menus/network.lua:242 scripts/menus/network.lua:303
+#: scripts/menus/network.lua:377 scripts/menus/network.lua:449
+#: scripts/menus/network.lua:495 scripts/menus/patch.lua:89
+#: scripts/menus/patch.lua:171
+msgid "Cancel (~<Esc~>)"
+msgstr "Annuler (~<Échap~>)"
+
+#: campaigns/swindler/campaign.lua:50
+msgid "Go to boswars.org and contact us to help on the campaign."
+msgstr "Allez sur boswars.org et contactez nous pour aider sur la campagne."
+
+#: scripts/boswars.lua:127 scripts/menus/ingame/editor.lua:228
 msgid "Energy"
 msgstr "Énergie"
 
-#: scripts/boswars.lua:127 scripts/menus/ingame/editor.lua:207
+#: scripts/boswars.lua:127 scripts/menus/ingame/editor.lua:240
 msgid "Magma"
 msgstr "Magma"
 
@@ -50,13 +73,13 @@ msgstr "Tricheur"
 msgid "Results"
 msgstr "Résultats"
 
-#: scripts/guichan.lua:410
+#: scripts/guichan.lua:410 scripts/menus/network.lua:83
 msgid "Player"
-msgstr "Joueurs"
+msgstr "Joueur"
 
 #: scripts/guichan.lua:411
 msgid "Units"
-msgstr "Units"
+msgstr "Unités"
 
 #: scripts/guichan.lua:412
 msgid "Buildings"
@@ -74,141 +97,135 @@ msgstr "Destructions"
 msgid "~!Continue"
 msgstr "~!Continuer"
 
-#: scripts/guichan.lua:529
+#: scripts/guichan.lua:525
 msgid "Start Game"
 msgstr "Démarrer la partie"
 
-#: scripts/guichan.lua:531 scripts/guichan.lua:753
+#: scripts/guichan.lua:527 scripts/guichan.lua:775
 #: scripts/menus/network.lua:130 scripts/menus/network.lua:317
 msgid "Map"
 msgstr "Carte"
 
-#: scripts/guichan.lua:532 scripts/guichan.lua:754
+#: scripts/guichan.lua:528 scripts/guichan.lua:776
 #: scripts/menus/network.lua:131 scripts/menus/network.lua:318
 #: scripts/menus/network.lua:418
 msgid "File:"
 msgstr "Fichier :"
 
-#: scripts/guichan.lua:535 scripts/guichan.lua:720 scripts/guichan.lua:758
-#: scripts/menus/ingame/editor.lua:109 scripts/menus/network.lua:423
-#: scripts/menus/patch.lua:53
+#: scripts/guichan.lua:531 scripts/guichan.lua:740 scripts/guichan.lua:780
+#: scripts/menus/ingame/editor.lua:142 scripts/menus/network.lua:423
+#: scripts/menus/patch.lua:77
 msgid "Size:"
 msgstr "Taille :"
 
-#: scripts/guichan.lua:538 scripts/guichan.lua:756
+#: scripts/guichan.lua:534 scripts/guichan.lua:778
 #: scripts/menus/network.lua:134 scripts/menus/network.lua:321
 #: scripts/menus/network.lua:421
 msgid "Players:"
 msgstr "Joueurs :"
 
-#: scripts/guichan.lua:540 scripts/guichan.lua:760
+#: scripts/guichan.lua:536 scripts/guichan.lua:782
 #: scripts/menus/network.lua:136 scripts/menus/network.lua:323
 #: scripts/menus/network.lua:425
 msgid "Description:"
 msgstr "Description :"
 
-#: scripts/guichan.lua:544 scripts/menus/network.lua:140
+#: scripts/guichan.lua:540 scripts/menus/network.lua:140
 #: scripts/menus/network.lua:332
 msgid "Fog of war"
 msgstr "Brouillard"
 
-#: scripts/guichan.lua:547 scripts/guichan.lua:613
+#: scripts/guichan.lua:543 scripts/guichan.lua:611
 #: scripts/menus/network.lua:144 scripts/menus/network.lua:339
 msgid "Reveal map"
 msgstr "Révéler la carte"
 
-#: scripts/guichan.lua:551 scripts/menus/network.lua:147
+#: scripts/guichan.lua:547 scripts/menus/network.lua:147
 #: scripts/menus/network.lua:341
 msgid "Difficulty:"
 msgstr "Difficulté :"
 
-#: scripts/guichan.lua:552 scripts/menus/network.lua:148
+#: scripts/guichan.lua:548 scripts/menus/network.lua:148
 #: scripts/menus/network.lua:342
 msgid "easy"
 msgstr "facile"
 
-#: scripts/guichan.lua:552 scripts/guichan.lua:556
+#: scripts/guichan.lua:548 scripts/guichan.lua:552
 #: scripts/menus/network.lua:148 scripts/menus/network.lua:152
 #: scripts/menus/network.lua:342 scripts/menus/network.lua:350
 msgid "normal"
 msgstr "normal"
 
-#: scripts/guichan.lua:552 scripts/menus/network.lua:148
+#: scripts/guichan.lua:548 scripts/menus/network.lua:148
 #: scripts/menus/network.lua:342
 msgid "hard"
 msgstr "difficile"
 
-#: scripts/guichan.lua:555 scripts/menus/network.lua:151
+#: scripts/guichan.lua:551 scripts/menus/network.lua:151
 #: scripts/menus/network.lua:349
 msgid "Starting resources:"
 msgstr "Ressources de départ :"
 
-#: scripts/guichan.lua:556 scripts/menus/network.lua:152
+#: scripts/guichan.lua:552 scripts/menus/network.lua:152
 #: scripts/menus/network.lua:350
 msgid "high"
 msgstr "haute"
 
-#: scripts/guichan.lua:556 scripts/menus/network.lua:152
+#: scripts/guichan.lua:552 scripts/menus/network.lua:152
 #: scripts/menus/network.lua:350
 msgid "low"
 msgstr "basse"
 
-#: scripts/guichan.lua:559 scripts/menus/network.lua:155
+#: scripts/guichan.lua:555 scripts/menus/network.lua:155
 #: scripts/menus/network.lua:357
 msgid "Game type:"
-msgstr "Type de partie:"
+msgstr "Type de partie :"
 
-#: scripts/guichan.lua:560 scripts/menus/network.lua:156
+#: scripts/guichan.lua:556 scripts/menus/network.lua:156
 #: scripts/menus/network.lua:358
 msgid "Map Default"
 msgstr "Valeur par défaut"
 
-#: scripts/guichan.lua:560 scripts/menus/network.lua:156
+#: scripts/guichan.lua:556 scripts/menus/network.lua:156
 #: scripts/menus/network.lua:358
 msgid "Melee"
 msgstr "Mêlée"
 
-#: scripts/guichan.lua:560 scripts/menus/network.lua:156
+#: scripts/guichan.lua:556 scripts/menus/network.lua:156
 #: scripts/menus/network.lua:358
 msgid "Free For All"
 msgstr "Chacun pour soi"
 
-#: scripts/guichan.lua:560 scripts/menus/network.lua:156
+#: scripts/guichan.lua:556 scripts/menus/network.lua:156
 #: scripts/menus/network.lua:358
 msgid "Top vs Bottom"
 msgstr "Haut contre bas"
 
-#: scripts/guichan.lua:560 scripts/menus/network.lua:156
+#: scripts/guichan.lua:556 scripts/menus/network.lua:156
 #: scripts/menus/network.lua:358
 msgid "Left vs Right"
 msgstr "Droite contre gauche"
 
-#: scripts/guichan.lua:560 scripts/menus/network.lua:156
+#: scripts/guichan.lua:556 scripts/menus/network.lua:156
 #: scripts/menus/network.lua:358
 msgid "Man vs Machine"
-msgstr "Humains contre l'ordinateur"
+msgstr "Humain contre ordinateur"
 
-#: scripts/guichan.lua:592 scripts/guichan.lua:624 scripts/guichan.lua:668
-#: scripts/guichan.lua:736 scripts/guichan.lua:788
-#: scripts/menus/campaigns.lua:149 scripts/menus/credits.lua:141
-#: scripts/menus/options.lua:313
+#: scripts/guichan.lua:590 scripts/guichan.lua:622 scripts/guichan.lua:666
+#: scripts/guichan.lua:709 scripts/menus/campaigns.lua:153
+#: scripts/menus/credits.lua:142 scripts/menus/options.lua:315
 msgid "Main Menu (~<Esc~>)"
-msgstr "Menu principal (~<Echap~>)"
+msgstr "Menu principal (~<Échap~>)"
 
-#: scripts/guichan.lua:594 scripts/guichan.lua:626 scripts/guichan.lua:670
-#: scripts/menus/campaigns.lua:57 scripts/menus/campaigns.lua:151
-msgid "~!Start"
-msgstr "~!Démarrer"
-
-#: scripts/guichan.lua:603
+#: scripts/guichan.lua:601
 msgid "Show a Replay"
 msgstr "Montrer un replay"
 
-#: scripts/guichan.lua:637
+#: scripts/guichan.lua:635
 msgid "Load Game"
 msgstr "Charger une partie"
 
-#: scripts/guichan.lua:681 scripts/guichan.lua:704 scripts/guichan.lua:751
+#: scripts/guichan.lua:681
 msgid "Editor"
 msgstr "Éditeur"
 
@@ -216,71 +233,71 @@ msgstr "Éditeur"
 msgid "Create ~!New Map"
 msgstr "Créer une ~!nouvelle carte"
 
-#: scripts/guichan.lua:685
+#: scripts/guichan.lua:689
 msgid "~!Load Map"
 msgstr "~!Charger une carte"
 
-#: scripts/guichan.lua:688
-msgid "~!Patch Editor"
-msgstr "~!Editeur de patch"
+#: scripts/guichan.lua:696
+msgid "C~!reate New Patch"
+msgstr "Créer un ~!nouveau patch"
 
-#: scripts/guichan.lua:691 scripts/menus/campaigns.lua:62
-#: scripts/menus/ingame/editor.lua:87 scripts/menus/ingame/editor.lua:125
-#: scripts/menus/ingame/editor.lua:230 scripts/menus/ingame/game.lua:112
-#: scripts/menus/ingame/game.lua:304 scripts/menus/ingame/game.lua:352
-#: scripts/menus/ingame/game.lua:365 scripts/menus/network.lua:176
-#: scripts/menus/network.lua:242 scripts/menus/network.lua:303
-#: scripts/menus/network.lua:377 scripts/menus/network.lua:449
-#: scripts/menus/network.lua:495 scripts/menus/patch.lua:80
-#: scripts/menus/patch.lua:119 scripts/menus/patch.lua:137
-msgid "Cancel (~<Esc~>)"
-msgstr "Annuler (~<Echap~>)"
+#: scripts/guichan.lua:702 scripts/menus/patch.lua:173
+msgid "Load ~!Patch"
+msgstr "~!Charger un patch"
 
-#: scripts/guichan.lua:738 scripts/guichan.lua:790 scripts/guichan.lua:820
+#: scripts/guichan.lua:723
+msgid "Create New Map"
+msgstr "Créer une nouvelle carte"
+
+#: scripts/guichan.lua:758 scripts/guichan.lua:814 scripts/guichan.lua:845
 msgid "Start ~!Editor"
-msgstr "~!Editeur"
+msgstr "Démarrer l'édit~!eur"
 
-#: scripts/guichan.lua:811 scripts/menus/network.lua:380
+#: scripts/guichan.lua:773
+msgid "Select Map to Edit"
+msgstr "Sélectionner une carte à éditer"
+
+#: scripts/guichan.lua:836 scripts/menus/network.lua:380
 msgid "~!Start Game"
 msgstr "~!Démarrer la partie"
 
-#: scripts/guichan.lua:812
+#: scripts/guichan.lua:837
 msgid "~!Load Game"
 msgstr "Charger une ~!partie"
 
-#: scripts/guichan.lua:813
+#: scripts/guichan.lua:838
 msgid "~!Campaigns"
 msgstr "~!Campagnes"
 
-#: scripts/guichan.lua:814
+#: scripts/guichan.lua:839
 msgid "Show ~!Replay"
 msgstr "Mo~!ntrer un replay"
 
-#: scripts/guichan.lua:816
+#: scripts/guichan.lua:841
 msgid "~!MultiPlayer"
-msgstr "~!Multi-joueur"
+msgstr "~!Multi-joueurs"
 
-#: scripts/guichan.lua:817
+#: scripts/guichan.lua:842
 msgid "~!Options"
 msgstr "~!Options"
 
-#: scripts/guichan.lua:819
+#: scripts/guichan.lua:844
 msgid "Cre~!dits"
 msgstr "C~!rédits"
 
-#: scripts/guichan.lua:822
+#: scripts/guichan.lua:847
 msgid "E~!xit"
 msgstr "~!Quitter"
 
-#: scripts/menus/campaigns.lua:41
+#: scripts/menus/campaigns.lua:45
 msgid "Briefing"
 msgstr "Briefing"
 
-#: scripts/menus/campaigns.lua:44
+#: scripts/menus/campaigns.lua:48
 msgid "Objectives:"
 msgstr "Objectifs :"
 
-#: scripts/menus/campaigns.lua:137
+#: scripts/menus/campaigns.lua:141
 msgid "List of Campaigns"
 msgstr "Liste des campagnes"
 
@@ -304,114 +321,126 @@ msgstr "Son :"
 msgid "Engine Programmers:"
 msgstr "Programmeurs du moteur :"
 
-#: scripts/menus/credits.lua:112
+#: scripts/menus/credits.lua:113
 msgid "Patches"
 msgstr "Patchs"
 
-#: scripts/menus/credits.lua:121
+#: scripts/menus/credits.lua:122
 msgid "Stratagus Media Project Graphics"
 msgstr "Stratagus Media Project Graphics"
 
-#: scripts/menus/credits.lua:126
+#: scripts/menus/credits.lua:127
 msgid "The Bos Wars Team thanks"
 msgstr "L'équipe de Bos Wars remercie"
 
-#: scripts/menus/credits.lua:127
+#: scripts/menus/credits.lua:128
 msgid "everybody who has contributed"
 msgstr "tout ceux qui ont contribué"
 
-#: scripts/menus/credits.lua:128
+#: scripts/menus/credits.lua:129
 msgid "patches, bug reports, ideas."
-msgstr "patchs, rapport de bogues, idées."
+msgstr "patchs, rapports de bogue, idées."
 
-#: scripts/menus/credits.lua:131
+#: scripts/menus/credits.lua:132
 msgid "Bos Wars Credits"
 msgstr "Bos Wars : crédits"
 
-#: scripts/menus/ingame/editor.lua:49
-msgid "Editor Menu"
-msgstr "Menu éditeur"
+#: scripts/menus/ingame/editor.lua:35 scripts/menus/network.lua:55
+msgid "Error"
+msgstr "Erreur"
 
-#: scripts/menus/ingame/editor.lua:50 scripts/menus/ingame/game.lua:58
-msgid "Save (~<F11~>)"
-msgstr "Sauver (~<F11~>)"
-
-#: scripts/menus/ingame/editor.lua:52
-msgid "Map Properties (~<F5~>)"
-msgstr "Propriétés de la carte (~<F5~>)"
-
-#: scripts/menus/ingame/editor.lua:54
-msgid "Player Properties (~<F6~>)"
-msgstr "Propriétés du joueur (~<F6~>)"
-
-#: scripts/menus/ingame/editor.lua:57
-msgid "~!Exit to menu"
-msgstr "~!Quitter vers le menu"
-
-#: scripts/menus/ingame/editor.lua:59
-msgid "Return to the Editor (~<Esc~>)"
-msgstr "Retourner à l'éditeur (~<Echap~>)"
-
-#: scripts/menus/ingame/editor.lua:68
-msgid "Save Map"
-msgstr "Sauver la carte"
-
-#: scripts/menus/ingame/editor.lua:78 scripts/menus/ingame/game.lua:91
-msgid "~!Save"
-msgstr "~!Sauver"
-
-#: scripts/menus/ingame/editor.lua:99
-msgid "Map Properties"
-msgstr "Propriétés de la carte"
-
-#: scripts/menus/ingame/editor.lua:101
-msgid "Map Description:"
-msgstr "Description :"
-
-#: scripts/menus/ingame/editor.lua:118 scripts/menus/ingame/editor.lua:219
-#: scripts/menus/ingame/game.lua:180 scripts/menus/ingame/game.lua:254
-#: scripts/menus/ingame/game.lua:533 scripts/menus/ingame/game.lua:559
-#: scripts/menus/network.lua:67 scripts/menus/options.lua:64
-#: scripts/menus/options.lua:141 scripts/menus/options.lua:241
-#: scripts/menus/options.lua:301
+#: scripts/menus/ingame/editor.lua:47 scripts/menus/ingame/editor.lua:151
+#: scripts/menus/ingame/editor.lua:252 scripts/menus/ingame/game.lua:180
+#: scripts/menus/ingame/game.lua:254 scripts/menus/ingame/game.lua:533
+#: scripts/menus/ingame/game.lua:564 scripts/menus/network.lua:67
+#: scripts/menus/options.lua:64 scripts/menus/options.lua:141
+#: scripts/menus/options.lua:241 scripts/menus/options.lua:303
 msgid "~!OK"
 msgstr "~!OK"
 
-#: scripts/menus/ingame/editor.lua:140
-msgid "Player Properties"
+#: scripts/menus/ingame/editor.lua:78
+msgid "Editor Menu"
+msgstr "Menu éditeur"
+
+#: scripts/menus/ingame/editor.lua:79 scripts/menus/ingame/game.lua:58
+msgid "Save (~<F11~>)"
+msgstr "Sauver (~<F11~>)"
+
+#: scripts/menus/ingame/editor.lua:81
+msgid "Map Properties (~<F5~>)"
+msgstr "Propriétés de la carte (~<F5~>)"
+
+#: scripts/menus/ingame/editor.lua:83
+msgid "Player Properties (~<F6~>)"
+msgstr "Propriétés des joueurs (~<F6~>)"
+
+#: scripts/menus/ingame/editor.lua:85
+msgid "Show terrain attributes"
+msgstr "Montrer les attributs de terrain"
+
+#: scripts/menus/ingame/editor.lua:90
+msgid "~!Exit to menu"
+msgstr "~!Quitter vers le menu"
+
+#: scripts/menus/ingame/editor.lua:92
+msgid "Return to the Editor (~<Esc~>)"
+msgstr "Retourner à l'éditeur (~<Échap~>)"
+
+#: scripts/menus/ingame/editor.lua:101
+msgid "Save Map"
+msgstr "Sauver la carte"
+
+#: scripts/menus/ingame/editor.lua:111 scripts/menus/ingame/game.lua:91
+msgid "~!Save"
+msgstr "~!Sauver"
+
+#: scripts/menus/ingame/editor.lua:132
+msgid "Map Properties"
 msgstr "Propriétés de la carte"
 
-#: scripts/menus/ingame/editor.lua:149
+#: scripts/menus/ingame/editor.lua:134
+msgid "Map Description:"
+msgstr "Description :"
+
+#: scripts/menus/ingame/editor.lua:173
+msgid "Player Properties"
+msgstr "Propriétés des joueurs"
+
+#: scripts/menus/ingame/editor.lua:182
 msgid "Type"
 msgstr "Type"
 
-#: scripts/menus/ingame/editor.lua:154
+#: scripts/menus/ingame/editor.lua:187
 msgid "Person"
-msgstr "Joueur"
+msgstr "Personne"
 
-#: scripts/menus/ingame/editor.lua:154
+#: scripts/menus/ingame/editor.lua:187
 msgid "Computer"
 msgstr "Ordinateur"
 
-#: scripts/menus/ingame/editor.lua:154
+#: scripts/menus/ingame/editor.lua:187
 msgid "Rescue (Passive)"
 msgstr "Renfort (passif)"
 
-#: scripts/menus/ingame/editor.lua:155
+#: scripts/menus/ingame/editor.lua:188
 msgid "Rescue (Active)"
 msgstr "Renfort (actif)"
 
-#: scripts/menus/ingame/editor.lua:155
+#: scripts/menus/ingame/editor.lua:188
 msgid "Neutral"
 msgstr "Neutre"
 
-#: scripts/menus/ingame/editor.lua:155
+#: scripts/menus/ingame/editor.lua:188
 msgid "Nobody"
-msgstr "Personne"
+msgstr "Aucun"
 
-#: scripts/menus/ingame/editor.lua:168
+#: scripts/menus/ingame/editor.lua:201
 msgid "AI"
 msgstr "IA"
+
+#: scripts/menus/ingame/editor.lua:264
+msgid "Must have at least one Type set to Person"
+msgstr "Au moins un type doit être défini comme étant une personne"
 
 #: scripts/menus/ingame/game.lua:57
 msgid "Game Menu"
@@ -435,7 +464,7 @@ msgstr "~!Quitter la partie"
 
 #: scripts/menus/ingame/game.lua:71
 msgid "Return to Game (~<Esc~>)"
-msgstr "Retourner à la partie (~<Echap~>)"
+msgstr "Retourner à la partie (~<Échap~>)"
 
 #: scripts/menus/ingame/game.lua:80
 msgid "Save Game"
@@ -443,7 +472,7 @@ msgstr "Sauver la partie"
 
 #: scripts/menus/ingame/game.lua:121 scripts/menus/options.lua:157
 msgid "Sound Options"
-msgstr "Options sons"
+msgstr "Options son"
 
 #: scripts/menus/ingame/game.lua:130 scripts/menus/ingame/game.lua:146
 msgid "Game Options"
@@ -455,7 +484,7 @@ msgstr "Son (~<F7~>)"
 
 #: scripts/menus/ingame/game.lua:133
 msgid "Game (~<F9~>)"
-msgstr "Partie (~<F9~>)"
+msgstr "Jeu (~<F9~>)"
 
 #: scripts/menus/ingame/game.lua:135
 msgid "~!Diplomacy"
@@ -464,7 +493,7 @@ msgstr "~!Diplomatie"
 #: scripts/menus/ingame/game.lua:137 scripts/menus/ingame/game.lua:339
 #: scripts/menus/ingame/game.lua:379 scripts/menus/ingame/game.lua:459
 msgid "Previous (~<Esc~>)"
-msgstr "Précédent (~<Echap~>)"
+msgstr "Précédent (~<Échap~>)"
 
 #: scripts/menus/ingame/game.lua:149
 msgid "Fog of War Enabled"
@@ -472,7 +501,7 @@ msgstr "Brouillard de guerre activé"
 
 #: scripts/menus/ingame/game.lua:157
 msgid "Show command key"
-msgstr "Montrer les touches de commande"
+msgstr "Montrer touches de commande"
 
 #: scripts/menus/ingame/game.lua:161 scripts/menus/options.lua:39
 msgid "Game Speed"
@@ -516,7 +545,7 @@ msgstr "Êtes-vous sûr de vouloir quitter pour le menu principal ?"
 
 #: scripts/menus/ingame/game.lua:319 scripts/menus/ingame/game.lua:335
 msgid "~!Quit to Menu"
-msgstr "~!Quitter pour le menu"
+msgstr "~!Quitter vers le menu"
 
 #: scripts/menus/ingame/game.lua:325
 msgid "End Game"
@@ -524,7 +553,7 @@ msgstr "Quitter la partie"
 
 #: scripts/menus/ingame/game.lua:331 scripts/menus/ingame/game.lua:334
 msgid "~!Surrender"
-msgstr "~!Me rendre"
+msgstr "~!Se rendre"
 
 #: scripts/menus/ingame/game.lua:333
 msgid "Are you sure you want to surrender to your enemies?"
@@ -544,7 +573,7 @@ msgstr "Quitter le ~!programme"
 
 #: scripts/menus/ingame/game.lua:374
 msgid "Help Menu"
-msgstr "Menu d'Aide"
+msgstr "Menu d'aide"
 
 #: scripts/menus/ingame/game.lua:375
 msgid "Keystroke ~!Help"
@@ -552,11 +581,11 @@ msgstr "Aide pour les ~!raccourcis"
 
 #: scripts/menus/ingame/game.lua:377
 msgid "Bos Wars ~!Tips"
-msgstr "~!Astuces Bos Wars"
+msgstr "~!Conseils Bos Wars"
 
 #: scripts/menus/ingame/game.lua:386
 msgid "Alt-F"
-msgstr ""
+msgstr "Alt-F"
 
 #: scripts/menus/ingame/game.lua:386
 msgid "- toggle full screen"
@@ -564,15 +593,15 @@ msgstr "Plein écran"
 
 #: scripts/menus/ingame/game.lua:387
 msgid "Alt-G"
-msgstr ""
+msgstr "Alt-G"
 
 #: scripts/menus/ingame/game.lua:387
 msgid "- toggle grab mouse"
-msgstr ""
+msgstr "Saisie à la souris"
 
 #: scripts/menus/ingame/game.lua:388
 msgid "Ctrl-S"
-msgstr ""
+msgstr "Ctrl-S"
 
 #: scripts/menus/ingame/game.lua:388
 msgid "- mute sound"
@@ -580,7 +609,7 @@ msgstr "Couper les effets sonores"
 
 #: scripts/menus/ingame/game.lua:389
 msgid "Ctrl-M"
-msgstr ""
+msgstr "Ctrl-M"
 
 #: scripts/menus/ingame/game.lua:389
 msgid "- mute music"
@@ -588,7 +617,7 @@ msgstr "Couper la musique"
 
 #: scripts/menus/ingame/game.lua:390
 msgid "+"
-msgstr ""
+msgstr "+"
 
 #: scripts/menus/ingame/game.lua:390
 msgid "- increase game speed"
@@ -596,7 +625,7 @@ msgstr "Augmenter la vitesse du jeu"
 
 #: scripts/menus/ingame/game.lua:391
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: scripts/menus/ingame/game.lua:391
 msgid "- decrease game speed"
@@ -604,7 +633,7 @@ msgstr "Diminuer la vitesse du jeu"
 
 #: scripts/menus/ingame/game.lua:392
 msgid "Ctrl-P"
-msgstr ""
+msgstr "Ctrl-P"
 
 #: scripts/menus/ingame/game.lua:392 scripts/menus/ingame/game.lua:393
 msgid "- pause game"
@@ -612,11 +641,11 @@ msgstr "Pause"
 
 #: scripts/menus/ingame/game.lua:393
 msgid "PAUSE"
-msgstr ""
+msgstr "Pause"
 
 #: scripts/menus/ingame/game.lua:394
 msgid "PRINT"
-msgstr ""
+msgstr "Impr"
 
 #: scripts/menus/ingame/game.lua:394
 msgid "- make screen shot"
@@ -624,7 +653,7 @@ msgstr "Faire une capture d'écran"
 
 #: scripts/menus/ingame/game.lua:395
 msgid "Alt-H"
-msgstr ""
+msgstr "Alt-H"
 
 #: scripts/menus/ingame/game.lua:395
 msgid "- help menu"
@@ -632,7 +661,7 @@ msgstr "Menu d'aide"
 
 #: scripts/menus/ingame/game.lua:396
 msgid "Alt-R"
-msgstr ""
+msgstr "Alt-R"
 
 #: scripts/menus/ingame/game.lua:396
 msgid "- restart game"
@@ -640,15 +669,15 @@ msgstr "Redémarrer la partie"
 
 #: scripts/menus/ingame/game.lua:397
 msgid "Alt-Q"
-msgstr ""
+msgstr "Alt-Q"
 
 #: scripts/menus/ingame/game.lua:397
 msgid "- quit to main menu"
-msgstr "Quitter vers le Menu"
+msgstr "Quitter vers le menu"
 
 #: scripts/menus/ingame/game.lua:398
 msgid "Alt-X"
-msgstr ""
+msgstr "Alt-X"
 
 #: scripts/menus/ingame/game.lua:398
 msgid "- quit game"
@@ -656,15 +685,15 @@ msgstr "Quitter le jeu"
 
 #: scripts/menus/ingame/game.lua:399
 msgid "Alt-B"
-msgstr ""
+msgstr "Alt-B"
 
 #: scripts/menus/ingame/game.lua:399
 msgid "- toggle expand map"
-msgstr ""
+msgstr "Élargir la carte"
 
 #: scripts/menus/ingame/game.lua:400
 msgid "Alt-M"
-msgstr ""
+msgstr "Alt-M"
 
 #: scripts/menus/ingame/game.lua:400 scripts/menus/ingame/game.lua:421
 msgid "- game menu"
@@ -676,7 +705,7 @@ msgstr "Entrée"
 
 #: scripts/menus/ingame/game.lua:401
 msgid "- write a message"
-msgstr "Ecrire un message"
+msgstr "Écrire un message"
 
 #: scripts/menus/ingame/game.lua:402
 msgid "SPACE"
@@ -684,7 +713,7 @@ msgstr "Espace"
 
 #: scripts/menus/ingame/game.lua:402
 msgid "- goto last event"
-msgstr "aller au dernier évènement"
+msgstr "Aller au dernier évènement"
 
 #: scripts/menus/ingame/game.lua:403
 msgid "TAB"
@@ -692,139 +721,139 @@ msgstr "Tabulation"
 
 #: scripts/menus/ingame/game.lua:403
 msgid "- hide/unhide terrain"
-msgstr "afficher/cacher le terrain"
+msgstr "Afficher/cacher le terrain"
 
 #: scripts/menus/ingame/game.lua:404
 msgid "Ctrl-T"
-msgstr ""
+msgstr "Ctrl-T"
 
 #: scripts/menus/ingame/game.lua:404
 msgid "- track unit"
-msgstr "suivre une unité"
+msgstr "Suivre une unité"
 
 #: scripts/menus/ingame/game.lua:405
 msgid "Alt-I"
-msgstr ""
+msgstr "Alt-I"
 
 #: scripts/menus/ingame/game.lua:405
 msgid "- find idle peon"
-msgstr ""
+msgstr "Trouver un péon inactif"
 
 #: scripts/menus/ingame/game.lua:406
 msgid "Alt-C"
-msgstr ""
+msgstr "Alt-C"
 
 #: scripts/menus/ingame/game.lua:406
 msgid "- center on selected unit"
-msgstr "centrer sur l'unité selectionnée"
+msgstr "Centrer sur l'unité sélectionnée"
 
 #: scripts/menus/ingame/game.lua:407
 msgid "Alt-V"
-msgstr ""
+msgstr "Alt-V"
 
 #: scripts/menus/ingame/game.lua:407
 msgid "- next view port"
-msgstr ""
+msgstr "Fenêtre visualisation suivante"
 
 #: scripts/menus/ingame/game.lua:408
 msgid "Ctrl-V"
-msgstr ""
+msgstr "Ctrl-V"
 
 #: scripts/menus/ingame/game.lua:408
 msgid "- previous view port"
-msgstr ""
+msgstr "Fenêtre visualisation précédente"
 
 #: scripts/menus/ingame/game.lua:409
 msgid "^"
-msgstr ""
+msgstr "^"
 
 #: scripts/menus/ingame/game.lua:409
 msgid "- select nothing"
-msgstr ""
+msgstr "Ne rien sélectionner"
 
 #: scripts/menus/ingame/game.lua:410
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #: scripts/menus/ingame/game.lua:410
 msgid "- select group"
-msgstr ""
+msgstr "Sélectionner le groupe"
 
 #: scripts/menus/ingame/game.lua:411
 msgid "##"
-msgstr ""
+msgstr "##"
 
 #: scripts/menus/ingame/game.lua:411
 msgid "- center on group"
-msgstr ""
+msgstr "Centrer sur le groupe"
 
 #: scripts/menus/ingame/game.lua:412
 msgid "Ctrl-#"
-msgstr ""
+msgstr "Ctrl-#"
 
 #: scripts/menus/ingame/game.lua:412
 msgid "- define group"
-msgstr ""
+msgstr "Définir un groupe"
 
 #: scripts/menus/ingame/game.lua:413
 msgid "Shift-#"
-msgstr ""
+msgstr "Maj-#"
 
 #: scripts/menus/ingame/game.lua:413
 msgid "- add to group"
-msgstr ""
+msgstr "Ajouter au groupe"
 
 #: scripts/menus/ingame/game.lua:414
 msgid "Alt-#"
-msgstr ""
+msgstr "Alt-#"
 
 #: scripts/menus/ingame/game.lua:414
 msgid "- add to alternate group"
-msgstr ""
+msgstr "Ajouter au groupe alternatif"
 
 #: scripts/menus/ingame/game.lua:415
 msgid "F2-F4"
-msgstr ""
+msgstr "F2-F4"
 
 #: scripts/menus/ingame/game.lua:415
 msgid "- recall map position"
-msgstr "afficher la position de la carte"
+msgstr "Afficher la position de la carte"
 
 #: scripts/menus/ingame/game.lua:416
 msgid "Shift F2-F4"
-msgstr ""
+msgstr "Maj F2-F4"
 
 #: scripts/menus/ingame/game.lua:416
 msgid "- save map position"
-msgstr "sauver la position de la carte"
+msgstr "Sauver la position de la carte"
 
 #: scripts/menus/ingame/game.lua:417
 msgid "F5"
-msgstr ""
+msgstr "F5"
 
 #: scripts/menus/ingame/game.lua:417
 msgid "- game options"
-msgstr "Options de Jeu"
+msgstr "Options de jeu"
 
 #: scripts/menus/ingame/game.lua:418
 msgid "F7"
-msgstr ""
+msgstr "F7"
 
 #: scripts/menus/ingame/game.lua:418
 msgid "- sound options"
-msgstr "Options Sons"
+msgstr "Options son"
 
 #: scripts/menus/ingame/game.lua:419
 msgid "F8"
-msgstr ""
+msgstr "F8"
 
 #: scripts/menus/ingame/game.lua:419
 msgid "- speed options"
-msgstr "Options Vitesse"
+msgstr "Options vitesse"
 
 #: scripts/menus/ingame/game.lua:420
 msgid "F9"
-msgstr ""
+msgstr "F9"
 
 #: scripts/menus/ingame/game.lua:420
 msgid "- preferences"
@@ -832,11 +861,11 @@ msgstr "Préférences"
 
 #: scripts/menus/ingame/game.lua:421
 msgid "F10"
-msgstr ""
+msgstr "F10"
 
 #: scripts/menus/ingame/game.lua:422
 msgid "F11"
-msgstr ""
+msgstr "F11"
 
 #: scripts/menus/ingame/game.lua:422
 msgid "- save game"
@@ -844,7 +873,7 @@ msgstr "Sauver la partie"
 
 #: scripts/menus/ingame/game.lua:423
 msgid "F12"
-msgstr ""
+msgstr "F12"
 
 #: scripts/menus/ingame/game.lua:423
 msgid "- load game"
@@ -860,12 +889,17 @@ msgid ""
 "holding down the CTRL key and selecting a unit or by \"double clicking\" on "
 "a unit."
 msgstr ""
+"Vous pouvez sélectionner toutes les unités du même type visibles "
+"actuellement en laissant appuyé la touche CTRL et en sélectionnant une unité "
+"ou en \"double cliquant\" sur une unité."
 
 #: scripts/menus/ingame/game.lua:467
 msgid ""
 "The more engineers you have collecting resources, the faster your economy "
 "will grow."
 msgstr ""
+"Plus vous avez d'ingénieurs (engineers) collectant des ressources, plus "
+"votre économie grossiera vite."
 
 #: scripts/menus/ingame/game.lua:469
 msgid "Use your engineers to repair damaged buildings."
@@ -875,7 +909,7 @@ msgstr ""
 #: scripts/menus/ingame/game.lua:470
 msgid "Explore your surroundings early in the game."
 msgstr "Explorez les alentours tôt dans la partie."
-
+w
 #: scripts/menus/ingame/game.lua:473
 msgid "Keep all engineers working. Use ALT-I to find idle engineers."
 msgstr ""
@@ -888,44 +922,59 @@ msgid ""
 "unit, holding down CTRL and clicking on the icon.  CTRL click again to turn "
 "off."
 msgstr ""
+"Vous pouvez faire que les unités effectuent automatiquement des actions spéciales en "
+"sélectionnant une unité, en laissant appuyé CTRL et en cliquant sur l'icone. "
+"CTRL et clic à nouveau pour désactiver."
 
 #: scripts/menus/ingame/game.lua:477
 msgid ""
 "You can give an unit an order which is executed after it finishes the "
 "current work, if you hold the SHIFT key."
 msgstr ""
+"Vous pouvez donner à une unité un ordre qu'elle exécutera après avoir finie "
+"sa tâche actuelle si vous maintenez la touche MAJ."
 
 #: scripts/menus/ingame/game.lua:478
 msgid ""
 "You can give way points, if you press the SHIFT key, while you click right "
 "for the move command."
 msgstr ""
+"Vous pouvez donner des points de passage, en appuyant sur la touche MAJ tout "
+"en faisant un clic droit pour la commande de mouvement."
 
 #: scripts/menus/ingame/game.lua:479
 msgid ""
 "You can order an engineer to build one building after the other, if you hold "
 "the SHIFT key, while you place the building."
 msgstr ""
+"Vous pouvez ordonner à un ingénieur (engineer) de construire un bâtiment "
+"après un autre si vous maintenez la touche MAJ lorsque vous placez le "
+"bâtiment."
 
 #: scripts/menus/ingame/game.lua:480
 msgid ""
 "You can build many of the same building, if you hold the ALT and SHIFT keys "
 "while you place the buildings."
 msgstr ""
+"Vous pouvez construire plusieurs fois le même bâtiment si vous maintenez les "
+"touches ALT et MAJ pendant que vous placez les bâtiments."
 
 #: scripts/menus/ingame/game.lua:482
 msgid ""
 "Use CTRL-V or ALT-V to cycle through the viewport configuration, you can "
 "than monitor your base and lead an attack."
 msgstr ""
+"Utilisez CTRL-V ou ALT-V pour alterner entre les configurations de la "
+"fenêtre de visualisation, vous pouvez ainsi surveiller votre base et mener "
+"une attaque."
 
 #: scripts/menus/ingame/game.lua:484
 msgid "Know a useful tip?  Then add it here!"
-msgstr ""
+msgstr "Vous connaissez un conseil utile ? Ajoutez-le ici !"
 
 #: scripts/menus/ingame/game.lua:496
 msgid "Bos Wars Tips"
-msgstr "Astuces Bos Wars"
+msgstr "Conseils Bos Wars"
 
 #: scripts/menus/ingame/game.lua:527
 msgid "Show tips at startup"
@@ -943,17 +992,37 @@ msgstr "~!Suivant"
 msgid "Objectives"
 msgstr "Objectifs"
 
-#: scripts/menus/network.lua:55
-msgid "Error"
-msgstr "Erreur"
-
 #: scripts/menus/network.lua:81
 msgid "Players"
 msgstr "Joueurs"
 
+#: scripts/menus/network.lua:85 scripts/menus/network.lua:104
+msgid "Preparing"
+msgstr "Préparation"
+
+#: scripts/menus/network.lua:87
+msgid "Open slots: "
+msgstr "Emplacements ouverts : "
+
+#: scripts/menus/network.lua:92
+msgid "Creator"
+msgstr "Créateur"
+
+#: scripts/menus/network.lua:102
+msgid "Ready"
+msgstr "Prêt"
+
+#: scripts/menus/network.lua:109
+msgid "Open slots : "
+msgstr "Emplacements ouverts : "
+
 #: scripts/menus/network.lua:128
 msgid "Joining game: Map"
-msgstr "Joindre une partie: carte"
+msgstr "Joindre une partie : carte"
+
+#: scripts/menus/network.lua:137
+msgid "Unknown map"
+msgstr "Carte inconnue"
 
 #: scripts/menus/network.lua:174
 msgid "~!Ready"
@@ -966,6 +1035,10 @@ msgstr "Impossible de contacter le serveur"
 #: scripts/menus/network.lua:234
 msgid "Joining game"
 msgstr "Joindre une partie"
+
+#: scripts/menus/network.lua:237
+msgid "Connecting ..."
+msgstr "Connexion ..."
 
 #: scripts/menus/network.lua:256
 msgid "Map not available"
@@ -1033,7 +1106,7 @@ msgstr "Surnom :"
 
 #: scripts/menus/options.lua:37
 msgid "Speed Options"
-msgstr "Options Vitesse"
+msgstr "Options vitesse"
 
 #: scripts/menus/options.lua:77
 msgid "Effects Volume"
@@ -1067,62 +1140,54 @@ msgstr "Utiliser OpenGL (redémarrage nécessaire)"
 msgid "Video Options"
 msgstr "Options vidéo"
 
-#: scripts/menus/options.lua:257
+#: scripts/menus/options.lua:256
 msgid "Language Selection"
 msgstr "Choix de la Langue"
 
-#: scripts/menus/options.lua:308
+#: scripts/menus/options.lua:310
 msgid "~!Sound"
 msgstr "~!Son"
 
-#: scripts/menus/options.lua:309
+#: scripts/menus/options.lua:311
 msgid "~!Video"
 msgstr "~!Vidéo"
 
-#: scripts/menus/options.lua:310
+#: scripts/menus/options.lua:312
 msgid "S~!peed"
 msgstr "V~!itesse"
 
-#: scripts/menus/options.lua:311
+#: scripts/menus/options.lua:313
 msgid "~!Language"
 msgstr "~!Langue"
 
-#: scripts/menus/options.lua:321
+#: scripts/menus/options.lua:323
 msgid "Options"
 msgstr "Options"
 
-#: scripts/menus/patch.lua:39 scripts/menus/patch.lua:95
-#: scripts/menus/patch.lua:130
-msgid "Patch Editor"
-msgstr "Editeur de patch"
+#: scripts/menus/patch.lua:57
+msgid "Create New Patch"
+msgstr "Créer un nouveau patch"
 
-#: scripts/menus/patch.lua:41 scripts/menus/patch.lua:103
+#: scripts/menus/patch.lua:65
 msgid "Name:"
 msgstr "Nom :"
 
-#: scripts/menus/patch.lua:47
+#: scripts/menus/patch.lua:71
 msgid "Image:"
-msgstr ""
+msgstr "Image :"
 
-#: scripts/menus/patch.lua:56
+#: scripts/menus/patch.lua:80
 msgid "x"
-msgstr ""
+msgstr "x"
 
-#: scripts/menus/patch.lua:62
+#: scripts/menus/patch.lua:91
 msgid "Create ~!Patch"
 msgstr "Creér un ~!patch"
 
-#: scripts/menus/patch.lua:111
-msgid "Load ~!Patch"
-msgstr "~!Charger un patch"
+#: scripts/menus/patch.lua:137
+msgid "The image %q is already used in the patch type %q."
+msgstr "L'image %q est déjà utilisée dans le type de patch %q."
 
-#: scripts/menus/patch.lua:132
-msgid "Create ~!New Patch"
-msgstr "Créer un ~!nouveaux patch"
-
-#: scripts/menus/patch.lua:134
-msgid "~!Load Patch"
-msgstr "~!Charger un patch"
-
-#~ msgid "~!Cancel"
-#~ msgstr "~!Annuler"
+#: scripts/menus/patch.lua:158
+msgid "Select Patch to Edit"
+msgstr "Sélectionner un patch à éditer"
