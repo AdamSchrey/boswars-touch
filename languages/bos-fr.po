@@ -909,7 +909,7 @@ msgstr ""
 #: scripts/menus/ingame/game.lua:470
 msgid "Explore your surroundings early in the game."
 msgstr "Explorez les alentours tôt dans la partie."
-w
+
 #: scripts/menus/ingame/game.lua:473
 msgid "Keep all engineers working. Use ALT-I to find idle engineers."
 msgstr ""
@@ -931,7 +931,7 @@ msgid ""
 "You can give an unit an order which is executed after it finishes the "
 "current work, if you hold the SHIFT key."
 msgstr ""
-"Vous pouvez donner à une unité un ordre qu'elle exécutera après avoir finie "
+"Vous pouvez donner à une unité un ordre qu'elle exécutera après avoir fini "
 "sa tâche actuelle si vous maintenez la touche MAJ."
 
 #: scripts/menus/ingame/game.lua:478
