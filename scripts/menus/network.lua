@@ -106,7 +106,7 @@ function addPlayersList(menu, numplayers)
         players_name[i]:setCaption(Hosts[i-1].PlyName)
      end
     end
-    numplayers_text:setCaption(_("Open slots : ") .. numplayers - 1 - connected_players)
+    numplayers_text:setCaption(_("Open slots: ") .. numplayers - 1 - connected_players)
     numplayers_text:adjustSize()
     return (connected_players > 0 and ready_players == connected_players)
   end
