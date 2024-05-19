@@ -204,9 +204,8 @@ msgid "Timed out"
 msgstr "Timed out"
 
 #: stratagus/stratagus.cpp:596
-#, fuzzy
 msgid "Thanks for playing Bos Wars.\n"
-msgstr "Благодаря ви, че играхте Stratagus.\n"
+msgstr "Благодаря ви, че играхте Bos Wars.\n"
 
 #: ui/botpanel.cpp:783 ui/botpanel.cpp:848
 msgid "Select Target"

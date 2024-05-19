@@ -320,9 +320,9 @@ msgid "You have ~<%d~> %ss"
 msgstr "Tu hai ~<%d~> %ss"
 
 #: ui/mouse.cpp:1782
-#, fuzzy, c-format
+#, c-format
 msgid "You have ~<1~> %s"
-msgstr "Tu hai ~<%d~> %ss"
+msgstr "Tu hai ~<1~> %s"
 
 #: unit/unit.cpp:2169
 #, c-format
