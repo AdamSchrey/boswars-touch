@@ -1,11 +1,10 @@
 [Desktop Entry]
 Name=Bos Wars
 GenericName=boswars
-Comment=Battle for survival
-Comment[de]=Kampf um das Überleben
 Type=Application
 Exec=boswars
 Icon=boswars.png
 StartupNotify=true
 Terminal=false
-Categories=Game;
+Categories=Game;StrategyGame;
+Keywords=war;battle;strategy;real-time;
