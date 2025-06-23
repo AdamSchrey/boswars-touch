@@ -136,6 +136,7 @@ long isqrt(long num)
 --  Strings
 ----------------------------------------------------------------------------*/
 
+#ifndef  USE_WIN64
 #if !defined(_MSC_VER) || _MSC_VER < 1400
 unsigned int strcpy_s(char *dst, size_t dstsize, const char *src)
 {
@@ -235,6 +236,7 @@ int sprintf_s(char *dest, size_t destSize, const char *format, ...)
 	return ret;
 }
 #endif
+#endif // USE_WIN64
 
 /**
 **  String duplicate/concatenate (two arguments)

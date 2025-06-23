@@ -71,6 +71,7 @@ extern long isqrt(long num);
 
 #include <string.h>
 
+#ifndef  USE_WIN64
 #if !defined(_MSC_VER) || _MSC_VER < 1400
 #define _TRUNCATE ((size_t)-1)
 extern unsigned int strcpy_s(char *dst, size_t dstsize, const char *src);
@@ -78,6 +79,7 @@ extern unsigned int strncpy_s(char *dst, size_t dstsize, const char *src, size_t
 extern unsigned int strcat_s(char *dst, size_t dstsize, const char *src);
 extern int sprintf_s(char *dest, size_t destSize, const char *format, ...) GCC_ATTR((format(printf, 3, 4)));
 #endif
+#endif // USE_WIN64
 
 inline char *new_strdup(const char *str)
 {
