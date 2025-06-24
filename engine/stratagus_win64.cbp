@@ -70,6 +70,7 @@
 			<Add option="-m64" />
 			<Add option="-D_GNU_SOURCE=1" />
 			<Add option="-DUSE_WIN32" />
+			<Add option="-DUSE_WIN64" />
 			<Add directory="../win64_dep/include" />
 			<Add directory="../win64_dep/include/SDL2" />
 		</Compiler>

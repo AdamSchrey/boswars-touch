@@ -1,6 +1,48 @@
 
 ## Unoficial build using CodeBlocks
 
+### "History"
+
+Old BosWars code base has also Microsoft VS Solution file.
+Code::Blocks IDE can import such files - I create project file this .sln file.
+
+### Goals
+
+(1) Make possible to build BosWars on Windows XP.
+
+Legacy MSys system not provide all needed build dependencies so
+__scons__ build system can not automatically find needed packages.
+Even more: it is tricky to install python3 on Windows XP with
+integrated with MSys/MinGW . 
+
+But Code::Blocks 20.03 works fine on Windows XP.
+
+(2) Provide alternative engine build system for experiments
+- with different compilers;
+- libraries (for example LuaJIT);
+- build options.
+
+### Custom build dependecies
+
+Code::Blocks project files are placed in engine folder. This place allows to run BosWars from IDE (for Windows You need to copy your custom dll-files near executable build by IDE).
+
+__stratagus.cbp__ use only Linux (or other similar OS) build system.
+
+__stratagus_win32.cbp__ has also 
+- "../win32_dep/include" and "../win32_dep/include/SDL2" as compiler includes
+- "../win32_dep/lib" as linker search paths.
+
+__stratagus_win64.cbp__ has also 
+- "../win64_dep/include" and "../win64_dep/include/SDL2" as compiler includes
+- "../win64_dep/lib" as linker search paths.
+
+I provide my custom build dependencies in similar way:
+- liblua, libogg, libvorbis, libtheora, libpng build myself from source;
+- libSDL2 from SDL project (I was not able to build this on old MSys, 
+but my build on MSys2 was about 10Mb)
+
+But You may prefer Msys2 provided liblua, libogg, libvorbis, 
+libtheora, libpng, libSDL2.
 
 ### Making portable aplication
 
