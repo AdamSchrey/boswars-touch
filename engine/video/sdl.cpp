@@ -840,86 +840,8 @@ void ToggleFullScreen(void)
 	Uint32 flags;
 
 	flags = SDL_GetWindowFlags(TheWindow) & SDL_WINDOW_FULLSCREEN_DESKTOP;
-#ifdef USE_WIN32
-	long framesize;
-	SDL_Rect clip;
-	Uint32 flags;
-	int w;
-	int h;
-	int bpp;
-	unsigned char *pixels = NULL;
-	SDL_Color *palette = NULL;
-	int ncolors = 0;
 
-	if (!TheScreen) { // don't bother if there's no surface.
-		return;
-	}
-
-	flags = TheScreen->flags;
-	w = TheScreen->w;
-	h = TheScreen->h;
-	bpp = TheScreen->format->BitsPerPixel;
-
-	if (!SDL_VideoModeOK(w, h, bpp,	flags ^ SDL_FULLSCREEN)) {
-		return;
-	}
-
-	SDL_GetClipRect(TheScreen, &clip);
-
-	// save the contents of the screen.
-	framesize = w * h * TheScreen->format->BytesPerPixel;
-
-	if (!(pixels = new unsigned char[framesize])) { // out of memory
-		return;
-	}
-	SDL_LockSurface(TheScreen);
-	memcpy(pixels, TheScreen->pixels, framesize);
-
-	if (TheScreen->format->palette) {
-		ncolors = TheScreen->format->palette->ncolors;
-		if (!(palette = new SDL_Color[ncolors])) {
-			delete[] pixels;
-			return;
-		}
-		memcpy(palette, TheScreen->format->palette->colors,
-			ncolors * sizeof(SDL_Color));
-	}
-	SDL_UnlockSurface(TheScreen);
-
-
-	TheScreen = SDL_SetVideoMode(w, h, bpp, flags ^ SDL_FULLSCREEN);
-	if (!TheScreen) {
-		TheScreen = SDL_SetVideoMode(w, h, bpp, flags);
-		if (!TheScreen) { // completely screwed.
-			delete[] pixels;
-			delete[] palette;
-			fprintf(stderr, "Toggle to fullscreen, crashed all\n");
-			Exit(-1);
-		}
-	}
-
-	// Windows shows the SDL cursor when starting in fullscreen mode
-	// then switching to window mode.  This hides the cursor again.
-	SDL_ShowCursor(SDL_ENABLE);
-	SDL_ShowCursor(SDL_DISABLE);
-
-	SDL_LockSurface(TheScreen);
-	memcpy(TheScreen->pixels, pixels, framesize);
-	delete[] pixels;
-
-	if (TheScreen->format->palette) {
-		// !!! FIXME : No idea if that flags param is right.
-		SDL_SetPalette(TheScreen, SDL_LOGPAL, palette, 0, ncolors);
-		delete[] palette;
-	}
-	SDL_UnlockSurface(TheScreen);
-
-	SDL_SetClipRect(TheScreen, &clip);
-
-	Invalidate(); // Update display
-#else // !USE_WIN32
 	SDL_SetWindowFullscreen(TheWindow, flags ^ SDL_WINDOW_FULLSCREEN_DESKTOP);
-#endif
 
 	Video.FullScreen = (flags & SDL_WINDOW_FULLSCREEN_DESKTOP) ? 0 : 1;
 }
