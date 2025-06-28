@@ -72,6 +72,15 @@ extern long isqrt(long num);
 #include <string.h>
 
 #if !defined(_MSC_VER) || _MSC_VER < 1400
+
+#else
+
+#define HAVE_C11STRFN
+
+#endif
+
+
+#ifndef HAVE_C11STRFN
 #define _TRUNCATE ((size_t)-1)
 extern unsigned int strcpy_s(char *dst, size_t dstsize, const char *src);
 extern unsigned int strncpy_s(char *dst, size_t dstsize, const char *src, size_t count);

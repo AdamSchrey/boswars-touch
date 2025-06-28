@@ -136,7 +136,7 @@ long isqrt(long num)
 --  Strings
 ----------------------------------------------------------------------------*/
 
-#if !defined(_MSC_VER) || _MSC_VER < 1400
+#ifndef HAVE_C11STRFN
 unsigned int strcpy_s(char *dst, size_t dstsize, const char *src)
 {
 	if (dst == NULL || src == NULL) {
