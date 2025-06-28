@@ -440,13 +440,16 @@ def static(builddir='fbuild/static', **kwargs):
     b.libpath('.')
     make(b)
 
-def mingw(builddir='fbuild/mingw', cc='i486-mingw32-g++', **kwargs):
+def mingw(builddir='fbuild/mingw', cc='i686-w64-mingw32-g++-win32', **kwargs):
     b = compiler(builddir=builddir, cc=cc, usepkgconfig=False, **kwargs)
     b.define('USE_WIN32')
+    b.define('HAVE_C11STRFN')
     b.incpath('mingwdeps/include')
+    b.incpath('mingwdeps/include/SDL2')
     b.libpath('mingwdeps/lib')
-    b.lib('mingw32', 'SDLmain', 'wsock32', 'ws2_32')
+    b.lib('mingw32', 'SDL2main', 'wsock32', 'ws2_32')
     b.ldflags += ['-mwindows']
+    b.optimize()
     mkdir(builddir)
     detect(b)
     b.cflags += ['-UHAVE_STRCASESTR','-UHAVE_STRNLEN']
