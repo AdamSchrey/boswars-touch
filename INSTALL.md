@@ -101,3 +101,43 @@ A man page for Bos Wars can be generated from the executable with
 after that generation of a man page with:
 
     ./make.py manpage
+
+
+## Cross compiling win32 application
+
+You need to install __MinGW package__ (on Debian 12 it is __mingw-w64__).
+
+Than you need to provide win32 dependencies in __mingwdeps__ (in boswars).
+
+Content will be something _like_ this:
+
+- in __mingwdeps/include/__ png.h, zlib.h, pngconf.h, lua.h, lualib.h, 
+lauxlib.h, lua.hpp, zconf.h, luaconf.h, but also _folders_: __SDL2__, __libpng12__, 
+__ogg__, __theora__;
+- in __mingwdeps/lib/__ all __.a__ and __.la__ files;
+- in __mingwdeps/dll/__ you should also collect .dll - files.
+
+Than command
+
+    ./make.py mingw
+
+will builds win32 executable __boswars.exe__.
+
+To run __boswars.exe__ You need place your provided .dll files near boswars.exe.
+
+But You also need to place some  _build system_ .dll files near __boswars.exe__.
+
+Your need something like:
+
+- libgcc_s_dw2-1.dll
+- libstdc++-6.dll
+- libwinpthread-1.dll
+- zlib1.dll
+
+It is not so easy to find tham on Debian, but on Debian 12 You should
+look in folders :
+
+- __/lib/gcc/i686-w64-mingw32/12-win32/__ (for libgcc_s_dw2 and libstdc++)
+- __/usr/i686-w64-mingw32/lib/__ (for libwinpthread and zlib)
+
+On different distributions this folders will be only similar ... 
