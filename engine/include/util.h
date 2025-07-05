@@ -71,14 +71,9 @@ extern long isqrt(long num);
 
 #include <string.h>
 
-#if !defined(_MSC_VER) || _MSC_VER < 1400
-
-#else
-
+#if defined(_MSC_VER) && _MSC_VER < 1400
 #define HAVE_C11STRFN
-
 #endif
-
 
 #ifndef HAVE_C11STRFN
 #define _TRUNCATE ((size_t)-1)

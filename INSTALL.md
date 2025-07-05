@@ -103,11 +103,11 @@ after that generation of a man page with:
     ./make.py manpage
 
 
-## Cross compiling win32 application
+## Cross compiling win64 application
 
 You need to install __MinGW package__ (on Debian 12 it is __mingw-w64__).
 
-Than you need to provide win32 dependencies in __mingwdeps__ (in boswars).
+Than you need to provide win64 dependencies in __mingwdeps__ (in boswars).
 
 Content will be something _like_ this:
 
@@ -121,7 +121,7 @@ Than command
 
     ./make.py mingw
 
-will builds win32 executable __boswars.exe__.
+will builds win64 executable __boswars.exe__.
 
 To run __boswars.exe__ You need place your provided .dll files near boswars.exe.
 
@@ -137,7 +137,7 @@ Your need something like:
 It is not so easy to find tham on Debian, but on Debian 12 You should
 look in folders :
 
-- __/lib/gcc/i686-w64-mingw32/12-win32/__ (for libgcc_s_dw2 and libstdc++)
-- __/usr/i686-w64-mingw32/lib/__ (for libwinpthread and zlib)
+- __/lib/gcc/x86_64-w64-mingw32/12-win32/__ (for libgcc_s_dw2 and libstdc++)
+- __/usr/x86_64-w64-mingw32/lib/__ (for libwinpthread and zlib)
 
 On different distributions this folders will be only similar ... 

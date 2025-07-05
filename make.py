@@ -440,7 +440,7 @@ def static(builddir='fbuild/static', **kwargs):
     b.libpath('.')
     make(b)
 
-def mingw(builddir='fbuild/mingw', cc='i686-w64-mingw32-g++-win32', **kwargs):
+def mingw(builddir='fbuild/mingw', cc='x86_64-w64-mingw32-g++', **kwargs):
     b = compiler(builddir=builddir, cc=cc, usepkgconfig=False, **kwargs)
     b.define('USE_WIN32')
     b.define('HAVE_C11STRFN')
