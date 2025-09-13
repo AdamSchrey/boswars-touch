@@ -1,6 +1,7 @@
 Change log for Bos Wars
 -----------------------
 
+- Added the palm-trees map (Michiel van der Wulp)
 - Fix make.py "install" action (bug #69) (François Beerten)
 - Run custom maps in the user directory (François Beerten)
 - Editor saves map in the user directory (François Beerten)
