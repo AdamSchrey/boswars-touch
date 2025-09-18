@@ -125,6 +125,7 @@ local ai_funcs = {
 
   function() return AiForce(0, {"unit-destroyer", 3}) end,
   function() return AiWaitForce(0) end,
+  function() return AiSleep(50*GameSettings.Difficulty) end,
   function() return AiAttackWithForce(0) end,
 
   -- Always attack as soon as the 3 destroyers are finished:
