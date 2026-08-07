@@ -1,0 +1,26 @@
+{
+  "clickable_minimum_required": "8.8.0",
+  "kill": "boswars-touch",
+  "builder": "custom",
+  "build": "make -j$(nproc) release",
+  "clean": "make clean",
+  "framework": "@CLICK_FRAMEWORK@",
+  "build_dir": "${ROOT}/build/${ARCH_TRIPLET}/app",
+  "dependencies_target": [
+    "liblua5.1-0",
+    "libsdl2-2.0-0",
+    "zlib1g",
+    "libpng16-16",
+    "libvorbis0a",
+    "libtheora0",
+    "libogg0",
+    "libc6"
+  ],
+  "install_lib": [
+    "${ROOT}/lib/${ARCH_TRIPLET}/*"
+  ],
+  "install_data": {
+    "${ROOT}/data/*": "${INSTALL_DIR}",
+    "${ROOT}/build/${ARCH_TRIPLET}/app/boswars": "${INSTALL_DIR}"
+  }
+}

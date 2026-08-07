@@ -1,0 +1,9 @@
+{
+    "policy_groups": [
+        "networking",
+        "audio",
+        "pulseaudio"
+    ],
+    "policy_version": 16.04,
+    "name": "boswars-touch"
+}

@@ -1,0 +1,15 @@
+{
+    "architecture": "@CLICK_ARCH@",
+    "description": "Bos Wars is a real-time strategy game based on the Stratagus engine.",
+    "framework": "@CLICK_FRAMEWORK@",
+    "hooks": {
+        "boswars-touch": {
+            "apparmor": "boswars-touch.apparmor",
+            "desktop": "boswars-touch.desktop"
+        }
+    },
+    "maintainer": "Adam Schrey <ut-phablet-things@mail.de>",
+    "name": "boswars-touch",
+    "title": "Bos Wars Touch",
+    "version": "2.10.0"
+}
