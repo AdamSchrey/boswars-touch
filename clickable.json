@@ -22,5 +22,7 @@
   "install_data": {
     "${ROOT}/data/*": "${INSTALL_DIR}",
     "${ROOT}/build/${ARCH_TRIPLET}/app/boswars": "${INSTALL_DIR}"
-  }
+  },
+  "premake": "bash ${ROOT}/make_project.sh",
+  "postmake": "bash ${ROOT}/import_binaries.sh"
 }
