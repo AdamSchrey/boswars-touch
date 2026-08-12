@@ -1,4 +1,4 @@
-# Makefile für boswars-touch (angepasst für Clickable und Lua 5.1)
+# Makefile for boswars-touch (adapted for Clickable and Lua 5.1)
 
 TARGET = boswars
 BUILD_DIR = build/${ARCH_TRIPLET}/app
@@ -7,7 +7,7 @@ INCLUDES = -I$(SRC_DIR)/include -Iengine/include -Iengine/guichan/include
 CXXFLAGS = -Wall -fsigned-char -D_GNU_SOURCE=1 -D_REENTRANT -O2
 LDFLAGS = -lSDL2 -llua5.1 -lz -lpng -lvorbis -ltheora -logg
 
-# Quelldateien finden
+# Find source files
 SRCS := $(shell find $(SRC_DIR) -name "*.cpp")
 OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRCS))
 

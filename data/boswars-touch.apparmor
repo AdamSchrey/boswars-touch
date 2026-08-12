@@ -4,6 +4,6 @@
         "audio",
         "pulseaudio"
     ],
-    "policy_version": 16.04,
+    "policy_version": "@APPARMOR_POLICY@",
     "name": "boswars-touch"
 }

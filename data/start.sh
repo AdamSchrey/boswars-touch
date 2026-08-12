@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Setze das Arbeitsverzeichnis auf das Datenverzeichnis
+# Set working directory to the data directory
 cd "$(dirname "$0")"
 
-# Exportiere LD_LIBRARY_PATH, um die mitgelieferten Bibliotheken zu finden
+# Export LD_LIBRARY_PATH to find the included libraries
 export LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$(dirname "$0")/../lib/${ARCH_TRIPLET}"
 
-# Führe das Spiel aus
+# Run the game
 ./boswars
 
 exit 0
