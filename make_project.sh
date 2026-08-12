@@ -1,21 +1,21 @@
 #!/bin/bash
 
-# Skript zum Vorbereiten des Projekts für Clickable
-# Dies kopiert die notwendigen Dateien und bereitet das Build-System vor
+# Script to prepare the project for Clickable
+# This copies the necessary files and prepares the build system
 
 set -e
 
-echo "Bereite boswars-touch für Clickable vor..."
+echo "Preparing boswars-touch for Clickable..."
 
-# Erstelle Build-Verzeichnis
+# Create build directory
 mkdir -p build
 
-# Kopiere die Engine-Quelldateien in das Build-Verzeichnis
+# Copy the engine source files to the build directory
 cp -r engine build/
 
-# Erstelle ein einfaches Makefile für das Build-System
+# Create a simple Makefile for the build system
 cat > build/Makefile << 'EOF'
-# Einfaches Makefile für boswars-touch
+# Simple Makefile for boswars-touch
 TARGET = boswars
 BUILD_DIR = .
 SRC_DIR = engine/stratagus
@@ -23,7 +23,7 @@ INCLUDES = -I$(SRC_DIR)/include -Iengine/include -Iengine/guichan/include
 CXXFLAGS = -Wall -fsigned-char -D_GNU_SOURCE=1 -D_REENTRANT -O2
 LDFLAGS = -lSDL2 -llua5.1 -lz -lpng -lvorbis -ltheora -logg
 
-# Quelldateien finden
+# Find source files
 SRCS := $(shell find $(SRC_DIR) -name "*.cpp")
 OBJS := $(SRCS:.cpp=.o)
 
@@ -43,10 +43,10 @@ clean:
 .PHONY: all clean release
 EOF
 
-echo "Makefile erstellt."
+echo "Makefile created."
 
-# Erstelle die notwendigen Konfigurationsdateien für Clickable
-echo "Erstelle manifest.json..."
+# Create the necessary configuration files for Clickable
+echo "Creating manifest.json..."
 cat > data/manifest.json << 'EOF'
 {
     "architecture": "@CLICK_ARCH@",
@@ -65,7 +65,7 @@ cat > data/manifest.json << 'EOF'
 }
 EOF
 
-echo "Erstelle boswars-touch.desktop..."
+echo "Creating boswars-touch.desktop..."
 cat > data/boswars-touch.desktop << 'EOF'
 [Desktop Entry]
 Name=Bos Wars Touch
@@ -78,7 +78,7 @@ Comment=Bos Wars is a real-time strategy game based on the Stratagus engine.
 StartupNotify=false
 EOF
 
-echo "Erstelle boswars-touch.apparmor..."
+echo "Creating boswars-touch.apparmor..."
 cat > data/boswars-touch.apparmor << 'EOF'
 {
     "policy_groups": [
@@ -91,17 +91,17 @@ cat > data/boswars-touch.apparmor << 'EOF'
 }
 EOF
 
-echo "Erstelle start.sh..."
+echo "Creating start.sh..."
 cat > data/start.sh << 'EOF'
 #!/bin/bash
 
-# Setze das Arbeitsverzeichnis auf das Datenverzeichnis
+# Set working directory to the data directory
 cd "$(dirname "$0")"
 
-# Exportiere LD_LIBRARY_PATH, um die mitgelieferten Bibliotheken zu finden
+# Export LD_LIBRARY_PATH to find the included libraries
 export LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$(dirname "$0")/../lib/${ARCH_TRIPLET}"
 
-# Führe das Spiel aus
+# Run the game
 ./boswars
 
 exit 0
@@ -109,12 +109,12 @@ EOF
 
 chmod +x data/start.sh
 
-# Kopiere ein Icon (falls nicht vorhanden)
+# Copy an icon (if not present)
 if [ ! -f "data/boswars-touch.png" ]; then
     if [ -f "data/graphics/general/dejavusansbold14.png" ]; then
         cp data/graphics/general/dejavusansbold14.png data/boswars-touch.png
     fi
 fi
 
-echo "Projekt vorbereitet für Clickable."
+echo "Project prepared for Clickable."
 exit 0
