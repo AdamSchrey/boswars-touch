@@ -1,11 +1,3 @@
 __pycache__
 .deps
 fbuild
-build
-.clickable
-lib
-*.o
-*.pro
-.qmake*
-moc_*
-Makefile
