@@ -1,120 +1,29 @@
 #!/bin/bash
-
-# Script to prepare the project for Clickable
-# This copies the necessary files and prepares the build system
-
+# Prepare boswars-touch for a Clickable build.
+# Mirrors the draw-on-document make_project.sh: clean stale build output and
+# make sure the data/ directory that ships the click package is in place.
 set -e
+
+cd "$(dirname "$0")"
 
 echo "Preparing boswars-touch for Clickable..."
 
-# Create build directory
-mkdir -p build
+# Remove stale build artifacts (engine uses fabricate, output goes to fbuild/).
+rm -rf fbuild build lib .deps
 
-# Copy the engine source files to the build directory
-cp -r engine build/
-
-# Create a simple Makefile for the build system
-cat > build/Makefile << 'EOF'
-# Simple Makefile for boswars-touch
-TARGET = boswars
-BUILD_DIR = .
-SRC_DIR = engine/stratagus
-INCLUDES = -I$(SRC_DIR)/include -Iengine/include -Iengine/guichan/include
-CXXFLAGS = -Wall -fsigned-char -D_GNU_SOURCE=1 -D_REENTRANT -O2
-LDFLAGS = -lSDL2 -llua5.1 -lz -lpng -lvorbis -ltheora -logg
-
-# Find source files
-SRCS := $(shell find $(SRC_DIR) -name "*.cpp")
-OBJS := $(SRCS:.cpp=.o)
-
-all: $(TARGET)
-
-$(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $@ $^ $(LDFLAGS)
-
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
-
-release: all
-
-clean:
-	rm -f $(OBJS) $(TARGET)
-
-.PHONY: all clean release
-EOF
-
-echo "Makefile created."
-
-# Create the necessary configuration files for Clickable
-echo "Creating manifest.json..."
-cat > data/manifest.json << 'EOF'
-{
-    "architecture": "@CLICK_ARCH@",
-    "description": "Bos Wars is a real-time strategy game based on the Stratagus engine.",
-    "framework": "@CLICK_FRAMEWORK@",
-    "hooks": {
-        "boswars-touch": {
-            "apparmor": "boswars-touch.apparmor",
-            "desktop": "boswars-touch.desktop"
-        }
-    },
-    "maintainer": "Adam Schrey <ut-phablet-things@mail.de>",
-    "name": "boswars-touch",
-    "title": "Bos Wars Touch",
-    "version": "2.10.0"
-}
-EOF
-
-echo "Creating boswars-touch.desktop..."
-cat > data/boswars-touch.desktop << 'EOF'
-[Desktop Entry]
-Name=Bos Wars Touch
-Exec=start.sh
-X-Ubuntu-Touch=true
-Terminal=false
-Type=Application
-Icon=boswars-touch.png
-Comment=Bos Wars is a real-time strategy game based on the Stratagus engine.
-StartupNotify=false
-EOF
-
-echo "Creating boswars-touch.apparmor..."
-cat > data/boswars-touch.apparmor << 'EOF'
-{
-    "policy_groups": [
-        "networking",
-        "audio",
-        "pulseaudio"
-    ],
-    "policy_version": 16.04,
-    "name": "boswars-touch"
-}
-EOF
-
-echo "Creating start.sh..."
-cat > data/start.sh << 'EOF'
-#!/bin/bash
-
-# Set working directory to the data directory
-cd "$(dirname "$0")"
-
-# Export LD_LIBRARY_PATH to find the included libraries
-export LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$(dirname "$0")/../lib/${ARCH_TRIPLET}"
-
-# Run the game
-./boswars
-
-exit 0
-EOF
-
-chmod +x data/start.sh
-
-# Copy an icon (if not present)
-if [ ! -f "data/boswars-touch.png" ]; then
-    if [ -f "data/graphics/general/dejavusansbold14.png" ]; then
-        cp data/graphics/general/dejavusansbold14.png data/boswars-touch.png
+# The game assets and click packaging files (manifest.json, .desktop,
+# .apparmor, start.sh) are committed under data/, so nothing needs to be
+# generated here. Verify the expected files are present.
+for f in data/manifest.json data/boswars-touch.desktop \
+         data/boswars-touch.apparmor data/start.sh; do
+    if [ ! -f "$f" ]; then
+        echo "ERROR: required packaging file '$f' is missing." >&2
+        exit 1
     fi
-fi
+done
+
+# Ensure the launcher is executable in the working tree.
+chmod +x data/start.sh
 
 echo "Project prepared for Clickable."
 exit 0

@@ -1,20 +1,19 @@
 {
   "clickable_minimum_required": "8.8.0",
-  "kill": "boswars-touch",
+  "kill": "boswars",
   "builder": "custom",
-  "build": "make -j$(nproc) release",
-  "clean": "make clean",
+  "build": "python3 make.py release builddir=${BUILD_DIR}",
+  "clean": "python3 make.py clean",
   "framework": "@CLICK_FRAMEWORK@",
   "build_dir": "${ROOT}/build/${ARCH_TRIPLET}/app",
   "dependencies_target": [
-    "liblua5.1-0",
-    "libsdl2-2.0-0",
-    "zlib1g",
-    "libpng16-16",
-    "libvorbis0a",
-    "libtheora0",
-    "libogg0",
-    "libc6"
+    "liblua5.1-0-dev",
+    "libsdl2-dev",
+    "zlib1g-dev",
+    "libpng-dev",
+    "libvorbis-dev",
+    "libtheora-dev",
+    "libogg-dev"
   ],
   "install_lib": [
     "${ROOT}/lib/${ARCH_TRIPLET}/*"
@@ -23,6 +22,6 @@
     "${ROOT}/data/*": "${INSTALL_DIR}",
     "${ROOT}/build/${ARCH_TRIPLET}/app/boswars": "${INSTALL_DIR}"
   },
-  "premake": "bash ${ROOT}/make_project.sh",
-  "postmake": "bash ${ROOT}/import_binaries.sh"
+  "prebuild": "bash ${ROOT}/make_project.sh",
+  "postbuild": "bash ${ROOT}/import_binaries.sh"
 }

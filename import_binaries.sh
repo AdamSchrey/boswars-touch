@@ -1,148 +1,86 @@
 #!/bin/bash
-
-# Script to import the necessary libraries for boswars-touch
-# Uses Lua 5.1 to ensure compatibility with existing scripts
-
+# Import the shared libraries and helper programs that boswars-touch needs at
+# runtime into the click package. Mirrors the draw-on-document import_binaries.sh:
+# libraries are copied from the build container and, where that is not enough,
+# downloaded with "apt download" and extracted.
 set -Eeou pipefail
 
 echo "ARCH: ${ARCH}"
-echo "ROOT: ${ROOT}"
-
 cd "${ROOT}"
 
 echo -e "\n\nImport Libraries:\n"
-
-# Create lib directory for the architecture
 mkdir -p lib/${ARCH_TRIPLET}/
 
-# Lua 5.1 (important for compatibility with existing scripts)
-echo "Importing Lua 5.1..."
-if [ -f "/usr/lib/${ARCH_TRIPLET}/liblua5.1.so.0" ]; then
-    cp /usr/lib/${ARCH_TRIPLET}/liblua5.1.so* lib/${ARCH_TRIPLET}/
-elif [ -f "/usr/lib/aarch64-linux-gnu/liblua5.1.so.0" ]; then
-    cp /usr/lib/aarch64-linux-gnu/liblua5.1.so* lib/${ARCH_TRIPLET}/
-else
-    echo "ERROR: liblua5.1.so not found! Trying to download via apt..."
-    apt download liblua5.1-0:${ARCH} 2>/dev/null || {
-        echo "ERROR: liblua5.1-0 could not be downloaded!"
-        exit 1
-    }
-    lua_deb=$(ls | grep "liblua5.1-0" | head -1)
-    if [ -n "$lua_deb" ]; then
-        dpkg-deb -xv "$lua_deb" . || true
-        cp -r usr/lib/* lib/
-        rm -f "$lua_deb"
-        rm -rf usr
-    else
-        echo "ERROR: liblua5.1-0 deb package not found!"
-        exit 1
+# Some libraries are installed via "dependencies_target" in clickable.json,
+# but that does not always bundle every needed .so, so the rest are obtained
+# with "apt download". Downloading some libraries with "dependencies_target"
+# runs "apt-get update" in the container, which makes "apt download" usable.
+cp /usr/lib/${ARCH_TRIPLET}/libSDL2* lib/${ARCH_TRIPLET}/ || true
+cp /usr/lib/${ARCH_TRIPLET}/liblua5.1.so* lib/${ARCH_TRIPLET}/ || true
+cp /usr/lib/${ARCH_TRIPLET}/libpng16* lib/${ARCH_TRIPLET}/ || true
+cp /usr/lib/${ARCH_TRIPLET}/libvorbis* lib/${ARCH_TRIPLET}/ || true
+cp /usr/lib/${ARCH_TRIPLET}/libtheora* lib/${ARCH_TRIPLET}/ || true
+cp /usr/lib/${ARCH_TRIPLET}/libogg* lib/${ARCH_TRIPLET}/ || true
+cp /usr/lib/${ARCH_TRIPLET}/libz.so* lib/${ARCH_TRIPLET}/ || true
+
+# Download any libraries that were not found above and extract them.
+for pkg in libsdl2-2.0-0 liblua5.1-0 libpng16-16 libvorbis0a libtheora0 libogg0 zlib1g; do
+    if ! ls lib/${ARCH_TRIPLET}/lib${pkg}* 1> /dev/null 2>&1; then
+        echo "Downloading $pkg for architecture $ARCH..."
+        apt download ${pkg}:${ARCH} 2>/dev/null || true
+        deb=$(ls | grep "^${pkg}" || true)
+        if [ -n "$deb" ] && [ -f "$deb" ]; then
+            echo "Extracting $deb..."
+            dpkg-deb -xv "$deb" . || true  # ignore tar ownership errors
+            if [ -d "usr/lib/${ARCH_TRIPLET}" ]; then
+                cp -r usr/lib/${ARCH_TRIPLET}/* lib/${ARCH_TRIPLET}/ || true
+            fi
+            rm -f "$deb"
+            rm -rf usr etc
+        fi
+    fi
+done
+
+# libc6 is required for dynamic linking of the bundled libraries.
+if ! ls lib/${ARCH_TRIPLET}/libc.so* 1> /dev/null 2>&1; then
+    echo "Downloading libc6 for architecture $ARCH..."
+    apt download libc6:${ARCH} 2>/dev/null || true
+    libc=$(ls | grep "^libc6" || true)
+    if [ -n "$libc" ] && [ -f "$libc" ]; then
+        echo "Extracting $libc..."
+        dpkg-deb -xv "$libc" . || true  # ignore tar ownership errors
+        cp -r usr/lib/* lib/ || true
+        rm -f "$libc"
+        rm -rf usr etc
     fi
 fi
 
-# SDL2
-echo "Importing SDL2..."
-if [ -f "/usr/lib/${ARCH_TRIPLET}/libSDL2-2.0.so.0" ]; then
-    cp /usr/lib/${ARCH_TRIPLET}/libSDL2* lib/${ARCH_TRIPLET}/
-elif [ -f "/usr/lib/aarch64-linux-gnu/libSDL2-2.0.so.0" ]; then
-    cp /usr/lib/aarch64-linux-gnu/libSDL2* lib/${ARCH_TRIPLET}/
-else
-    echo "ERROR: libSDL2 not found! Trying to download via apt..."
-    apt download libsdl2-2.0-0:${ARCH} 2>/dev/null || {
-        echo "ERROR: libsdl2-2.0-0 could not be downloaded!"
-        exit 1
-    }
-    sdl_deb=$(ls | grep "libsdl2-2.0-0" | head -1)
-    if [ -n "$sdl_deb" ]; then
-        dpkg-deb -xv "$sdl_deb" . || true
-        cp -r usr/lib/* lib/
-        rm -f "$sdl_deb"
-        rm -rf usr
-    else
-        echo "ERROR: libsdl2-2.0-0 deb package not found!"
-        exit 1
+# Clean up any leftover .deb files.
+rm -f *.deb
+
+echo -e "\n\nImport Programs:\n"
+# boswars may shell out to basic coreutils programs at runtime; bundle them
+# into data/ so they are available inside the confined click package.
+for pkg in coreutils grep; do
+    echo "Downloading $pkg for architecture $ARCH..."
+    apt download ${pkg}:${ARCH} 2>/dev/null || true
+    deb=$(ls | grep "^${pkg}" || true)
+    if [ -n "$deb" ] && [ -f "$deb" ]; then
+        echo "Extracting $deb..."
+        dpkg-deb -xv "$deb" . || true  # ignore tar ownership errors
+        if [ -d "usr/bin" ]; then
+            for bin in cp ls mkdir mv echo rm tr basename mktemp grep; do
+                if [ -f "usr/bin/$bin" ]; then
+                    cp usr/bin/$bin data/ || true
+                fi
+            done
+        fi
+        rm -f "$deb"
+        rm -rf usr etc
     fi
-fi
+done
 
-# zlib
-echo "Importing zlib..."
-if [ -f "/usr/lib/${ARCH_TRIPLET}/libz.so.1" ]; then
-    cp /usr/lib/${ARCH_TRIPLET}/libz.so* lib/${ARCH_TRIPLET}/
-elif [ -f "/usr/lib/aarch64-linux-gnu/libz.so.1" ]; then
-    cp /usr/lib/aarch64-linux-gnu/libz.so* lib/${ARCH_TRIPLET}/
-else
-    echo "ERROR: libz.so not found! Trying to download via apt..."
-    apt download zlib1g:${ARCH} 2>/dev/null || {
-        echo "ERROR: zlib1g could not be downloaded!"
-        exit 1
-    }
-    zlib_deb=$(ls | grep "zlib1g" | head -1)
-    if [ -n "$zlib_deb" ]; then
-        dpkg-deb -xv "$zlib_deb" . || true
-        cp -r usr/lib/* lib/
-        rm -f "$zlib_deb"
-        rm -rf usr
-    else
-        echo "ERROR: zlib1g deb package not found!"
-        exit 1
-    fi
-fi
+rm -f *.deb
 
-# libpng
-echo "Importing libpng..."
-if [ -f "/usr/lib/${ARCH_TRIPLET}/libpng16.so.16" ]; then
-    cp /usr/lib/${ARCH_TRIPLET}/libpng* lib/${ARCH_TRIPLET}/
-elif [ -f "/usr/lib/aarch64-linux-gnu/libpng16.so.16" ]; then
-    cp /usr/lib/aarch64-linux-gnu/libpng* lib/${ARCH_TRIPLET}/
-else
-    echo "WARN: libpng not found! This is optional."
-fi
-
-# libvorbis
-echo "Importing libvorbis..."
-if [ -f "/usr/lib/${ARCH_TRIPLET}/libvorbis.so.0" ]; then
-    cp /usr/lib/${ARCH_TRIPLET}/libvorbis* lib/${ARCH_TRIPLET}/
-elif [ -f "/usr/lib/aarch64-linux-gnu/libvorbis.so.0" ]; then
-    cp /usr/lib/aarch64-linux-gnu/libvorbis* lib/${ARCH_TRIPLET}/
-else
-    echo "WARN: libvorbis not found! This is optional."
-fi
-
-# libtheora
-echo "Importing libtheora..."
-if [ -f "/usr/lib/${ARCH_TRIPLET}/libtheora.so.0" ]; then
-    cp /usr/lib/${ARCH_TRIPLET}/libtheora* lib/${ARCH_TRIPLET}/
-elif [ -f "/usr/lib/aarch64-linux-gnu/libtheora.so.0" ]; then
-    cp /usr/lib/aarch64-linux-gnu/libtheora* lib/${ARCH_TRIPLET}/
-else
-    echo "WARN: libtheora not found! This is optional."
-fi
-
-# libogg
-echo "Importing libogg..."
-if [ -f "/usr/lib/${ARCH_TRIPLET}/libogg.so.0" ]; then
-    cp /usr/lib/${ARCH_TRIPLET}/libogg* lib/${ARCH_TRIPLET}/
-elif [ -f "/usr/lib/aarch64-linux-gnu/libogg.so.0" ]; then
-    cp /usr/lib/aarch64-linux-gnu/libogg* lib/${ARCH_TRIPLET}/
-else
-    echo "WARN: libogg not found! This is optional."
-fi
-
-# libc (important for dynamic linking)
-echo "Importing libc6..."
-apt download libc6:${ARCH} 2>/dev/null || {
-    echo "WARN: libc6 could not be downloaded, trying with apt-get..."
-    apt-get download libc6:${ARCH} 2>/dev/null || {
-        echo "WARN: libc6 could not be downloaded. This might cause problems."
-    }
-}
-libc_deb=$(ls | grep "libc6" | head -1)
-if [ -n "$libc_deb" ]; then
-    dpkg-deb -xv "$libc_deb" . || true
-    cp -r usr/lib/* lib/
-    rm -f "$libc_deb"
-    rm -rf usr
-fi
-
-echo -e "\n\nLibraries imported. Done!"
-
+echo -e "\n\nLibrary and program import completed successfully."
 exit 0
