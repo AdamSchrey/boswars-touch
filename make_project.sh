@@ -25,7 +25,7 @@ echo "Project prepared for Clickable."
 export PKG_CONFIG_LIBDIR="/usr/lib/${ARCH_TRIPLET}/pkgconfig:/usr/share/pkgconfig"
 
 echo "Building boswars (arch=${ARCH}, triplet=${ARCH_TRIPLET})..."
-python3 make.py release \
+python3 make.py -j "${NUM_PROCS}" release \
     builddir="${BUILD_DIR}" \
     cc="${ARCH_TRIPLET}-g++" \
     ldflags="-L/usr/lib/${ARCH_TRIPLET}"
