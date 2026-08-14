@@ -155,6 +155,29 @@ static int CclGetVideoResolution(lua_State *l)
 }
 
 /**
+**  Get the native display resolution.
+**
+**  @param l  Lua state.
+*/
+static int CclGetDisplayResolution(lua_State *l)
+{
+	LuaCheckArgs(l, 0);
+	SDL_DisplayMode mode;
+	float ddpi = 0;
+	SDL_GetDisplayDPI(0, &ddpi, NULL, NULL);
+	if (SDL_GetCurrentDisplayMode(0, &mode) == 0 && mode.w > 0 && mode.h > 0) {
+		lua_pushnumber(l, mode.w);
+		lua_pushnumber(l, mode.h);
+		lua_pushnumber(l, ddpi);
+	} else {
+		lua_pushnumber(l, 0);
+		lua_pushnumber(l, 0);
+		lua_pushnumber(l, 0);
+	}
+	return 3;
+}
+
+/**
 **  Set the video fullscreen mode.
 **
 **  @param l  Lua state.
@@ -859,6 +882,7 @@ void UserInterfaceCclRegister(void)
 
 	lua_register(Lua, "SetVideoResolution", CclSetVideoResolution);
 	lua_register(Lua, "GetVideoResolution", CclGetVideoResolution);
+	lua_register(Lua, "GetDisplayResolution", CclGetDisplayResolution);
 	lua_register(Lua, "SetVideoFullScreen", CclSetVideoFullScreen);
 	lua_register(Lua, "GetVideoFullScreen", CclGetVideoFullScreen);
 

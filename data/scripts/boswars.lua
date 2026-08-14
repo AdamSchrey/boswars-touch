@@ -179,10 +179,47 @@ SetFogOfWarGraphics("general/fog.png")
 
 Load("preferences.lua")
 
+-- Pick a default internal resolution matching the display's aspect ratio.
+-- Called only on first launch (no preferences.lua yet).
+function DefaultVideoResolution()
+  local dw, dh, ddpi = GetDisplayResolution()
+  if dw == 0 or dh == 0 then
+    return 800, 600
+  end
+  local ratio = dw / dh
+  -- Choose the short-side target based on pixel density (DPI), not raw
+  -- resolution: a dense phone (high DPI) needs a smaller internal resolution
+  -- so UI elements stay readable; a desktop monitor (low DPI) can go larger.
+  local target
+  if ddpi == 0 then
+    -- DPI unknown: fall back to resolution-based guess
+    local short = math.min(dw, dh)
+    if short <= 1080 then target = 480
+    elseif short <= 2160 then target = 768
+    else target = 1080 end
+  elseif ddpi >= 430 then
+    target = 480       -- dense phone (e.g. 1224x2700 @ ~459 DPI)
+  elseif ddpi >= 250 then
+    target = 600       -- larger phone / small tablet
+  elseif ddpi >= 150 then
+    target = 768       -- tablet
+  else
+    target = 1080      -- desktop monitor
+  end
+  if ratio >= 1.0 then
+    -- Landscape: width is the long side
+    return math.floor(target * ratio + 0.5), target
+  else
+    -- Portrait: height is the long side
+    return target, math.floor(target / ratio + 0.5)
+  end
+end
+
 if (preferences == nil) then
+  local vw, vh = DefaultVideoResolution()
   preferences = {
-    VideoWidth = 800,
-    VideoHeight = 600,
+    VideoWidth = vw,
+    VideoHeight = vh,
     VideoFullScreen = true,
     PlayerName = nil,
     FogOfWar = true,

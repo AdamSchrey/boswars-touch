@@ -33,10 +33,26 @@ clear = Color(200, 200, 128)
 black = Color(0, 0, 0)
 disabled = Color(112, 112, 112, 128)
 
+-- Scale a background graphic to fit the screen while keeping its aspect
+-- ratio, centered. Returns the widget and x, y offset for centering.
+function FitBackground(graphic)
+  local iw = graphic:getWidth()
+  local ih = graphic:getHeight()
+  if iw == 0 or ih == 0 then
+    return ImageWidget(graphic), 0, 0
+  end
+  local scale = math.min(Video.Width / iw, Video.Height / ih)
+  local sw = math.floor(iw * scale + 0.5)
+  local sh = math.floor(ih * scale + 0.5)
+  graphic:Resize(sw, sh)
+  local ox = math.floor((Video.Width - sw) / 2)
+  local oy = math.floor((Video.Height - sh) / 2)
+  return ImageWidget(graphic), ox, oy
+end
+
 bckground = CGraphic:New("graphics/screens/menu.png")
 bckground:Load()
-bckground:Resize(Video.Width, Video.Height)
-backgroundWidget = ImageWidget(bckground)
+backgroundWidget, bgOffsetX, bgOffsetY = FitBackground(bckground)
 
 local SavedGame = false
 local VersionString = Version.major .. "." .. Version.minor .. "." .. Version.patchlevel
@@ -360,15 +376,17 @@ function BosMenu(title, background)
 
   menu = MenuScreen()
 
+  local bgx, bgy
   if background == nil then
     bg = backgroundWidget
+    bgx = bgOffsetX
+    bgy = bgOffsetY
   else
     bgg = CGraphic:New(background)
     bgg:Load()
-    bgg:Resize(Video.Width, Video.Height)
-    bg = ImageWidget(bgg)
+    bg, bgx, bgy = FitBackground(bgg)
   end
-  menu:add(bg, 0, 0)
+  menu:add(bg, bgx, bgy)
 
   AddMenuHelpers(menu)
 
