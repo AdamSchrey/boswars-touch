@@ -3,7 +3,6 @@
   "kill": "boswars",
   "builder": "custom",
   "build": "python3 make.py release builddir=${BUILD_DIR}",
-  "clean": "python3 make.py clean",
   "framework": "@CLICK_FRAMEWORK@",
   "build_dir": "${ROOT}/build/${ARCH_TRIPLET}/app",
   "dependencies_target": [
