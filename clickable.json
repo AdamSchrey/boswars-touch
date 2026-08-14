@@ -2,7 +2,7 @@
   "clickable_minimum_required": "8.8.0",
   "kill": "boswars",
   "builder": "custom",
-  "build": "python3 make.py release builddir=${BUILD_DIR}",
+  "build": "bash ${ROOT}/make_project.sh",
   "framework": "@CLICK_FRAMEWORK@",
   "build_dir": "${ROOT}/build/${ARCH_TRIPLET}/app",
   "dependencies_target": [
@@ -21,6 +21,5 @@
     "${ROOT}/data/*": "${INSTALL_DIR}",
     "${ROOT}/build/${ARCH_TRIPLET}/app/boswars": "${INSTALL_DIR}"
   },
-  "prebuild": "bash ${ROOT}/make_project.sh",
   "postbuild": "bash ${ROOT}/import_binaries.sh"
 }
