@@ -20,6 +20,5 @@
   "install_data": {
     "${ROOT}/data/*": "${INSTALL_DIR}",
     "${ROOT}/build/${ARCH_TRIPLET}/app/boswars": "${INSTALL_DIR}"
-  },
-  "postbuild": "bash ${ROOT}/import_binaries.sh"
+  }
 }
