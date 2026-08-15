@@ -7,5 +7,5 @@ case "$0" in
     */*) DIR="${0%/*}" ;;
     *)    DIR="." ;;
 esac
-"$DIR/boswars" -d "$DIR"
+"$DIR/boswars" -d "$DIR" -F
 exit 0

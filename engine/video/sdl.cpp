@@ -279,6 +279,12 @@ void InitVideoSdl(void)
 			Video.Width, Video.Height, Video.Depth, SDL_GetError());
 		exit(1);
 	}
+	// Under some compositors (e.g. Lomiri on Ubuntu Touch), creating the
+	// window with SDL_WINDOW_FULLSCREEN_DESKTOP does not actually enter
+	// fullscreen. Request it explicitly after creation.
+	if (Video.FullScreen) {
+		SDL_SetWindowFullscreen(TheWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
+	}
 
 	if (!TheRenderer)
 		TheRenderer = SDL_CreateRenderer(TheWindow, -1, 0);

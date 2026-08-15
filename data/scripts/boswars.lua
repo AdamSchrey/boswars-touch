@@ -186,13 +186,17 @@ function DefaultVideoResolution()
   if dw == 0 or dh == 0 then
     return 800, 600
   end
-  local ratio = dw / dh
-  -- Choose the short-side target based on pixel density (DPI), not raw
-  -- resolution: a dense phone (high DPI) needs a smaller internal resolution
-  -- so UI elements stay readable; a desktop monitor (low DPI) can go larger.
+  -- The game is always played in landscape orientation. Phones report their
+  -- display in portrait (e.g. 1224x2700), so use the absolute value of the
+  -- aspect ratio to derive a landscape resolution.
+  local ratio = math.abs(dw / dh)
+  if ratio < 1.0 then
+    ratio = 1.0 / ratio
+  end
+  -- Choose the short-side target based on pixel density (DPI): a dense phone
+  -- needs a smaller internal resolution so UI stays readable.
   local target
   if ddpi == 0 then
-    -- DPI unknown: fall back to resolution-based guess
     local short = math.min(dw, dh)
     if short <= 1080 then target = 480
     elseif short <= 2160 then target = 768
@@ -206,13 +210,8 @@ function DefaultVideoResolution()
   else
     target = 1080      -- desktop monitor
   end
-  if ratio >= 1.0 then
-    -- Landscape: width is the long side
-    return math.floor(target * ratio + 0.5), target
-  else
-    -- Portrait: height is the long side
-    return target, math.floor(target / ratio + 0.5)
-  end
+  -- Landscape: width (long side) = target * ratio, height (short side) = target
+  return math.floor(target * ratio + 0.5), target
 end
 
 if (preferences == nil) then
