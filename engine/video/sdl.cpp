@@ -300,7 +300,11 @@ void InitVideoSdl(void)
 									  SDL_TEXTUREACCESS_STREAMING,
 									  Video.Width, Video.Height);
 
-	Video.FullScreen = (SDL_GetWindowFlags(TheWindow) & SDL_WINDOW_FULLSCREEN_DESKTOP) ? 1 : 0;
+	// Don't overwrite Video.FullScreen if it was forced via commandline (-F/-W);
+	// the compositor may report a different state than what was requested.
+	if (!VideoForceFullScreen) {
+		Video.FullScreen = (SDL_GetWindowFlags(TheWindow) & SDL_WINDOW_FULLSCREEN_DESKTOP) ? 1 : 0;
+	}
 	Video.Depth = TheScreen->format->BitsPerPixel;
 
 	// Turn cursor off, we use our own.
