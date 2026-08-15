@@ -179,38 +179,56 @@ SetFogOfWarGraphics("general/fog.png")
 
 Load("preferences.lua")
 
--- Pick a default internal resolution matching the display's aspect ratio.
+-- Available resolutions (must match the list in menus/options.lua).
+local AvailableResolutions = {
+  { 640, 480 }, { 800, 600 }, { 1024, 768 }, { 1280, 1024 }, { 1600, 1200 },
+  { 1024, 600 }, { 1280, 720 }, { 1366, 768 }, { 1440, 900 }, { 1680, 1050 },
+  { 1920, 1080 }, { 1920, 1200 },
+  { 1066, 480 }, { 1333, 600 },
+}
+
+-- Pick a default resolution from AvailableResolutions that best matches the
+-- display's aspect ratio, fits within the screen, and suits the DPI.
 function DefaultVideoResolution()
   local dw, dh, ddpi = GetDisplayResolution()
   if dw == 0 or dh == 0 then
     return 800, 600
   end
-  -- The game is always played in landscape orientation. Phones report their
-  -- display in portrait (e.g. 1224x2700), so use the absolute value of the
-  -- aspect ratio to derive a landscape resolution.
-  local ratio = math.abs(dw / dh)
-  if ratio < 1.0 then
-    ratio = 1.0 / ratio
-  end
-  -- Choose the short-side target based on pixel density (DPI): a dense phone
-  -- needs a smaller internal resolution so UI stays readable.
-  local target
-  if ddpi == 0 then
-    local short = math.min(dw, dh)
-    if short <= 1080 then target = 480
-    elseif short <= 2160 then target = 768
-    else target = 1080 end
-  elseif ddpi >= 430 then
-    target = 480       -- dense phone (e.g. 1224x2700 @ ~459 DPI)
+  -- Always landscape: use the larger dimension as width.
+  local sw, sh = dw, dh
+  if sw < sh then sw, sh = sh, sw end
+  local screenRatio = sw / sh
+
+  -- DPI-based upper bound on the short side to keep UI readable on dense screens.
+  local maxShort
+  if ddpi >= 430 then
+    maxShort = 480       -- dense phone
   elseif ddpi >= 250 then
-    target = 600       -- larger phone / small tablet
+    maxShort = 600       -- larger phone / small tablet
   elseif ddpi >= 150 then
-    target = 768       -- tablet
+    maxShort = 768       -- tablet
   else
-    target = 1080      -- desktop monitor
+    maxShort = 1200      -- desktop monitor
   end
-  -- Landscape: width (long side) = target * ratio, height (short side) = target
-  return math.floor(target * ratio + 0.5), target
+
+  local bestW, bestH = 800, 600
+  local bestScore = -1
+  for _, mode in ipairs(AvailableResolutions) do
+    local mw, mh = mode[1], mode[2]
+    -- Must fit within the screen.
+    if mw <= sw and mh <= sh and mh <= maxShort then
+      local modeRatio = mw / mh
+      -- Prefer closest aspect ratio; tie-break toward larger area.
+      local aspectDiff = math.abs(modeRatio - screenRatio)
+      -- Score: prioritize matching aspect ratio, then larger area.
+      local score = (1000 - aspectDiff * 500) * 10000 + mw * mh
+      if score > bestScore then
+        bestScore = score
+        bestW, bestH = mw, mh
+      end
+    end
+  end
+  return bestW, bestH
 end
 
 if (preferences == nil) then
