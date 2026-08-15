@@ -180,7 +180,6 @@ SetFogOfWarGraphics("general/fog.png")
 Load("preferences.lua")
 
 -- Pick a default internal resolution matching the display's aspect ratio.
--- Called only on first launch (no preferences.lua yet).
 function DefaultVideoResolution()
   local dw, dh, ddpi = GetDisplayResolution()
   if dw == 0 or dh == 0 then
@@ -242,6 +241,14 @@ if preferences.PlayerName ~= nil then
   SetLocalPlayerName(preferences.PlayerName)
 end
 
+-- Correct a portrait resolution saved by an older version.
+if preferences.VideoWidth and preferences.VideoHeight and
+   preferences.VideoWidth < preferences.VideoHeight then
+  local vw, vh = DefaultVideoResolution()
+  preferences.VideoWidth = vw
+  preferences.VideoHeight = vh
+  SavePreferences()
+end
 SetVideoResolution(preferences.VideoWidth, preferences.VideoHeight)
 SetVideoFullScreen(preferences.VideoFullScreen)
 SetFogOfWar(preferences.FogOfWar)
