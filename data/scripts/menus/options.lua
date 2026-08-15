@@ -195,8 +195,8 @@ function BuildVideoOptionsMenu(menu)
      { 1920, 1080 },		-- 16:9
      { 1920, 1200 },		-- 8:5
      -- 20:9 (modern phone) aspect ratio modes
-     {  480, 1066 },		-- 20:9
-     {  600, 1333 }		-- 20:9
+     { 1066,  480 },		-- 20:9
+     { 1333,  600 }		-- 20:9
   }
 
   local modes2 = math.ceil (#modes / 2);
