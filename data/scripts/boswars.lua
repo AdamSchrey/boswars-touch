@@ -276,12 +276,9 @@ SetGrabMouse(preferences.GrabMouse)
 InitVideo()
 
 -- Under Lomiri the fullscreen flag set during InitVideo may not take effect
--- immediately. Toggle fullscreen twice (off then on) after the video system
--- is fully initialized, which is equivalent to pressing the Fullscreen button
--- in the options menu.
+-- immediately. Force it on after the video system is fully initialized.
 if Video.FullScreen then
-  ToggleFullScreen()
-  ToggleFullScreen()
+  SetFullScreen(true)
 end
 
 --; Uses Stratagus Library path!

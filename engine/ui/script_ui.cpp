@@ -200,6 +200,18 @@ static int CclSetVideoFullScreen(lua_State *l)
 }
 
 /**
+**  Force fullscreen on or off at runtime (calls SDL_SetWindowFullscreen).
+**
+**  @param l  Lua state.
+*/
+static int CclSetFullScreen(lua_State *l)
+{
+	LuaCheckArgs(l, 1);
+	SetFullScreen(LuaToBoolean(l, 1));
+	return 0;
+}
+
+/**
 **  Get the video fullscreen mode.
 **
 **  @param l  Lua state.
@@ -889,6 +901,7 @@ void UserInterfaceCclRegister(void)
 	lua_register(Lua, "GetVideoResolution", CclGetVideoResolution);
 	lua_register(Lua, "GetDisplayResolution", CclGetDisplayResolution);
 	lua_register(Lua, "SetVideoFullScreen", CclSetVideoFullScreen);
+	lua_register(Lua, "SetFullScreen", CclSetFullScreen);
 	lua_register(Lua, "GetVideoFullScreen", CclGetVideoFullScreen);
 
 	lua_register(Lua, "SetTitleScreens", CclSetTitleScreens);

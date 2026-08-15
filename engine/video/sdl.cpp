@@ -843,6 +843,19 @@ void ToggleGrabMouse(int mode)
 }
 
 /**
+**  Set full screen mode.
+**
+**  @param fullscreen  Whether to enable fullscreen.
+*/
+void SetFullScreen(bool fullscreen)
+{
+#ifndef USE_WIN32
+	SDL_SetWindowFullscreen(TheWindow, fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
+#endif
+	Video.FullScreen = fullscreen ? 1 : 0;
+}
+
+/**
 **  Toggle full screen mode.
 */
 void ToggleFullScreen(void)
