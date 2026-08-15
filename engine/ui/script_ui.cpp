@@ -162,6 +162,11 @@ static int CclGetVideoResolution(lua_State *l)
 static int CclGetDisplayResolution(lua_State *l)
 {
 	LuaCheckArgs(l, 0);
+	// SDL may not be initialized yet (InitVideo runs later), so init the
+	// video subsystem on demand to query the display.
+	if (SDL_WasInit(SDL_INIT_VIDEO) == 0) {
+		SDL_Init(SDL_INIT_VIDEO);
+	}
 	SDL_DisplayMode mode;
 	float ddpi = 0;
 	SDL_GetDisplayDPI(0, &ddpi, NULL, NULL);

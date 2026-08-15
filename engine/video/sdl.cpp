@@ -279,15 +279,15 @@ void InitVideoSdl(void)
 			Video.Width, Video.Height, Video.Depth, SDL_GetError());
 		exit(1);
 	}
-	// Under some compositors (e.g. Lomiri on Ubuntu Touch), creating the
-	// window with SDL_WINDOW_FULLSCREEN_DESKTOP does not actually enter
-	// fullscreen. Request it explicitly after creation.
-	if (Video.FullScreen) {
-		SDL_SetWindowFullscreen(TheWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
-	}
-
 	if (!TheRenderer)
 		TheRenderer = SDL_CreateRenderer(TheWindow, -1, 0);
+	// Under some compositors (e.g. Lomiri on Ubuntu Touch), creating the
+	// window with SDL_WINDOW_FULLSCREEN_DESKTOP does not actually enter
+	// fullscreen. Request it explicitly after the renderer is created.
+	if (Video.FullScreen) {
+		SDL_SetWindowFullscreen(TheWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
+		SDL_PumpEvents();
+	}
 	SDL_RenderSetLogicalSize(TheRenderer, Video.Width, Video.Height);
 	SDL_SetRenderDrawColor(TheRenderer, 0, 0, 0, 255);
 	TheScreen = SDL_CreateRGBSurface(0, Video.Width, Video.Height, 32,
