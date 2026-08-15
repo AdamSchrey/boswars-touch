@@ -13353,6 +13353,68 @@ static int tolua_stratagus_CGraphic_Resize00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: getWidth of class  CGraphic */
+#ifndef TOLUA_DISABLE_tolua_stratagus_CGraphic_getWidth00
+static int tolua_stratagus_CGraphic_getWidth00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CGraphic",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CGraphic* self = (CGraphic*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getWidth'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->getWidth();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getWidth'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+/* method: getHeight of class  CGraphic */
+#ifndef TOLUA_DISABLE_tolua_stratagus_CGraphic_getHeight00
+static int tolua_stratagus_CGraphic_getHeight00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CGraphic",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CGraphic* self = (CGraphic*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getHeight'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->getHeight();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getHeight'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
 /* method: New of class  CPlayerColorGraphic */
 #ifndef TOLUA_DISABLE_tolua_stratagus_CPlayerColorGraphic_New00
 static int tolua_stratagus_CPlayerColorGraphic_New00(lua_State* tolua_S)
@@ -20498,6 +20560,8 @@ TOLUA_API int tolua_stratagus_open (lua_State* tolua_S)
    tolua_function(tolua_S,"Free",tolua_stratagus_CGraphic_Free00);
    tolua_function(tolua_S,"Load",tolua_stratagus_CGraphic_Load00);
    tolua_function(tolua_S,"Resize",tolua_stratagus_CGraphic_Resize00);
+   tolua_function(tolua_S,"getWidth",tolua_stratagus_CGraphic_getWidth00);
+   tolua_function(tolua_S,"getHeight",tolua_stratagus_CGraphic_getHeight00);
   tolua_endmodule(tolua_S);
   tolua_cclass(tolua_S,"CPlayerColorGraphic","CPlayerColorGraphic","CGraphic",NULL);
   tolua_beginmodule(tolua_S,"CPlayerColorGraphic");
