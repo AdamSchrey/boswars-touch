@@ -241,14 +241,6 @@ if preferences.PlayerName ~= nil then
   SetLocalPlayerName(preferences.PlayerName)
 end
 
--- Correct a portrait resolution saved by an older version.
-if preferences.VideoWidth and preferences.VideoHeight and
-   preferences.VideoWidth < preferences.VideoHeight then
-  local vw, vh = DefaultVideoResolution()
-  preferences.VideoWidth = vw
-  preferences.VideoHeight = vh
-  SavePreferences()
-end
 SetVideoResolution(preferences.VideoWidth, preferences.VideoHeight)
 SetVideoFullScreen(preferences.VideoFullScreen)
 SetFogOfWar(preferences.FogOfWar)
