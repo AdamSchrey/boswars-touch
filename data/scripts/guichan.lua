@@ -367,7 +367,11 @@ function AddMenuHelpers(menu)
 
   function menu:addTextInputField(text, x, y, w)
     local b = TextField(text)
-    b:setActionCallback(function() end) --FIXME: remove this?
+    -- Track which text field the on-screen keyboard targets.  The
+    -- action callback fires on text changes; combined with the
+    -- keyboard writing directly to this field, this keeps the
+    -- keyboard targeting the field the user is editing.
+    b:setActionCallback(function() OSKSetFocus(b) end)
     b:setFont(Fonts["game"]:PlainText())
     b:setBaseColor(clear)
     b:setForegroundColor(clear)

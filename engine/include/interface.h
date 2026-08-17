@@ -391,6 +391,17 @@ extern void SetGameSpeed(int speed);
 	/// Get the game speed
 extern int GetGameSpeed();
 
+namespace gcn { class Container; }
+/// Create the touch overlay (camera move buttons + chat button) on the
+/// given in-game GUI container.  No-op if a touch device is not in use.
+extern void CreateIngameTouchOverlay(gcn::Container *container);
+
+/// Begin chat/input mode (same as pressing Enter during a game).
+extern void UiBeginInput(void);
+/// Feed a key (SDL key code) to the in-game input editor.
+/// Returns 1 if the input was finished (Enter/Escape), 0 otherwise.
+extern int InputKey(int key);
+
 //@}
 
 #endif // !__INTERFACE_H__
