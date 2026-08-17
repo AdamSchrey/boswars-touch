@@ -375,7 +375,16 @@ function AddMenuHelpers(menu)
     if (w == nil) then w = 100 end
     b:setSize(w, 18)
     self:add(b, x, y)
+    -- Attach the on-screen keyboard next to this text field so touch
+    -- users can enter text without a physical keyboard.
+    self:addOnScreenKeyboard(b, x, y, w)
     return b
+  end
+
+  -- Bind the on-screen keyboard builder (defined in keyboard.lua) as a
+  -- menu method so menus can attach it to any text field.
+  function menu:addOnScreenKeyboard(textField, fieldX, fieldY, fieldW)
+    AddOnScreenKeyboard(self, textField, fieldX, fieldY, fieldW)
   end
 end
 
@@ -874,6 +883,7 @@ function RunTutorial(s)
     RunCampaign("campaigns/tutorial/campaign.lua")
 end
 
+Load("scripts/keyboard.lua")
 Load("scripts/menus/network.lua")
 Load("scripts/menus/options.lua")
 Load("scripts/menus/credits.lua")
