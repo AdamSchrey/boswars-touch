@@ -140,7 +140,6 @@ local function oskKeyButton(caption, callback)
   b:setSize(OSKKeyWidth, OSKKeyHeight)
   b:setBackgroundColor(dark)
   b:setBaseColor(dark)
-  b:setForegroundColor(clear)
   b:setDisabledColor(disabled)
   return b
 end
@@ -152,7 +151,6 @@ local function oskWideKey(menu, caption, width, callback, x, y)
   b:setSize(width, OSKKeyHeight)
   b:setBackgroundColor(dark)
   b:setBaseColor(dark)
-  b:setForegroundColor(clear)
   b:setDisabledColor(disabled)
   menu:add(b, x, y)
   return b

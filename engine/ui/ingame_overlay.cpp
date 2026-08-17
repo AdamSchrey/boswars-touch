@@ -44,6 +44,23 @@
 #include <string>
 #include <vector>
 
+// The same colors used by the Lua menu button helper (addButton in
+// guichan.lua) so the touch overlay matches the in-game menu buttons:
+//   dark     = Color(38, 38, 78, 128)
+//   clear    = Color(200, 200, 128)
+//   disabled = Color(112, 112, 112, 128)
+static const gcn::Color OskDark(38, 38, 78, 128);
+static const gcn::Color OskClear(200, 200, 128);
+static const gcn::Color OskDisabled(112, 112, 112, 128);
+
+// Apply the menu button style to a ButtonWidget.
+static void ApplyMenuButtonStyle(ButtonWidget *b)
+{
+	b->setBaseColor(OskDark);
+	b->setBackgroundColor(OskDark);
+	b->setDisabledColor(OskDisabled);
+}
+
 /*----------------------------------------------------------------------------
 --  Camera scroll button
 ----------------------------------------------------------------------------*/
@@ -140,6 +157,7 @@ static ButtonWidget *MakeKey(gcn::Container *parent, const std::string &caption,
 {
 	ButtonWidget *b = new ButtonWidget(caption);
 	b->setSize(w, h);
+	ApplyMenuButtonStyle(b);
 	if (listener) {
 		b->addActionListener(listener);
 	}
@@ -249,26 +267,31 @@ void CreateIngameTouchOverlay(gcn::Container *container)
 
 	CameraScrollButton *leftBtn = new CameraScrollButton("\xE2\x86\x90", ScrollLeft);
 	leftBtn->setSize(OverlayBtnSize, OverlayBtnSize);
+	ApplyMenuButtonStyle(leftBtn);
 	container->add(leftBtn, x, rowY);
 	x += OverlayBtnSize + OverlayGap;
 
 	CameraScrollButton *downBtn = new CameraScrollButton("\xE2\x86\x93", ScrollDown);
 	downBtn->setSize(OverlayBtnSize, OverlayBtnSize);
+	ApplyMenuButtonStyle(downBtn);
 	container->add(downBtn, x, rowY);
 	x += OverlayBtnSize + OverlayGap;
 
 	CameraScrollButton *upBtn = new CameraScrollButton("\xE2\x86\x91", ScrollUp);
 	upBtn->setSize(OverlayBtnSize, OverlayBtnSize);
+	ApplyMenuButtonStyle(upBtn);
 	container->add(upBtn, x, rowY);
 	x += OverlayBtnSize + OverlayGap;
 
 	CameraScrollButton *rightBtn = new CameraScrollButton("\xE2\x86\x92", ScrollRight);
 	rightBtn->setSize(OverlayBtnSize, OverlayBtnSize);
+	ApplyMenuButtonStyle(rightBtn);
 	container->add(rightBtn, x, rowY);
 	x += OverlayBtnSize + OverlayGap * 4;
 
 	ButtonWidget *chatBtn = new ButtonWidget("\xE2\x9C\x89");
 	chatBtn->setSize(OverlayBtnSize, OverlayBtnSize);
+	ApplyMenuButtonStyle(chatBtn);
 	chatBtn->addActionListener(new ChatToggleListener(keyboard));
 	container->add(chatBtn, x, rowY);
 }
