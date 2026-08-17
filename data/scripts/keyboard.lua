@@ -7,7 +7,7 @@
 --       A futuristic real-time strategy game.
 --          This file is part of Bos Wars.
 --
---      keyboard.lua - On-screen keyboard for text input fields and chat.
+--      keyboard.lua - On-screen keyboard for menu text fields.
 --
 --      (c) Copyright 2026 by Adam Schrey
 --
@@ -26,45 +26,44 @@
 --      02111-1307, USA.
 --
 
--- On-screen keyboard for touch devices.
+-- On-screen keyboard for menu text fields (touch devices).
 --
--- It supports two modes:
---   * TextField mode: types into a guichan TextField widget that has the
---     focus.  Used by every menu text field via addTextInputField().
---   * Chat mode: types into the engine's in-game input buffer (the same
---     buffer that Enter-to-chat uses) via the InputBegin/InputKey bindings.
+-- It types into a guichan TextField widget that has the focus, inserting
+-- each character at the caret position (not always at the end).
+--
+-- Layout (top to bottom), matching the in-game chat keyboard:
+--   row 1: digits 0-9
+--   row 2: ".", "-", "_", ":", "/" (left aligned) ... "<-" (3 keys gap, 2 wide)
+--   row 3-5: letters in QWERTY order
+--   row 6: CAPS (3 wide) + Space (3 wide) + 1 key gap + Enter (wide)
 --
 -- Keys provided:
---   * Letters A-Z (upper/lower case, toggled with a shift key that also
---     updates the visible captions).
+--   * Letters a-z (upper/lower case, toggled with CAPS).
 --   * Digits 0-9 (for IP addresses and server names).
 --   * Space, backspace, ".", "-", "_", ":" and "/" (for host names/URLs).
---   * Enter ("⏎") to commit chat messages.
--- No other special characters are included.
 --
 -- The keyboard is styled like the other menu buttons: transparent blue
--- base color (dark) with a yellow foreground (clear).
+-- base color (dark) with the disabled color.
 
 -- Layout constants
-OSKKeyWidth = 24
-OSKKeyHeight = 24
+OSKKeyWidth = 26
+OSKKeyHeight = 26
 OSKKeyGap = 2
 
--- Letter rows of the keyboard (lowercase by default).
-OSKRows = {
-  {"a","b","c","d","e","f","g","h","i","j"},
-  {"k","l","m","n","o","p","q","r","s","t"},
-  {"u","v","w","x","y","z"},
+-- Letter rows in QWERTY layout (lowercase by default).
+OSKQwertyRows = {
+  {"q","w","e","r","t","y","u","i","o","p"},
+  {"a","s","d","f","g","h","j","k","l"},
+  {"z","x","c","v","b","n","m"},
 }
--- Digit row and extra characters.
 OSKDigits = {"0","1","2","3","4","5","6","7","8","9"}
 OSKExtraKeys = {".", "-", "_", ":", "/"}
 
 -- State of the on-screen keyboard.
-OSKTargetField = nil          -- the currently focused TextField (TextField mode)
-OSKChatMode = false           -- true when typing into the chat input buffer
+OSKTargetField = nil          -- the currently focused TextField
 OSKUpperCase = false
-OSKLetterButtons = {}         -- letter buttons, refreshed on shift toggle
+OSKLetterButtons = {}         -- letter buttons, refreshed on CAPS toggle
+OSKLetters = {}               -- lowercase letters, parallel to buttons
 
 -- Return the caption for a letter key, honoring the current case state.
 local function oskLetterCaption(letter)
@@ -74,63 +73,59 @@ local function oskLetterCaption(letter)
   return letter
 end
 
--- Type a single character into the current target.
+-- Insert a single character into the target field at the caret position.
 function OSKTypeChar(ch)
-  if OSKChatMode then
-    -- The engine input accepts characters >= ' ' via their byte value.
-    InputKey(string.byte(ch))
-  elseif OSKTargetField ~= nil then
-    OSKTargetField:setText(OSKTargetField:getText() .. ch)
-    OSKTargetField:requestFocus()
+  if OSKTargetField == nil then
+    return
   end
+  local text = OSKTargetField:getText()
+  local caret = OSKTargetField:getCaretPosition()
+  -- Caret is a byte index into the UTF-8 text.  All our characters are
+  -- ASCII, so inserting at the byte index is correct.
+  local before = string.sub(text, 1, caret)
+  local after = string.sub(text, caret + 1)
+  OSKTargetField:setText(before .. ch .. after)
+  OSKTargetField:setCaretPosition(caret + string.len(ch))
+  OSKTargetField:requestFocus()
 end
 
--- Remove the last character from the current target.
+-- Remove the character before the caret (backspace).
 function OSKBackspace()
-  if OSKChatMode then
-    InputKey(string.byte("\b"))  -- backspace
-  elseif OSKTargetField ~= nil then
-    local text = OSKTargetField:getText()
-    -- All allowed input characters are ASCII, so removing the last byte
-    -- is correct for our input set.
-    local stripped = string.gsub(text, ".$", "")
-    OSKTargetField:setText(stripped)
-    OSKTargetField:requestFocus()
+  if OSKTargetField == nil then
+    return
   end
-end
-
--- Commit the current input (Enter).  Only meaningful in chat mode; in
--- TextField mode this is a no-op.
-function OSKEnter()
-  if OSKChatMode then
-    InputKey(string.byte("\r"))  -- return / enter
+  local text = OSKTargetField:getText()
+  local caret = OSKTargetField:getCaretPosition()
+  if caret > 0 then
+    -- All our characters are ASCII, so the previous byte is one char.
+    local before = string.sub(text, 1, caret - 1)
+    local after = string.sub(text, caret + 1)
+    OSKTargetField:setText(before .. after)
+    OSKTargetField:setCaretPosition(caret - 1)
+    OSKTargetField:requestFocus()
   end
 end
 
 -- Toggle between lower and upper case letters and refresh the visible
--- captions of all letter buttons.
-function OSKToggleShift()
+-- captions of all letter buttons and the CAPS button itself.
+OSKCapsButton = nil
+function OSKToggleCaps()
   OSKUpperCase = not OSKUpperCase
-  for _, btn in ipairs(OSKLetterButtons) do
-    local lower = btn._oskLetter
+  if OSKCapsButton ~= nil then
+    OSKCapsButton:setCaption(OSKUpperCase and "caps" or "CAPS")
+  end
+  for i, btn in ipairs(OSKLetterButtons) do
+    local lower = OSKLetters[i]
     if lower ~= nil then
       btn:setCaption(oskLetterCaption(lower))
     end
   end
 end
 
--- Mark the given text field as the focus target and leave chat mode.
+-- Mark the given text field as the focus target.
 -- Called whenever a TextField gains focus (e.g. by tapping it).
 function OSKSetFocus(textField)
   OSKTargetField = textField
-  OSKChatMode = false
-end
-
--- Enter chat mode: switch the keyboard target to the engine input buffer.
-function OSKEnterChatMode()
-  OSKChatMode = true
-  OSKTargetField = nil
-  InputBegin()
 end
 
 -- Build a single styled key button.
@@ -144,21 +139,37 @@ local function oskKeyButton(caption, callback)
   return b
 end
 
--- Place a wide key spanning several columns and add it to the menu.
-local function oskWideKey(menu, caption, width, callback, x, y)
+-- Place a wide key spanning several columns and add it to a parent.
+local function oskWideKey(parent, caption, width, callback, x, y)
   local b = ButtonWidget(caption)
   b:setActionCallback(callback)
   b:setSize(width, OSKKeyHeight)
   b:setBackgroundColor(dark)
   b:setBaseColor(dark)
   b:setDisabledColor(disabled)
-  menu:add(b, x, y)
+  parent:add(b, x, y)
   return b
 end
 
--- Compute the position of the keyboard, preferring right of the field,
--- then left, then below-centered.  Returns kbX, kbY.
-local function oskComputePosition(fieldX, fieldY, fieldW, kbWidth, kbHeight)
+-- Build the on-screen keyboard anchored to a TextField and add it to the
+-- menu.  Called automatically by menu:addTextInputField().
+--
+-- All keys are grouped in a dedicated Container which is added last and
+-- raised to the top via moveToTop(), so the keyboard stays above other
+-- menu widgets (e.g. a file browser) and always receives touch events.
+function AddOnScreenKeyboard(menu, textField, fieldX, fieldY, fieldW)
+  if textField == nil then
+    return
+  end
+
+  local step = OSKKeyWidth + OSKKeyGap
+  local stepY = OSKKeyHeight + OSKKeyGap
+
+  -- Total keyboard dimensions: 10 columns, 6 rows.
+  local kbWidth = 10 * step - OSKKeyGap
+  local kbHeight = 6 * stepY - OSKKeyGap
+
+  -- Position: prefer right of the field, then left, then centered below.
   local kbX = fieldX + fieldW + 8
   if kbX + kbWidth > Video.Width then
     kbX = fieldX - kbWidth - 8
@@ -173,33 +184,37 @@ local function oskComputePosition(fieldX, fieldY, fieldW, kbWidth, kbHeight)
   if kbY + kbHeight > Video.Height then
     kbY = math.max(0, Video.Height - kbHeight - 8)
   end
-  return kbX, kbY
-end
-
--- Build the on-screen keyboard anchored to a TextField and add it to the
--- menu.  Called automatically by menu:addTextInputField().
-function AddOnScreenKeyboard(menu, textField, fieldX, fieldY, fieldW)
-  if textField == nil then
-    return
-  end
-
-  local step = OSKKeyWidth + OSKKeyGap
-  local stepY = OSKKeyHeight + OSKKeyGap
-
-  -- Total keyboard dimensions: 10 columns, 6 rows
-  -- (3 letter rows + digit row + extra row + bottom control row).
-  local kbWidth = 10 * step - OSKKeyGap
-  local kbHeight = 6 * stepY - OSKKeyGap
-
-  local kbX, kbY = oskComputePosition(fieldX, fieldY, fieldW, kbWidth, kbHeight)
 
   OSKTargetField = textField
-  OSKChatMode = false
   OSKLetterButtons = {}
+  OSKLetters = {}
+  OSKUpperCase = false
 
-  -- Letter rows
-  for row = 1, #OSKRows do
-    local letters = OSKRows[row]
+  -- Dedicated container holding all keys (relative coordinates from 0,0).
+  local kb = Container()
+  kb:setOpaque(false)
+  kb:setSize(kbWidth, kbHeight)
+
+  -- Row 1: digits 0-9.
+  for col = 1, #OSKDigits do
+    local d = OSKDigits[col]
+    local b = oskKeyButton(d, function() OSKTypeChar(d) end)
+    kb:add(b, (col - 1) * step, 0 * stepY)
+  end
+
+  -- Row 2: 5 symbols left-aligned, then "<-" with a 3-key gap, 2 wide.
+  for col = 1, #OSKExtraKeys do
+    local k = OSKExtraKeys[col]
+    local b = oskKeyButton(k, function() OSKTypeChar(k) end)
+    kb:add(b, (col - 1) * step, 1 * stepY)
+  end
+  oskWideKey(kb, "<-", OSKKeyWidth * 2 + OSKKeyGap,
+    function() OSKBackspace() end,
+    (5 + 3) * step, 1 * stepY)
+
+  -- Rows 3-5: letters in QWERTY order.
+  for row = 1, #OSKQwertyRows do
+    local letters = OSKQwertyRows[row]
     for col = 1, #letters do
       local letter = letters[col]
       local b = oskKeyButton(letter,
@@ -210,44 +225,31 @@ function AddOnScreenKeyboard(menu, textField, fieldX, fieldY, fieldW)
           end
           OSKTypeChar(ch)
         end)
-      b._oskLetter = letter
       table.insert(OSKLetterButtons, b)
-      menu:add(b, kbX + (col - 1) * step, kbY + (row - 1) * stepY)
+      table.insert(OSKLetters, letter)
+      kb:add(b, (col - 1) * step, (row + 1) * stepY)
     end
   end
 
-  -- Digit row (4th row)
-  for col = 1, #OSKDigits do
-    local d = OSKDigits[col]
-    local b = oskKeyButton(d, function() OSKTypeChar(d) end)
-    menu:add(b, kbX + (col - 1) * step, kbY + 3 * stepY)
-  end
+  -- Row 6: CAPS (3 wide) + Space (3 wide) + 1 key gap + Enter (wide).
+  local controlY = 5 * stepY
+  local capsWidth = OSKKeyWidth * 3 + OSKKeyGap * 2
+  OSKCapsButton = oskWideKey(kb, "CAPS", capsWidth,
+    function() OSKToggleCaps() end,
+    0 * step, controlY)
 
-  -- Extra characters row (5th row)
-  for col = 1, #OSKExtraKeys do
-    local k = OSKExtraKeys[col]
-    local b = oskKeyButton(k, function() OSKTypeChar(k) end)
-    menu:add(b, kbX + (col - 1) * step, kbY + 4 * stepY)
-  end
-
-  -- Bottom control row: shift, space (wide), backspace, enter.
-  local bottomY = kbY + 5 * stepY
-  local shiftBtn = oskKeyButton("^", function() OSKToggleShift() end)
-  menu:add(shiftBtn, kbX, bottomY)
-
-  -- Space, wide, centered.
   local spaceWidth = OSKKeyWidth * 3 + OSKKeyGap * 2
-  local spaceBtn = oskWideKey(menu, "Space", spaceWidth,
+  oskWideKey(kb, "Space", spaceWidth,
     function() OSKTypeChar(" ") end,
-    kbX + 1 * step, bottomY)
+    3 * step, controlY)
 
-  local backspaceBtn = oskWideKey(menu, "<-", OSKKeyWidth + 16,
-    function() OSKBackspace() end,
-    kbX + 5 * step, bottomY)
-
-  -- Enter ("⏎"), wide.
   local enterWidth = OSKKeyWidth * 3 + OSKKeyGap * 2
-  local enterBtn = oskWideKey(menu, "⏎", enterWidth,
-    function() OSKEnter() end,
-    kbX + 7 * step, bottomY)
+  oskWideKey(kb, "Enter", enterWidth,
+    function() end,
+    7 * step, controlY)
+
+  -- Add the keyboard container last and raise it above other widgets so
+  -- touch events always reach the keys.
+  menu:add(kb, kbX, kbY)
+  menu:moveToTop(kb)
 end

@@ -444,6 +444,8 @@ class TextField : public Widget
 	virtual std::string &getText();
 	void setMaxLengthBytes(int maxLengthBytes);
 	int getMaxLengthBytes() const;
+	virtual void setCaretPosition(unsigned int position);
+	virtual unsigned int getCaretPosition() const;
 };
 
 class ListBox : public Widget
@@ -532,6 +534,7 @@ class Container : public BasicContainer
 	virtual void add(Widget *widget, int x, int y);
 	virtual void remove(Widget *widget);
 	virtual void clear();
+	virtual void moveToTop(Widget* widget);
 };
 
 class MenuScreen : public Container

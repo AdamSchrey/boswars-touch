@@ -65,6 +65,14 @@ static void ApplyMenuButtonStyle(ButtonWidget *b)
 --  Camera scroll button
 ----------------------------------------------------------------------------*/
 
+// A camera move button that drives the scroll state from its logic() call.
+//
+// Rather than toggling KeyScrollState on mousePress/mouseRelease (which can
+// "stick" if a release event is missed), the button re-evaluates its pressed
+// state every frame in logic() and sets/clears the scroll mask accordingly.
+// isPressed() is true only while the pointer is down over the button, so the
+// camera scrolls exactly while the button is held and stops the moment it is
+// released.
 class CameraScrollButton : public ButtonWidget
 {
 public:
@@ -73,22 +81,12 @@ public:
 	{
 	}
 
-	// While the button is held down, set the scroll state so that the
-	// main loop's DoScrollArea() continuously moves the camera.  When
-	// released, the scroll stops.  A short tap still scrolls for one
-	// frame, which gives the single-step behavior.
-	virtual void mousePress(int x, int y, int button)
+	virtual void logic()
 	{
-		ButtonWidget::mousePress(x, y, button);
-		if (GameRunning) {
+		ButtonWidget::logic();
+		if (GameRunning && isEnabled() && isPressed()) {
 			KeyScrollState |= ScrollMask;
-		}
-	}
-
-	virtual void mouseRelease(int x, int y, int button)
-	{
-		ButtonWidget::mouseRelease(x, y, button);
-		if (GameRunning) {
+		} else {
 			KeyScrollState &= ~ScrollMask;
 		}
 	}
@@ -126,14 +124,20 @@ public:
 	}
 };
 
-// Enter key: commit the chat message.
+// Enter key: commit the chat message and hide the keyboard afterwards.
 class EnterListener : public gcn::ActionListener
 {
 public:
+	EnterListener(gcn::Container *keyboard) : Keyboard(keyboard) {}
 	virtual void action(const std::string &)
 	{
 		InputKey((int)SDLK_RETURN);
+		if (Keyboard != NULL) {
+			Keyboard->setVisible(false);
+		}
 	}
+private:
+	gcn::Container *Keyboard;
 };
 
 // Space key.
@@ -144,6 +148,46 @@ public:
 	{
 		InputKey((int)' ');
 	}
+};
+
+// CAPS toggle key: switches between lower and upper case letters and
+// updates its own caption ("CAPS" / "caps") and all letter captions.
+class CapsToggleListener : public gcn::ActionListener
+{
+public:
+	CapsToggleListener(gcn::Button *capsButton,
+		const std::vector<gcn::Button *> &letterButtons,
+		const std::vector<std::string> &letters) :
+		CapsButton(capsButton), LetterButtons(letterButtons), Letters(letters)
+	{
+	}
+	virtual void action(const std::string &)
+	{
+		UpperCase = !UpperCase;
+		if (CapsButton != NULL) {
+			CapsButton->setCaption(UpperCase ? "caps" : "CAPS");
+		}
+		for (size_t i = 0; i < LetterButtons.size() && i < Letters.size(); ++i) {
+			LetterButtons[i]->setCaption(UpperCase
+				? UpperString(Letters[i]) : Letters[i]);
+		}
+	}
+private:
+	static std::string UpperString(const std::string &s)
+	{
+		std::string out = s;
+		for (size_t i = 0; i < out.size(); ++i) {
+			if (out[i] >= 'a' && out[i] <= 'z') {
+				out[i] = out[i] - 'a' + 'A';
+			}
+		}
+		return out;
+	}
+
+	gcn::Button *CapsButton;
+	std::vector<gcn::Button *> LetterButtons;
+	std::vector<std::string> Letters;
+	bool UpperCase;
 };
 
 /*----------------------------------------------------------------------------
@@ -166,8 +210,13 @@ static ButtonWidget *MakeKey(gcn::Container *parent, const std::string &caption,
 }
 
 // Build the on-screen keyboard for chat and add it to the container.
-// Initially hidden; visibility is toggled by the chat button.  A pointer
-// to the keyboard container is stored so it can be shown/hidden.
+// Initially hidden; visibility is toggled by the chat button.
+//
+// Layout (top to bottom):
+//   row 0: digits 0-9
+//   row 1: ".", "-", "_", ":", "/" (left aligned) ... "<-" (3 keys gap, 2 wide)
+//   row 2-4: letters in QWERTY order
+//   row 5: CAPS (3 wide) + Space (3 wide) + 1 key gap + Enter (wide)
 static gcn::Container *MakeChatKeyboard(gcn::Container *parent)
 {
 	const int kw = 26;
@@ -176,49 +225,69 @@ static gcn::Container *MakeChatKeyboard(gcn::Container *parent)
 	const int step = kw + gap;
 	const int stepY = kh + gap;
 
+	// 6 rows: digits, symbols, 3 letter rows, control row.
 	gcn::Container *kb = new gcn::Container();
 	kb->setOpaque(false);
-	// 10 columns, 6 rows (3 letters + digits + symbols + controls).
 	kb->setDimension(gcn::Rectangle(0, 0, 10 * step - gap, 6 * stepY - gap));
 	kb->setVisible(false);
 
-	// Letter rows.
-	static const char *letters[3][10] = {
-		{"a","b","c","d","e","f","g","h","i","j"},
-		{"k","l","m","n","o","p","q","r","s","t"},
-		{"u","v","w","x","y","z",""}
-	};
-	for (int row = 0; row < 3; ++row) {
-		for (int col = 0; col < 10 && letters[row][col][0]; ++col) {
-			std::string ch = letters[row][col];
-			MakeKey(kb, ch, kw, kh, col * step, row * stepY,
-				new CharKeyListener(ch));
-		}
-	}
-	// Digit row.
+	// Row 0: digits 0-9.
 	const char *digits[10] = {"0","1","2","3","4","5","6","7","8","9"};
 	for (int col = 0; col < 10; ++col) {
 		std::string ch = digits[col];
-		MakeKey(kb, ch, kw, kh, col * step, 3 * stepY,
-			new CharKeyListener(ch));
+		MakeKey(kb, ch, kw, kh, col * step, 0, new CharKeyListener(ch));
 	}
-	// Symbol row.
-	const char *syms[5] = {".","-","_",":","/"};
+
+	// Row 1: 5 symbols left-aligned, then "<-" with a 3-key gap, 2 keys wide.
+	const char *symsFixed[5] = {".","-","_",":","/"};
 	for (int col = 0; col < 5; ++col) {
-		std::string ch = syms[col];
-		MakeKey(kb, ch, kw, kh, col * step, 4 * stepY,
+		std::string ch = symsFixed[col];
+		MakeKey(kb, ch, kw, kh, col * step, 1 * stepY,
 			new CharKeyListener(ch));
 	}
+	// "<-" at column 8 (5 symbols + 3 gap), 2 keys wide.
+	MakeKey(kb, "<-", kw * 2 + gap, kh, (5 + 3) * step, 1 * stepY,
+		new BackspaceListener());
 
-	// Control row: backspace, space (wide), enter (wide).
-	int bottomY = 5 * stepY;
-	MakeKey(kb, "<-", kw + 12, kh, 0, bottomY, new BackspaceListener());
-	MakeKey(kb, "Space", kw * 3 + gap * 2, kh, step * 1, bottomY,
+	// Rows 2-4: letters in QWERTY layout.
+	// QWERTY top row, then home row, then bottom row.
+	static const char *qwerty[3][10] = {
+		{"q","w","e","r","t","y","u","i","o","p"},
+		{"a","s","d","f","g","h","j","k","l",""},  // 9 keys
+		{"z","x","c","v","b","n","m","","",""}     // 7 keys
+	};
+	std::vector<gcn::Button *> letterButtons;
+	std::vector<std::string> letters;
+	for (int row = 0; row < 3; ++row) {
+		for (int col = 0; col < 10 && qwerty[row][col][0]; ++col) {
+			std::string ch = qwerty[row][col];
+			ButtonWidget *b = MakeKey(kb, ch, kw, kh,
+				col * step, (row + 2) * stepY,
+				new CharKeyListener(ch));
+			letterButtons.push_back(b);
+			letters.push_back(ch);
+		}
+	}
+
+	// Row 5: CAPS (3 wide) + Space (3 wide) + 1 key gap + Enter (wide).
+	int controlY = 5 * stepY;
+	int capsWidth = kw * 3 + gap * 2;
+	ButtonWidget *capsBtn = MakeKey(kb, "CAPS", capsWidth, kh,
+		0, controlY, NULL);
+
+	int spaceWidth = kw * 3 + gap * 2;
+	MakeKey(kb, "Space", spaceWidth, kh, 3 * step, controlY,
 		new SpaceListener());
-	MakeKey(kb, "\xE2\x8F\x8E", kw * 3 + gap * 2, kh, step * 7, bottomY,
-		new EnterListener());
 
-	parent->add(kb, 2, 2);
+	// 1 key gap after Space, then Enter (3 keys wide).
+	int enterWidth = kw * 3 + gap * 2;
+	MakeKey(kb, "Enter", enterWidth, kh, 7 * step, controlY,
+		new EnterListener(kb));
+
+	capsBtn->addActionListener(new CapsToggleListener(capsBtn,
+		letterButtons, letters));
+
+	parent->add(kb, 0, 0);
 	return kb;
 }
 
@@ -261,39 +330,47 @@ void CreateIngameTouchOverlay(gcn::Container *container)
 	// On-screen keyboard, initially hidden, top-left.
 	gcn::Container *keyboard = MakeChatKeyboard(container);
 
-	// Camera + chat buttons at the bottom-left, just above the bottom bar.
-	const int rowY = Video.Height - OverlayBtnSize - 2;
-	int x = 2;
+	// Camera + chat buttons at the bottom-left, above the bottom bar.
+	// One button width of margin from the left and bottom screen edges.
+	const int margin = OverlayBtnSize;
+	const int rowY = Video.Height - OverlayBtnSize - margin;
+	int x = margin;
 
-	CameraScrollButton *leftBtn = new CameraScrollButton("\xE2\x86\x90", ScrollLeft);
-	leftBtn->setSize(OverlayBtnSize, OverlayBtnSize);
-	ApplyMenuButtonStyle(leftBtn);
-	container->add(leftBtn, x, rowY);
-	x += OverlayBtnSize + OverlayGap;
-
-	CameraScrollButton *downBtn = new CameraScrollButton("\xE2\x86\x93", ScrollDown);
-	downBtn->setSize(OverlayBtnSize, OverlayBtnSize);
-	ApplyMenuButtonStyle(downBtn);
-	container->add(downBtn, x, rowY);
-	x += OverlayBtnSize + OverlayGap;
-
-	CameraScrollButton *upBtn = new CameraScrollButton("\xE2\x86\x91", ScrollUp);
+	// Order: up, down, left, right, message.
+	CameraScrollButton *upBtn = new CameraScrollButton("^", ScrollUp);
 	upBtn->setSize(OverlayBtnSize, OverlayBtnSize);
 	ApplyMenuButtonStyle(upBtn);
 	container->add(upBtn, x, rowY);
 	x += OverlayBtnSize + OverlayGap;
 
-	CameraScrollButton *rightBtn = new CameraScrollButton("\xE2\x86\x92", ScrollRight);
+	CameraScrollButton *downBtn = new CameraScrollButton("v", ScrollDown);
+	downBtn->setSize(OverlayBtnSize, OverlayBtnSize);
+	ApplyMenuButtonStyle(downBtn);
+	container->add(downBtn, x, rowY);
+	x += OverlayBtnSize + OverlayGap;
+
+	CameraScrollButton *leftBtn = new CameraScrollButton("<", ScrollLeft);
+	leftBtn->setSize(OverlayBtnSize, OverlayBtnSize);
+	ApplyMenuButtonStyle(leftBtn);
+	container->add(leftBtn, x, rowY);
+	x += OverlayBtnSize + OverlayGap;
+
+	CameraScrollButton *rightBtn = new CameraScrollButton(">", ScrollRight);
 	rightBtn->setSize(OverlayBtnSize, OverlayBtnSize);
 	ApplyMenuButtonStyle(rightBtn);
 	container->add(rightBtn, x, rowY);
 	x += OverlayBtnSize + OverlayGap * 4;
 
-	ButtonWidget *chatBtn = new ButtonWidget("\xE2\x9C\x89");
+	ButtonWidget *chatBtn = new ButtonWidget("M");
 	chatBtn->setSize(OverlayBtnSize, OverlayBtnSize);
 	ApplyMenuButtonStyle(chatBtn);
 	chatBtn->addActionListener(new ChatToggleListener(keyboard));
 	container->add(chatBtn, x, rowY);
+
+	// Place the keyboard one button width above the navigation row.
+	const int kbX = margin;
+	const int kbY = rowY - keyboard->getHeight() - OverlayBtnSize;
+	keyboard->setPosition(kbX, kbY);
 }
 
 //@}
