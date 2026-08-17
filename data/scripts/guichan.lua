@@ -34,12 +34,21 @@ black = Color(0, 0, 0)
 disabled = Color(112, 112, 112, 128)
 
 -- Scale a background graphic to fit the screen while keeping its aspect
--- ratio, centered. Returns the widget and x, y offset for centering.
+-- ratio, centered. To avoid leftover pixels when the aspect ratio of the
+-- image differs from the screen, the whole screen is first filled with
+-- black and the centered background image is then rendered on top of it,
+-- producing black bars at the free edges. Returns the container widget
+-- (already covering the full screen) and a 0, 0 offset.
 function FitBackground(graphic)
+  local container = Container()
+  container:setBaseColor(black)
+  container:setOpaque(true)
+  container:setSize(Video.Width, Video.Height)
+
   local iw = graphic:getWidth()
   local ih = graphic:getHeight()
   if iw == 0 or ih == 0 then
-    return ImageWidget(graphic), 0, 0
+    return container, 0, 0
   end
   local scale = math.min(Video.Width / iw, Video.Height / ih)
   local sw = math.floor(iw * scale + 0.5)
@@ -47,7 +56,8 @@ function FitBackground(graphic)
   graphic:Resize(sw, sh)
   local ox = math.floor((Video.Width - sw) / 2)
   local oy = math.floor((Video.Height - sh) / 2)
-  return ImageWidget(graphic), ox, oy
+  container:add(ImageWidget(graphic), ox, oy)
+  return container, 0, 0
 end
 
 bckground = CGraphic:New("graphics/screens/menu.png")
