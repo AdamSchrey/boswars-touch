@@ -28,27 +28,25 @@
 
 function BosGameMenu()
   local menu = MenuScreen()
-  -- Keep the menu screen-filling (its constructor default) so that the
-  -- on-screen keyboard, which lives outside the small visible panel, is
-  -- not clipped and still receives touch events.  The visible menu panel
-  -- is drawn by an opaque child container below.
+  -- Keep the menu screen itself screen-filling (its constructor default)
+  -- so an attached on-screen keyboard is not clipped to the small visible
+  -- panel and still receives touch events.  The visible menu panel is a
+  -- separate opaque child container; all helper add() calls are routed to
+  -- it so the original 256x288 layout is preserved.
   menu:setSize(Video.Width, Video.Height)
   menu:setPosition(0, 0)
   menu:setOpaque(false)
 
-  local panelW = 256
-  local panelH = 288
-  local panelX = (Video.Width - panelW) / 2
-  local panelY = (Video.Height - panelH) / 2
   local panel = Container()
-  panel:setSize(panelW, panelH)
+  panel:setSize(256, 288)
   panel:setBorderSize(1)
   panel:setOpaque(true)
   panel:setBaseColor(dark)
-  menu:add(panel, panelX, panelY)
+  -- Add the panel directly (not via the overridden add() below).
+  local rawAdd = menu.add
+  rawAdd(menu, panel, (Video.Width - 256) / 2, (Video.Height - 288) / 2)
 
-  -- Helper so the panel acts as the content area: all widgets are added
-  -- relative to the panel, matching the original 256x288 layout.
+  -- Route widget additions to the visible panel.
   local function addToPanel(widget, x, y)
     return panel:add(widget, x, y)
   end
@@ -56,10 +54,38 @@ function BosGameMenu()
 
   AddMenuHelpers(menu)
 
-  -- Route every helper's add() to the visible panel.
   menu.addOrig = menu.add
   function menu:add(widget, x, y)
     return addToPanel(widget, x, y)
+  end
+  -- setSize/setPosition/getWidth/getHeight act on the visible panel so
+  -- existing menus keep working while the screen itself stays full-size.
+  function menu:setSize(w, h)
+    panel:setSize(w, h)
+  end
+  function menu:setPosition(x, y)
+    panel:setPosition(x, y)
+  end
+  function menu:setBorderSize(b)
+    panel:setBorderSize(b)
+  end
+  function menu:setOpaque(o)
+    panel:setOpaque(o)
+  end
+  function menu:setBaseColor(c)
+    panel:setBaseColor(c)
+  end
+  function menu:getWidth()
+    return panel:getWidth()
+  end
+  function menu:getHeight()
+    return panel:getHeight()
+  end
+  function menu:getX()
+    return panel:getX()
+  end
+  function menu:getY()
+    return panel:getY()
   end
 
   -- FIXME: not a good solution

@@ -62,6 +62,8 @@ OSKExtraKeys = {".", "-", "_", ":", "/"}
 -- State of the on-screen keyboard.
 OSKTargetField = nil          -- the currently focused TextField
 OSKUpperCase = false
+OSKAllLayers = {}              -- all created keyboard layers (to hide others)
+OSKCurrentMenu = nil           -- menu owning the visible keyboard
 OSKLetterButtons = {}         -- letter buttons, refreshed on CAPS toggle
 OSKLetters = {}               -- lowercase letters, parallel to buttons
 
@@ -106,6 +108,32 @@ function OSKBackspace()
   end
 end
 
+-- Move the caret one character left.
+function OSKMoveCaretLeft()
+  if OSKTargetField == nil then
+    return
+  end
+  local caret = OSKTargetField:getCaretPosition()
+  if caret > 0 then
+    -- ASCII text: previous byte is one character.
+    OSKTargetField:setCaretPosition(caret - 1)
+    OSKTargetField:requestFocus()
+  end
+end
+
+-- Move the caret one character right.
+function OSKMoveCaretRight()
+  if OSKTargetField == nil then
+    return
+  end
+  local text = OSKTargetField:getText()
+  local caret = OSKTargetField:getCaretPosition()
+  if caret < string.len(text) then
+    OSKTargetField:setCaretPosition(caret + 1)
+    OSKTargetField:requestFocus()
+  end
+end
+
 -- Toggle between lower and upper case letters and refresh the visible
 -- captions of all letter buttons and the CAPS button itself.
 OSKCapsButton = nil
@@ -122,10 +150,12 @@ function OSKToggleCaps()
   end
 end
 
--- Mark the given text field as the focus target.
--- Called whenever a TextField gains focus (e.g. by tapping it).
-function OSKSetFocus(textField)
+-- Mark the given text field as the focus target and remember the menu so
+-- OSKHideKeyboard() can hide the keyboard layer again.  This is called
+-- whenever a TextField gains focus (e.g. by tapping it).
+function OSKSetFocus(textField, menu)
   OSKTargetField = textField
+  OSKCurrentMenu = menu
 end
 
 -- Build a single styled key button.
@@ -154,13 +184,23 @@ end
 -- Build the on-screen keyboard anchored to a TextField and add it to the
 -- menu.  Called automatically by menu:addTextInputField().
 --
--- The keyboard is placed in a screen-filling transparent container that is
--- added to the menu and raised to the top.  This avoids the menu clipping
--- the keyboard to its own (small) area, which previously left most keys
--- unrendered and unable to receive touch events.
+-- The keyboard starts hidden and is only shown when the text field gains
+-- focus (tapped).  It lives in a screen-filling transparent layer that is
+-- added directly to the menu screen (not the visible panel) so it is never
+-- clipped and always receives touch events; it is kept above all other
+-- widgets.  Pressing Enter (or focusing another field / closing the menu)
+-- hides it again.  The caret is moved to the end of the field text when it
+-- is first focused.
 function AddOnScreenKeyboard(menu, textField, fieldX, fieldY, fieldW)
   if textField == nil then
     return
+  end
+
+  -- When a new menu is opened, discard layers from the previous menu so
+  -- we never reference destroyed widgets.
+  if OSKCurrentMenu ~= menu then
+    OSKAllLayers = {}
+    OSKCurrentMenu = menu
   end
 
   local step = OSKKeyWidth + OSKKeyGap
@@ -170,38 +210,19 @@ function AddOnScreenKeyboard(menu, textField, fieldX, fieldY, fieldW)
   local kbWidth = 10 * step - OSKKeyGap
   local kbHeight = 6 * stepY - OSKKeyGap
 
-  -- Absolute field position on screen (menu is offset on screen).
-  local menuX = menu:getX()
-  local menuY = menu:getY()
-  local absFieldX = menuX + fieldX
-  local absFieldY = menuY + fieldY
-
-  -- Position: prefer right of the field, then left, then centered below.
-  local kbX = absFieldX + fieldW + 8
-  if kbX + kbWidth > Video.Width then
-    kbX = absFieldX - kbWidth - 8
-  end
-  local kbY
-  if kbX < 0 then
-    kbX = math.max(0, math.floor((Video.Width - kbWidth) / 2))
-    kbY = absFieldY + OSKKeyHeight + 8
-  else
-    kbY = absFieldY
-  end
-  if kbY + kbHeight > Video.Height then
-    kbY = math.max(0, Video.Height - kbHeight - 8)
-  end
-
-  OSKTargetField = textField
   OSKLetterButtons = {}
   OSKLetters = {}
   OSKUpperCase = false
 
-  -- Screen-filling transparent layer so the keyboard is not clipped to
-  -- the menu's own (small) rectangle and always receives touch events.
+  -- Transparent layer sized to the keyboard only.  It must not cover the
+  -- whole screen, otherwise it would swallow clicks meant for the menu
+  -- buttons (Save/Cancel) beneath it.  Since the menu screen is now
+  -- screen-filling, a keyboard-sized layer is not clipped.
   local layer = Container()
   layer:setOpaque(false)
-  layer:setSize(Video.Width, Video.Height)
+  layer:setSize(kbWidth, kbHeight)
+  layer:setVisible(false)
+  table.insert(OSKAllLayers, layer)
 
   -- Dedicated container holding all keys (relative coordinates from 0,0).
   local kb = Container()
@@ -215,7 +236,8 @@ function AddOnScreenKeyboard(menu, textField, fieldX, fieldY, fieldW)
     kb:add(b, (col - 1) * step, 0 * stepY)
   end
 
-  -- Row 2: 5 symbols left-aligned, then "<-" with a 3-key gap, 2 wide.
+  -- Row 2: 5 symbols left-aligned, then "<-" (backspace) 2 keys wide,
+  -- starting after a 3-key gap.
   for col = 1, #OSKExtraKeys do
     local k = OSKExtraKeys[col]
     local b = oskKeyButton(k, function() OSKTypeChar(k) end)
@@ -225,7 +247,9 @@ function AddOnScreenKeyboard(menu, textField, fieldX, fieldY, fieldW)
     function() OSKBackspace() end,
     (5 + 3) * step, 1 * stepY)
 
-  -- Rows 3-5: letters in QWERTY order.
+  -- Rows 3-5: letters in QWERTY order.  Row 3 also holds the cursor
+  -- move keys "<|" and "|>" to the right of "m" with one key gap.
+  local cursorKeysRow = 1
   for row = 1, #OSKQwertyRows do
     local letters = OSKQwertyRows[row]
     for col = 1, #letters do
@@ -242,9 +266,20 @@ function AddOnScreenKeyboard(menu, textField, fieldX, fieldY, fieldW)
       table.insert(OSKLetters, letter)
       kb:add(b, (col - 1) * step, (row + 1) * stepY)
     end
+    if row == cursorKeysRow then
+      -- "m" is the 7th letter; place "<|" one key gap (one key width)
+      -- to the right of "m", then "|>" immediately after.
+      local mEnd = #letters * step
+      local cursorX = mEnd + step
+      oskWideKey(kb, "<|", OSKKeyWidth, function() OSKMoveCaretLeft() end,
+        cursorX, (row + 1) * stepY)
+      oskWideKey(kb, "|>", OSKKeyWidth, function() OSKMoveCaretRight() end,
+        cursorX + step, (row + 1) * stepY)
+    end
   end
 
   -- Row 6: CAPS (3 wide) + Space (3 wide) + 1 key gap + Enter (wide).
+  -- Enter hides the keyboard again.
   local controlY = 5 * stepY
   local capsWidth = OSKKeyWidth * 3 + OSKKeyGap * 2
   OSKCapsButton = oskWideKey(kb, "CAPS", capsWidth,
@@ -258,19 +293,65 @@ function AddOnScreenKeyboard(menu, textField, fieldX, fieldY, fieldW)
 
   local enterWidth = OSKKeyWidth * 3 + OSKKeyGap * 2
   oskWideKey(kb, "Enter", enterWidth,
-    function() end,
+    function() OSKHideKeyboard() end,
     7 * step, controlY)
 
-  -- Place the keyboard inside the screen-filling layer at the computed
-  -- screen coordinates, then add the layer to the menu and raise it above
-  -- all other widgets so touch events always reach the keys.  The layer is
-  -- added directly to the menu screen (not the visible panel) so it is not
-  -- clipped to the panel's small rectangle.
-  layer:add(kb, kbX, kbY)
+  -- Position the keyboard centered at the bottom of the screen, leaving
+  -- a small margin so it does not touch the screen edge.
+  local kbX = math.max(0, math.floor((Video.Width - kbWidth) / 2))
+  local kbY = math.max(0, Video.Height - kbHeight - 4)
+
+  layer:add(kb, 0, 0)
+  -- Add the layer directly to the menu screen (not the visible panel) so
+  -- it is not clipped to the panel's small rectangle.  Position it at the
+  -- computed screen coordinates.
   if menu.addOrig ~= nil then
-    menu.addOrig(menu, layer, 0, 0)
+    menu.addOrig(menu, layer, kbX, kbY)
   else
-    menu:add(layer, 0, 0)
+    menu:add(layer, kbX, kbY)
   end
   menu:moveToTop(layer)
+
+  -- Show the keyboard when the text field is tapped: move the caret to the
+  -- end of the text so the user can append to existing content.
+  local function showKeyboard()
+    -- Hide any other visible keyboard layer first so only one keyboard
+    -- is ever shown at a time.
+    for _, l in ipairs(OSKAllLayers) do
+      l:setVisible(false)
+    end
+    OSKTargetField = textField
+    OSKCurrentMenu = menu
+    local text = textField:getText()
+    textField:setCaretPosition(string.len(text))
+    textField:requestFocus()
+    layer:setVisible(true)
+    menu:moveToTop(layer)
+  end
+  textField:setActionCallback(showKeyboard)
+
+  -- Keep a reference so the menu can hide the keyboard (e.g. on close).
+  if menu.oskLayers == nil then
+    menu.oskLayers = {}
+  end
+  table.insert(menu.oskLayers, layer)
+
+  -- Hide on demand.
+  if menu.hideOnScreenKeyboards == nil then
+    function menu:hideOnScreenKeyboards()
+      if self.oskLayers ~= nil then
+        for _, l in ipairs(self.oskLayers) do
+          l:setVisible(false)
+        end
+      end
+    end
+  end
+end
+
+-- Hide the currently visible on-screen keyboard (if any).
+function OSKHideKeyboard()
+  for _, l in ipairs(OSKAllLayers) do
+    l:setVisible(false)
+  end
+  OSKTargetField = nil
 end

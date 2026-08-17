@@ -2391,6 +2391,9 @@ static void EditorMainLoop()
 	editorContainer->setDimension(gcn::Rectangle(0, 0, Video.Width, Video.Height));
 	editorContainer->setOpaque(false);
 	Gui->setTop(editorContainer);
+	// Touch overlay: camera move buttons so the editor can be controlled
+	// without a physical keyboard/mouse, mirroring the in-game overlay.
+	CreateIngameTouchOverlay(editorContainer);
 
 	editorUnitSliderListener = new EditorUnitSliderListener();
 	editorUnitDropDownListener = new EditorUnitDropDownListener();

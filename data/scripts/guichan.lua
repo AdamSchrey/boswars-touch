@@ -367,11 +367,6 @@ function AddMenuHelpers(menu)
 
   function menu:addTextInputField(text, x, y, w)
     local b = TextField(text)
-    -- Track which text field the on-screen keyboard targets.  The
-    -- action callback fires on text changes; combined with the
-    -- keyboard writing directly to this field, this keeps the
-    -- keyboard targeting the field the user is editing.
-    b:setActionCallback(function() OSKSetFocus(b) end)
     b:setFont(Fonts["game"]:PlainText())
     b:setBaseColor(clear)
     b:setForegroundColor(clear)
@@ -380,7 +375,8 @@ function AddMenuHelpers(menu)
     b:setSize(w, 18)
     self:add(b, x, y)
     -- Attach the on-screen keyboard next to this text field so touch
-    -- users can enter text without a physical keyboard.
+    -- users can enter text without a physical keyboard.  The keyboard
+    -- is hidden until the field is tapped.
     self:addOnScreenKeyboard(b, x, y, w)
     return b
   end

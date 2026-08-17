@@ -67,6 +67,12 @@ int ButtonUnderCursor = -1;                  /// Button under cursor
 bool GameMenuButtonClicked;                  /// Menu button was clicked
 bool GameDiplomacyButtonClicked;             /// Diplomacy button was clicked
 bool LeaveStops;                             /// Mouse leaves windows stops scroll
+// True while the left button is held down over the map area with a
+// building selected for placement.  Building placement is deferred to
+// UIHandleButtonUp() so the player can drag the building into position;
+// only a press that started on the map (not on a button-panel button)
+// commits the placement on release.
+static bool BuildingPlacementArmed = false;
 
 enum _cursor_on_ CursorOn = CursorOnUnknown; /// Cursor on field
 
@@ -1442,7 +1448,11 @@ void UIHandleButtonDown(unsigned button)
 			// On touch screens the building would be placed immediately on
 			// press, leaving no chance to drag it into position.  Defer the
 			// placement to UIHandleButtonUp(); while the button is held the
-			// building cursor preview already follows the finger.
+			// building cursor preview already follows the finger.  Arm the
+			// placement so only a press that started on the map (not on a
+			// button-panel button that just selected the building) commits
+			// the placement on release.
+			BuildingPlacementArmed = true;
 			return;
 		}
 
@@ -1627,6 +1637,13 @@ void UIHandleButtonUp(unsigned button)
 	//  before committing it by releasing the finger.
 	//
 	if (CursorBuilding && (1 << button) == LeftButton) {
+		// Only commit placement if the press started on the map area.  A
+		// press that started on a button-panel button (which selected the
+		// building) must not also place it on release.
+		if (!BuildingPlacementArmed) {
+			return;
+		}
+		BuildingPlacementArmed = false;
 		// Possible Selected[0] was removed from map
 		// need to make sure there is a unit to build
 		if (Selected[0] && UI.MouseViewport &&
