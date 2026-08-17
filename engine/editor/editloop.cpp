@@ -85,6 +85,7 @@ static int ButtonPanelHeight;
 static CPatch *PatchUnderCursor;            /// Patch under cursor
 static bool UnitPlacedThisPress = false;    /// Only allow one unit per press
 static bool PatchPlacedThisPress = false;   /// Only allow one patch per press
+static bool PlacementPending = false;       /// Placement deferred until button release
 static bool UpdateMinimap = false;          /// Update units on the minimap
 static bool UpdateMinimapTerrain = false;   /// Terrain has changed, minimap needs updating
 static int VisibleIcons;                    /// Number of icons that are visible at a time
@@ -1605,13 +1606,9 @@ static void EditorCallbackMouse(int x, int y)
 			//
 			RestrictCursorToViewport();
 
-			if (!UnitPlacedThisPress &&
-				CanBuildUnitType(NULL, CursorBuilding, cursorMapX, cursorMapY, 1))
-			{
-				EditorPlaceUnit(cursorMapX, cursorMapY, CursorBuilding, Players + Editor.SelectedPlayer);
-				UnitPlacedThisPress = true;
-				UI.StatusLine.Clear();
-			}
+			// Do not place while the button is held: the preview already
+			// follows the cursor, and the unit is committed on release in
+			// EditorCallbackButtonUp().
 			return;
 		}
 
@@ -1935,7 +1932,64 @@ static void EditorCallbackButtonUp(unsigned button)
 	{
 		PatchPlacedThisPress = false;
 		UnitPlacedThisPress = false;
-		EditorCallbackMouse(CursorX, CursorY);
+
+		// Commit a placement that was deferred from the button press so
+		// that on touch screens the element could be dragged into position
+		// before being placed.
+		if (PlacementPending)
+		{
+			PlacementPending = false;
+			if (CursorOn == CursorOnMap && UI.MouseViewport)
+			{
+				int cursorMapX = UI.MouseViewport->Viewport2MapX(CursorX);
+				int cursorMapY = UI.MouseViewport->Viewport2MapY(CursorY);
+
+				if (Editor.State == EditorEditPatch)
+				{
+					if (Editor.SelectedPatchIndex != -1)
+					{
+						// Remove any patches under the new patch
+						const CPatchType *patchType =
+							Editor.ShownPatchTypes[Editor.SelectedPatchIndex]->PatchType;
+						bool isFirstOfGroup = true;
+						EditorRemovePatches(cursorMapX, cursorMapY,
+							patchType->getTileWidth(), patchType->getTileHeight(),
+							&isFirstOfGroup);
+
+						// Create the new patch
+						EditorPlacePatch(cursorMapX, cursorMapY, patchType,
+							&isFirstOfGroup);
+					}
+				}
+				else if (Editor.State == EditorEditUnit)
+				{
+					if (CursorBuilding)
+					{
+						// Try to place a new unit
+						if (CanBuildUnitType(NULL, CursorBuilding, cursorMapX, cursorMapY, 1))
+						{
+							PlayGameSound(GameSounds.PlacementSuccess.Sound,
+								MaxSampleVolume);
+							EditorPlaceUnit(cursorMapX, cursorMapY,
+								CursorBuilding, Players + Editor.SelectedPlayer);
+							UI.StatusLine.Clear();
+						}
+						else
+						{
+							UI.StatusLine.Set(_("Unit can't be placed here."));
+							PlayGameSound(GameSounds.PlacementError.Sound,
+								MaxSampleVolume);
+						}
+					}
+				}
+				else if (Editor.State == EditorSetStartLocation)
+				{
+					Players[Editor.SelectedPlayer].StartX = cursorMapX;
+					Players[Editor.SelectedPlayer].StartY = cursorMapY;
+				}
+			}
+			EditorCallbackMouse(CursorX, CursorY);
+		}
 	}
 }
 
@@ -2092,56 +2146,12 @@ static void EditorCallbackButtonDown(unsigned button)
 
 		if (MouseButtons & LeftButton)
 		{
-			int cursorMapX = UI.MouseViewport->Viewport2MapX(CursorX);
-			int cursorMapY = UI.MouseViewport->Viewport2MapY(CursorY);
-
-			if (Editor.State == EditorSelecting)
-			{
-				// Nothing to do
-			}
-			else if (Editor.State == EditorEditPatch)
-			{
-				if (!PatchPlacedThisPress && Editor.SelectedPatchIndex != -1)
-				{
-					// Remove any patches under the new patch
-					const CPatchType *patchType = Editor.ShownPatchTypes[Editor.SelectedPatchIndex]->PatchType;
-					bool isFirstOfGroup = true;
-					EditorRemovePatches(cursorMapX, cursorMapY, patchType->getTileWidth(), patchType->getTileHeight(),
-							    &isFirstOfGroup);
-
-					// Create the new patch
-					EditorPlacePatch(cursorMapX, cursorMapY, patchType,
-							 &isFirstOfGroup);
-					PatchPlacedThisPress = true;
-				}
-			}
-			else if (Editor.State == EditorEditUnit)
-			{
-				if (!UnitPlacedThisPress && CursorBuilding)
-				{
-					// Try to place a new unit
-					if (CanBuildUnitType(NULL, CursorBuilding, cursorMapX, cursorMapY, 1))
-					{
-						PlayGameSound(GameSounds.PlacementSuccess.Sound,
-							MaxSampleVolume);
-						EditorPlaceUnit(cursorMapX, cursorMapY,
-							CursorBuilding, Players + Editor.SelectedPlayer);
-						UnitPlacedThisPress = true;
-						UI.StatusLine.Clear();
-					}
-					else
-					{
-						UI.StatusLine.Set(_("Unit can't be placed here."));
-						PlayGameSound(GameSounds.PlacementError.Sound,
-							MaxSampleVolume);
-					}
-				}
-			}
-			else if (Editor.State == EditorSetStartLocation)
-			{
-				Players[Editor.SelectedPlayer].StartX = cursorMapX;
-				Players[Editor.SelectedPlayer].StartY = cursorMapY;
-			}
+			// On touch screens an element would be placed immediately on
+			// press, leaving no chance to drag it into position.  Defer the
+			// actual placement to EditorCallbackButtonUp(); while the button
+			// is held the preview already follows the cursor, so the user can
+			// move the element with the finger before committing it.
+			PlacementPending = true;
 		}
 		else if (MouseButtons & MiddleButton)
 		{

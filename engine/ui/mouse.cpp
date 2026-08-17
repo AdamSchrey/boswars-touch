@@ -1431,44 +1431,10 @@ void UIHandleButtonDown(unsigned button)
 
 		// to redraw the cursor immediately (and avoid up to 1 sec delay
 		if (CursorBuilding) {
-			// Possible Selected[0] was removed from map
-			// need to make sure there is a unit to build
-			if (Selected[0] && (MouseButtons & LeftButton) &&
-					UI.MouseViewport->IsInsideMapArea(CursorX, CursorY)) {// enter select mode
-				int explored;
-				int x = UI.MouseViewport->Viewport2MapX(CursorX);
-				int y = UI.MouseViewport->Viewport2MapY(CursorY);
-
-				// FIXME: error messages
-
-				explored = 1;
-				for (int j = 0; explored && j < Selected[0]->Type->TileHeight; ++j) {
-					for (int i = 0; i < Selected[0]->Type->TileWidth; ++i) {
-						if (!Map.IsFieldExplored(ThisPlayer, x + i, y + j)) {
-							explored = 0;
-							break;
-						}
-					}
-				}
-				// 0 Test build, don't really build
-				if (CanBuildUnitType(Selected[0], CursorBuilding, x, y, 0) &&
-						(explored || ReplayRevealMap)) {
-					PlayGameSound(GameSounds.PlacementSuccess.Sound,
-						MaxSampleVolume);
-					for (int i = 0; i < NumSelected; ++i) {
-						SendCommandBuildBuilding(Selected[i], x, y, CursorBuilding,
-							!(KeyModifiers & ModifierShift));
-					}
-					if (!(KeyModifiers & (ModifierAlt | ModifierShift))) {
-						CancelBuildingMode();
-					}
-				} else {
-					PlayGameSound(GameSounds.PlacementError.Sound,
-						MaxSampleVolume);
-				}
-			} else {
-				CancelBuildingMode();
-			}
+			// On touch screens the building would be placed immediately on
+			// press, leaving no chance to drag it into position.  Defer the
+			// placement to UIHandleButtonUp(); while the button is held the
+			// building cursor preview already follows the finger.
 			return;
 		}
 
@@ -1647,6 +1613,53 @@ void UIHandleButtonDown(unsigned button)
 */
 void UIHandleButtonUp(unsigned button)
 {
+	//
+	//  Place a building that was deferred from the button press, so that
+	//  on touch screens the player can drag the building into position
+	//  before committing it by releasing the finger.
+	//
+	if (CursorBuilding && (1 << button) == LeftButton) {
+		// Possible Selected[0] was removed from map
+		// need to make sure there is a unit to build
+		if (Selected[0] && UI.MouseViewport &&
+				UI.MouseViewport->IsInsideMapArea(CursorX, CursorY)) {
+			int explored;
+			int x = UI.MouseViewport->Viewport2MapX(CursorX);
+			int y = UI.MouseViewport->Viewport2MapY(CursorY);
+
+			// FIXME: error messages
+
+			explored = 1;
+			for (int j = 0; explored && j < Selected[0]->Type->TileHeight; ++j) {
+				for (int i = 0; i < Selected[0]->Type->TileWidth; ++i) {
+					if (!Map.IsFieldExplored(ThisPlayer, x + i, y + j)) {
+						explored = 0;
+						break;
+					}
+				}
+			}
+			// 0 Test build, don't really build
+			if (CanBuildUnitType(Selected[0], CursorBuilding, x, y, 0) &&
+					(explored || ReplayRevealMap)) {
+				PlayGameSound(GameSounds.PlacementSuccess.Sound,
+					MaxSampleVolume);
+				for (int i = 0; i < NumSelected; ++i) {
+					SendCommandBuildBuilding(Selected[i], x, y, CursorBuilding,
+						!(KeyModifiers & ModifierShift));
+				}
+				if (!(KeyModifiers & (ModifierAlt | ModifierShift))) {
+					CancelBuildingMode();
+				}
+			} else {
+				PlayGameSound(GameSounds.PlacementError.Sound,
+					MaxSampleVolume);
+			}
+		} else {
+			CancelBuildingMode();
+		}
+		return;
+	}
+
 	//
 	//  Move map.
 	//
