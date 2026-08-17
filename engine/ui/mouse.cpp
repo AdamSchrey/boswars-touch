@@ -590,6 +590,14 @@ static void HandleMouseOn(int x, int y)
 		return;
 	}
 
+	// If the pointer is over a guichan touch widget (overlay buttons or
+	// the on-screen keyboard), do not treat it as a map click so that
+	// interacting with the overlay does not also select map units.
+	if (IsPointOnGuichanWidget(x, y)) {
+		CursorOn = CursorOnUnknown;
+		return;
+	}
+
 	//
 	//  On UI graphic
 	//

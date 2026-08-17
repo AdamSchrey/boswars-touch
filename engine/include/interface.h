@@ -398,6 +398,10 @@ extern void CreateIngameTouchOverlay(gcn::Container *container);
 
 /// Begin chat/input mode (same as pressing Enter during a game).
 extern void UiBeginInput(void);
+/// Returns true if the point (x,y) is over a visible guichan widget,
+/// i.e. a touch overlay button or on-screen keyboard key.  Used to
+/// prevent clicks on overlay buttons from also selecting map units.
+extern bool IsPointOnGuichanWidget(int x, int y);
 /// Feed a key (SDL key code) to the in-game input editor.
 /// Returns 1 if the input was finished (Enter/Escape), 0 otherwise.
 extern int InputKey(int key);

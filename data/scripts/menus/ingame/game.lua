@@ -28,14 +28,39 @@
 
 function BosGameMenu()
   local menu = MenuScreen()
-  menu:setSize(256, 288)
-  menu:setPosition((Video.Width - menu:getWidth()) / 2,
-    (Video.Height - menu:getHeight()) / 2)
-  menu:setBorderSize(1)
-  menu:setOpaque(true)
-  menu:setBaseColor(dark)
+  -- Keep the menu screen-filling (its constructor default) so that the
+  -- on-screen keyboard, which lives outside the small visible panel, is
+  -- not clipped and still receives touch events.  The visible menu panel
+  -- is drawn by an opaque child container below.
+  menu:setSize(Video.Width, Video.Height)
+  menu:setPosition(0, 0)
+  menu:setOpaque(false)
+
+  local panelW = 256
+  local panelH = 288
+  local panelX = (Video.Width - panelW) / 2
+  local panelY = (Video.Height - panelH) / 2
+  local panel = Container()
+  panel:setSize(panelW, panelH)
+  panel:setBorderSize(1)
+  panel:setOpaque(true)
+  panel:setBaseColor(dark)
+  menu:add(panel, panelX, panelY)
+
+  -- Helper so the panel acts as the content area: all widgets are added
+  -- relative to the panel, matching the original 256x288 layout.
+  local function addToPanel(widget, x, y)
+    return panel:add(widget, x, y)
+  end
+  menu.panel = panel
 
   AddMenuHelpers(menu)
+
+  -- Route every helper's add() to the visible panel.
+  menu.addOrig = menu.add
+  function menu:add(widget, x, y)
+    return addToPanel(widget, x, y)
+  end
 
   -- FIXME: not a good solution
   -- default size is 200,24 but we want 224,28 so we override these functions

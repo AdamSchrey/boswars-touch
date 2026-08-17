@@ -46,9 +46,9 @@
 -- base color (dark) with the disabled color.
 
 -- Layout constants
-OSKKeyWidth = 26
-OSKKeyHeight = 26
-OSKKeyGap = 2
+OSKKeyWidth = 39
+OSKKeyHeight = 39
+OSKKeyGap = 3
 
 -- Letter rows in QWERTY layout (lowercase by default).
 OSKQwertyRows = {
@@ -154,9 +154,10 @@ end
 -- Build the on-screen keyboard anchored to a TextField and add it to the
 -- menu.  Called automatically by menu:addTextInputField().
 --
--- All keys are grouped in a dedicated Container which is added last and
--- raised to the top via moveToTop(), so the keyboard stays above other
--- menu widgets (e.g. a file browser) and always receives touch events.
+-- The keyboard is placed in a screen-filling transparent container that is
+-- added to the menu and raised to the top.  This avoids the menu clipping
+-- the keyboard to its own (small) area, which previously left most keys
+-- unrendered and unable to receive touch events.
 function AddOnScreenKeyboard(menu, textField, fieldX, fieldY, fieldW)
   if textField == nil then
     return
@@ -169,17 +170,23 @@ function AddOnScreenKeyboard(menu, textField, fieldX, fieldY, fieldW)
   local kbWidth = 10 * step - OSKKeyGap
   local kbHeight = 6 * stepY - OSKKeyGap
 
+  -- Absolute field position on screen (menu is offset on screen).
+  local menuX = menu:getX()
+  local menuY = menu:getY()
+  local absFieldX = menuX + fieldX
+  local absFieldY = menuY + fieldY
+
   -- Position: prefer right of the field, then left, then centered below.
-  local kbX = fieldX + fieldW + 8
+  local kbX = absFieldX + fieldW + 8
   if kbX + kbWidth > Video.Width then
-    kbX = fieldX - kbWidth - 8
+    kbX = absFieldX - kbWidth - 8
   end
   local kbY
   if kbX < 0 then
     kbX = math.max(0, math.floor((Video.Width - kbWidth) / 2))
-    kbY = fieldY + OSKKeyHeight + 8
+    kbY = absFieldY + OSKKeyHeight + 8
   else
-    kbY = fieldY
+    kbY = absFieldY
   end
   if kbY + kbHeight > Video.Height then
     kbY = math.max(0, Video.Height - kbHeight - 8)
@@ -189,6 +196,12 @@ function AddOnScreenKeyboard(menu, textField, fieldX, fieldY, fieldW)
   OSKLetterButtons = {}
   OSKLetters = {}
   OSKUpperCase = false
+
+  -- Screen-filling transparent layer so the keyboard is not clipped to
+  -- the menu's own (small) rectangle and always receives touch events.
+  local layer = Container()
+  layer:setOpaque(false)
+  layer:setSize(Video.Width, Video.Height)
 
   -- Dedicated container holding all keys (relative coordinates from 0,0).
   local kb = Container()
@@ -248,8 +261,16 @@ function AddOnScreenKeyboard(menu, textField, fieldX, fieldY, fieldW)
     function() end,
     7 * step, controlY)
 
-  -- Add the keyboard container last and raise it above other widgets so
-  -- touch events always reach the keys.
-  menu:add(kb, kbX, kbY)
-  menu:moveToTop(kb)
+  -- Place the keyboard inside the screen-filling layer at the computed
+  -- screen coordinates, then add the layer to the menu and raise it above
+  -- all other widgets so touch events always reach the keys.  The layer is
+  -- added directly to the menu screen (not the visible panel) so it is not
+  -- clipped to the panel's small rectangle.
+  layer:add(kb, kbX, kbY)
+  if menu.addOrig ~= nil then
+    menu.addOrig(menu, layer, 0, 0)
+  else
+    menu:add(layer, 0, 0)
+  end
+  menu:moveToTop(layer)
 end

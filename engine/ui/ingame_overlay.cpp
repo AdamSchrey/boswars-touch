@@ -99,6 +99,10 @@ private:
 --  On-screen keyboard buttons for chat
 ----------------------------------------------------------------------------*/
 
+// Shared CAPS state for the chat keyboard: when true, letter keys feed
+// their upper-case form to the input.
+static bool ChatKbUpperCase = false;
+
 // Key for a character button: feed the byte value to the engine input.
 class CharKeyListener : public gcn::ActionListener
 {
@@ -106,9 +110,14 @@ public:
 	CharKeyListener(const std::string &ch) : Char(ch) {}
 	virtual void action(const std::string &)
 	{
-		if (Char.size() == 1) {
-			InputKey((int)(unsigned char)Char[0]);
+		if (Char.size() != 1) {
+			return;
 		}
+		char c = Char[0];
+		if (ChatKbUpperCase && c >= 'a' && c <= 'z') {
+			c = c - 'a' + 'A';
+		}
+		InputKey((int)(unsigned char)c);
 	}
 private:
 	std::string Char;
@@ -164,6 +173,7 @@ public:
 	virtual void action(const std::string &)
 	{
 		UpperCase = !UpperCase;
+		ChatKbUpperCase = UpperCase;
 		if (CapsButton != NULL) {
 			CapsButton->setCaption(UpperCase ? "caps" : "CAPS");
 		}
@@ -219,9 +229,9 @@ static ButtonWidget *MakeKey(gcn::Container *parent, const std::string &caption,
 //   row 5: CAPS (3 wide) + Space (3 wide) + 1 key gap + Enter (wide)
 static gcn::Container *MakeChatKeyboard(gcn::Container *parent)
 {
-	const int kw = 26;
-	const int kh = 26;
-	const int gap = 2;
+	const int kw = 39;
+	const int kh = 39;
+	const int gap = 3;
 	const int step = kw + gap;
 	const int stepY = kh + gap;
 
@@ -315,8 +325,38 @@ private:
 --  Overlay creation
 ----------------------------------------------------------------------------*/
 
-static const int OverlayBtnSize = 32;
-static const int OverlayGap = 2;
+// Interactive touch widgets created by this module.  Used by
+// IsPointOnGuichanWidget() to prevent clicks on these widgets from
+// also reaching the game map.
+static std::vector<gcn::Widget *> TouchWidgets;
+
+// Check whether a widget (or any visible descendant) contains the point.
+static bool WidgetContainsPoint(gcn::Widget *w, int x, int y)
+{
+	if (w == NULL || !w->isVisible()) {
+		return false;
+	}
+	int wx, wy;
+	w->getAbsolutePosition(wx, wy);
+	if (x < wx || y < wy ||
+		x >= wx + w->getWidth() || y >= wy + w->getHeight()) {
+		return false;
+	}
+	return true;
+}
+
+bool IsPointOnGuichanWidget(int x, int y)
+{
+	for (size_t i = 0; i < TouchWidgets.size(); ++i) {
+		if (WidgetContainsPoint(TouchWidgets[i], x, y)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+static const int OverlayBtnSize = 48;
+static const int OverlayGap = 3;
 
 // Create the touch overlay on the in-game GUI container.
 // The overlay is owned by the container (added as a child), so the caller
@@ -327,8 +367,13 @@ void CreateIngameTouchOverlay(gcn::Container *container)
 		return;
 	}
 
+	// A new game/map recreates the overlay; drop references to the old
+	// widgets so IsPointOnGuichanWidget() never checks dangling pointers.
+	TouchWidgets.clear();
+
 	// On-screen keyboard, initially hidden, top-left.
 	gcn::Container *keyboard = MakeChatKeyboard(container);
+	TouchWidgets.push_back(keyboard);
 
 	// Camera + chat buttons at the bottom-left, above the bottom bar.
 	// One button width of margin from the left and bottom screen edges.
@@ -341,24 +386,28 @@ void CreateIngameTouchOverlay(gcn::Container *container)
 	upBtn->setSize(OverlayBtnSize, OverlayBtnSize);
 	ApplyMenuButtonStyle(upBtn);
 	container->add(upBtn, x, rowY);
+	TouchWidgets.push_back(upBtn);
 	x += OverlayBtnSize + OverlayGap;
 
 	CameraScrollButton *downBtn = new CameraScrollButton("v", ScrollDown);
 	downBtn->setSize(OverlayBtnSize, OverlayBtnSize);
 	ApplyMenuButtonStyle(downBtn);
 	container->add(downBtn, x, rowY);
+	TouchWidgets.push_back(downBtn);
 	x += OverlayBtnSize + OverlayGap;
 
 	CameraScrollButton *leftBtn = new CameraScrollButton("<", ScrollLeft);
 	leftBtn->setSize(OverlayBtnSize, OverlayBtnSize);
 	ApplyMenuButtonStyle(leftBtn);
 	container->add(leftBtn, x, rowY);
+	TouchWidgets.push_back(leftBtn);
 	x += OverlayBtnSize + OverlayGap;
 
 	CameraScrollButton *rightBtn = new CameraScrollButton(">", ScrollRight);
 	rightBtn->setSize(OverlayBtnSize, OverlayBtnSize);
 	ApplyMenuButtonStyle(rightBtn);
 	container->add(rightBtn, x, rowY);
+	TouchWidgets.push_back(rightBtn);
 	x += OverlayBtnSize + OverlayGap * 4;
 
 	ButtonWidget *chatBtn = new ButtonWidget("M");
@@ -366,6 +415,7 @@ void CreateIngameTouchOverlay(gcn::Container *container)
 	ApplyMenuButtonStyle(chatBtn);
 	chatBtn->addActionListener(new ChatToggleListener(keyboard));
 	container->add(chatBtn, x, rowY);
+	TouchWidgets.push_back(chatBtn);
 
 	// Place the keyboard one button width above the navigation row.
 	const int kbX = margin;
