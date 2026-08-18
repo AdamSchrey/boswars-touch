@@ -30,6 +30,8 @@
 //@{
 
 #include "stratagus.h"
+#include "SDL.h"
+#include "editor.h"
 #include "interface.h"
 
 #include "guichan.h"
@@ -39,7 +41,6 @@
 
 // SDL key codes are needed for chat keys (Enter/Backspace) that the
 // on-screen keyboard feeds via InputKey().
-#include "SDL.h"
 
 #include <string>
 #include <vector>
@@ -84,7 +85,10 @@ public:
 	virtual void logic()
 	{
 		ButtonWidget::logic();
-		if (GameRunning && isEnabled() && isPressed()) {
+		// Work both in-game and in the editor so the camera moves while the
+		// button is held and stops on release.
+		if ((GameRunning || Editor.Running != EditorNotRunning) &&
+				isEnabled() && isPressed()) {
 			KeyScrollState |= ScrollMask;
 		} else {
 			KeyScrollState &= ~ScrollMask;
@@ -361,7 +365,7 @@ static const int OverlayGap = 3;
 // Create the touch overlay on the in-game GUI container.
 // The overlay is owned by the container (added as a child), so the caller
 // does not need to free it.
-void CreateIngameTouchOverlay(gcn::Container *container)
+void CreateIngameTouchOverlay(gcn::Container *container, bool showChat)
 {
 	if (container == NULL) {
 		return;
@@ -371,9 +375,13 @@ void CreateIngameTouchOverlay(gcn::Container *container)
 	// widgets so IsPointOnGuichanWidget() never checks dangling pointers.
 	TouchWidgets.clear();
 
-	// On-screen keyboard, initially hidden, top-left.
-	gcn::Container *keyboard = MakeChatKeyboard(container);
-	TouchWidgets.push_back(keyboard);
+	// On-screen keyboard, initially hidden, top-left.  Only created in-game
+	// (chat makes no sense in the editor).
+	gcn::Container *keyboard = NULL;
+	if (showChat) {
+		keyboard = MakeChatKeyboard(container);
+		TouchWidgets.push_back(keyboard);
+	}
 
 	// Camera + chat buttons at the bottom-left, above the bottom bar.
 	// One button width of margin from the left and bottom screen edges.
@@ -408,19 +416,21 @@ void CreateIngameTouchOverlay(gcn::Container *container)
 	ApplyMenuButtonStyle(rightBtn);
 	container->add(rightBtn, x, rowY);
 	TouchWidgets.push_back(rightBtn);
-	x += OverlayBtnSize + OverlayGap * 4;
+	x += OverlayBtnSize + OverlayGap;
 
-	ButtonWidget *chatBtn = new ButtonWidget("M");
-	chatBtn->setSize(OverlayBtnSize, OverlayBtnSize);
-	ApplyMenuButtonStyle(chatBtn);
-	chatBtn->addActionListener(new ChatToggleListener(keyboard));
-	container->add(chatBtn, x, rowY);
-	TouchWidgets.push_back(chatBtn);
+	if (showChat) {
+		ButtonWidget *chatBtn = new ButtonWidget("M");
+		chatBtn->setSize(OverlayBtnSize, OverlayBtnSize);
+		ApplyMenuButtonStyle(chatBtn);
+		chatBtn->addActionListener(new ChatToggleListener(keyboard));
+		container->add(chatBtn, x, rowY);
+		TouchWidgets.push_back(chatBtn);
 
-	// Place the keyboard one button width above the navigation row.
-	const int kbX = margin;
-	const int kbY = rowY - keyboard->getHeight() - OverlayBtnSize;
-	keyboard->setPosition(kbX, kbY);
+		// Place the keyboard one button width above the navigation row.
+		const int kbX = margin;
+		const int kbY = rowY - keyboard->getHeight() - OverlayBtnSize;
+		keyboard->setPosition(kbX, kbY);
+	}
 }
 
 //@}

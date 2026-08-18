@@ -249,7 +249,7 @@ function AddOnScreenKeyboard(menu, textField, fieldX, fieldY, fieldW)
 
   -- Rows 3-5: letters in QWERTY order.  Row 3 also holds the cursor
   -- move keys "<|" and "|>" to the right of "m" with one key gap.
-  local cursorKeysRow = 1
+  local cursorKeysRow = 3
   for row = 1, #OSKQwertyRows do
     local letters = OSKQwertyRows[row]
     for col = 1, #letters do

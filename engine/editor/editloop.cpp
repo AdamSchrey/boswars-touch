@@ -1547,6 +1547,14 @@ static void EditorCallbackMouse(int x, int y)
 
 	HandleCursorMove(&x, &y); // Reduce to screen
 
+	// If the pointer is over a guichan touch widget (overlay buttons), do
+	// not treat it as a map/editor click so interacting with the overlay
+	// does not place patches or units through the buttons.
+	if (IsPointOnGuichanWidget(x, y)) {
+		CursorOn = CursorOnUnknown;
+		return;
+	}
+
 	//
 	// Move map.
 	//
@@ -2006,6 +2014,13 @@ static void EditorCallbackButtonDown(unsigned button)
 		return;
 	}
 
+	// If the pointer is over a guichan touch widget (overlay buttons), let
+	// the widget handle the event; do not place patches/units or interact
+	// with the map through the buttons.
+	if (IsPointOnGuichanWidget(CursorX, CursorY)) {
+		return;
+	}
+
 	//
 	// Click on menu button
 	//
@@ -2393,7 +2408,8 @@ static void EditorMainLoop()
 	Gui->setTop(editorContainer);
 	// Touch overlay: camera move buttons so the editor can be controlled
 	// without a physical keyboard/mouse, mirroring the in-game overlay.
-	CreateIngameTouchOverlay(editorContainer);
+	// Chat is disabled in the editor (no messaging there).
+	CreateIngameTouchOverlay(editorContainer, false);
 
 	editorUnitSliderListener = new EditorUnitSliderListener();
 	editorUnitDropDownListener = new EditorUnitDropDownListener();

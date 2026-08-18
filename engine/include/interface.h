@@ -394,7 +394,7 @@ extern int GetGameSpeed();
 namespace gcn { class Container; }
 /// Create the touch overlay (camera move buttons + chat button) on the
 /// given in-game GUI container.  No-op if a touch device is not in use.
-extern void CreateIngameTouchOverlay(gcn::Container *container);
+extern void CreateIngameTouchOverlay(gcn::Container *container, bool showChat = true);
 
 /// Begin chat/input mode (same as pressing Enter during a game).
 extern void UiBeginInput(void);
