@@ -397,6 +397,12 @@ function BosMenu(title, background)
 
   local bgx, bgy
   if background == nil then
+    -- Ensure background widget is properly initialized
+    if not backgroundWidget then
+      bckground = CGraphic:New("graphics/screens/menu.png")
+      bckground:Load()
+      backgroundWidget, bgOffsetX, bgOffsetY = FitBackground(bckground)
+    end
     bg = backgroundWidget
     bgx = bgOffsetX
     bgy = bgOffsetY

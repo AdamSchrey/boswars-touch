@@ -73,6 +73,7 @@ bool LeaveStops;                             /// Mouse leaves windows stops scro
 // only a press that started on the map (not on a button-panel button)
 // commits the placement on release.
 static bool BuildingPlacementArmed = false;
+Uint32 ButtonDownTime = 0;           /// Time when button was pressed down (for touch & hold)
 
 enum _cursor_on_ CursorOn = CursorOnUnknown; /// Cursor on field
 
@@ -1355,7 +1356,15 @@ static void UISelectStateButtonDown(unsigned button)
 	if (CursorOn == CursorOnButton) {
 		// FIXME: other buttons?
 		if (ButtonAreaUnderCursor == ButtonAreaButton) {
-			UI.ButtonPanel.DoClicked(ButtonUnderCursor);
+			// For touch & hold: only perform action if button was clicked briefly (< 1 second)
+			Uint32 buttonUpTime = SDL_GetTicks();
+			Uint32 holdDuration = buttonUpTime - ButtonDownTime;
+			if (holdDuration < 1000) { // 1000ms = 1 second threshold
+				UI.ButtonPanel.DoClicked(ButtonUnderCursor);
+			}
+			// If held longer than 1 second, just clear the popup
+			UI.StatusLine.Clear();
+			ClearCosts();
 			return;
 		}
 	}
@@ -1381,6 +1390,11 @@ void UIHandleButtonDown(unsigned button)
 	static bool OldShowAttackRange;
 	static bool OldValid = false;
 	CUnit *uins;
+
+	// For touch & hold: record the time when button is pressed
+	if (button == LeftButton) {
+		ButtonDownTime = SDL_GetTicks();
+	}
 
 /**
 **  Detect long selection click, FIXME: tempory hack to test the feature.
