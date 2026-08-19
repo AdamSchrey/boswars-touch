@@ -1615,10 +1615,18 @@ void UIHandleButtonDown(unsigned button)
 					}
 				}
 			} else if (ButtonAreaUnderCursor == ButtonAreaButton) {
-				if (!GameObserve && !GamePaused &&
-						ThisPlayer->IsTeamed(Selected[0])) {
-					UI.ButtonPanel.DoClicked(ButtonUnderCursor);
+				// For touch & hold: only perform action if button was clicked briefly (< 1 second)
+				Uint32 buttonUpTime = SDL_GetTicks();
+				Uint32 holdDuration = buttonUpTime - ButtonDownTime;
+				if (holdDuration < 1000) { // 1000ms = 1 second threshold
+					if (!GameObserve && !GamePaused &&
+							ThisPlayer->IsTeamed(Selected[0])) {
+						UI.ButtonPanel.DoClicked(ButtonUnderCursor);
+					}
 				}
+				// If held longer than 1 second, just clear the popup
+				UI.StatusLine.Clear();
+				ClearCosts();
 			}
 		} else if ((MouseButtons & MiddleButton)) {
 			//
