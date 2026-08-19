@@ -449,7 +449,7 @@ void CButtonPanel::Draw(void)
 		if (ButtonAreaUnderCursor == ButtonAreaButton &&
 				ButtonUnderCursor == i && KeyState != KeyStateInput) {
 			DrawPopup();
-			UpdateStatusLineForButton(&buttons[i]);
+			// 			UpdateStatusLineForButton(&buttons[i]);
 		}
 	}
 }
