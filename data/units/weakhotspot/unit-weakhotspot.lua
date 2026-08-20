@@ -1,9 +1,9 @@
---       _________ __                 __
+--       _________ __                 __                               
 --      /   _____//  |_____________ _/  |______     ____  __ __  ______
 --      \_____  \\   __\_  __ \__  \\   __\__  \   / ___\|  |  \/  ___/
---      /        \|  |  |  | \// __ \|  |  / __ \_/ /_/  >  |  /\___ \
+--      /        \|  |  |  | \// __ \|  |  / __ \_/ /_/  >  |  /\___ \ 
 --     /_______  /|__|  |__|  (____  /__| (____  /\___  /|____//____  >
---             \/                  \/          \//_____/            \/
+--             \/                  \/          \//_____/            \/ 
 --  ______________________                           ______________________
 --			  T H E   W A R   B E G I N S
 --	   Stratagus - A free fantasy real time strategy game engine
@@ -16,12 +16,12 @@
 --      it under the terms of the GNU General Public License as published by
 --      the Free Software Foundation; either version 2 of the License, or
 --      (at your option) any later version.
---
+--  
 --      This program is distributed in the hope that it will be useful,
 --      but WITHOUT ANY WARRANTY; without even the implied warranty of
 --      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 --      GNU General Public License for more details.
---
+--  
 --      You should have received a copy of the GNU General Public License
 --      along with this program; if not, write to the Free Software
 --      Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -29,15 +29,24 @@
 --	$Id: unit-tree02.lua 8696 2007-04-07 18:14:35Z feb $
 
 DefineAnimations("animations-weakhotspot", {
-    Still = {"frame 0", "wait 100"},
+    Still = {"frame 0", "wait 10", "frame 1", "wait 10", "frame 2", "wait 10",
+        "frame 3", "wait 10", "frame 4", "wait 10", "frame 5", "wait 10", 
+        "frame 6", "wait 10", "frame 7", "wait 10", "frame 8", "wait 10", 
+        "frame 9", "wait 10", "frame 10", "wait 10", "frame 11", "wait 10", 
+        "frame 12", "wait 10", "frame 13", "wait 10", "frame 14", "wait 10", 
+        "frame 15", "wait 10",
+        "frame 14", "wait 10", "frame 13", "wait 10", "frame 12", "wait 10", "frame 11", "wait 10",
+        "frame 10", "wait 10", "frame 9", "wait 10", "frame 8", "wait 10", "frame 7", "wait 10", "frame 6", "wait 10",
+		"frame 5", "wait 10", "frame 4", "wait 10", "frame 3", "wait 10", "frame 2", "wait 10", "frame 1", "wait 10",
+	},
     Death = {"unbreakable begin", "frame 0", "unbreakable end", "wait 1", },
-    })
+})
 
 DefineIcon({
         Name = "icon-weakhotspot",
         Size = {46, 38},
         Frame = 0,
-        File = "units/weakhotspot/hotspot_i.png"})
+        File = "units/weakhotspot/weakhotspot_i.png"})
 
 DefineConstruction("construction-weakhotspot", {
         Constructions = {
@@ -47,7 +56,7 @@ DefineConstruction("construction-weakhotspot", {
 
 DefineUnitType("unit-weakhotspot", {
     Name = "Hot Spot",
-    Image = {"file", "units/weakhotspot/hotspot.png", "size", {64, 64}},
+    Image = {"file", "units/weakhotspot/weakhotspot.png", "size", {64, 64}},
     Offset = {0, 0},
     Animations = "animations-weakhotspot",
     Icon = "icon-weakhotspot",
