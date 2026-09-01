@@ -1606,18 +1606,9 @@ void UIHandleButtonDown(unsigned button)
 					}
 				}
 			} else if (ButtonAreaUnderCursor == ButtonAreaButton) {
-				// For touch & hold: only perform action if button was clicked briefly (< 1 second)
-				Uint32 buttonUpTime = SDL_GetTicks();
-				Uint32 holdDuration = buttonUpTime - ButtonDownTime;
-				if (holdDuration < 1000) { // 1000ms = 1 second threshold
-					if (!GameObserve && !GamePaused &&
-							ThisPlayer->IsTeamed(Selected[0])) {
-						UI.ButtonPanel.DoClicked(ButtonUnderCursor);
-					}
-				}
-				// If held longer than 1 second, just clear the popup
-				UI.StatusLine.Clear();
-				ClearCosts();
+				// Button press on button panel - action will be handled on button release
+				// with touch & hold logic to distinguish between short click and long hold
+				return;
 			}
 		} else if ((MouseButtons & MiddleButton)) {
 			//
@@ -1755,6 +1746,32 @@ void UIHandleButtonUp(unsigned button)
 			if (UI.NetworkDiplomacyButton.Callback) {
 				UI.NetworkDiplomacyButton.Callback->action("");
 			}
+			return;
+		}
+	}
+
+	//
+	//  Button panel buttons - touch & hold logic
+	//  For touch screens: only perform action if button was clicked briefly (< 1 second)
+	//
+	if ((1 << button) == LeftButton) {
+		// Clear popup on any left button release
+		UI.StatusLine.Clear();
+		ClearCosts();
+		
+		// For button panel: check touch & hold duration
+		if (ButtonAreaUnderCursor == ButtonAreaButton) {
+			Uint32 buttonUpTime = SDL_GetTicks();
+			Uint32 holdDuration = buttonUpTime - ButtonDownTime;
+			
+			// Only perform action if it was a short click (< 1 second)
+			if (holdDuration < 1000) { // 1000ms = 1 second threshold
+				if (!GameObserve && !GamePaused &&
+						ThisPlayer->IsTeamed(Selected[0])) {
+					UI.ButtonPanel.DoClicked(ButtonUnderCursor);
+				}
+			}
+			// If held longer than 1 second, action is not performed (info was already shown while holding)
 			return;
 		}
 	}
