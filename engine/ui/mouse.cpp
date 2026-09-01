@@ -74,6 +74,7 @@ bool LeaveStops;                             /// Mouse leaves windows stops scro
 // commits the placement on release.
 static bool BuildingPlacementArmed = false;
 Uint32 ButtonDownTime = 0;           /// Time when button was pressed down (for touch & hold)
+Uint32 ButtonPanelButtonDownTime = 0; /// Time when button panel button was pressed (for touch & hold)
 
 enum _cursor_on_ CursorOn = CursorOnUnknown; /// Cursor on field
 
@@ -1606,6 +1607,8 @@ void UIHandleButtonDown(unsigned button)
 					}
 				}
 			} else if (ButtonAreaUnderCursor == ButtonAreaButton) {
+				// For touch & hold: record the time when button panel button is pressed
+				ButtonPanelButtonDownTime = SDL_GetTicks();
 				// Button press on button panel - action will be handled on button release
 				// with touch & hold logic to distinguish between short click and long hold
 				return;
@@ -1762,7 +1765,7 @@ void UIHandleButtonUp(unsigned button)
 		// For button panel: check touch & hold duration
 		if (ButtonAreaUnderCursor == ButtonAreaButton) {
 			Uint32 buttonUpTime = SDL_GetTicks();
-			Uint32 holdDuration = buttonUpTime - ButtonDownTime;
+			Uint32 holdDuration = buttonUpTime - ButtonPanelButtonDownTime;
 			
 			// Only perform action if it was a short click (< 1 second)
 			if (holdDuration < 1000) { // 1000ms = 1 second threshold
