@@ -1357,6 +1357,10 @@ static void UISelectStateButtonDown(unsigned button)
 	if (CursorOn == CursorOnButton) {
 		// FIXME: other buttons?
 		if (ButtonAreaUnderCursor == ButtonAreaButton) {
+			// For touch & hold: record the time when button panel button is pressed
+			ButtonPanelButtonDownTime = SDL_GetTicks();
+			// Button press on button panel - action will be handled on button release
+			// with touch & hold logic to distinguish between short click and long hold
 			return;
 		}
 	}
