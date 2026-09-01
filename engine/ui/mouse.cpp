@@ -75,6 +75,7 @@ bool LeaveStops;                             /// Mouse leaves windows stops scro
 static bool BuildingPlacementArmed = false;
 Uint32 ButtonDownTime = 0;           /// Time when button was pressed down (for touch & hold)
 Uint32 ButtonPanelButtonDownTime = 0; /// Time when button panel button was pressed (for touch & hold)
+int ButtonPanelButtonPressed = -1;   /// Which button panel button was pressed (for touch & hold)
 
 enum _cursor_on_ CursorOn = CursorOnUnknown; /// Cursor on field
 
@@ -1357,8 +1358,9 @@ static void UISelectStateButtonDown(unsigned button)
 	if (CursorOn == CursorOnButton) {
 		// FIXME: other buttons?
 		if (ButtonAreaUnderCursor == ButtonAreaButton) {
-			// For touch & hold: record the time when button panel button is pressed
+			// For touch & hold: record the time and button when button panel button is pressed
 			ButtonPanelButtonDownTime = SDL_GetTicks();
+			ButtonPanelButtonPressed = ButtonUnderCursor;
 			// Button press on button panel - action will be handled on button release
 			// with touch & hold logic to distinguish between short click and long hold
 			return;
@@ -1611,8 +1613,9 @@ void UIHandleButtonDown(unsigned button)
 					}
 				}
 			} else if (ButtonAreaUnderCursor == ButtonAreaButton) {
-				// For touch & hold: record the time when button panel button is pressed
+				// For touch & hold: record the time and button when button panel button is pressed
 				ButtonPanelButtonDownTime = SDL_GetTicks();
+				ButtonPanelButtonPressed = ButtonUnderCursor;
 				// Button press on button panel - action will be handled on button release
 				// with touch & hold logic to distinguish between short click and long hold
 				return;
