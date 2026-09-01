@@ -1778,7 +1778,7 @@ void UIHandleButtonUp(unsigned button)
 			if (holdDuration < 1000) { // 1000ms = 1 second threshold
 				if (!GameObserve && !GamePaused &&
 						ThisPlayer->IsTeamed(Selected[0])) {
-					UI.ButtonPanel.DoClicked(ButtonUnderCursor);
+					UI.ButtonPanel.DoClicked(ButtonPanelButtonPressed);
 				}
 			}
 			// If held longer than 1 second, action is not performed (info was already shown while holding)
