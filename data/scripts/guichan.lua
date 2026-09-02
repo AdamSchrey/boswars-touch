@@ -442,8 +442,9 @@ function RunResultsMenu(map)
       local campaignName = currentCampaign:match("campaigns/([^/]+)/campaign.lua")
       if campaignName then
         local campaignVictoryScreen = "graphics/screens/victory_" .. campaignName .. ".png"
-        -- Check if the campaign-specific victory screen exists
-        if CFile:exist(campaignVictoryScreen) then
+        -- Try to create the graphic to check if it exists
+        local testGraphic = CGraphic:New(campaignVictoryScreen)
+        if testGraphic then
           background = campaignVictoryScreen
         else
           background = "graphics/screens/victory.png"
