@@ -40,6 +40,7 @@ disabled = Color(112, 112, 112, 128)
 -- producing black bars at the free edges. Returns the container widget
 -- (already covering the full screen) and a 0, 0 offset.
 function FitBackground(graphic)
+  DebugPrint("DEBUG: FitBackground called, graphic = " .. tostring(graphic) .. "\n")
   local container = Container()
   container:setBaseColor(black)
   container:setOpaque(true)
@@ -48,7 +49,8 @@ function FitBackground(graphic)
   local iw = graphic:getWidth()
   local ih = graphic:getHeight()
   if iw == 0 or ih == 0 then
-    return container, 0, 0
+    DebugPrint("DEBUG: FitBackground returning container\n")
+  return container, 0, 0
   end
   local scale = math.min(Video.Width / iw, Video.Height / ih)
   local sw = math.floor(iw * scale + 0.5)
@@ -57,11 +59,13 @@ function FitBackground(graphic)
   local ox = math.floor((Video.Width - sw) / 2)
   local oy = math.floor((Video.Height - sh) / 2)
   container:add(ImageWidget(graphic), ox, oy)
+  DebugPrint("DEBUG: FitBackground returning container\n")
   return container, 0, 0
 end
 
 bckground = CGraphic:New("graphics/screens/menu.png")
 bckground:Load()
+DebugPrint("DEBUG: Global bckground graphic created and loaded\n")
 
 local SavedGame = false
 local VersionString = Version.major .. "." .. Version.minor .. "." .. Version.patchlevel
@@ -388,6 +392,7 @@ function AddMenuHelpers(menu)
 end
 
 function BosMenu(title, background)
+  DebugPrint("DEBUG: BosMenu called, background = " .. tostring(background) .. "\n")
   local menu
   local bg
   local bgg
@@ -397,12 +402,16 @@ function BosMenu(title, background)
   local bgx, bgy
   if background == nil then
     -- Always create new widget from cached graphic
+    DebugPrint("DEBUG: Creating widget from global bckground\n")
     bg, bgx, bgy = FitBackground(bckground)
+    DebugPrint("DEBUG: bg type = " .. type(bg) .. ", bgx = " .. bgx .. ", bgy = " .. bgy .. "\n")
   else
+    DebugPrint("DEBUG: Creating new graphic for background: " .. background .. "\n")
     bgg = CGraphic:New(background)
     bgg:Load()
     bg, bgx, bgy = FitBackground(bgg)
   end
+  DebugPrint("DEBUG: Adding background widget to menu\n")
   menu:add(bg, bgx, bgy)
 
   AddMenuHelpers(menu)
@@ -421,6 +430,7 @@ Widget:setGlobalFont(Fonts["large"])
 -- Define the different menus ----------
 
 function RunResultsMenu(map)
+  DebugPrint("DEBUG: RunResultsMenu called with map: " .. tostring(map) .. "\n")
   local menu
   local background = "graphics/screens/menu.png"
   local sx = Video.Width / 20
@@ -440,14 +450,18 @@ function RunResultsMenu(map)
         local testGraphic = CGraphic:New(campaignVictoryScreen)
         if testGraphic then
           background = campaignVictoryScreen
+    DebugPrint("DEBUG: Using campaign victory screen: " .. campaignVictoryScreen .. "\n")
         else
           background = "graphics/screens/victory.png"
+    DebugPrint("DEBUG: Using default victory screen\n")
         end
       else
         background = "graphics/screens/victory.png"
+    DebugPrint("DEBUG: Using default victory screen\n")
       end
     else
       background = "graphics/screens/victory.png"
+    DebugPrint("DEBUG: Using default victory screen\n")
     end
   elseif GameResult == GameDraw then
     result = _("Draw !")
