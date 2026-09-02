@@ -62,7 +62,6 @@ end
 
 bckground = CGraphic:New("graphics/screens/menu.png")
 bckground:Load()
-backgroundWidget, bgOffsetX, bgOffsetY = FitBackground(bckground)
 
 local SavedGame = false
 local VersionString = Version.major .. "." .. Version.minor .. "." .. Version.patchlevel
@@ -397,15 +396,8 @@ function BosMenu(title, background)
 
   local bgx, bgy
   if background == nil then
-    -- Use cached background widget if available, otherwise create new one
-    if not backgroundWidget then
-      bckground = CGraphic:New("graphics/screens/menu.png")
-      bckground:Load()
-      backgroundWidget, bgOffsetX, bgOffsetY = FitBackground(bckground)
-    end
-    bg = backgroundWidget
-    bgx = bgOffsetX
-    bgy = bgOffsetY
+    -- Always create new widget from cached graphic
+    bg, bgx, bgy = FitBackground(bckground)
   else
     bgg = CGraphic:New(background)
     bgg:Load()
