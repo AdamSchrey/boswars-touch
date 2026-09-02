@@ -397,13 +397,15 @@ function BosMenu(title, background)
 
   local bgx, bgy
   if background == nil then
-    -- Ensure background widget is properly initialized
-    -- Always reload the background to ensure it's displayed correctly
-    bckground = CGraphic:New("graphics/screens/menu.png")
-    bckground:Load()
-    bg, bgx, bgy = FitBackground(bckground)
-    -- Update global background widget for consistency
-    backgroundWidget, bgOffsetX, bgOffsetY = bg, bgx, bgy
+    -- Use cached background widget if available, otherwise create new one
+    if not backgroundWidget then
+      bckground = CGraphic:New("graphics/screens/menu.png")
+      bckground:Load()
+      backgroundWidget, bgOffsetX, bgOffsetY = FitBackground(bckground)
+    end
+    bg = backgroundWidget
+    bgx = bgOffsetX
+    bgy = bgOffsetY
   else
     bgg = CGraphic:New(background)
     bgg:Load()
