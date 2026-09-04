@@ -101,7 +101,7 @@ static void ShowInput(void)
 /**
 **  Begin input.
 */
-static void UiBeginInput(void)
+void UiBeginInput(void)
 {
 	KeyState = KeyStateInput;
 	Input[0] = '\0';
@@ -695,7 +695,7 @@ int HandleCheats(const std::string &input)
 **  @param key  Key scancode.
 **  @return     True input finished.
 */
-static int InputKey(int key)
+int InputKey(int key)
 {
 	char ChatMessage[sizeof(Input) + 40];
 	char *namestart;

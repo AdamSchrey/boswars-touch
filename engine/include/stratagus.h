@@ -142,7 +142,7 @@
 #elif USE_WIN32
 #define STRATAGUS_HOME_PATH "boswars/"
 #else
- #define STRATAGUS_HOME_PATH ".boswars/"
+ #define STRATAGUS_HOME_PATH ".local/share/boswars-touch/"
 #endif
 #endif
 

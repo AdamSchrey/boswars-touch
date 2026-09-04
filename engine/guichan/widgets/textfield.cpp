@@ -187,6 +187,9 @@ namespace gcn
             mCaretPosition = getFont()->getStringIndexAt(mText, x + mXScroll);
             mSelectStart = mCaretPosition;
             fixScroll();
+            // Notify listeners (e.g. the on-screen keyboard) that the
+            // field was tapped so it can be shown and track this field.
+            generateAction();
         }
         else if (hasMouse() && button == MouseInput::MIDDLE)
         {

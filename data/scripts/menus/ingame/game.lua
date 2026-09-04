@@ -28,14 +28,65 @@
 
 function BosGameMenu()
   local menu = MenuScreen()
-  menu:setSize(256, 288)
-  menu:setPosition((Video.Width - menu:getWidth()) / 2,
-    (Video.Height - menu:getHeight()) / 2)
-  menu:setBorderSize(1)
-  menu:setOpaque(true)
-  menu:setBaseColor(dark)
+  -- Keep the menu screen itself screen-filling (its constructor default)
+  -- so an attached on-screen keyboard is not clipped to the small visible
+  -- panel and still receives touch events.  The visible menu panel is a
+  -- separate opaque child container; all helper add() calls are routed to
+  -- it so the original 256x288 layout is preserved.
+  menu:setSize(Video.Width, Video.Height)
+  menu:setPosition(0, 0)
+  menu:setOpaque(false)
+
+  local panel = Container()
+  panel:setSize(256, 288)
+  panel:setBorderSize(1)
+  panel:setOpaque(true)
+  panel:setBaseColor(dark)
+  -- Add the panel directly (not via the overridden add() below).
+  local rawAdd = menu.add
+  rawAdd(menu, panel, (Video.Width - 256) / 2, (Video.Height - 288) / 2)
+
+  -- Route widget additions to the visible panel.
+  local function addToPanel(widget, x, y)
+    return panel:add(widget, x, y)
+  end
+  menu.panel = panel
 
   AddMenuHelpers(menu)
+
+  menu.addOrig = menu.add
+  function menu:add(widget, x, y)
+    return addToPanel(widget, x, y)
+  end
+  -- setSize/setPosition/getWidth/getHeight act on the visible panel so
+  -- existing menus keep working while the screen itself stays full-size.
+  function menu:setSize(w, h)
+    panel:setSize(w, h)
+  end
+  function menu:setPosition(x, y)
+    panel:setPosition(x, y)
+  end
+  function menu:setBorderSize(b)
+    panel:setBorderSize(b)
+  end
+  function menu:setOpaque(o)
+    panel:setOpaque(o)
+  end
+  function menu:setBaseColor(c)
+    panel:setBaseColor(c)
+  end
+  function menu:getWidth()
+    return panel:getWidth()
+  end
+  function menu:getHeight()
+    return panel:getHeight()
+  end
+  function menu:getX()
+    return panel:getX()
+  end
+  function menu:getY()
+    return panel:getY()
+  end
 
   -- FIXME: not a good solution
   -- default size is 200,24 but we want 224,28 so we override these functions

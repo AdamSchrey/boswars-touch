@@ -33,10 +33,38 @@ clear = Color(200, 200, 128)
 black = Color(0, 0, 0)
 disabled = Color(112, 112, 112, 128)
 
+-- Scale a background graphic to fit the screen while keeping its aspect
+-- ratio, centered. To avoid leftover pixels when the aspect ratio of the
+-- image differs from the screen, the whole screen is first filled with
+-- black and the centered background image is then rendered on top of it,
+-- producing black bars at the free edges. Returns the container widget
+-- (already covering the full screen) and a 0, 0 offset.
+function FitBackground(graphic)
+  local container = Container()
+  container:setBaseColor(black)
+  container:setOpaque(true)
+  container:setSize(Video.Width, Video.Height)
+
+  local iw = graphic:getWidth()
+  local ih = graphic:getHeight()
+  if iw == 0 or ih == 0 then
+  return container, 0, 0
+  end
+  local scale = math.min(Video.Width / iw, Video.Height / ih)
+  local sw = math.floor(iw * scale + 0.5)
+  local sh = math.floor(ih * scale + 0.5)
+  local ox = math.floor((Video.Width - sw) / 2)
+  local oy = math.floor((Video.Height - sh) / 2)
+  -- Create a scaled image widget without modifying the original graphic
+  local img = ImageWidget(graphic)
+  img:setSize(sw, sh)
+  container:add(img, ox, oy)
+  return container, 0, 0
+end
+
 bckground = CGraphic:New("graphics/screens/menu.png")
 bckground:Load()
-bckground:Resize(Video.Width, Video.Height)
-backgroundWidget = ImageWidget(bckground)
+")
 
 local SavedGame = false
 local VersionString = Version.major .. "." .. Version.minor .. "." .. Version.patchlevel
@@ -341,7 +369,6 @@ function AddMenuHelpers(menu)
 
   function menu:addTextInputField(text, x, y, w)
     local b = TextField(text)
-    b:setActionCallback(function() end) --FIXME: remove this?
     b:setFont(Fonts["game"]:PlainText())
     b:setBaseColor(clear)
     b:setForegroundColor(clear)
@@ -349,7 +376,17 @@ function AddMenuHelpers(menu)
     if (w == nil) then w = 100 end
     b:setSize(w, 18)
     self:add(b, x, y)
+    -- Attach the on-screen keyboard next to this text field so touch
+    -- users can enter text without a physical keyboard.  The keyboard
+    -- is hidden until the field is tapped.
+    self:addOnScreenKeyboard(b, x, y, w)
     return b
+  end
+
+  -- Bind the on-screen keyboard builder (defined in keyboard.lua) as a
+  -- menu method so menus can attach it to any text field.
+  function menu:addOnScreenKeyboard(textField, fieldX, fieldY, fieldW)
+    AddOnScreenKeyboard(self, textField, fieldX, fieldY, fieldW)
   end
 end
 
@@ -360,15 +397,18 @@ function BosMenu(title, background)
 
   menu = MenuScreen()
 
+  local bgx, bgy
   if background == nil then
-    bg = backgroundWidget
+    -- Always create new widget from cached graphic
+")
+    bg, bgx, bgy = FitBackground(bckground)
   else
     bgg = CGraphic:New(background)
     bgg:Load()
-    bgg:Resize(Video.Width, Video.Height)
-    bg = ImageWidget(bgg)
+    bg, bgx, bgy = FitBackground(bgg)
   end
-  menu:add(bg, 0, 0)
+")
+  menu:add(bg, bgx, bgy)
 
   AddMenuHelpers(menu)
 
@@ -395,7 +435,28 @@ function RunResultsMenu(map)
 
   if GameResult == GameVictory then
     result = _("Victory !")
-    background = "graphics/screens/victory.png"
+    -- Check for campaign-specific victory screen
+    if currentCampaign then
+      -- Extract campaign name from path (e.g., "campaigns/tutorial/campaign.lua" -> "tutorial")
+      local campaignName = currentCampaign:match("campaigns/([^/]+)/campaign.lua")
+      if campaignName then
+        local campaignVictoryScreen = "graphics/screens/victory_" .. campaignName .. ".png"
+        -- Try to create the graphic to check if it exists
+        local testGraphic = CGraphic:New(campaignVictoryScreen)
+        if testGraphic then
+          background = campaignVictoryScreen
+        else
+          background = "graphics/screens/victory.png"
+")
+        end
+      else
+        background = "graphics/screens/victory.png"
+")
+      end
+    else
+      background = "graphics/screens/victory.png"
+")
+    end
   elseif GameResult == GameDraw then
     result = _("Draw !")
   elseif GameResult == GameDefeat then
@@ -846,6 +907,7 @@ function RunTutorial(s)
     RunCampaign("campaigns/tutorial/campaign.lua")
 end
 
+Load("scripts/keyboard.lua")
 Load("scripts/menus/network.lua")
 Load("scripts/menus/options.lua")
 Load("scripts/menus/credits.lua")

@@ -165,8 +165,8 @@ function SetVideoSize(width, height)
   if (Video:ResizeScreen(width, height) == false) then
     return
   end
-  bckground:Resize(Video.Width, Video.Height)
-  backgroundWidget = ImageWidget(bckground)
+  bckground:Load()  -- get a clean copy before re-resizing
+  backgroundWidget, bgOffsetX, bgOffsetY = FitBackground(bckground)
   Load("scripts/ui.lua")
   preferences.VideoWidth = Video.Width
   preferences.VideoHeight = Video.Height
@@ -193,7 +193,10 @@ function BuildVideoOptionsMenu(menu)
      { 1440,  900 },		-- 8:5
      { 1680, 1050 },		-- 8:5
      { 1920, 1080 },		-- 16:9
-     { 1920, 1200 }		-- 8:5
+     { 1920, 1200 },		-- 8:5
+     -- 20:9 (modern phone) aspect ratio modes
+     { 1066,  480 },		-- 20:9
+     { 1333,  600 }		-- 20:9
   }
 
   local modes2 = math.ceil (#modes / 2);

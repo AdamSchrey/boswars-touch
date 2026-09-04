@@ -279,9 +279,15 @@ void InitVideoSdl(void)
 			Video.Width, Video.Height, Video.Depth, SDL_GetError());
 		exit(1);
 	}
-
 	if (!TheRenderer)
 		TheRenderer = SDL_CreateRenderer(TheWindow, -1, 0);
+	// Under some compositors (e.g. Lomiri on Ubuntu Touch), creating the
+	// window with SDL_WINDOW_FULLSCREEN_DESKTOP does not actually enter
+	// fullscreen. Request it explicitly after the renderer is created.
+	if (Video.FullScreen) {
+		SDL_SetWindowFullscreen(TheWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
+		SDL_PumpEvents();
+	}
 	SDL_RenderSetLogicalSize(TheRenderer, Video.Width, Video.Height);
 	SDL_SetRenderDrawColor(TheRenderer, 0, 0, 0, 255);
 	TheScreen = SDL_CreateRGBSurface(0, Video.Width, Video.Height, 32,
@@ -294,7 +300,11 @@ void InitVideoSdl(void)
 									  SDL_TEXTUREACCESS_STREAMING,
 									  Video.Width, Video.Height);
 
-	Video.FullScreen = (SDL_GetWindowFlags(TheWindow) & SDL_WINDOW_FULLSCREEN_DESKTOP) ? 1 : 0;
+	// Don't overwrite Video.FullScreen if it was forced via commandline (-F/-W);
+	// the compositor may report a different state than what was requested.
+	if (!VideoForceFullScreen) {
+		Video.FullScreen = (SDL_GetWindowFlags(TheWindow) & SDL_WINDOW_FULLSCREEN_DESKTOP) ? 1 : 0;
+	}
 	Video.Depth = TheScreen->format->BitsPerPixel;
 
 	// Turn cursor off, we use our own.
@@ -830,6 +840,19 @@ void ToggleGrabMouse(int mode)
 	} else if (mode >= 0 && !grabbed) {
 		SDL_SetWindowGrab(TheWindow, SDL_TRUE);
 	}
+}
+
+/**
+**  Set full screen mode.
+**
+**  @param fullscreen  Whether to enable fullscreen.
+*/
+void SetFullScreen(bool fullscreen)
+{
+#ifndef USE_WIN32
+	SDL_SetWindowFullscreen(TheWindow, fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
+#endif
+	Video.FullScreen = fullscreen ? 1 : 0;
 }
 
 /**

@@ -21,6 +21,8 @@ public:
 	static void Free(CGraphic *);
 	void Load();
 	void Resize(int w, int h);
+	int getWidth();
+	int getHeight();
 };
 
 class CPlayerColorGraphic : public CGraphic

@@ -67,6 +67,15 @@ int ButtonUnderCursor = -1;                  /// Button under cursor
 bool GameMenuButtonClicked;                  /// Menu button was clicked
 bool GameDiplomacyButtonClicked;             /// Diplomacy button was clicked
 bool LeaveStops;                             /// Mouse leaves windows stops scroll
+// True while the left button is held down over the map area with a
+// building selected for placement.  Building placement is deferred to
+// UIHandleButtonUp() so the player can drag the building into position;
+// only a press that started on the map (not on a button-panel button)
+// commits the placement on release.
+static bool BuildingPlacementArmed = false;
+Uint32 ButtonDownTime = 0;           /// Time when button was pressed down (for touch & hold)
+Uint32 ButtonPanelButtonDownTime = 0; /// Time when button panel button was pressed (for touch & hold)
+int ButtonPanelButtonPressed = -1;   /// Which button panel button was pressed (for touch & hold)
 
 enum _cursor_on_ CursorOn = CursorOnUnknown; /// Cursor on field
 
@@ -587,6 +596,14 @@ static void HandleMouseOn(int x, int y)
 	if (x >= UI.Minimap.X && x < UI.Minimap.X + UI.Minimap.W &&
 			y >= UI.Minimap.Y && y < UI.Minimap.Y + UI.Minimap.H) {
 		CursorOn = CursorOnMinimap;
+		return;
+	}
+
+	// If the pointer is over a guichan touch widget (overlay buttons or
+	// the on-screen keyboard), do not treat it as a map click so that
+	// interacting with the overlay does not also select map units.
+	if (IsPointOnGuichanWidget(x, y)) {
+		CursorOn = CursorOnUnknown;
 		return;
 	}
 
@@ -1341,7 +1358,11 @@ static void UISelectStateButtonDown(unsigned button)
 	if (CursorOn == CursorOnButton) {
 		// FIXME: other buttons?
 		if (ButtonAreaUnderCursor == ButtonAreaButton) {
-			UI.ButtonPanel.DoClicked(ButtonUnderCursor);
+			// For touch & hold: record the time and button when button panel button is pressed
+			ButtonPanelButtonDownTime = SDL_GetTicks();
+			ButtonPanelButtonPressed = ButtonUnderCursor;
+			// Button press on button panel - action will be handled on button release
+			// with touch & hold logic to distinguish between short click and long hold
 			return;
 		}
 	}
@@ -1367,6 +1388,11 @@ void UIHandleButtonDown(unsigned button)
 	static bool OldShowAttackRange;
 	static bool OldValid = false;
 	CUnit *uins;
+
+	// For touch & hold: record the time when button is pressed
+	if (button == LeftButton) {
+		ButtonDownTime = SDL_GetTicks();
+	}
 
 /**
 **  Detect long selection click, FIXME: tempory hack to test the feature.
@@ -1431,44 +1457,14 @@ void UIHandleButtonDown(unsigned button)
 
 		// to redraw the cursor immediately (and avoid up to 1 sec delay
 		if (CursorBuilding) {
-			// Possible Selected[0] was removed from map
-			// need to make sure there is a unit to build
-			if (Selected[0] && (MouseButtons & LeftButton) &&
-					UI.MouseViewport->IsInsideMapArea(CursorX, CursorY)) {// enter select mode
-				int explored;
-				int x = UI.MouseViewport->Viewport2MapX(CursorX);
-				int y = UI.MouseViewport->Viewport2MapY(CursorY);
-
-				// FIXME: error messages
-
-				explored = 1;
-				for (int j = 0; explored && j < Selected[0]->Type->TileHeight; ++j) {
-					for (int i = 0; i < Selected[0]->Type->TileWidth; ++i) {
-						if (!Map.IsFieldExplored(ThisPlayer, x + i, y + j)) {
-							explored = 0;
-							break;
-						}
-					}
-				}
-				// 0 Test build, don't really build
-				if (CanBuildUnitType(Selected[0], CursorBuilding, x, y, 0) &&
-						(explored || ReplayRevealMap)) {
-					PlayGameSound(GameSounds.PlacementSuccess.Sound,
-						MaxSampleVolume);
-					for (int i = 0; i < NumSelected; ++i) {
-						SendCommandBuildBuilding(Selected[i], x, y, CursorBuilding,
-							!(KeyModifiers & ModifierShift));
-					}
-					if (!(KeyModifiers & (ModifierAlt | ModifierShift))) {
-						CancelBuildingMode();
-					}
-				} else {
-					PlayGameSound(GameSounds.PlacementError.Sound,
-						MaxSampleVolume);
-				}
-			} else {
-				CancelBuildingMode();
-			}
+			// On touch screens the building would be placed immediately on
+			// press, leaving no chance to drag it into position.  Defer the
+			// placement to UIHandleButtonUp(); while the button is held the
+			// building cursor preview already follows the finger.  Arm the
+			// placement so only a press that started on the map (not on a
+			// button-panel button that just selected the building) commits
+			// the placement on release.
+			BuildingPlacementArmed = true;
 			return;
 		}
 
@@ -1617,10 +1613,12 @@ void UIHandleButtonDown(unsigned button)
 					}
 				}
 			} else if (ButtonAreaUnderCursor == ButtonAreaButton) {
-				if (!GameObserve && !GamePaused &&
-						ThisPlayer->IsTeamed(Selected[0])) {
-					UI.ButtonPanel.DoClicked(ButtonUnderCursor);
-				}
+				// For touch & hold: record the time and button when button panel button is pressed
+				ButtonPanelButtonDownTime = SDL_GetTicks();
+				ButtonPanelButtonPressed = ButtonUnderCursor;
+				// Button press on button panel - action will be handled on button release
+				// with touch & hold logic to distinguish between short click and long hold
+				return;
 			}
 		} else if ((MouseButtons & MiddleButton)) {
 			//
@@ -1647,6 +1645,60 @@ void UIHandleButtonDown(unsigned button)
 */
 void UIHandleButtonUp(unsigned button)
 {
+	//
+	//  Place a building that was deferred from the button press, so that
+	//  on touch screens the player can drag the building into position
+	//  before committing it by releasing the finger.
+	//
+	if (CursorBuilding && (1 << button) == LeftButton) {
+		// Only commit placement if the press started on the map area.  A
+		// press that started on a button-panel button (which selected the
+		// building) must not also place it on release.
+		if (!BuildingPlacementArmed) {
+			return;
+		}
+		BuildingPlacementArmed = false;
+		// Possible Selected[0] was removed from map
+		// need to make sure there is a unit to build
+		if (Selected[0] && UI.MouseViewport &&
+				UI.MouseViewport->IsInsideMapArea(CursorX, CursorY)) {
+			int explored;
+			int x = UI.MouseViewport->Viewport2MapX(CursorX);
+			int y = UI.MouseViewport->Viewport2MapY(CursorY);
+
+			// FIXME: error messages
+
+			explored = 1;
+			for (int j = 0; explored && j < Selected[0]->Type->TileHeight; ++j) {
+				for (int i = 0; i < Selected[0]->Type->TileWidth; ++i) {
+					if (!Map.IsFieldExplored(ThisPlayer, x + i, y + j)) {
+						explored = 0;
+						break;
+					}
+				}
+			}
+			// 0 Test build, don't really build
+			if (CanBuildUnitType(Selected[0], CursorBuilding, x, y, 0) &&
+					(explored || ReplayRevealMap)) {
+				PlayGameSound(GameSounds.PlacementSuccess.Sound,
+					MaxSampleVolume);
+				for (int i = 0; i < NumSelected; ++i) {
+					SendCommandBuildBuilding(Selected[i], x, y, CursorBuilding,
+						!(KeyModifiers & ModifierShift));
+				}
+				if (!(KeyModifiers & (ModifierAlt | ModifierShift))) {
+					CancelBuildingMode();
+				}
+			} else {
+				PlayGameSound(GameSounds.PlacementError.Sound,
+					MaxSampleVolume);
+			}
+		} else {
+			CancelBuildingMode();
+		}
+		return;
+	}
+
 	//
 	//  Move map.
 	//
@@ -1704,6 +1756,32 @@ void UIHandleButtonUp(unsigned button)
 			if (UI.NetworkDiplomacyButton.Callback) {
 				UI.NetworkDiplomacyButton.Callback->action("");
 			}
+			return;
+		}
+	}
+
+	//
+	//  Button panel buttons - touch & hold logic
+	//  For touch screens: only perform action if button was clicked briefly (< 1 second)
+	//
+	if ((1 << button) == LeftButton) {
+		// Clear popup on any left button release
+		UI.StatusLine.Clear();
+		ClearCosts();
+		
+		// For button panel: check touch & hold duration
+		if (ButtonAreaUnderCursor == ButtonAreaButton) {
+			Uint32 buttonUpTime = SDL_GetTicks();
+			Uint32 holdDuration = buttonUpTime - ButtonPanelButtonDownTime;
+			
+			// Only perform action if it was a short click (< 1 second)
+			if (holdDuration < 1000) { // 1000ms = 1 second threshold
+				if (!GameObserve && !GamePaused &&
+						ThisPlayer->IsTeamed(Selected[0])) {
+					UI.ButtonPanel.DoClicked(ButtonPanelButtonPressed);
+				}
+			}
+			// If held longer than 1 second, action is not performed (info was already shown while holding)
 			return;
 		}
 	}
