@@ -73,6 +73,9 @@ bool LeaveStops;                             /// Mouse leaves windows stops scro
 // only a press that started on the map (not on a button-panel button)
 // commits the placement on release.
 static bool BuildingPlacementArmed = false;
+Uint32 ButtonDownTime = 0;           /// Time when button was pressed down (for touch & hold)
+Uint32 ButtonPanelButtonDownTime = 0; /// Time when button panel button was pressed (for touch & hold)
+int ButtonPanelButtonPressed = -1;   /// Which button panel button was pressed (for touch & hold)
 
 enum _cursor_on_ CursorOn = CursorOnUnknown; /// Cursor on field
 
@@ -1355,7 +1358,11 @@ static void UISelectStateButtonDown(unsigned button)
 	if (CursorOn == CursorOnButton) {
 		// FIXME: other buttons?
 		if (ButtonAreaUnderCursor == ButtonAreaButton) {
-			UI.ButtonPanel.DoClicked(ButtonUnderCursor);
+			// For touch & hold: record the time and button when button panel button is pressed
+			ButtonPanelButtonDownTime = SDL_GetTicks();
+			ButtonPanelButtonPressed = ButtonUnderCursor;
+			// Button press on button panel - action will be handled on button release
+			// with touch & hold logic to distinguish between short click and long hold
 			return;
 		}
 	}
@@ -1381,6 +1388,11 @@ void UIHandleButtonDown(unsigned button)
 	static bool OldShowAttackRange;
 	static bool OldValid = false;
 	CUnit *uins;
+
+	// For touch & hold: record the time when button is pressed
+	if (button == LeftButton) {
+		ButtonDownTime = SDL_GetTicks();
+	}
 
 /**
 **  Detect long selection click, FIXME: tempory hack to test the feature.
@@ -1601,10 +1613,12 @@ void UIHandleButtonDown(unsigned button)
 					}
 				}
 			} else if (ButtonAreaUnderCursor == ButtonAreaButton) {
-				if (!GameObserve && !GamePaused &&
-						ThisPlayer->IsTeamed(Selected[0])) {
-					UI.ButtonPanel.DoClicked(ButtonUnderCursor);
-				}
+				// For touch & hold: record the time and button when button panel button is pressed
+				ButtonPanelButtonDownTime = SDL_GetTicks();
+				ButtonPanelButtonPressed = ButtonUnderCursor;
+				// Button press on button panel - action will be handled on button release
+				// with touch & hold logic to distinguish between short click and long hold
+				return;
 			}
 		} else if ((MouseButtons & MiddleButton)) {
 			//
@@ -1742,6 +1756,32 @@ void UIHandleButtonUp(unsigned button)
 			if (UI.NetworkDiplomacyButton.Callback) {
 				UI.NetworkDiplomacyButton.Callback->action("");
 			}
+			return;
+		}
+	}
+
+	//
+	//  Button panel buttons - touch & hold logic
+	//  For touch screens: only perform action if button was clicked briefly (< 1 second)
+	//
+	if ((1 << button) == LeftButton) {
+		// Clear popup on any left button release
+		UI.StatusLine.Clear();
+		ClearCosts();
+		
+		// For button panel: check touch & hold duration
+		if (ButtonAreaUnderCursor == ButtonAreaButton) {
+			Uint32 buttonUpTime = SDL_GetTicks();
+			Uint32 holdDuration = buttonUpTime - ButtonPanelButtonDownTime;
+			
+			// Only perform action if it was a short click (< 1 second)
+			if (holdDuration < 1000) { // 1000ms = 1 second threshold
+				if (!GameObserve && !GamePaused &&
+						ThisPlayer->IsTeamed(Selected[0])) {
+					UI.ButtonPanel.DoClicked(ButtonPanelButtonPressed);
+				}
+			}
+			// If held longer than 1 second, action is not performed (info was already shown while holding)
 			return;
 		}
 	}

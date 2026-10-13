@@ -445,9 +445,11 @@ void CButtonPanel::Draw(void)
 
 		//
 		//  Update status line for this button
+		//  For touch screens: only show popup when button is pressed (hover + button down)
 		//
 		if (ButtonAreaUnderCursor == ButtonAreaButton &&
-				ButtonUnderCursor == i && KeyState != KeyStateInput) {
+				ButtonUnderCursor == i && KeyState != KeyStateInput &&
+				(MouseButtons & LeftButton)) {
 			DrawPopup();
 			UpdateStatusLineForButton(&buttons[i]);
 		}

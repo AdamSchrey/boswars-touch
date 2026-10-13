@@ -397,6 +397,12 @@ function BosMenu(title, background)
 
   local bgx, bgy
   if background == nil then
+    -- Use cached background widget if available, otherwise create new one
+    if not backgroundWidget then
+      bckground = CGraphic:New("graphics/screens/menu.png")
+      bckground:Load()
+      backgroundWidget, bgOffsetX, bgOffsetY = FitBackground(bckground)
+    end
     bg = backgroundWidget
     bgx = bgOffsetX
     bgy = bgOffsetY
@@ -432,7 +438,25 @@ function RunResultsMenu(map)
 
   if GameResult == GameVictory then
     result = _("Victory !")
-    background = "graphics/screens/victory.png"
+    -- Check for campaign-specific victory screen
+    if currentCampaign then
+      -- Extract campaign name from path (e.g., "campaigns/tutorial/campaign.lua" -> "tutorial")
+      local campaignName = currentCampaign:match("campaigns/([^/]+)/campaign.lua")
+      if campaignName then
+        local campaignVictoryScreen = "graphics/screens/victory_" .. campaignName .. ".png"
+        -- Try to create the graphic to check if it exists
+        local testGraphic = CGraphic:New(campaignVictoryScreen)
+        if testGraphic then
+          background = campaignVictoryScreen
+        else
+          background = "graphics/screens/victory.png"
+        end
+      else
+        background = "graphics/screens/victory.png"
+      end
+    else
+      background = "graphics/screens/victory.png"
+    end
   elseif GameResult == GameDraw then
     result = _("Draw !")
   elseif GameResult == GameDefeat then
