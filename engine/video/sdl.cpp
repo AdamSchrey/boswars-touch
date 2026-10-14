@@ -557,12 +557,22 @@ static void SdlDoEvent(const EventCallback *callbacks, const SDL_Event *event)
 			// FIXME: if this is the case we don't need this.
 		case SDL_MOUSEMOTION:
 			// A physical mouse generates motion events while no button
-			// is pressed (hovering).  Touch input only ever produces
-			// motion while a finger (button) is in contact.  So the
-			// first button-less motion reveals that a real mouse is
-			// present and the normal cursor should be shown again.
-			if (CursorHidden && event->motion.state == 0) {
-				CursorHidden = 0;
+			// is pressed (hovering).  Touch input always has a finger
+			// (button) in contact while moving.  Some touch controllers
+			// leak a few button-less motion samples, so a single event is
+			// not enough: accumulate the button-less movement distance
+			// and only reveal the cursor once it exceeds a threshold.
+			// Any motion with a button pressed resets the accumulator.
+			if (CursorHidden) {
+				if (event->motion.state == 0) {
+					MouseHoverDistance += abs(event->motion.xrel)
+						+ abs(event->motion.yrel);
+					if (MouseHoverDistance > 200) {
+						CursorHidden = 0;
+					}
+				} else {
+					MouseHoverDistance = 0;
+				}
 			}
 			InputMouseMove(callbacks, SDL_GetTicks(),
 				event->motion.x, event->motion.y);
