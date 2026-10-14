@@ -188,9 +188,13 @@ void UpdateDisplay(void)
 			}
 			DrawMenuButtonArea();
 
-			UI.Minimap.Draw(UI.SelectedViewport->MapX, UI.SelectedViewport->MapY);
-			UI.Minimap.DrawCursor(UI.SelectedViewport->MapX,
-				UI.SelectedViewport->MapY);
+			if (!MinimapThumbActive) {
+				UI.Minimap.Draw(UI.SelectedViewport->MapX, UI.SelectedViewport->MapY);
+				UI.Minimap.DrawCursor(UI.SelectedViewport->MapX,
+					UI.SelectedViewport->MapY);
+			} else {
+				DrawMinimapThumbstick();
+			}
 
 			UI.InfoPanel.Draw();
 			UI.ButtonPanel.Draw();

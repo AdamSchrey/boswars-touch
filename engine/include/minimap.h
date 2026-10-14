@@ -28,6 +28,8 @@
 #ifndef __MINIMAP_H__
 #define __MINIMAP_H__
 
+struct SDL_Surface;
+
 //@{
 
 class CMinimap
@@ -58,6 +60,9 @@ public:
 	bool ShowSelected;
 	bool Transparent;
 };
+
+/// Get access to the generated minimap surface
+extern SDL_Surface *GetMinimapSurface(void);
 
 //@}
 

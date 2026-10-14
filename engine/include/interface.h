@@ -339,6 +339,10 @@ extern void UpdateStatusLineForButton(const ButtonAction *button);
 extern bool IsButtonAllowed(const CUnit *, const ButtonAction *);
 	/// Draw the Pie Menu
 extern void DrawPieMenu(void);
+/// Draw the minimap thumbstick overlay (rosace circle and enlarged minimap)
+extern void DrawMinimapThumbstick(void);
+/// True while the minimap thumbstick (virtual thumb stick on the minimap panel) is active
+extern bool MinimapThumbActive;
 
 	/// Handle the mouse in scroll area
 extern int HandleMouseScrollArea(int x, int y);

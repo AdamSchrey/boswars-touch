@@ -394,6 +394,16 @@ static void DrawEvents()
 }
 
 /**
+**  Get access to the generated minimap surface.
+**
+**  @return  The minimap surface, or NULL if not created.
+*/
+SDL_Surface *GetMinimapSurface(void)
+{
+	return MinimapSurface;
+}
+
+/**
 **  Draw the minimap on the screen
 */
 void CMinimap::Draw(int vx, int vy)
