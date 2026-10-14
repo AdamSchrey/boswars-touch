@@ -821,6 +821,7 @@ void UIHandleMouseMove(int x, int y)
 	if (MinimapThumbActive) {
 		MinimapThumbLastX = CursorX;
 		MinimapThumbLastY = CursorY;
+		GameCursor = UI.Cross.Cursor;
 		int dx = CursorX - MinimapThumbCenterX;
 		int dy = CursorY - MinimapThumbCenterY;
 		// Dead zone radius: small movements do not scroll.
@@ -1568,6 +1569,7 @@ void UIHandleButtonDown(unsigned button)
 				MinimapThumbLastX = CursorX;
 				MinimapThumbLastY = CursorY;
 				MouseScrollState = ScrollNone;
+				GameCursor = UI.Cross.Cursor;
 			} else {
 				UI.SelectedViewport->Center(
 					UI.Minimap.Screen2MapX(CursorX), UI.Minimap.Screen2MapY(CursorY),
@@ -1699,6 +1701,7 @@ void UIHandleButtonUp(unsigned button)
 	if (MinimapThumbActive && (1 << button) == LeftButton) {
 		MinimapThumbActive = false;
 		MouseScrollState = ScrollNone;
+		GameCursor = UI.Point.Cursor;
 		// A short tap without significant movement still jumps the view
 		// to the tapped location, like the classic minimap click.
 		int dx = MinimapThumbLastX - MinimapThumbCenterX;
@@ -2046,23 +2049,44 @@ static int GetPieUnderCursor(void)
 **  point) and an enlarged minimap is drawn next to the panel, on the
 **  left.  The enlarged minimap also shows the viewport rectangle.
 */
+/**
+**  Draw the minimap thumbstick overlay.
+**
+**  While the minimap thumbstick is active, the small minimap is hidden
+**  (the ui_minimap panel shows only the rosace circle at the press
+**  point) and an enlarged minimap is drawn directly left of the panel.
+**  The enlarged minimap also shows the viewport rectangle.  Areas of
+**  the enlarged minimap without map content (aspect ratio bars) are
+**  transparent instead of black.
+*/
 void DrawMinimapThumbstick(void)
 {
 	if (!MinimapThumbActive) {
 		return;
 	}
 
-	// Show the rosace circle on top of the hidden small minimap.
-	if (UI.PieMenu.G) {
-		UI.PieMenu.G->DrawFrameClip(0,
-			MinimapThumbCenterX - UI.PieMenu.G->Width / 2,
-			MinimapThumbCenterY - UI.PieMenu.G->Height / 2);
+	// Show the rosace circle at half size on top of the hidden small
+	// minimap (the pie menu graphic is 192x192).
+	if (UI.PieMenu.G && UI.PieMenu.G->Surface) {
+		int rw = UI.PieMenu.G->Surface->w / 2;
+		int rh = UI.PieMenu.G->Surface->h / 2;
+		SDL_Surface *rosace = SDL_CreateRGBSurface(0, rw, rh, 32,
+			0x00FF0000, 0x0000FF00, 0x000000FF, 0x000000FF);
+		if (rosace) {
+			SDL_FillRect(rosace, NULL,
+				SDL_MapRGBA(rosace->format, 0, 0, 0, SDL_ALPHA_TRANSPARENT));
+			SDL_Rect drect = {0, 0, (Uint16)rw, (Uint16)rh};
+			SDL_BlitScaled(UI.PieMenu.G->Surface, NULL, rosace, &drect);
+			drect.x = (Sint16)(MinimapThumbCenterX - rw / 2);
+			drect.y = (Sint16)(MinimapThumbCenterY - rh / 2);
+			SDL_BlitSurface(rosace, NULL, TheScreen, &drect);
+			SDL_FreeSurface(rosace);
+		}
 	}
 
-	// The small minimap itself is not drawn while the thumbstick is
-	// active; instead an enlarged copy is shown left of the panel.
-	// Scale 4x if the enlarged minimap fits on the screen, else 2x.
-	int scale = 4;
+	// Scale 4x for all but the smallest resolutions; 2x on narrow
+	// screens (e.g. 640x480) or when the 4x version does not fit.
+	int scale = (Video.Width <= 640) ? 2 : 4;
 	int w = UI.Minimap.W * scale;
 	int h = UI.Minimap.H * scale;
 	if (UI.Minimap.X - w < 0 || h > Video.Height) {
@@ -2070,7 +2094,11 @@ void DrawMinimapThumbstick(void)
 		w = UI.Minimap.W * scale;
 		h = UI.Minimap.H * scale;
 	}
-	int dx = UI.Minimap.X - w - 8;
+
+	// Place the enlarged minimap directly left of the ui_minimap panel
+	// (the panel graphic starts 200 pixels from the right screen edge).
+	int panelX = Video.Width - 200;
+	int dx = panelX - w;
 	if (dx < 0) {
 		dx = 0;
 	}
@@ -2082,37 +2110,37 @@ void DrawMinimapThumbstick(void)
 		}
 	}
 
-	// Background frame so the enlarged minimap is readable.
-	Video.FillRectangle(ColorBlack, dx - 2, dy - 2, w + 4, h + 4);
-
-	// Enlarged minimap: nearest-neighbor stretch of the minimap
-	// surface into a scratch surface with the same pixel format, then
-	// blit it to the screen.
 	SDL_Surface *mini = GetMinimapSurface();
 	if (!mini) {
 		return;
 	}
-	SDL_Rect srect = {0, 0, (Uint16)UI.Minimap.W, (Uint16)UI.Minimap.H};
-	SDL_Surface *enlarged = SDL_CreateRGBSurface(0, w, h,
-		mini->format->BitsPerPixel, mini->format->Rmask, mini->format->Gmask,
-		mini->format->Bmask, mini->format->Amask);
+
+	// Enlarged minimap in a transparent scratch surface: only the map
+	// content (inset by XOffset/YOffset) is stretched, so aspect ratio
+	// bars stay transparent instead of black.
+	int contentW = UI.Minimap.W - 2 * UI.Minimap.XOffset;
+	int contentH = UI.Minimap.H - 2 * UI.Minimap.YOffset;
+	if (contentW <= 0 || contentH <= 0) {
+		return;
+	}
+	SDL_Surface *enlarged = SDL_CreateRGBSurface(0, w, h, 32,
+		0x00FF0000, 0x0000FF00, 0x000000FF, 0x000000FF);
 	if (enlarged) {
-		SDL_SoftStretch(mini, &srect, enlarged, NULL);
-		SDL_Rect drect = {(Sint16)dx, (Sint16)dy, 0, 0};
-		SDL_BlitSurface(enlarged, NULL, TheScreen, &drect);
+		SDL_FillRect(enlarged, NULL,
+			SDL_MapRGBA(enlarged->format, 0, 0, 0, SDL_ALPHA_TRANSPARENT));
+		SDL_Rect srect = {(Sint16)UI.Minimap.XOffset,
+			(Sint16)UI.Minimap.YOffset, (Uint16)contentW, (Uint16)contentH};
+		SDL_Rect drect = {(Sint16)(UI.Minimap.XOffset * scale),
+			(Sint16)(UI.Minimap.YOffset * scale),
+			(Uint16)(contentW * scale), (Uint16)(contentH * scale)};
+		SDL_BlitScaled(mini, &srect, enlarged, &drect);
+		SDL_Rect toScreen = {(Sint16)dx, (Sint16)dy, 0, 0};
+		SDL_BlitSurface(enlarged, NULL, TheScreen, &toScreen);
 		SDL_FreeSurface(enlarged);
 	}
 
-	// Viewport rectangle on the enlarged minimap.  The map content of
-	// the minimap is inset by XOffset/YOffset (the minimap keeps the map
-	// aspect ratio), so scale relative to the inset area.
+	// Viewport rectangle on the enlarged minimap.
 	const CViewport *vp = UI.SelectedViewport;
-	int contentW = UI.Minimap.W - 2 * UI.Minimap.XOffset;
-	int contentH = UI.Minimap.H - 2 * UI.Minimap.YOffset;
-	if (contentW <= 0 || contentH <= 0 ||
-			Map.Info.MapWidth <= 0 || Map.Info.MapHeight <= 0) {
-		return;
-	}
 	int mx = dx + UI.Minimap.XOffset * scale
 		+ (vp->MapX * contentW * scale) / Map.Info.MapWidth;
 	int my = dy + UI.Minimap.YOffset * scale
