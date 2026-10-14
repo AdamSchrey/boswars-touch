@@ -67,7 +67,7 @@ namespace gcn
         mHScroll = 0;
         mHPolicy = SHOW_AUTO;
         mVPolicy = SHOW_AUTO;
-        mScrollbarWidth = 12;
+        mScrollbarWidth = 36;
         mContent = NULL;
         mUpButtonPressed = false;
         mDownButtonPressed = false;
@@ -77,6 +77,9 @@ namespace gcn
         mVerticalMarkerMousePosition = 0;
         mHorizontalMarkerPressed = false;
         mHorizontalMarkerMousePosition = 0;
+        mContentDragPressed = false;
+        mContentDragMousePositionX = 0;
+        mContentDragMousePositionY = 0;
 
         addMouseListener(this);
     }
@@ -87,7 +90,7 @@ namespace gcn
         mHScroll = 0;
         mHPolicy = SHOW_AUTO;
         mVPolicy = SHOW_AUTO;
-        mScrollbarWidth = 12;
+        mScrollbarWidth = 36;
         mContent = NULL;
         mUpButtonPressed = false;
         mDownButtonPressed = false;
@@ -108,7 +111,7 @@ namespace gcn
         mHScroll = 0;
         mHPolicy = hPolicy;
         mVPolicy = vPolicy;
-        mScrollbarWidth = 12;
+        mScrollbarWidth = 36;
         mContent = NULL;
         mUpButtonPressed = false;
         mDownButtonPressed = false;
@@ -366,6 +369,12 @@ namespace gcn
             mHorizontalMarkerPressed = true;
             mHorizontalMarkerMousePosition = x - getHorizontalMarkerDimension().x;
         }
+        else if (getContentDimension().isPointInRect(x, y))
+        {
+            mContentDragPressed = true;
+            mContentDragMousePositionX = x;
+            mContentDragMousePositionY = y;
+        }
     }
 
     void ScrollArea::mouseRelease(int x, int y, int button)
@@ -376,10 +385,21 @@ namespace gcn
         mRightButtonPressed = false;
         mVerticalMarkerPressed = false;
         mHorizontalMarkerPressed = false;
+        mContentDragPressed = false;
     }
 
     void ScrollArea::mouseMotion(int x, int y)
     {
+        if (mContentDragPressed)
+        {
+            setHorizontalScrollAmount(getHorizontalScrollAmount()
+                                      + mContentDragMousePositionX - x);
+            setVerticalScrollAmount(getVerticalScrollAmount()
+                                    + mContentDragMousePositionY - y);
+            mContentDragMousePositionX = x;
+            mContentDragMousePositionY = y;
+            setDirty(true);
+        }
         if (mVerticalMarkerPressed)
         {
             int pos = y - getVerticalBarDimension().y  - mVerticalMarkerMousePosition;
