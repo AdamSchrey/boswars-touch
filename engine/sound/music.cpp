@@ -51,7 +51,6 @@ void CheckMusicFinished(bool force)
 		return;
 
 	if (SoundEnabled() && IsMusicEnabled() && CallbackMusic) {
-		printf("Music stopped\n");
 		lua_pushstring(Lua, "MusicStopped");
 		lua_gettable(Lua, LUA_GLOBALSINDEX);
 		if (!lua_isfunction(Lua, -1)) {
