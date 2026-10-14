@@ -874,10 +874,12 @@ void CGraphic::MakeShadow()
 
 	SDL_SetPaletteColors(Surface->format->palette, colors, 0, 256);
 	SDL_SetSurfaceAlphaMod(Surface, 128);
+	SDL_SetSurfaceBlendMode(Surface, SDL_BLENDMODE_BLEND);
 
 	if (SurfaceFlip) {
 		SDL_SetPaletteColors(SurfaceFlip->format->palette, colors, 0, 256);
 		SDL_SetSurfaceAlphaMod(SurfaceFlip, 128);
+		SDL_SetSurfaceBlendMode(SurfaceFlip, SDL_BLENDMODE_BLEND);
 	}
 }
 
