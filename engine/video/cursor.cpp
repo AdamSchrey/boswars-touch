@@ -78,6 +78,7 @@ CUnitType *CursorBuilding;           /// building cursor
 
 /*--- DRAW SPRITE CURSOR ---------------------------------------------------*/
 CCursor *GameCursor;                 /// current shown cursor-type
+int CursorHidden;                    /// true if the drawn cursor should be invisible
 
 static SDL_Surface *HiddenSurface;
 
@@ -302,7 +303,7 @@ void DrawCursor(void)
 	//  Cursor may not exist if we are loading a game or something. Only
 	//  draw it if it exists
 	//
-	if (GameCursor) {
+	if (GameCursor && !CursorHidden) {
 		GameCursor->G->DrawFrameClip(GameCursor->SpriteFrame,
 			CursorX - GameCursor->HotX, CursorY - GameCursor->HotY);
 	}

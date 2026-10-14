@@ -148,6 +148,7 @@ extern int CursorValue;           /// value for action (spell type f.e.)
 extern CUnitType *CursorBuilding; /// building cursor
 
 extern CCursor *GameCursor;     /// cursor-type
+extern int CursorHidden;       /// true if the drawn mouse cursor should be invisible
 extern int CursorX;             /// cursor position on screen X
 extern int CursorY;             /// cursor position on screen Y
 extern int CursorStartX;        /// rectangle started on screen X
