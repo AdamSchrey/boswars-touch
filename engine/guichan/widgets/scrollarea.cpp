@@ -67,7 +67,7 @@ namespace gcn
         mHScroll = 0;
         mHPolicy = SHOW_AUTO;
         mVPolicy = SHOW_AUTO;
-        mScrollbarWidth = 36;
+        mScrollbarWidth = 24;
         mContent = NULL;
         mUpButtonPressed = false;
         mDownButtonPressed = false;
@@ -90,7 +90,7 @@ namespace gcn
         mHScroll = 0;
         mHPolicy = SHOW_AUTO;
         mVPolicy = SHOW_AUTO;
-        mScrollbarWidth = 36;
+        mScrollbarWidth = 24;
         mContent = NULL;
         mUpButtonPressed = false;
         mDownButtonPressed = false;
@@ -111,7 +111,7 @@ namespace gcn
         mHScroll = 0;
         mHPolicy = hPolicy;
         mVPolicy = vPolicy;
-        mScrollbarWidth = 36;
+        mScrollbarWidth = 24;
         mContent = NULL;
         mUpButtonPressed = false;
         mDownButtonPressed = false;

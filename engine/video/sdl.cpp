@@ -55,6 +55,7 @@
 #include "interface.h"
 #include "network.h"
 #include "ui.h"
+#include "cursor.h"
 #include "sound_server.h"
 #include "sound.h"
 #include "interface.h"
@@ -555,6 +556,14 @@ static void SdlDoEvent(const EventCallback *callbacks, const SDL_Event *event)
 			// FIXME: check if this is only useful for the cursor
 			// FIXME: if this is the case we don't need this.
 		case SDL_MOUSEMOTION:
+			// A physical mouse generates motion events while no button
+			// is pressed (hovering).  Touch input only ever produces
+			// motion while a finger (button) is in contact.  So the
+			// first button-less motion reveals that a real mouse is
+			// present and the normal cursor should be shown again.
+			if (CursorHidden && event->motion.state == 0) {
+				CursorHidden = 0;
+			}
 			InputMouseMove(callbacks, SDL_GetTicks(),
 				event->motion.x, event->motion.y);
 			// FIXME: Same bug fix from X11

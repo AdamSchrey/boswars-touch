@@ -250,7 +250,6 @@ if (preferences == nil) then
     TipNumber = 0,
     ShowTips = true,
     GrabMouse = false,
-    HideCursor = false,
   }
 end
 
@@ -273,7 +272,6 @@ SetMusicEnabled(preferences.MusicEnabled)
 SetMusicVolume(preferences.MusicVolume)
 SetTranslationsFiles(preferences.StratagusTranslation, preferences.GameTranslation)
 SetGrabMouse(preferences.GrabMouse)
-SetCursorHidden(preferences.HideCursor == true)
 
 InitVideo()
 

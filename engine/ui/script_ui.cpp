@@ -404,32 +404,6 @@ static int CclSetGameCursor(lua_State *l)
 }
 
 /**
-**  Set whether the mouse cursor should be hidden.
-**
-**  @param l  Lua state.
-*/
-static int CclSetCursorHidden(lua_State *l)
-{
-	LuaCheckArgs(l, 1);
-	// Accept nil as false so older preferences files without the
-	// HideCursor key do not abort startup with a Lua type error.
-	CursorHidden = lua_isnil(l, 1) ? 0 : (LuaToBoolean(l, 1) ? 1 : 0);
-	return 0;
-}
-
-/**
-**  Get whether the mouse cursor is hidden.
-**
-**  @param l  Lua state.
-*/
-static int CclGetCursorHidden(lua_State *l)
-{
-	LuaCheckArgs(l, 0);
-	lua_pushboolean(l, CursorHidden);
-	return 1;
-}
-
-/**
 **  Define the viewports.
 **
 **  @param l  Lua state.
@@ -973,8 +947,6 @@ void UserInterfaceCclRegister(void)
 
 	lua_register(Lua, "DefineCursor", CclDefineCursor);
 	lua_register(Lua, "SetGameCursor", CclSetGameCursor);
-	lua_register(Lua, "SetCursorHidden", CclSetCursorHidden);
-	lua_register(Lua, "GetCursorHidden", CclGetCursorHidden);
 	lua_register(Lua, "DefineViewports", CclDefineViewports);
 
 	lua_register(Lua, "RightButtonAttacks", CclRightButtonAttacks);

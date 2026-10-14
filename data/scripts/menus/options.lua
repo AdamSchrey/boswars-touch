@@ -228,13 +228,6 @@ function BuildVideoOptionsMenu(menu)
     end)
   fullScreen:setMarked(Video.FullScreen)
 
-  local hideCursor = menu:addCheckBox(_("Hide Mouse Cursor"), x1, offybot + 36 * 2.5,
-    function()
-      SetCursorHidden(hideCursor:isMarked())
-      preferences.HideCursor = hideCursor:isMarked()
-      SavePreferences()
-    end)
-  hideCursor:setMarked(GetCursorHidden())
 end
 
 function RunVideoOptionsMenu(s)
