@@ -1653,8 +1653,19 @@ void UIHandleButtonUp(unsigned button)
 	if (CursorBuilding && (1 << button) == LeftButton) {
 		// Only commit placement if the press started on the map area.  A
 		// press that started on a button-panel button (which selected the
-		// building) must not also place it on release.
+		// building) must not also place it on release.  Instead fall through
+		// to the regular handling so that clicking e.g. the cancel button
+		// still works while a placement is active.
 		if (!BuildingPlacementArmed) {
+			// Nothing to commit. If the release happened on a button panel
+			// button (e.g. the cancel button), perform its action so that
+			// an active placement can be canceled. Otherwise do nothing.
+			if (ButtonAreaUnderCursor == ButtonAreaButton) {
+				if (!GameObserve && !GamePaused &&
+					ThisPlayer->IsTeamed(Selected[0])) {
+					UI.ButtonPanel.DoClicked(ButtonPanelButtonPressed);
+				}
+			}
 			return;
 		}
 		BuildingPlacementArmed = false;
