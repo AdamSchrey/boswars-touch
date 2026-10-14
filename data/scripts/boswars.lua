@@ -273,7 +273,7 @@ SetMusicEnabled(preferences.MusicEnabled)
 SetMusicVolume(preferences.MusicVolume)
 SetTranslationsFiles(preferences.StratagusTranslation, preferences.GameTranslation)
 SetGrabMouse(preferences.GrabMouse)
-SetCursorHidden(preferences.HideCursor)
+SetCursorHidden(preferences.HideCursor == true)
 
 InitVideo()
 

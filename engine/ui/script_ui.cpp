@@ -411,7 +411,9 @@ static int CclSetGameCursor(lua_State *l)
 static int CclSetCursorHidden(lua_State *l)
 {
 	LuaCheckArgs(l, 1);
-	CursorHidden = LuaToBoolean(l, 1);
+	// Accept nil as false so older preferences files without the
+	// HideCursor key do not abort startup with a Lua type error.
+	CursorHidden = lua_isnil(l, 1) ? 0 : (LuaToBoolean(l, 1) ? 1 : 0);
 	return 0;
 }
 
