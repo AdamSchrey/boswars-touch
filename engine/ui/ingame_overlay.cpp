@@ -56,7 +56,7 @@ static const gcn::Color OskClear(200, 200, 128);
 static const gcn::Color OskDisabled(112, 112, 112, 128);
 
 // Apply the menu button style to a ButtonWidget.
-static void ApplyMenuButtonStyle(ButtonWidget *b)
+static void ApplyMenuButtonStyle(gcn::Button *b)
 {
 	b->setBaseColor(OskDark);
 	b->setBackgroundColor(OskDark);
