@@ -34,6 +34,7 @@
 #include "editor.h"
 #include "interface.h"
 #include "ui.h"
+#include "network.h"
 
 #include "guichan.h"
 #include "widgets.h"
@@ -104,7 +105,8 @@ public:
 		ActionFindIdle,
 		ActionTrackUnit,
 		ActionToggleTerrain,
-		ActionNextViewport
+		ActionNextViewport,
+		ActionGameMenu
 	};
 
 	OverlayActionListener(Action action) : Act(action) {}
@@ -133,6 +135,17 @@ public:
 				break;
 			case ActionNextViewport:
 				CycleViewportMode(1);
+				break;
+			case ActionGameMenu:
+				// Same as the F10 / menu button: pause (single player)
+				// and run the Lua menu callback.
+				if (!IsNetworkGame()) {
+					GamePaused = true;
+					UI.StatusLine.Set(_("Game Paused"));
+				}
+				if (UI.MenuButton.Callback) {
+					UI.MenuButton.Callback->action("");
+				}
 				break;
 		}
 	}
@@ -441,7 +454,11 @@ void CreateIngameTouchOverlay(gcn::Container *container, bool showChat)
 		{"graphics/ui/overlay/idle.png", OverlayActionListener::ActionFindIdle},
 		{"graphics/ui/overlay/track.png", OverlayActionListener::ActionTrackUnit},
 		{"graphics/ui/overlay/terrain.png", OverlayActionListener::ActionToggleTerrain},
-		{"graphics/ui/overlay/viewport.png", OverlayActionListener::ActionNextViewport},
+		// Next viewport button (disabled in favor of the game menu
+		// button; can be re-enabled by moving this entry back into the
+		// array):
+		// {"graphics/ui/overlay/viewport.png", OverlayActionListener::ActionNextViewport},
+		{"graphics/ui/overlay/menu.png", OverlayActionListener::ActionGameMenu},
 	};
 	for (size_t i = 0; i < sizeof(specs) / sizeof(specs[0]); ++i) {
 		CGraphic *icon = CGraphic::New(specs[i].file);
@@ -455,7 +472,8 @@ void CreateIngameTouchOverlay(gcn::Container *container, bool showChat)
 	}
 
 	if (showChat) {
-		ButtonWidget *chatBtn = new ButtonWidget("M");
+		OverlayActionButton *chatBtn = new OverlayActionButton(
+			CGraphic::New("graphics/ui/overlay/message.png"));
 		chatBtn->setSize(OverlayBtnSize, OverlayBtnSize);
 		ApplyMenuButtonStyle(chatBtn);
 		chatBtn->addActionListener(new ChatToggleListener(keyboard));
