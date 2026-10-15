@@ -2059,40 +2059,59 @@ static int GetPieUnderCursor(void)
 **  the enlarged minimap without map content (aspect ratio bars) are
 **  transparent instead of black.
 */
+/**
+**  Draw the minimap thumbstick overlay.
+**
+**  While the minimap thumbstick is active, the small minimap is hidden
+**  and an enlarged minimap is drawn directly left of the panel.  Only
+**  the map content of the minimap (inset by XOffset/YOffset) is
+**  enlarged, so no black aspect ratio bars are shown.  The enlarged
+**  minimap also shows the viewport rectangle.  A cross image is drawn
+**  at the press point on top of the hidden small minimap.
+*/
 void DrawMinimapThumbstick(void)
 {
 	if (!MinimapThumbActive) {
 		return;
 	}
 
-	// Show the rosace circle at half size on top of the hidden small
-	// minimap (the pie menu graphic is 192x192).
-	if (UI.PieMenu.G && UI.PieMenu.G->Surface) {
-		int rw = UI.PieMenu.G->Surface->w / 2;
-		int rh = UI.PieMenu.G->Surface->h / 2;
-		SDL_Surface *rosace = SDL_CreateRGBSurface(0, rw, rh, 32,
-			0x00FF0000, 0x0000FF00, 0x000000FF, 0x000000FF);
-		if (rosace) {
-			SDL_FillRect(rosace, NULL,
-				SDL_MapRGBA(rosace->format, 0, 0, 0, SDL_ALPHA_TRANSPARENT));
-			SDL_Rect drect = {0, 0, (Uint16)rw, (Uint16)rh};
-			SDL_BlitScaled(UI.PieMenu.G->Surface, NULL, rosace, &drect);
-			drect.x = (Sint16)(MinimapThumbCenterX - rw / 2);
-			drect.y = (Sint16)(MinimapThumbCenterY - rh / 2);
-			SDL_BlitSurface(rosace, NULL, TheScreen, &drect);
-			SDL_FreeSurface(rosace);
-		}
+	// Show the cross image at the press point on top of the hidden
+	// small minimap.  Reuse the scroll cursor graphic (cross.png).
+	if (UI.Scroll.Cursor && UI.Scroll.Cursor->G) {
+		UI.Scroll.Cursor->G->DrawFrameClip(0,
+			MinimapThumbCenterX - UI.Scroll.Cursor->G->Width / 2,
+			MinimapThumbCenterY - UI.Scroll.Cursor->G->Height / 2);
 	}
 
-	// Scale 4x for all but the smallest resolutions; 2x on narrow
-	// screens (e.g. 640x480) or when the 4x version does not fit.
-	int scale = (Video.Width <= 640) ? 2 : 4;
-	int w = UI.Minimap.W * scale;
-	int h = UI.Minimap.H * scale;
-	if (UI.Minimap.X - w < 0 || h > Video.Height) {
+	SDL_Surface *mini = GetMinimapSurface();
+	if (!mini) {
+		return;
+	}
+
+	// The map content of the minimap is inset by XOffset/YOffset (the
+	// minimap keeps the map aspect ratio).  Only enlarge the content.
+	int contentW = UI.Minimap.W - 2 * UI.Minimap.XOffset;
+	int contentH = UI.Minimap.H - 2 * UI.Minimap.YOffset;
+	if (contentW <= 0 || contentH <= 0 ||
+			Map.Info.MapWidth <= 0 || Map.Info.MapHeight <= 0) {
+		return;
+	}
+
+	// Enlarge 2x by default; use 3x for narrow maps (aspect ratio
+	// factor 2 or more between map width and height).
+	int scale = 2;
+	int mapW = Map.Info.MapWidth;
+	int mapH = Map.Info.MapHeight;
+	if ((mapW >= 2 * mapH) || (mapH >= 2 * mapW)) {
+		scale = 3;
+	}
+	int w = contentW * scale;
+	int h = contentH * scale;
+	// Fall back to 2x if the 3x version does not fit.
+	if (scale == 3 && (UI.Minimap.X - w < 0 || h > Video.Height)) {
 		scale = 2;
-		w = UI.Minimap.W * scale;
-		h = UI.Minimap.H * scale;
+		w = contentW * scale;
+		h = contentH * scale;
 	}
 
 	// Place the enlarged minimap directly left of the ui_minimap panel
@@ -2102,7 +2121,9 @@ void DrawMinimapThumbstick(void)
 	if (dx < 0) {
 		dx = 0;
 	}
-	int dy = UI.Minimap.Y;
+	// Align the top of the enlarged map content with the top of the
+	// small minimap's map content.
+	int dy = UI.Minimap.Y + UI.Minimap.YOffset;
 	if (dy + h > Video.Height) {
 		dy = Video.Height - h;
 		if (dy < 0) {
@@ -2110,43 +2131,27 @@ void DrawMinimapThumbstick(void)
 		}
 	}
 
-	SDL_Surface *mini = GetMinimapSurface();
-	if (!mini) {
-		return;
-	}
-
-	// Enlarged minimap in a transparent scratch surface: only the map
-	// content (inset by XOffset/YOffset) is stretched, so aspect ratio
-	// bars stay transparent instead of black.
-	int contentW = UI.Minimap.W - 2 * UI.Minimap.XOffset;
-	int contentH = UI.Minimap.H - 2 * UI.Minimap.YOffset;
-	if (contentW <= 0 || contentH <= 0) {
-		return;
-	}
-	SDL_Surface *enlarged = SDL_CreateRGBSurface(0, w, h, 32,
-		0x00FF0000, 0x0000FF00, 0x000000FF, 0x000000FF);
+	// Enlarged minimap: nearest-neighbor stretch of the map content of
+	// the minimap surface into a scratch surface with the same pixel
+	// format, then blit it to the screen.
+	SDL_Surface *enlarged = SDL_CreateRGBSurface(0, w, h,
+		mini->format->BitsPerPixel, mini->format->Rmask, mini->format->Gmask,
+		mini->format->Bmask, mini->format->Amask);
 	if (enlarged) {
-		SDL_FillRect(enlarged, NULL,
-			SDL_MapRGBA(enlarged->format, 0, 0, 0, SDL_ALPHA_TRANSPARENT));
 		SDL_Rect srect = {(Sint16)UI.Minimap.XOffset,
 			(Sint16)UI.Minimap.YOffset, (Uint16)contentW, (Uint16)contentH};
-		SDL_Rect drect = {(Sint16)(UI.Minimap.XOffset * scale),
-			(Sint16)(UI.Minimap.YOffset * scale),
-			(Uint16)(contentW * scale), (Uint16)(contentH * scale)};
-		SDL_BlitScaled(mini, &srect, enlarged, &drect);
-		SDL_Rect toScreen = {(Sint16)dx, (Sint16)dy, 0, 0};
-		SDL_BlitSurface(enlarged, NULL, TheScreen, &toScreen);
+		SDL_SoftStretch(mini, &srect, enlarged, NULL);
+		SDL_Rect drect = {(Sint16)dx, (Sint16)dy, 0, 0};
+		SDL_BlitSurface(enlarged, NULL, TheScreen, &drect);
 		SDL_FreeSurface(enlarged);
 	}
 
 	// Viewport rectangle on the enlarged minimap.
 	const CViewport *vp = UI.SelectedViewport;
-	int mx = dx + UI.Minimap.XOffset * scale
-		+ (vp->MapX * contentW * scale) / Map.Info.MapWidth;
-	int my = dy + UI.Minimap.YOffset * scale
-		+ (vp->MapY * contentH * scale) / Map.Info.MapHeight;
-	int rw = (vp->MapWidth * contentW * scale) / Map.Info.MapWidth;
-	int rh = (vp->MapHeight * contentH * scale) / Map.Info.MapHeight;
+	int mx = dx + (vp->MapX * w) / Map.Info.MapWidth;
+	int my = dy + (vp->MapY * h) / Map.Info.MapHeight;
+	int rw = (vp->MapWidth * w) / Map.Info.MapWidth;
+	int rh = (vp->MapHeight * h) / Map.Info.MapHeight;
 	Video.DrawTransRectangle(UI.ViewportCursorColor, mx, my, rw, rh, 128);
 }
 
