@@ -115,12 +115,20 @@ function BosGameMenu()
   local rawStop = menu.stop
   function menu:stop(result)
     OpenMenuRegistry[self] = nil
-    return rawStop(self, result)
+    -- Only forward the result argument when it was actually given:
+    -- passing an explicit nil to the tolua binding raises a type error.
+    if result ~= nil then
+      return rawStop(self, result)
+    end
+    return rawStop(self)
   end
   local rawStopAll = menu.stopAll
   function menu:stopAll(result)
     OpenMenuRegistry[self] = nil
-    return rawStopAll(self, result)
+    if result ~= nil then
+      return rawStopAll(self, result)
+    end
+    return rawStopAll(self)
   end
 
   return menu
