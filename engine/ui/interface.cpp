@@ -375,7 +375,7 @@ static void UiCenterOnSelected(void)
 /**
 **  Toggle terrain display on/off.
 */
-static void UiToggleTerrain(void)
+void UiToggleTerrain(void)
 {
 	UI.Minimap.WithTerrain ^= 1;
 	if (UI.Minimap.WithTerrain) {
@@ -388,7 +388,7 @@ static void UiToggleTerrain(void)
 /**
 **  Find the next idle worker, select it, and center on it
 */
-static void UiFindIdleWorker(void)
+void UiFindIdleWorker(void)
 {
 	CUnit *unit;
 
@@ -417,7 +417,7 @@ static void UiToggleGrabMouse(void)
 /**
 **  Track unit, the viewport follows the unit.
 */
-static void UiTrackUnit(void)
+void UiTrackUnit(void)
 {
 	if (UI.SelectedViewport->Unit == Selected[0]) {
 		UI.SelectedViewport->Unit = NULL;

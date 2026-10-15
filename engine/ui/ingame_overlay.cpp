@@ -33,6 +33,7 @@
 #include "SDL.h"
 #include "editor.h"
 #include "interface.h"
+#include "ui.h"
 
 #include "guichan.h"
 #include "widgets.h"
@@ -74,29 +75,70 @@ static void ApplyMenuButtonStyle(ButtonWidget *b)
 // isPressed() is true only while the pointer is down over the button, so the
 // camera scrolls exactly while the button is held and stops the moment it is
 // released.
-class CameraScrollButton : public ButtonWidget
+// Simple action button for the touch overlay: runs a callback when
+// pressed and shows a monochrome icon image instead of a caption.
+class OverlayActionButton : public ImageButton
 {
 public:
-	CameraScrollButton(const std::string &caption, int scrollMask) :
-		ButtonWidget(caption), ScrollMask(scrollMask)
+	OverlayActionButton(CGraphic *icon) : ImageButton("")
 	{
+		if (icon) {
+			icon->Load();
+			setNormalImage(icon);
+		}
 	}
 
-	virtual void logic()
+	void setPressedIcon(CGraphic *icon)
 	{
-		ButtonWidget::logic();
-		// Work both in-game and in the editor so the camera moves while the
-		// button is held and stops on release.
-		if ((GameRunning || Editor.Running != EditorNotRunning) &&
-				isEnabled() && isPressed()) {
-			KeyScrollState |= ScrollMask;
-		} else {
-			KeyScrollState &= ~ScrollMask;
+		if (icon) {
+			setPressedImage(icon);
+		}
+	}
+};
+
+// Listener that runs one of the overlay actions.
+class OverlayActionListener : public gcn::ActionListener
+{
+public:
+	enum Action {
+		ActionFindIdle,
+		ActionTrackUnit,
+		ActionToggleTerrain,
+		ActionNextViewport
+	};
+
+	OverlayActionListener(Action action) : Act(action) {}
+
+	virtual void action(const std::string &)
+	{
+		// The overlay is also shown in the editor; the unit-dependent
+		// actions only make sense during a game.
+		const bool inEditor = (Editor.Running != EditorNotRunning);
+		if (!GameRunning && !inEditor) {
+			return;
+		}
+		if (!GameRunning &&
+				(Act == ActionFindIdle || Act == ActionTrackUnit)) {
+			return;
+		}
+		switch (Act) {
+			case ActionFindIdle:
+				UiFindIdleWorker();
+				break;
+			case ActionTrackUnit:
+				UiTrackUnit();
+				break;
+			case ActionToggleTerrain:
+				UiToggleTerrain();
+				break;
+			case ActionNextViewport:
+				CycleViewportMode(1);
+				break;
 		}
 	}
 
 private:
-	int ScrollMask;
+	Action Act;
 };
 
 /*----------------------------------------------------------------------------
@@ -389,34 +431,28 @@ void CreateIngameTouchOverlay(gcn::Container *container, bool showChat)
 	const int rowY = Video.Height - OverlayBtnSize - margin;
 	int x = margin;
 
-	// Order: up, down, left, right, message.
-	CameraScrollButton *upBtn = new CameraScrollButton("^", ScrollUp);
-	upBtn->setSize(OverlayBtnSize, OverlayBtnSize);
-	ApplyMenuButtonStyle(upBtn);
-	container->add(upBtn, x, rowY);
-	TouchWidgets.push_back(upBtn);
-	x += OverlayBtnSize + OverlayGap;
-
-	CameraScrollButton *downBtn = new CameraScrollButton("v", ScrollDown);
-	downBtn->setSize(OverlayBtnSize, OverlayBtnSize);
-	ApplyMenuButtonStyle(downBtn);
-	container->add(downBtn, x, rowY);
-	TouchWidgets.push_back(downBtn);
-	x += OverlayBtnSize + OverlayGap;
-
-	CameraScrollButton *leftBtn = new CameraScrollButton("<", ScrollLeft);
-	leftBtn->setSize(OverlayBtnSize, OverlayBtnSize);
-	ApplyMenuButtonStyle(leftBtn);
-	container->add(leftBtn, x, rowY);
-	TouchWidgets.push_back(leftBtn);
-	x += OverlayBtnSize + OverlayGap;
-
-	CameraScrollButton *rightBtn = new CameraScrollButton(">", ScrollRight);
-	rightBtn->setSize(OverlayBtnSize, OverlayBtnSize);
-	ApplyMenuButtonStyle(rightBtn);
-	container->add(rightBtn, x, rowY);
-	TouchWidgets.push_back(rightBtn);
-	x += OverlayBtnSize + OverlayGap;
+	// Order: idle worker, track unit, terrain toggle, next viewport,
+	// message.
+	struct OverlayButtonSpec {
+		const char *file;
+		OverlayActionListener::Action action;
+	};
+	const OverlayButtonSpec specs[] = {
+		{"graphics/ui/overlay/idle.png", OverlayActionListener::ActionFindIdle},
+		{"graphics/ui/overlay/track.png", OverlayActionListener::ActionTrackUnit},
+		{"graphics/ui/overlay/terrain.png", OverlayActionListener::ActionToggleTerrain},
+		{"graphics/ui/overlay/viewport.png", OverlayActionListener::ActionNextViewport},
+	};
+	for (size_t i = 0; i < sizeof(specs) / sizeof(specs[0]); ++i) {
+		CGraphic *icon = CGraphic::New(specs[i].file);
+		OverlayActionButton *btn = new OverlayActionButton(icon);
+		btn->setSize(OverlayBtnSize, OverlayBtnSize);
+		ApplyMenuButtonStyle(btn);
+		btn->addActionListener(new OverlayActionListener(specs[i].action));
+		container->add(btn, x, rowY);
+		TouchWidgets.push_back(btn);
+		x += OverlayBtnSize + OverlayGap;
+	}
 
 	if (showChat) {
 		ButtonWidget *chatBtn = new ButtonWidget("M");

@@ -338,6 +338,12 @@ extern void UpdateStatusLineForButton(const ButtonAction *button);
 	/// Check if the button is allowed for the unit.
 extern bool IsButtonAllowed(const CUnit *, const ButtonAction *);
 	/// Draw the Pie Menu
+/// Toggle terrain display on/off on the minimap
+extern void UiToggleTerrain(void);
+/// Find the next idle worker, select it, and center on it
+extern void UiFindIdleWorker(void);
+/// Track unit: the viewport follows the selected unit
+extern void UiTrackUnit(void);
 extern void DrawPieMenu(void);
 /// Draw the minimap thumbstick overlay (rosace circle and enlarged minimap)
 extern void DrawMinimapThumbstick(void);
