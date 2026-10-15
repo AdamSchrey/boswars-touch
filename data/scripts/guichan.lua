@@ -56,7 +56,12 @@ function FitBackground(graphic)
   graphic:Resize(sw, sh)
   local ox = math.floor((Video.Width - sw) / 2)
   local oy = math.floor((Video.Height - sh) / 2)
-  container:add(ImageWidget(graphic), ox, oy)
+  local imageWidget = ImageWidget(graphic)
+  -- Keep a Lua reference to the image widget: without it, the garbage
+  -- collector frees the C++ ImageWidget while the engine still draws it
+  -- from the cached background container, and the background disappears.
+  container._backgroundImageWidget = imageWidget
+  container:add(imageWidget, ox, oy)
   return container, 0, 0
 end
 
