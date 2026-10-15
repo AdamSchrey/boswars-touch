@@ -304,12 +304,56 @@ function RunLanguageOptionsMenu(s)
   menu:run()
 end
 
+function RunGameButtonsOptionsMenu(s)
+  local menu
+  local b
+  local offx = (Video.Width - 256) / 2
+  local offy = (Video.Height - 288) / 2
+  menu = BosMenu(_("Game Buttons Options"))
+
+  -- Indices must match the engine enum OverlayButtonId in
+  -- engine/ui/ingame_overlay.cpp:
+  --   0 find idle peon, 1 track unit, 2 hide/unhide terrain,
+  --   3 next viewport, 4 game menu, 5 message
+  local names = {
+    _("Find Idle Peon"),
+    _("Track Unit"),
+    _("Hide/Unhide Terrain"),
+    _("Next View Port"),
+    _("Game Menu"),
+    _("Message"),
+  }
+  local checkboxes = {}
+  for i = 1, #names do
+    local idx = i - 1
+    checkboxes[i] = menu:addCheckBox(names[i], offx + 32, offy + 36 * i,
+      function()
+        SetOverlayButtonVisible(idx, checkboxes[i]:isMarked())
+      end)
+    checkboxes[i]:setMarked(IsOverlayButtonVisible(idx))
+    checkboxes[i]:adjustSize()
+  end
+
+  menu:addButton(_("~!OK"), offx + 128 - (200 / 2), offy + 36 * 7 + 10,
+    function()
+      preferences.GameButtons = {}
+      for i = 1, #names do
+        preferences.GameButtons[i] = IsOverlayButtonVisible(i - 1)
+      end
+      SavePreferences()
+      menu:stop()
+    end)
+  menu:run()
+end
+
 function BuildOptionsMenu(menu)
   local x = Video.Width / 2 - 100
   menu:addButton(_("~!Sound"), x, 140, RunSoundOptionsMenu)
   menu:addButton(_("~!Video"), x, 180, function() RunVideoOptionsMenu() menu:stop(1) end)
   menu:addButton(_("S~!peed"), x, 220, RunSpeedOptionsMenu)
   menu:addButton(_("~!Language"), x, 260, function() RunLanguageOptionsMenu() menu:stop(1) end)
+
+  menu:addButton(_("Game ~!Buttons"), x, 300, function() RunGameButtonsOptionsMenu() menu:stop(1) end)
 
   menu:addButton(_("Main Menu (~<Esc~>)"), x, Video.Height - 100, function() menu:stop() end)
 end

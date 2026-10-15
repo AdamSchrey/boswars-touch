@@ -344,6 +344,10 @@ extern void UiToggleTerrain(void);
 extern void UiFindIdleWorker(void);
 /// Track unit: the viewport follows the selected unit
 extern void UiTrackUnit(void);
+/// Show or hide one of the touch overlay buttons (0 idle, 1 track, 2 terrain, 3 viewport, 4 menu, 5 message)
+extern void SetOverlayButtonVisible(int button, bool visible);
+/// Is the given touch overlay button visible?
+extern bool IsOverlayButtonVisible(int button);
 extern void DrawPieMenu(void);
 /// Draw the minimap thumbstick overlay (rosace circle and enlarged minimap)
 extern void DrawMinimapThumbstick(void);

@@ -417,6 +417,42 @@ bool IsPointOnGuichanWidget(int x, int y)
 static const int OverlayBtnSize = 48;
 static const int OverlayGap = 3;
 
+// Overlay button identifiers, in the fixed display order.
+enum OverlayButtonId {
+	OverlayButtonIdle = 0,      /// find idle peon
+	OverlayButtonTrack,         /// track unit
+	OverlayButtonTerrain,      /// hide/unhide terrain
+	OverlayButtonViewport,     /// next viewport
+	OverlayButtonMenu,         /// game menu
+	OverlayButtonMessage,      /// chat/message
+	NumOverlayButtons
+};
+
+// Bit mask of visible overlay buttons.  By default every button except
+// the next-viewport button is visible.
+static unsigned OverlayButtonVisibleMask =
+	((1 << NumOverlayButtons) - 1) & ~(1 << OverlayButtonViewport);
+
+void SetOverlayButtonVisible(int button, bool visible)
+{
+	if (button < 0 || button >= NumOverlayButtons) {
+		return;
+	}
+	if (visible) {
+		OverlayButtonVisibleMask |= (1 << button);
+	} else {
+		OverlayButtonVisibleMask &= ~(1 << button);
+	}
+}
+
+bool IsOverlayButtonVisible(int button)
+{
+	if (button < 0 || button >= NumOverlayButtons) {
+		return false;
+	}
+	return (OverlayButtonVisibleMask & (1 << button)) != 0;
+}
+
 // Create the touch overlay on the in-game GUI container.
 // The overlay is owned by the container (added as a child), so the caller
 // does not need to free it.
@@ -433,6 +469,51 @@ void CreateIngameTouchOverlay(gcn::Container *container, bool showChat)
 	// On-screen keyboard, initially hidden, top-left.  Only created in-game
 	// (chat makes no sense in the editor).
 	gcn::Container *keyboard = NULL;
+	if (showChat) {
+		keyboard = MakeChatKeyboard(container);
+		TouchWidgets.push_back(keyboard);
+	}
+
+	// Camera + chat buttons at the bottom-left, above the bottom bar.
+	// One button width of margin from the left and bottom screen edges.
+	const int margin = OverlayBtnSize;
+	const int rowY = Video.Height - OverlayBtnSize - margin;
+	int x = margin;
+
+	// Buttons in fixed order: find idle peon, track unit, terrain
+	// toggle, next viewport, game menu, message.  Only the buttons
+	// enabled in the options are created; they always sit directly
+	// next to each other.
+	struct OverlayButtonSpec {
+		const char *file;
+		OverlayActionListener::Action action;
+		OverlayButtonId id;
+	};
+	const OverlayButtonSpec specs[] = {
+		{"graphics/ui/overlay/idle.png",
+			OverlayActionListener::ActionFindIdle, OverlayButtonIdle},
+		{"graphics/ui/overlay/track.png",
+			OverlayActionListener::ActionTrackUnit, OverlayButtonTrack},
+		{"graphics/ui/overlay/terrain.png",
+			OverlayActionListener::ActionToggleTerrain, OverlayButtonTerrain},
+		{"graphics/ui/overlay/viewport.png",
+			OverlayActionListener::ActionNextViewport, OverlayButtonViewport},
+		{"graphics/ui/overlay/menu.png",
+			OverlayActionListener::ActionGameMenu, OverlayButtonMenu},
+	};
+	for (size_t i = 0; i < sizeof(specs) / sizeof(specs[0]); ++i) {
+		if (!IsOverlayButtonVisible(specs[i].id)) {
+			continue;
+		}
+		CGraphic *icon = CGraphic::New(specs[i].file);
+		OverlayActionButton *btn = new OverlayActionButton(icon);
+		btn->setSize(OverlayBtnSize, OverlayBtnSize);
+		ApplyMenuButtonStyle(btn);
+		btn->addActionListener(new OverlayActionListener(specs[i].action));
+		container->add(btn, x, rowY);
+		TouchWidgets.push_back(btn);
+		x += OverlayBtnSize + OverlayGap;
+	}
 	if (showChat) {
 		keyboard = MakeChatKeyboard(container);
 		TouchWidgets.push_back(keyboard);
@@ -471,7 +552,7 @@ void CreateIngameTouchOverlay(gcn::Container *container, bool showChat)
 		x += OverlayBtnSize + OverlayGap;
 	}
 
-	if (showChat) {
+	if (showChat && IsOverlayButtonVisible(OverlayButtonMessage)) {
 		OverlayActionButton *chatBtn = new OverlayActionButton(
 			CGraphic::New("graphics/ui/overlay/message.png"));
 		chatBtn->setSize(OverlayBtnSize, OverlayBtnSize);

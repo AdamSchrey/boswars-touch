@@ -250,6 +250,7 @@ if (preferences == nil) then
     TipNumber = 0,
     ShowTips = true,
     GrabMouse = false,
+    GameButtons = { true, true, true, false, true, true },
   }
 end
 
@@ -272,6 +273,14 @@ SetMusicEnabled(preferences.MusicEnabled)
 SetMusicVolume(preferences.MusicVolume)
 SetTranslationsFiles(preferences.StratagusTranslation, preferences.GameTranslation)
 SetGrabMouse(preferences.GrabMouse)
+-- Touch overlay buttons: find idle peon, track unit, hide/unhide
+-- terrain, next viewport, game menu, message (order matches the
+-- engine enum OverlayButtonId).
+if preferences.GameButtons ~= nil then
+  for i = 1, 6 do
+    SetOverlayButtonVisible(i - 1, preferences.GameButtons[i] == true)
+  end
+end
 
 InitVideo()
 
