@@ -419,6 +419,12 @@ static void UiToggleGrabMouse(void)
 */
 void UiTrackUnit(void)
 {
+	// Tracking requires a selected unit; the key binding is only
+	// reachable with a selection, but the touch overlay button can be
+	// pressed with nothing selected.
+	if (NumSelected == 0 || Selected[0] == NULL) {
+		return;
+	}
 	if (UI.SelectedViewport->Unit == Selected[0]) {
 		UI.SelectedViewport->Unit = NULL;
 	} else {
