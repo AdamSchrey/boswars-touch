@@ -2107,12 +2107,6 @@ void DrawMinimapThumbstick(void)
 	}
 	int w = contentW * scale;
 	int h = contentH * scale;
-	// Fall back to 2x if the 3x version does not fit.
-	if (scale == 3 && (UI.Minimap.X - w < 0 || h > Video.Height)) {
-		scale = 2;
-		w = contentW * scale;
-		h = contentH * scale;
-	}
 
 	// Place the enlarged minimap directly left of the ui_minimap panel
 	// (the panel graphic starts 200 pixels from the right screen edge).
