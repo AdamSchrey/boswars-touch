@@ -179,11 +179,64 @@ SetFogOfWarGraphics("general/fog.png")
 
 Load("preferences.lua")
 
+-- Available resolutions (must match the list in menus/options.lua).
+local AvailableResolutions = {
+  { 640, 480 }, { 800, 600 }, { 1024, 768 }, { 1280, 1024 }, { 1600, 1200 },
+  { 1024, 600 }, { 1280, 720 }, { 1366, 768 }, { 1440, 900 }, { 1680, 1050 },
+  { 1920, 1080 }, { 1920, 1200 },
+  { 1066, 480 }, { 1333, 600 },
+}
+
+-- Pick a default resolution from AvailableResolutions that best matches the
+-- display's aspect ratio, fits within the screen, and suits the DPI.
+function DefaultVideoResolution()
+  local dw, dh, ddpi = GetDisplayResolution()
+  if dw == 0 or dh == 0 then
+    return 800, 600
+  end
+  -- Always landscape: use the larger dimension as width.
+  local sw, sh = dw, dh
+  if sw < sh then sw, sh = sh, sw end
+  local screenRatio = sw / sh
+
+  -- DPI-based upper bound on the short side to keep UI readable on dense screens.
+  local maxShort
+  if ddpi >= 430 then
+    maxShort = 480       -- dense phone
+  elseif ddpi >= 250 then
+    maxShort = 600       -- larger phone / small tablet
+  elseif ddpi >= 150 then
+    maxShort = 768       -- tablet
+  else
+    maxShort = 1200      -- desktop monitor
+  end
+
+  local bestW, bestH = 800, 600
+  local bestScore = -1
+  for _, mode in ipairs(AvailableResolutions) do
+    local mw, mh = mode[1], mode[2]
+    -- Must fit within the screen.
+    if mw <= sw and mh <= sh and mh <= maxShort then
+      local modeRatio = mw / mh
+      -- Prefer closest aspect ratio; tie-break toward larger area.
+      local aspectDiff = math.abs(modeRatio - screenRatio)
+      -- Score: prioritize matching aspect ratio, then larger area.
+      local score = (1000 - aspectDiff * 500) * 10000 + mw * mh
+      if score > bestScore then
+        bestScore = score
+        bestW, bestH = mw, mh
+      end
+    end
+  end
+  return bestW, bestH
+end
+
 if (preferences == nil) then
+  local vw, vh = DefaultVideoResolution()
   preferences = {
-    VideoWidth = 800,
-    VideoHeight = 600,
-    VideoFullScreen = false,
+    VideoWidth = vw,
+    VideoHeight = vh,
+    VideoFullScreen = true,
     PlayerName = nil,
     FogOfWar = true,
     ShowCommandKey = true,
@@ -221,6 +274,12 @@ SetTranslationsFiles(preferences.StratagusTranslation, preferences.GameTranslati
 SetGrabMouse(preferences.GrabMouse)
 
 InitVideo()
+
+-- Under Lomiri the fullscreen flag set during InitVideo may not take effect
+-- immediately. Force it on after the video system is fully initialized.
+if Video.FullScreen then
+  SetFullScreen(true)
+end
 
 --; Uses Stratagus Library path!
 Load("scripts/icons.lua")

@@ -334,6 +334,7 @@ extern void WaitEventsOneFrame();
 
 	/// Toggle full screen mode
 extern void ToggleFullScreen(void);
+extern void SetFullScreen(bool fullscreen);
 
 	/// Push current clipping.
 extern void PushClipping(void);

@@ -78,6 +78,12 @@ CUnitType *CursorBuilding;           /// building cursor
 
 /*--- DRAW SPRITE CURSOR ---------------------------------------------------*/
 CCursor *GameCursor;                 /// current shown cursor-type
+int CursorHidden = 1;            /// true if the drawn mouse cursor should be invisible
+int MouseHoverDistance;         /// accumulated button-less mouse motion distance
+// CursorHidden defaults to 1: on touch devices there is no mouse. It is
+// revealed after enough accumulated button-less mouse motion (hovering),
+// which only a physical mouse produces. Only the normal point cursor
+// (UI.Point) is affected; see DrawCursor.
 
 static SDL_Surface *HiddenSurface;
 
@@ -303,8 +309,13 @@ void DrawCursor(void)
 	//  draw it if it exists
 	//
 	if (GameCursor) {
-		GameCursor->G->DrawFrameClip(GameCursor->SpriteFrame,
-			CursorX - GameCursor->HotX, CursorY - GameCursor->HotY);
+		// Only the normal pointing cursor is auto-hidden on touch-only
+		// devices; any other cursor (target selection, scroll arrows,
+		// etc.) is always drawn.
+		if (!CursorHidden || GameCursor != UI.Point.Cursor) {
+			GameCursor->G->DrawFrameClip(GameCursor->SpriteFrame,
+				CursorX - GameCursor->HotX, CursorY - GameCursor->HotY);
+		}
 	}
 }
 

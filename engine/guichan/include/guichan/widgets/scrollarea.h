@@ -438,6 +438,9 @@ namespace gcn
         int mVerticalMarkerMousePosition;
         bool mHorizontalMarkerPressed;
         int mHorizontalMarkerMousePosition;
+        bool mContentDragPressed;
+        int mContentDragMousePositionX;
+        int mContentDragMousePositionY;
     };
 }
 

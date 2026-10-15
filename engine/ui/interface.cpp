@@ -101,7 +101,7 @@ static void ShowInput(void)
 /**
 **  Begin input.
 */
-static void UiBeginInput(void)
+void UiBeginInput(void)
 {
 	KeyState = KeyStateInput;
 	Input[0] = '\0';
@@ -375,7 +375,7 @@ static void UiCenterOnSelected(void)
 /**
 **  Toggle terrain display on/off.
 */
-static void UiToggleTerrain(void)
+void UiToggleTerrain(void)
 {
 	UI.Minimap.WithTerrain ^= 1;
 	if (UI.Minimap.WithTerrain) {
@@ -388,7 +388,7 @@ static void UiToggleTerrain(void)
 /**
 **  Find the next idle worker, select it, and center on it
 */
-static void UiFindIdleWorker(void)
+void UiFindIdleWorker(void)
 {
 	CUnit *unit;
 
@@ -417,8 +417,14 @@ static void UiToggleGrabMouse(void)
 /**
 **  Track unit, the viewport follows the unit.
 */
-static void UiTrackUnit(void)
+void UiTrackUnit(void)
 {
+	// Tracking requires a selected unit; the key binding is only
+	// reachable with a selection, but the touch overlay button can be
+	// pressed with nothing selected.
+	if (NumSelected == 0 || Selected[0] == NULL) {
+		return;
+	}
 	if (UI.SelectedViewport->Unit == Selected[0]) {
 		UI.SelectedViewport->Unit = NULL;
 	} else {
@@ -695,7 +701,7 @@ int HandleCheats(const std::string &input)
 **  @param key  Key scancode.
 **  @return     True input finished.
 */
-static int InputKey(int key)
+int InputKey(int key)
 {
 	char ChatMessage[sizeof(Input) + 40];
 	char *namestart;

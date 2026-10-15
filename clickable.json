@@ -1,0 +1,24 @@
+{
+  "clickable_minimum_required": "8.8.0",
+  "kill": "boswars",
+  "builder": "custom",
+  "build": "bash ${ROOT}/make_project.sh",
+  "framework": "@CLICK_FRAMEWORK@",
+  "build_dir": "${ROOT}/build/${ARCH_TRIPLET}/app",
+  "dependencies_target": [
+    "liblua5.1-0-dev",
+    "libsdl2-dev",
+    "zlib1g-dev",
+    "libpng-dev",
+    "libvorbis-dev",
+    "libtheora-dev",
+    "libogg-dev"
+  ],
+  "install_lib": [
+    "${ROOT}/lib/${ARCH_TRIPLET}/*"
+  ],
+  "install_data": {
+    "${ROOT}/data/*": "${INSTALL_DIR}",
+    "${ROOT}/build/${ARCH_TRIPLET}/app/boswars": "${INSTALL_DIR}"
+  }
+}

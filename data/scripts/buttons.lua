@@ -202,17 +202,20 @@ DefineButton({
 DefineButton({
 	Pos = 7, Level = 0, Icon = "icon-move",	Action = "move",
 	Hint = "SET ~!NEW UNITS TARGET",
-	ForUnit = {"unit-vault", "unit-camp"}})
+	ForUnit = {"unit-vault", "unit-camp", "unit-vfac",
+	               "unit-aircraftfactory", "unit-hosp", "unit-shipyard"}})
 
 DefineButton({
 	Pos = 8, Level = 0, Icon = "icon-stop", Action = "stop",
 	Hint = "SET ~!CANCEL UNIT TARGET",
-	ForUnit = {"unit-vault", "unit-camp"}})
+	ForUnit = {"unit-vault", "unit-camp", "unit-vfac",
+	               "unit-aircraftfactory", "unit-hosp", "unit-shipyard"}})
 
 DefineButton({
 	Pos = 9, Level = 0, Icon = "icon-attack", Action = "attack",
 	Hint = "UN~!IT ATTACK",
-	ForUnit = {"unit-vault", "unit-camp"}})
+	ForUnit = {"unit-vault", "unit-camp", "unit-vfac",
+	               "unit-aircraftfactory", "unit-hosp", "unit-shipyard"}})
 
 -- spells ----------------------------------------------------------
 

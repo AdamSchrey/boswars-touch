@@ -1,6 +1,6 @@
 /*
 ** Lua binding: stratagus
-** Generated automatically by tolua++-1.0.93 on Sun Jul 23 20:29:18 2023.
+** Generated automatically by tolua++-1.0.93 on Mon Aug 17 20:08:12 2026.
 */
 
 #ifndef __cplusplus
@@ -9895,6 +9895,71 @@ static int tolua_stratagus_TextField_getMaxLengthBytes00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: setCaretPosition of class  TextField */
+#ifndef TOLUA_DISABLE_tolua_stratagus_TextField_setCaretPosition00
+static int tolua_stratagus_TextField_setCaretPosition00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"TextField",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  TextField* self = (TextField*)  tolua_tousertype(tolua_S,1,0);
+  unsigned int position = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setCaretPosition'", NULL);
+#endif
+  {
+   self->setCaretPosition(position);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'setCaretPosition'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getCaretPosition of class  TextField */
+#ifndef TOLUA_DISABLE_tolua_stratagus_TextField_getCaretPosition00
+static int tolua_stratagus_TextField_getCaretPosition00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"const TextField",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  const TextField* self = (const TextField*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getCaretPosition'", NULL);
+#endif
+  {
+   unsigned int tolua_ret = (unsigned int)  self->getCaretPosition();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getCaretPosition'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: new of class  ListBoxWidget */
 #ifndef TOLUA_DISABLE_tolua_stratagus_ListBoxWidget_new00
 static int tolua_stratagus_ListBoxWidget_new00(lua_State* tolua_S)
@@ -11783,6 +11848,39 @@ static int tolua_stratagus_Container_clear00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: moveToTop of class  Container */
+#ifndef TOLUA_DISABLE_tolua_stratagus_Container_moveToTop00
+static int tolua_stratagus_Container_moveToTop00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"Container",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,2,"Widget",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  Container* self = (Container*)  tolua_tousertype(tolua_S,1,0);
+  Widget* widget = ((Widget*)  tolua_tousertype(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'moveToTop'", NULL);
+#endif
+  {
+   self->moveToTop(widget);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'moveToTop'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: new of class  MenuScreen */
 #ifndef TOLUA_DISABLE_tolua_stratagus_CMenuScreen_new00
 static int tolua_stratagus_CMenuScreen_new00(lua_State* tolua_S)
@@ -13348,6 +13446,70 @@ static int tolua_stratagus_CGraphic_Resize00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'Resize'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getWidth of class  CGraphic */
+#ifndef TOLUA_DISABLE_tolua_stratagus_CGraphic_getWidth00
+static int tolua_stratagus_CGraphic_getWidth00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CGraphic",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CGraphic* self = (CGraphic*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getWidth'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->getWidth();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getWidth'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: getHeight of class  CGraphic */
+#ifndef TOLUA_DISABLE_tolua_stratagus_CGraphic_getHeight00
+static int tolua_stratagus_CGraphic_getHeight00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CGraphic",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CGraphic* self = (CGraphic*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getHeight'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->getHeight();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'getHeight'.",&tolua_err);
  return 0;
 #endif
 }
@@ -20271,6 +20433,8 @@ TOLUA_API int tolua_stratagus_open (lua_State* tolua_S)
    tolua_function(tolua_S,"getText",tolua_stratagus_TextField_getText00);
    tolua_function(tolua_S,"setMaxLengthBytes",tolua_stratagus_TextField_setMaxLengthBytes00);
    tolua_function(tolua_S,"getMaxLengthBytes",tolua_stratagus_TextField_getMaxLengthBytes00);
+   tolua_function(tolua_S,"setCaretPosition",tolua_stratagus_TextField_setCaretPosition00);
+   tolua_function(tolua_S,"getCaretPosition",tolua_stratagus_TextField_getCaretPosition00);
   tolua_endmodule(tolua_S);
   tolua_cclass(tolua_S,"ListBox","ListBox","Widget",NULL);
   tolua_beginmodule(tolua_S,"ListBox");
@@ -20394,6 +20558,7 @@ TOLUA_API int tolua_stratagus_open (lua_State* tolua_S)
    tolua_function(tolua_S,"add",tolua_stratagus_Container_add00);
    tolua_function(tolua_S,"remove",tolua_stratagus_Container_remove00);
    tolua_function(tolua_S,"clear",tolua_stratagus_Container_clear00);
+   tolua_function(tolua_S,"moveToTop",tolua_stratagus_Container_moveToTop00);
   tolua_endmodule(tolua_S);
   #ifdef __cplusplus
   tolua_cclass(tolua_S,"CMenuScreen","MenuScreen","Container",tolua_collect_MenuScreen);
@@ -20498,6 +20663,8 @@ TOLUA_API int tolua_stratagus_open (lua_State* tolua_S)
    tolua_function(tolua_S,"Free",tolua_stratagus_CGraphic_Free00);
    tolua_function(tolua_S,"Load",tolua_stratagus_CGraphic_Load00);
    tolua_function(tolua_S,"Resize",tolua_stratagus_CGraphic_Resize00);
+   tolua_function(tolua_S,"getWidth",tolua_stratagus_CGraphic_getWidth00);
+   tolua_function(tolua_S,"getHeight",tolua_stratagus_CGraphic_getHeight00);
   tolua_endmodule(tolua_S);
   tolua_cclass(tolua_S,"CPlayerColorGraphic","CPlayerColorGraphic","CGraphic",NULL);
   tolua_beginmodule(tolua_S,"CPlayerColorGraphic");

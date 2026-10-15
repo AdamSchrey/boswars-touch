@@ -155,6 +155,34 @@ static int CclGetVideoResolution(lua_State *l)
 }
 
 /**
+**  Get the native display resolution.
+**
+**  @param l  Lua state.
+*/
+static int CclGetDisplayResolution(lua_State *l)
+{
+	LuaCheckArgs(l, 0);
+	// SDL may not be initialized yet (InitVideo runs later), so init the
+	// video subsystem on demand to query the display.
+	if (SDL_WasInit(SDL_INIT_VIDEO) == 0) {
+		SDL_Init(SDL_INIT_VIDEO);
+	}
+	SDL_DisplayMode mode;
+	float ddpi = 0;
+	SDL_GetDisplayDPI(0, &ddpi, NULL, NULL);
+	if (SDL_GetCurrentDisplayMode(0, &mode) == 0 && mode.w > 0 && mode.h > 0) {
+		lua_pushnumber(l, mode.w);
+		lua_pushnumber(l, mode.h);
+		lua_pushnumber(l, ddpi);
+	} else {
+		lua_pushnumber(l, 0);
+		lua_pushnumber(l, 0);
+		lua_pushnumber(l, 0);
+	}
+	return 3;
+}
+
+/**
 **  Set the video fullscreen mode.
 **
 **  @param l  Lua state.
@@ -168,6 +196,18 @@ static int CclSetVideoFullScreen(lua_State *l)
 			Video.FullScreen = LuaToBoolean(l, 1);
 		}
 	}
+	return 0;
+}
+
+/**
+**  Force fullscreen on or off at runtime (calls SDL_SetWindowFullscreen).
+**
+**  @param l  Lua state.
+*/
+static int CclSetFullScreen(lua_State *l)
+{
+	LuaCheckArgs(l, 1);
+	SetFullScreen(LuaToBoolean(l, 1));
 	return 0;
 }
 
@@ -845,6 +885,45 @@ static int CclDefineMapSetup(lua_State *l)
 }
 
 /**
+**  Begin chat/input mode from Lua (same as pressing Enter).
+*/
+static int CclInputBegin(lua_State *l)
+{
+	LuaCheckArgs(l, 0);
+	UiBeginInput();
+	return 0;
+}
+
+/**
+**  Feed a key (byte value of a character or an SDL key code) to the
+**  in-game input editor.  This lets the on-screen keyboard type into
+**  the chat buffer.
+*/
+static int CclInputKey(lua_State *l)
+{
+	LuaCheckArgs(l, 1);
+	int key = (int)LuaToNumber(l, 1);
+	InputKey(key);
+	return 0;
+}
+
+/**
+**  Scroll the camera in the given direction while a touch button is held.
+**  The argument is a bitmask of ScrollLeft/ScrollRight/ScrollUp/ScrollDown.
+**  Passing 0 stops scrolling.  This is a no-op outside a running game.
+*/
+static int CclScrollCamera(lua_State *l)
+{
+	LuaCheckArgs(l, 1);
+	int dir = (int)LuaToNumber(l, 1);
+	if (!GameRunning) {
+		return 0;
+	}
+	KeyScrollState = dir;
+	return 0;
+}
+
+/**
 **  Register CCL features for UI.
 */
 void UserInterfaceCclRegister(void)
@@ -859,7 +938,9 @@ void UserInterfaceCclRegister(void)
 
 	lua_register(Lua, "SetVideoResolution", CclSetVideoResolution);
 	lua_register(Lua, "GetVideoResolution", CclGetVideoResolution);
+	lua_register(Lua, "GetDisplayResolution", CclGetDisplayResolution);
 	lua_register(Lua, "SetVideoFullScreen", CclSetVideoFullScreen);
+	lua_register(Lua, "SetFullScreen", CclSetFullScreen);
 	lua_register(Lua, "GetVideoFullScreen", CclGetVideoFullScreen);
 
 	lua_register(Lua, "SetTitleScreens", CclSetTitleScreens);
@@ -877,6 +958,9 @@ void UserInterfaceCclRegister(void)
 
 	lua_register(Lua, "PresentMap", CclPresentMap);
 	lua_register(Lua, "DefineMapSetup", CclDefineMapSetup);
+	lua_register(Lua, "InputBegin", CclInputBegin);
+	lua_register(Lua, "InputKey", CclInputKey);
+	lua_register(Lua, "ScrollCamera", CclScrollCamera);
 }
 
 //@}

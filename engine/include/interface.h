@@ -338,7 +338,17 @@ extern void UpdateStatusLineForButton(const ButtonAction *button);
 	/// Check if the button is allowed for the unit.
 extern bool IsButtonAllowed(const CUnit *, const ButtonAction *);
 	/// Draw the Pie Menu
+/// Toggle terrain display on/off on the minimap
+extern void UiToggleTerrain(void);
+/// Find the next idle worker, select it, and center on it
+extern void UiFindIdleWorker(void);
+/// Track unit: the viewport follows the selected unit
+extern void UiTrackUnit(void);
 extern void DrawPieMenu(void);
+/// Draw the minimap thumbstick overlay (rosace circle and enlarged minimap)
+extern void DrawMinimapThumbstick(void);
+/// True while the minimap thumbstick (virtual thumb stick on the minimap panel) is active
+extern bool MinimapThumbActive;
 
 	/// Handle the mouse in scroll area
 extern int HandleMouseScrollArea(int x, int y);
@@ -390,6 +400,21 @@ extern bool GetGamePaused();
 extern void SetGameSpeed(int speed);
 	/// Get the game speed
 extern int GetGameSpeed();
+
+namespace gcn { class Container; }
+/// Create the touch overlay (camera move buttons + chat button) on the
+/// given in-game GUI container.  No-op if a touch device is not in use.
+extern void CreateIngameTouchOverlay(gcn::Container *container, bool showChat = true);
+
+/// Begin chat/input mode (same as pressing Enter during a game).
+extern void UiBeginInput(void);
+/// Returns true if the point (x,y) is over a visible guichan widget,
+/// i.e. a touch overlay button or on-screen keyboard key.  Used to
+/// prevent clicks on overlay buttons from also selecting map units.
+extern bool IsPointOnGuichanWidget(int x, int y);
+/// Feed a key (SDL key code) to the in-game input editor.
+/// Returns 1 if the input was finished (Enter/Escape), 0 otherwise.
+extern int InputKey(int key);
 
 //@}
 

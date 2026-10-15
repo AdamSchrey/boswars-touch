@@ -67,6 +67,26 @@ int ButtonUnderCursor = -1;                  /// Button under cursor
 bool GameMenuButtonClicked;                  /// Menu button was clicked
 bool GameDiplomacyButtonClicked;             /// Diplomacy button was clicked
 bool LeaveStops;                             /// Mouse leaves windows stops scroll
+// True while the left button is held down over the map area with a
+// building selected for placement.  Building placement is deferred to
+// UIHandleButtonUp() so the player can drag the building into position;
+// only a press that started on the map (not on a button-panel button)
+// commits the placement on release.
+static bool BuildingPlacementArmed = false;
+
+// Minimap thumbstick state. When the normal pointer is pressed on the
+// minimap area (no command/target selection active), the minimap panel
+// turns into a virtual thumbstick: a rosace circle is shown at the press
+// point, an enlarged minimap is displayed next to the panel, and moving
+// the finger away from the press point scrolls the view.
+bool MinimapThumbActive = false;
+int MinimapThumbCenterX = 0;            /// press point (screen pixel)
+int MinimapThumbCenterY = 0;
+int MinimapThumbLastX = 0;              /// last finger position
+int MinimapThumbLastY = 0;
+Uint32 ButtonDownTime = 0;           /// Time when button was pressed down (for touch & hold)
+Uint32 ButtonPanelButtonDownTime = 0; /// Time when button panel button was pressed (for touch & hold)
+int ButtonPanelButtonPressed = -1;   /// Which button panel button was pressed (for touch & hold)
 
 enum _cursor_on_ CursorOn = CursorOnUnknown; /// Cursor on field
 
@@ -590,6 +610,14 @@ static void HandleMouseOn(int x, int y)
 		return;
 	}
 
+	// If the pointer is over a guichan touch widget (overlay buttons or
+	// the on-screen keyboard), do not treat it as a map click so that
+	// interacting with the overlay does not also select map units.
+	if (IsPointOnGuichanWidget(x, y)) {
+		CursorOn = CursorOnUnknown;
+		return;
+	}
+
 	//
 	//  On UI graphic
 	//
@@ -788,6 +816,32 @@ void UIHandleMouseMove(int x, int y)
 		return;
 	}
 
+	// Minimap thumbstick: move the view according to the deflection of
+	// the finger from the initial press point on the minimap panel.
+	if (MinimapThumbActive) {
+		MinimapThumbLastX = CursorX;
+		MinimapThumbLastY = CursorY;
+		GameCursor = UI.Cross.Cursor;
+		int dx = CursorX - MinimapThumbCenterX;
+		int dy = CursorY - MinimapThumbCenterY;
+		// Dead zone radius: small movements do not scroll.
+		const int dead = 12;
+		int state = ScrollNone;
+		if (dx * dx + dy * dy > dead * dead) {
+			if (dx < -dead) {
+				state |= ScrollLeft;
+			} else if (dx > dead) {
+				state |= ScrollRight;
+			}
+			if (dy < -dead) {
+				state |= ScrollUp;
+			} else if (dy > dead) {
+				state |= ScrollDown;
+			}
+		}
+		MouseScrollState = state;
+		return;
+	}
 	// Restrict mouse to minimap when dragging
 	if (OldCursorOn == CursorOnMinimap && CursorOn != CursorOnMinimap &&
 			(MouseButtons & LeftButton)) {
@@ -1341,7 +1395,11 @@ static void UISelectStateButtonDown(unsigned button)
 	if (CursorOn == CursorOnButton) {
 		// FIXME: other buttons?
 		if (ButtonAreaUnderCursor == ButtonAreaButton) {
-			UI.ButtonPanel.DoClicked(ButtonUnderCursor);
+			// For touch & hold: record the time and button when button panel button is pressed
+			ButtonPanelButtonDownTime = SDL_GetTicks();
+			ButtonPanelButtonPressed = ButtonUnderCursor;
+			// Button press on button panel - action will be handled on button release
+			// with touch & hold logic to distinguish between short click and long hold
 			return;
 		}
 	}
@@ -1367,6 +1425,11 @@ void UIHandleButtonDown(unsigned button)
 	static bool OldShowAttackRange;
 	static bool OldValid = false;
 	CUnit *uins;
+
+	// For touch & hold: record the time when button is pressed
+	if (button == LeftButton) {
+		ButtonDownTime = SDL_GetTicks();
+	}
 
 /**
 **  Detect long selection click, FIXME: tempory hack to test the feature.
@@ -1431,44 +1494,14 @@ void UIHandleButtonDown(unsigned button)
 
 		// to redraw the cursor immediately (and avoid up to 1 sec delay
 		if (CursorBuilding) {
-			// Possible Selected[0] was removed from map
-			// need to make sure there is a unit to build
-			if (Selected[0] && (MouseButtons & LeftButton) &&
-					UI.MouseViewport->IsInsideMapArea(CursorX, CursorY)) {// enter select mode
-				int explored;
-				int x = UI.MouseViewport->Viewport2MapX(CursorX);
-				int y = UI.MouseViewport->Viewport2MapY(CursorY);
-
-				// FIXME: error messages
-
-				explored = 1;
-				for (int j = 0; explored && j < Selected[0]->Type->TileHeight; ++j) {
-					for (int i = 0; i < Selected[0]->Type->TileWidth; ++i) {
-						if (!Map.IsFieldExplored(ThisPlayer, x + i, y + j)) {
-							explored = 0;
-							break;
-						}
-					}
-				}
-				// 0 Test build, don't really build
-				if (CanBuildUnitType(Selected[0], CursorBuilding, x, y, 0) &&
-						(explored || ReplayRevealMap)) {
-					PlayGameSound(GameSounds.PlacementSuccess.Sound,
-						MaxSampleVolume);
-					for (int i = 0; i < NumSelected; ++i) {
-						SendCommandBuildBuilding(Selected[i], x, y, CursorBuilding,
-							!(KeyModifiers & ModifierShift));
-					}
-					if (!(KeyModifiers & (ModifierAlt | ModifierShift))) {
-						CancelBuildingMode();
-					}
-				} else {
-					PlayGameSound(GameSounds.PlacementError.Sound,
-						MaxSampleVolume);
-				}
-			} else {
-				CancelBuildingMode();
-			}
+			// On touch screens the building would be placed immediately on
+			// press, leaving no chance to drag it into position.  Defer the
+			// placement to UIHandleButtonUp(); while the button is held the
+			// building cursor preview already follows the finger.  Arm the
+			// placement so only a press that started on the map (not on a
+			// button-panel button that just selected the building) commits
+			// the placement on release.
+			BuildingPlacementArmed = true;
 			return;
 		}
 
@@ -1526,9 +1559,22 @@ void UIHandleButtonDown(unsigned button)
 	//
 	} else if (CursorOn == CursorOnMinimap) {
 		if (MouseButtons & LeftButton) { // enter move mini-mode
-			UI.SelectedViewport->Center(
-				UI.Minimap.Screen2MapX(CursorX), UI.Minimap.Screen2MapY(CursorY),
-				TileSizeX / 2, TileSizeY / 2);
+			if (CursorState == CursorStatePoint) {
+				// Turn the minimap panel into a virtual thumbstick.
+				// Command target selection (move/attack/...) must keep
+				// the plain click behavior, so it is excluded here.
+				MinimapThumbActive = true;
+				MinimapThumbCenterX = CursorX;
+				MinimapThumbCenterY = CursorY;
+				MinimapThumbLastX = CursorX;
+				MinimapThumbLastY = CursorY;
+				MouseScrollState = ScrollNone;
+				GameCursor = UI.Cross.Cursor;
+			} else {
+				UI.SelectedViewport->Center(
+					UI.Minimap.Screen2MapX(CursorX), UI.Minimap.Screen2MapY(CursorY),
+					TileSizeX / 2, TileSizeY / 2);
+			}
 		} else if (MouseButtons & RightButton) {
 			if (!GameObserve && !GamePaused) {
 				if (!ClickMissile.empty()) {
@@ -1617,10 +1663,12 @@ void UIHandleButtonDown(unsigned button)
 					}
 				}
 			} else if (ButtonAreaUnderCursor == ButtonAreaButton) {
-				if (!GameObserve && !GamePaused &&
-						ThisPlayer->IsTeamed(Selected[0])) {
-					UI.ButtonPanel.DoClicked(ButtonUnderCursor);
-				}
+				// For touch & hold: record the time and button when button panel button is pressed
+				ButtonPanelButtonDownTime = SDL_GetTicks();
+				ButtonPanelButtonPressed = ButtonUnderCursor;
+				// Button press on button panel - action will be handled on button release
+				// with touch & hold logic to distinguish between short click and long hold
+				return;
 			}
 		} else if ((MouseButtons & MiddleButton)) {
 			//
@@ -1647,6 +1695,90 @@ void UIHandleButtonDown(unsigned button)
 */
 void UIHandleButtonUp(unsigned button)
 {
+	//
+	//  End the minimap thumbstick mode.
+	//
+	if (MinimapThumbActive && (1 << button) == LeftButton) {
+		MinimapThumbActive = false;
+		MouseScrollState = ScrollNone;
+		GameCursor = UI.Point.Cursor;
+		// A short tap without significant movement still jumps the view
+		// to the tapped location, like the classic minimap click.
+		int dx = MinimapThumbLastX - MinimapThumbCenterX;
+		int dy = MinimapThumbLastY - MinimapThumbCenterY;
+		if (dx * dx + dy * dy <= 6 * 6) {
+			UI.SelectedViewport->Center(
+				UI.Minimap.Screen2MapX(MinimapThumbCenterX),
+				UI.Minimap.Screen2MapY(MinimapThumbCenterY),
+				TileSizeX / 2, TileSizeY / 2);
+		}
+		return;
+	}
+	//
+	//  Place a building that was deferred from the button press, so that
+	//  on touch screens the player can drag the building into position
+	//  before committing it by releasing the finger.
+	//
+	if (CursorBuilding && (1 << button) == LeftButton) {
+		// Only commit placement if the press started on the map area.  A
+		// press that started on a button-panel button (which selected the
+		// building) must not also place it on release.  Instead fall through
+		// to the regular handling so that clicking e.g. the cancel button
+		// still works while a placement is active.
+		if (!BuildingPlacementArmed) {
+			// Nothing to commit. If the release happened on a button panel
+			// button (e.g. the cancel button), perform its action so that
+			// an active placement can be canceled. Otherwise do nothing.
+			if (ButtonAreaUnderCursor == ButtonAreaButton) {
+				if (!GameObserve && !GamePaused &&
+					ThisPlayer->IsTeamed(Selected[0])) {
+					UI.ButtonPanel.DoClicked(ButtonPanelButtonPressed);
+				}
+			}
+			return;
+		}
+		BuildingPlacementArmed = false;
+		// Possible Selected[0] was removed from map
+		// need to make sure there is a unit to build
+		if (Selected[0] && UI.MouseViewport &&
+				UI.MouseViewport->IsInsideMapArea(CursorX, CursorY)) {
+			int explored;
+			int x = UI.MouseViewport->Viewport2MapX(CursorX);
+			int y = UI.MouseViewport->Viewport2MapY(CursorY);
+
+			// FIXME: error messages
+
+			explored = 1;
+			for (int j = 0; explored && j < Selected[0]->Type->TileHeight; ++j) {
+				for (int i = 0; i < Selected[0]->Type->TileWidth; ++i) {
+					if (!Map.IsFieldExplored(ThisPlayer, x + i, y + j)) {
+						explored = 0;
+						break;
+					}
+				}
+			}
+			// 0 Test build, don't really build
+			if (CanBuildUnitType(Selected[0], CursorBuilding, x, y, 0) &&
+					(explored || ReplayRevealMap)) {
+				PlayGameSound(GameSounds.PlacementSuccess.Sound,
+					MaxSampleVolume);
+				for (int i = 0; i < NumSelected; ++i) {
+					SendCommandBuildBuilding(Selected[i], x, y, CursorBuilding,
+						!(KeyModifiers & ModifierShift));
+				}
+				if (!(KeyModifiers & (ModifierAlt | ModifierShift))) {
+					CancelBuildingMode();
+				}
+			} else {
+				PlayGameSound(GameSounds.PlacementError.Sound,
+					MaxSampleVolume);
+			}
+		} else {
+			CancelBuildingMode();
+		}
+		return;
+	}
+
 	//
 	//  Move map.
 	//
@@ -1704,6 +1836,32 @@ void UIHandleButtonUp(unsigned button)
 			if (UI.NetworkDiplomacyButton.Callback) {
 				UI.NetworkDiplomacyButton.Callback->action("");
 			}
+			return;
+		}
+	}
+
+	//
+	//  Button panel buttons - touch & hold logic
+	//  For touch screens: only perform action if button was clicked briefly (< 1 second)
+	//
+	if ((1 << button) == LeftButton) {
+		// Clear popup on any left button release
+		UI.StatusLine.Clear();
+		ClearCosts();
+		
+		// For button panel: check touch & hold duration
+		if (ButtonAreaUnderCursor == ButtonAreaButton) {
+			Uint32 buttonUpTime = SDL_GetTicks();
+			Uint32 holdDuration = buttonUpTime - ButtonPanelButtonDownTime;
+			
+			// Only perform action if it was a short click (< 1 second)
+			if (holdDuration < 1000) { // 1000ms = 1 second threshold
+				if (!GameObserve && !GamePaused &&
+						ThisPlayer->IsTeamed(Selected[0])) {
+					UI.ButtonPanel.DoClicked(ButtonPanelButtonPressed);
+				}
+			}
+			// If held longer than 1 second, action is not performed (info was already shown while holding)
 			return;
 		}
 	}
@@ -1883,6 +2041,114 @@ static int GetPieUnderCursor(void)
 /**
 **  Draw Pie Menu
 */
+/**
+**  Draw the minimap thumbstick overlay.
+**
+**  While the minimap thumbstick is active, the small minimap is hidden
+**  (the ui_minimap panel shows only the rosace circle at the press
+**  point) and an enlarged minimap is drawn next to the panel, on the
+**  left.  The enlarged minimap also shows the viewport rectangle.
+*/
+/**
+**  Draw the minimap thumbstick overlay.
+**
+**  While the minimap thumbstick is active, the small minimap is hidden
+**  (the ui_minimap panel shows only the rosace circle at the press
+**  point) and an enlarged minimap is drawn directly left of the panel.
+**  The enlarged minimap also shows the viewport rectangle.  Areas of
+**  the enlarged minimap without map content (aspect ratio bars) are
+**  transparent instead of black.
+*/
+/**
+**  Draw the minimap thumbstick overlay.
+**
+**  While the minimap thumbstick is active, the small minimap is hidden
+**  and an enlarged minimap is drawn directly left of the panel.  Only
+**  the map content of the minimap (inset by XOffset/YOffset) is
+**  enlarged, so no black aspect ratio bars are shown.  The enlarged
+**  minimap also shows the viewport rectangle.  A cross image is drawn
+**  at the press point on top of the hidden small minimap.
+*/
+void DrawMinimapThumbstick(void)
+{
+	if (!MinimapThumbActive) {
+		return;
+	}
+
+	// Show the cross image at the press point on top of the hidden
+	// small minimap.  Reuse the scroll cursor graphic (cross.png).
+	if (UI.Scroll.Cursor && UI.Scroll.Cursor->G) {
+		UI.Scroll.Cursor->G->DrawFrameClip(0,
+			MinimapThumbCenterX - UI.Scroll.Cursor->G->Width / 2,
+			MinimapThumbCenterY - UI.Scroll.Cursor->G->Height / 2);
+	}
+
+	SDL_Surface *mini = GetMinimapSurface();
+	if (!mini) {
+		return;
+	}
+
+	// The map content of the minimap is inset by XOffset/YOffset (the
+	// minimap keeps the map aspect ratio).  Only enlarge the content.
+	int contentW = UI.Minimap.W - 2 * UI.Minimap.XOffset;
+	int contentH = UI.Minimap.H - 2 * UI.Minimap.YOffset;
+	if (contentW <= 0 || contentH <= 0 ||
+			Map.Info.MapWidth <= 0 || Map.Info.MapHeight <= 0) {
+		return;
+	}
+
+	// Enlarge 2x by default; use 3x for narrow maps (aspect ratio
+	// factor 2 or more between map width and height).
+	int scale = 2;
+	int mapW = Map.Info.MapWidth;
+	int mapH = Map.Info.MapHeight;
+	if ((mapW >= 2 * mapH) || (mapH >= 2 * mapW)) {
+		scale = 3;
+	}
+	int w = contentW * scale;
+	int h = contentH * scale;
+
+	// Place the enlarged minimap directly left of the ui_minimap panel
+	// (the panel graphic starts 200 pixels from the right screen edge).
+	int panelX = Video.Width - 200;
+	int dx = panelX - w;
+	if (dx < 0) {
+		dx = 0;
+	}
+	// Align the top of the enlarged map content with the top of the
+	// small minimap's map content.
+	int dy = UI.Minimap.Y + UI.Minimap.YOffset;
+	if (dy + h > Video.Height) {
+		dy = Video.Height - h;
+		if (dy < 0) {
+			dy = 0;
+		}
+	}
+
+	// Enlarged minimap: nearest-neighbor stretch of the map content of
+	// the minimap surface into a scratch surface with the same pixel
+	// format, then blit it to the screen.
+	SDL_Surface *enlarged = SDL_CreateRGBSurface(0, w, h,
+		mini->format->BitsPerPixel, mini->format->Rmask, mini->format->Gmask,
+		mini->format->Bmask, mini->format->Amask);
+	if (enlarged) {
+		SDL_Rect srect = {(Sint16)UI.Minimap.XOffset,
+			(Sint16)UI.Minimap.YOffset, (Uint16)contentW, (Uint16)contentH};
+		SDL_SoftStretch(mini, &srect, enlarged, NULL);
+		SDL_Rect drect = {(Sint16)dx, (Sint16)dy, 0, 0};
+		SDL_BlitSurface(enlarged, NULL, TheScreen, &drect);
+		SDL_FreeSurface(enlarged);
+	}
+
+	// Viewport rectangle on the enlarged minimap.
+	const CViewport *vp = UI.SelectedViewport;
+	int mx = dx + (vp->MapX * w) / Map.Info.MapWidth;
+	int my = dy + (vp->MapY * h) / Map.Info.MapHeight;
+	int rw = (vp->MapWidth * w) / Map.Info.MapWidth;
+	int rh = (vp->MapHeight * h) / Map.Info.MapHeight;
+	Video.DrawTransRectangle(UI.ViewportCursorColor, mx, my, rw, rh, 128);
+}
+
 void DrawPieMenu(void)
 {
 	int i;

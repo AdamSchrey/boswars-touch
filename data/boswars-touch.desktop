@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Bos Wars Touch
+Exec=start.sh
+X-Ubuntu-Touch=true
+Terminal=false
+Type=Application
+Icon=boswars-touch.png
+Comment=Bos Wars is a real-time strategy game based on the Stratagus engine.
+StartupNotify=false

@@ -378,6 +378,9 @@ void StartMap(const std::string &filename, bool clean)
 	container->setOpaque(false);
 	Gui->setTop(container);
 
+	// Touch overlay: camera move buttons and a chat toggle button.
+	CreateIngameTouchOverlay(container);
+
 	NetConnectRunning = 0;
 	InterfaceState = IfaceStateNormal;
 
