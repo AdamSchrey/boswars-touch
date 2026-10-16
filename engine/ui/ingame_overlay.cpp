@@ -514,44 +514,6 @@ void CreateIngameTouchOverlay(gcn::Container *container, bool showChat)
 		TouchWidgets.push_back(btn);
 		x += OverlayBtnSize + OverlayGap;
 	}
-	if (showChat) {
-		keyboard = MakeChatKeyboard(container);
-		TouchWidgets.push_back(keyboard);
-	}
-
-	// Camera + chat buttons at the bottom-left, above the bottom bar.
-	// One button width of margin from the left and bottom screen edges.
-	const int margin = OverlayBtnSize;
-	const int rowY = Video.Height - OverlayBtnSize - margin;
-	int x = margin;
-
-	// Order: idle worker, track unit, terrain toggle, next viewport,
-	// message.
-	struct OverlayButtonSpec {
-		const char *file;
-		OverlayActionListener::Action action;
-	};
-	const OverlayButtonSpec specs[] = {
-		{"graphics/ui/overlay/idle.png", OverlayActionListener::ActionFindIdle},
-		{"graphics/ui/overlay/track.png", OverlayActionListener::ActionTrackUnit},
-		{"graphics/ui/overlay/terrain.png", OverlayActionListener::ActionToggleTerrain},
-		// Next viewport button (disabled in favor of the game menu
-		// button; can be re-enabled by moving this entry back into the
-		// array):
-		// {"graphics/ui/overlay/viewport.png", OverlayActionListener::ActionNextViewport},
-		{"graphics/ui/overlay/menu.png", OverlayActionListener::ActionGameMenu},
-	};
-	for (size_t i = 0; i < sizeof(specs) / sizeof(specs[0]); ++i) {
-		CGraphic *icon = CGraphic::New(specs[i].file);
-		OverlayActionButton *btn = new OverlayActionButton(icon);
-		btn->setSize(OverlayBtnSize, OverlayBtnSize);
-		ApplyMenuButtonStyle(btn);
-		btn->addActionListener(new OverlayActionListener(specs[i].action));
-		container->add(btn, x, rowY);
-		TouchWidgets.push_back(btn);
-		x += OverlayBtnSize + OverlayGap;
-	}
-
 	if (showChat && IsOverlayButtonVisible(OverlayButtonMessage)) {
 		OverlayActionButton *chatBtn = new OverlayActionButton(
 			CGraphic::New("graphics/ui/overlay/message.png"));
