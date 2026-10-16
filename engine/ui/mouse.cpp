@@ -1568,6 +1568,9 @@ void UIHandleButtonDown(unsigned button)
 				MinimapThumbCenterY = CursorY;
 				MinimapThumbLastX = CursorX;
 				MinimapThumbLastY = CursorY;
+				// Manual camera movement ends unit tracking, otherwise
+				// the viewport would snap back to the tracked unit.
+				UI.SelectedViewport->Unit = NULL;
 				MouseScrollState = ScrollNone;
 				GameCursor = UI.Cross.Cursor;
 			} else {
