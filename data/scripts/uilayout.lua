@@ -45,18 +45,37 @@ AddFiller("graphics/ui/ui_minimap.png", Video.Width - 200, 24 - 8)
 if (Editor.Running == EditorNotRunning) then
   local h = Video.Height
   local bpanel
+  local panelHeight
   if (h <= 480) then -- 640x480
     bpanel = "graphics/ui/ui_bpanel_200x144.png"
+    panelHeight = 144
   elseif (h <= 600) then -- 800x600 or 1024x600
     bpanel = "graphics/ui/ui_bpanel_200x264.png"
+    panelHeight = 264
   elseif (h <= 768) then -- 1280x720, 1024x768, or 1366x768
     bpanel = "graphics/ui/ui_bpanel_200x432.png"
+    panelHeight = 432
   elseif (h <= 960) then -- 1440x900
     bpanel = "graphics/ui/ui_bpanel_200x624.png"
+    panelHeight = 624
   else -- 1280x1024, 1680x1050, 1920x1080, 1600x1200, or 1920x1200
     bpanel = "graphics/ui/ui_bpanel_200x864.png"
+    panelHeight = 864
   end
-  AddFiller(bpanel, Video.Width - 200, 336 - 8 - 8)
+  local panelY = 336 - 8 - 8
+  AddFiller(bpanel, Video.Width - 200, panelY)
+  -- The button panel graphics are taller than the used area at higher
+  -- resolutions.  Only the upper 144 pixels hold the command buttons;
+  -- the unused area below also activates the minimap thumbstick mode
+  -- so it can be used for camera scrolling on touch screens.
+  if (panelHeight > 144) then
+    SetMinimapPanelThumbArea(Video.Width - 200, panelY + 144,
+                             200, panelHeight - 144)
+  else
+    SetMinimapPanelThumbArea(0, 0, 0, 0)
+  end
+else
+  SetMinimapPanelThumbArea(0, 0, 0, 0)
 end
 
 b = CFiller:new_local()

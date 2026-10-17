@@ -338,7 +338,29 @@ extern void UpdateStatusLineForButton(const ButtonAction *button);
 	/// Check if the button is allowed for the unit.
 extern bool IsButtonAllowed(const CUnit *, const ButtonAction *);
 	/// Draw the Pie Menu
+/// Toggle terrain display on/off on the minimap
+extern void UiToggleTerrain(void);
+/// Find the next idle worker, select it, and center on it
+extern void UiFindIdleWorker(void);
+/// Track unit: the viewport follows the selected unit
+extern void UiTrackUnit(void);
+/// Show or hide one of the touch overlay buttons (0 idle, 1 track, 2 terrain, 3 viewport, 4 menu, 5 message)
+extern void SetOverlayButtonVisible(int button, bool visible);
+/// Is the given touch overlay button visible?
+extern bool IsOverlayButtonVisible(int button);
 extern void DrawPieMenu(void);
+/// Draw the minimap thumbstick overlay (rosace circle and enlarged minimap)
+extern void DrawMinimapThumbstick(void);
+/// True while the minimap thumbstick (virtual thumb stick on the minimap panel) is active
+extern bool MinimapThumbActive;
+/// Extra area of the button panel graphics that also activates the
+/// minimap thumbstick (set from Lua via SetMinimapPanelThumbArea)
+extern int MinimapPanelThumbX;
+extern int MinimapPanelThumbY;
+extern int MinimapPanelThumbW;
+extern int MinimapPanelThumbH;
+/// Set the extra panel thumbstick area (Lua binding helper)
+extern void SetMinimapPanelThumbArea(int x, int y, int w, int h);
 
 	/// Handle the mouse in scroll area
 extern int HandleMouseScrollArea(int x, int y);

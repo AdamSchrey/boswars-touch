@@ -55,6 +55,7 @@
 #include "interface.h"
 #include "network.h"
 #include "ui.h"
+#include "cursor.h"
 #include "sound_server.h"
 #include "sound.h"
 #include "interface.h"
@@ -555,6 +556,24 @@ static void SdlDoEvent(const EventCallback *callbacks, const SDL_Event *event)
 			// FIXME: check if this is only useful for the cursor
 			// FIXME: if this is the case we don't need this.
 		case SDL_MOUSEMOTION:
+			// A physical mouse generates motion events while no button
+			// is pressed (hovering).  Touch input always has a finger
+			// (button) in contact while moving.  Some touch controllers
+			// leak a few button-less motion samples, so a single event is
+			// not enough: accumulate the button-less movement distance
+			// and only reveal the cursor once it exceeds a threshold.
+			// Any motion with a button pressed resets the accumulator.
+			if (CursorHidden) {
+				if (event->motion.state == 0) {
+					MouseHoverDistance += abs(event->motion.xrel)
+						+ abs(event->motion.yrel);
+					if (MouseHoverDistance > 200) {
+						CursorHidden = 0;
+					}
+				} else {
+					MouseHoverDistance = 0;
+				}
+			}
 			InputMouseMove(callbacks, SDL_GetTicks(),
 				event->motion.x, event->motion.y);
 			// FIXME: Same bug fix from X11

@@ -46,8 +46,15 @@ function BosGameMenu()
   local rawAdd = menu.add
   rawAdd(menu, panel, (Video.Width - 256) / 2, (Video.Height - 288) / 2)
 
-  -- Route widget additions to the visible panel.
+  -- Route widget additions to the visible panel.  Keep a Lua reference
+  -- to every widget (like the MenuScreen add() wrapper does), otherwise
+  -- the Lua garbage collector deletes the C++ widget objects while the
+  -- engine-side menu stack still holds and draws them.
   local function addToPanel(widget, x, y)
+    if not menu._addedWidgets then
+      menu._addedWidgets = {}
+    end
+    menu._addedWidgets[widget] = true
     return panel:add(widget, x, y)
   end
   menu.panel = panel
@@ -96,6 +103,32 @@ function BosGameMenu()
   end
   function menu:addSmallButton(caption, x, y, callback)
     return self:addButtonOrig(caption, x, y, callback, {100, 24})
+  end
+
+  -- run(false) returns immediately while the C++ menu stays on the
+  -- engine-side menu stack.  Keep a strong Lua reference to the menu
+  -- until it is stopped, so the garbage collector cannot delete the
+  -- C++ MenuScreen (and with it all its child widgets) while it is
+  -- still shown.
+  OpenMenuRegistry = OpenMenuRegistry or {}
+  OpenMenuRegistry[menu] = true
+  local rawStop = menu.stop
+  function menu:stop(result)
+    OpenMenuRegistry[self] = nil
+    -- Only forward the result argument when it was actually given:
+    -- passing an explicit nil to the tolua binding raises a type error.
+    if result ~= nil then
+      return rawStop(self, result)
+    end
+    return rawStop(self)
+  end
+  local rawStopAll = menu.stopAll
+  function menu:stopAll(result)
+    OpenMenuRegistry[self] = nil
+    if result ~= nil then
+      return rawStopAll(self, result)
+    end
+    return rawStopAll(self)
   end
 
   return menu

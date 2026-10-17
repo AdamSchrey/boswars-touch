@@ -348,6 +348,14 @@ void CleanGame(void)
 	CleanSelections();
 	CleanGroups();
 	CleanMissiles();
+	// Stop tracking units in the viewports.  The tracked unit pointers
+	// refer to units of the game being cleaned up; keeping them would
+	// leave dangling pointers that re-center the viewport on freed
+	// memory in the next game.
+	for (CViewport *vp = UI.Viewports;
+			vp < UI.Viewports + UI.NumViewports; ++vp) {
+		vp->Unit = NULL;
+	}
 	Map.Clean();
 	CleanReplayLog();
 	FreeVisionTable();

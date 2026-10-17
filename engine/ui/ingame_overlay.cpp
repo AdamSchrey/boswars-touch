@@ -33,6 +33,8 @@
 #include "SDL.h"
 #include "editor.h"
 #include "interface.h"
+#include "ui.h"
+#include "network.h"
 
 #include "guichan.h"
 #include "widgets.h"
@@ -55,7 +57,7 @@ static const gcn::Color OskClear(200, 200, 128);
 static const gcn::Color OskDisabled(112, 112, 112, 128);
 
 // Apply the menu button style to a ButtonWidget.
-static void ApplyMenuButtonStyle(ButtonWidget *b)
+static void ApplyMenuButtonStyle(gcn::Button *b)
 {
 	b->setBaseColor(OskDark);
 	b->setBackgroundColor(OskDark);
@@ -74,29 +76,82 @@ static void ApplyMenuButtonStyle(ButtonWidget *b)
 // isPressed() is true only while the pointer is down over the button, so the
 // camera scrolls exactly while the button is held and stops the moment it is
 // released.
-class CameraScrollButton : public ButtonWidget
+// Simple action button for the touch overlay: runs a callback when
+// pressed and shows a monochrome icon image instead of a caption.
+class OverlayActionButton : public ImageButton
 {
 public:
-	CameraScrollButton(const std::string &caption, int scrollMask) :
-		ButtonWidget(caption), ScrollMask(scrollMask)
+	OverlayActionButton(CGraphic *icon) : ImageButton("")
 	{
+		if (icon) {
+			icon->Load();
+			setNormalImage(icon);
+		}
 	}
 
-	virtual void logic()
+	void setPressedIcon(CGraphic *icon)
 	{
-		ButtonWidget::logic();
-		// Work both in-game and in the editor so the camera moves while the
-		// button is held and stops on release.
-		if ((GameRunning || Editor.Running != EditorNotRunning) &&
-				isEnabled() && isPressed()) {
-			KeyScrollState |= ScrollMask;
-		} else {
-			KeyScrollState &= ~ScrollMask;
+		if (icon) {
+			setPressedImage(icon);
+		}
+	}
+};
+
+// Listener that runs one of the overlay actions.
+class OverlayActionListener : public gcn::ActionListener
+{
+public:
+	enum Action {
+		ActionFindIdle,
+		ActionTrackUnit,
+		ActionToggleTerrain,
+		ActionNextViewport,
+		ActionGameMenu
+	};
+
+	OverlayActionListener(Action action) : Act(action) {}
+
+	virtual void action(const std::string &)
+	{
+		// The overlay is also shown in the editor; the unit-dependent
+		// actions only make sense during a game.
+		const bool inEditor = (Editor.Running != EditorNotRunning);
+		if (!GameRunning && !inEditor) {
+			return;
+		}
+		if (!GameRunning &&
+				(Act == ActionFindIdle || Act == ActionTrackUnit)) {
+			return;
+		}
+		switch (Act) {
+			case ActionFindIdle:
+				UiFindIdleWorker();
+				break;
+			case ActionTrackUnit:
+				UiTrackUnit();
+				break;
+			case ActionToggleTerrain:
+				UiToggleTerrain();
+				break;
+			case ActionNextViewport:
+				CycleViewportMode(1);
+				break;
+			case ActionGameMenu:
+				// Same as the F10 / menu button: pause (single player)
+				// and run the Lua menu callback.
+				if (!IsNetworkGame()) {
+					GamePaused = true;
+					UI.StatusLine.Set(_("Game Paused"));
+				}
+				if (UI.MenuButton.Callback) {
+					UI.MenuButton.Callback->action("");
+				}
+				break;
 		}
 	}
 
 private:
-	int ScrollMask;
+	Action Act;
 };
 
 /*----------------------------------------------------------------------------
@@ -362,6 +417,42 @@ bool IsPointOnGuichanWidget(int x, int y)
 static const int OverlayBtnSize = 48;
 static const int OverlayGap = 3;
 
+// Overlay button identifiers, in the fixed display order.
+enum OverlayButtonId {
+	OverlayButtonIdle = 0,      /// find idle peon
+	OverlayButtonTrack,         /// track unit
+	OverlayButtonTerrain,      /// hide/unhide terrain
+	OverlayButtonViewport,     /// next viewport
+	OverlayButtonMenu,         /// game menu
+	OverlayButtonMessage,      /// chat/message
+	NumOverlayButtons
+};
+
+// Bit mask of visible overlay buttons.  By default every button except
+// the next-viewport button is visible.
+static unsigned OverlayButtonVisibleMask =
+	((1 << NumOverlayButtons) - 1) & ~(1 << OverlayButtonViewport);
+
+void SetOverlayButtonVisible(int button, bool visible)
+{
+	if (button < 0 || button >= NumOverlayButtons) {
+		return;
+	}
+	if (visible) {
+		OverlayButtonVisibleMask |= (1 << button);
+	} else {
+		OverlayButtonVisibleMask &= ~(1 << button);
+	}
+}
+
+bool IsOverlayButtonVisible(int button)
+{
+	if (button < 0 || button >= NumOverlayButtons) {
+		return false;
+	}
+	return (OverlayButtonVisibleMask & (1 << button)) != 0;
+}
+
 // Create the touch overlay on the in-game GUI container.
 // The overlay is owned by the container (added as a child), so the caller
 // does not need to free it.
@@ -389,37 +480,43 @@ void CreateIngameTouchOverlay(gcn::Container *container, bool showChat)
 	const int rowY = Video.Height - OverlayBtnSize - margin;
 	int x = margin;
 
-	// Order: up, down, left, right, message.
-	CameraScrollButton *upBtn = new CameraScrollButton("^", ScrollUp);
-	upBtn->setSize(OverlayBtnSize, OverlayBtnSize);
-	ApplyMenuButtonStyle(upBtn);
-	container->add(upBtn, x, rowY);
-	TouchWidgets.push_back(upBtn);
-	x += OverlayBtnSize + OverlayGap;
-
-	CameraScrollButton *downBtn = new CameraScrollButton("v", ScrollDown);
-	downBtn->setSize(OverlayBtnSize, OverlayBtnSize);
-	ApplyMenuButtonStyle(downBtn);
-	container->add(downBtn, x, rowY);
-	TouchWidgets.push_back(downBtn);
-	x += OverlayBtnSize + OverlayGap;
-
-	CameraScrollButton *leftBtn = new CameraScrollButton("<", ScrollLeft);
-	leftBtn->setSize(OverlayBtnSize, OverlayBtnSize);
-	ApplyMenuButtonStyle(leftBtn);
-	container->add(leftBtn, x, rowY);
-	TouchWidgets.push_back(leftBtn);
-	x += OverlayBtnSize + OverlayGap;
-
-	CameraScrollButton *rightBtn = new CameraScrollButton(">", ScrollRight);
-	rightBtn->setSize(OverlayBtnSize, OverlayBtnSize);
-	ApplyMenuButtonStyle(rightBtn);
-	container->add(rightBtn, x, rowY);
-	TouchWidgets.push_back(rightBtn);
-	x += OverlayBtnSize + OverlayGap;
-
-	if (showChat) {
-		ButtonWidget *chatBtn = new ButtonWidget("M");
+	// Buttons in fixed order: find idle peon, track unit, terrain
+	// toggle, next viewport, game menu, message.  Only the buttons
+	// enabled in the options are created; they always sit directly
+	// next to each other.
+	struct OverlayButtonSpec {
+		const char *file;
+		OverlayActionListener::Action action;
+		OverlayButtonId id;
+	};
+	const OverlayButtonSpec specs[] = {
+		{"graphics/ui/overlay/idle.png",
+			OverlayActionListener::ActionFindIdle, OverlayButtonIdle},
+		{"graphics/ui/overlay/track.png",
+			OverlayActionListener::ActionTrackUnit, OverlayButtonTrack},
+		{"graphics/ui/overlay/terrain.png",
+			OverlayActionListener::ActionToggleTerrain, OverlayButtonTerrain},
+		{"graphics/ui/overlay/viewport.png",
+			OverlayActionListener::ActionNextViewport, OverlayButtonViewport},
+		{"graphics/ui/overlay/menu.png",
+			OverlayActionListener::ActionGameMenu, OverlayButtonMenu},
+	};
+	for (size_t i = 0; i < sizeof(specs) / sizeof(specs[0]); ++i) {
+		if (!IsOverlayButtonVisible(specs[i].id)) {
+			continue;
+		}
+		CGraphic *icon = CGraphic::New(specs[i].file);
+		OverlayActionButton *btn = new OverlayActionButton(icon);
+		btn->setSize(OverlayBtnSize, OverlayBtnSize);
+		ApplyMenuButtonStyle(btn);
+		btn->addActionListener(new OverlayActionListener(specs[i].action));
+		container->add(btn, x, rowY);
+		TouchWidgets.push_back(btn);
+		x += OverlayBtnSize + OverlayGap;
+	}
+	if (showChat && IsOverlayButtonVisible(OverlayButtonMessage)) {
+		OverlayActionButton *chatBtn = new OverlayActionButton(
+			CGraphic::New("graphics/ui/overlay/message.png"));
 		chatBtn->setSize(OverlayBtnSize, OverlayBtnSize);
 		ApplyMenuButtonStyle(chatBtn);
 		chatBtn->addActionListener(new ChatToggleListener(keyboard));

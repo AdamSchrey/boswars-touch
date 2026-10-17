@@ -404,6 +404,43 @@ static int CclSetGameCursor(lua_State *l)
 }
 
 /**
+**  Show or hide one of the touch overlay buttons.
+**
+**  @param l  Lua state.  Args: button index, visible flag.
+*/
+static int CclSetOverlayButtonVisible(lua_State *l)
+{
+	LuaCheckArgs(l, 2);
+	SetOverlayButtonVisible((int)LuaToNumber(l, 1), LuaToBoolean(l, 2));
+	return 0;
+}
+
+/**
+**  Set the extra button-panel area that activates the minimap thumbstick.
+**
+**  @param l  Lua state.  Args: x, y, w, h.
+*/
+static int CclSetMinimapPanelThumbArea(lua_State *l)
+{
+	LuaCheckArgs(l, 4);
+	SetMinimapPanelThumbArea((int)LuaToNumber(l, 1), (int)LuaToNumber(l, 2),
+		(int)LuaToNumber(l, 3), (int)LuaToNumber(l, 4));
+	return 0;
+}
+
+/**
+**  Is the given touch overlay button visible?
+**
+**  @param l  Lua state.  Arg: button index.
+*/
+static int CclIsOverlayButtonVisible(lua_State *l)
+{
+	LuaCheckArgs(l, 1);
+	lua_pushboolean(l, IsOverlayButtonVisible((int)LuaToNumber(l, 1)));
+	return 1;
+}
+
+/**
 **  Define the viewports.
 **
 **  @param l  Lua state.
@@ -947,6 +984,9 @@ void UserInterfaceCclRegister(void)
 
 	lua_register(Lua, "DefineCursor", CclDefineCursor);
 	lua_register(Lua, "SetGameCursor", CclSetGameCursor);
+	lua_register(Lua, "SetOverlayButtonVisible", CclSetOverlayButtonVisible);
+	lua_register(Lua, "SetMinimapPanelThumbArea", CclSetMinimapPanelThumbArea);
+	lua_register(Lua, "IsOverlayButtonVisible", CclIsOverlayButtonVisible);
 	lua_register(Lua, "DefineViewports", CclDefineViewports);
 
 	lua_register(Lua, "RightButtonAttacks", CclRightButtonAttacks);

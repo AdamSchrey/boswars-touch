@@ -77,6 +77,45 @@ Uint32 ButtonDownTime = 0;           /// Time when button was pressed down (for 
 Uint32 ButtonPanelButtonDownTime = 0; /// Time when button panel button was pressed (for touch & hold)
 int ButtonPanelButtonPressed = -1;   /// Which button panel button was pressed (for touch & hold)
 
+// Minimap thumbstick state. When the normal pointer is pressed on the
+// minimap area (no command/target selection active), the minimap panel
+// turns into a virtual thumbstick: a rosace circle is shown at the press
+// point, an enlarged minimap is displayed next to the panel, and moving
+// the finger away from the press point scrolls the view.
+bool MinimapThumbActive = false;
+// Extra area (part of the unused button-panel graphics at higher
+// resolutions) that also activates the minimap thumbstick mode.
+// Zero size means disabled.  Set from Lua (SetMinimapPanelThumbArea)
+// because only the layout script knows which panel graphic is used
+// and how much of it is unused.
+int MinimapPanelThumbX = 0;
+int MinimapPanelThumbY = 0;
+int MinimapPanelThumbW = 0;
+int MinimapPanelThumbH = 0;
+
+void SetMinimapPanelThumbArea(int x, int y, int w, int h)
+{
+	MinimapPanelThumbX = x;
+	MinimapPanelThumbY = y;
+	MinimapPanelThumbW = w;
+	MinimapPanelThumbH = h;
+}
+
+// Is the given screen point inside the extra panel thumbstick area?
+static bool InMinimapPanelThumbArea(int x, int y)
+{
+	return MinimapPanelThumbW > 0 && MinimapPanelThumbH > 0 &&
+		x >= MinimapPanelThumbX && x < MinimapPanelThumbX + MinimapPanelThumbW &&
+		y >= MinimapPanelThumbY && y < MinimapPanelThumbY + MinimapPanelThumbH;
+}
+int MinimapThumbCenterX = 0;            /// press point (screen pixel)
+int MinimapThumbCenterY = 0;
+int MinimapThumbLastX = 0;              /// last finger position
+int MinimapThumbLastY = 0;
+Uint32 ButtonDownTime = 0;           /// Time when button was pressed down (for touch & hold)
+Uint32 ButtonPanelButtonDownTime = 0; /// Time when button panel button was pressed (for touch & hold)
+int ButtonPanelButtonPressed = -1;   /// Which button panel button was pressed (for touch & hold)
+
 enum _cursor_on_ CursorOn = CursorOnUnknown; /// Cursor on field
 
 
@@ -805,6 +844,32 @@ void UIHandleMouseMove(int x, int y)
 		return;
 	}
 
+	// Minimap thumbstick: move the view according to the deflection of
+	// the finger from the initial press point on the minimap panel.
+	if (MinimapThumbActive) {
+		MinimapThumbLastX = CursorX;
+		MinimapThumbLastY = CursorY;
+		GameCursor = UI.Cross.Cursor;
+		int dx = CursorX - MinimapThumbCenterX;
+		int dy = CursorY - MinimapThumbCenterY;
+		// Dead zone radius: small movements do not scroll.
+		const int dead = 12;
+		int state = ScrollNone;
+		if (dx * dx + dy * dy > dead * dead) {
+			if (dx < -dead) {
+				state |= ScrollLeft;
+			} else if (dx > dead) {
+				state |= ScrollRight;
+			}
+			if (dy < -dead) {
+				state |= ScrollUp;
+			} else if (dy > dead) {
+				state |= ScrollDown;
+			}
+		}
+		MouseScrollState = state;
+		return;
+	}
 	// Restrict mouse to minimap when dragging
 	if (OldCursorOn == CursorOnMinimap && CursorOn != CursorOnMinimap &&
 			(MouseButtons & LeftButton)) {
@@ -1518,13 +1583,45 @@ void UIHandleButtonDown(unsigned button)
 			}
 		}
 	//
-	//  Cursor is on the minimap area
+	//  Cursor is on the unused part of the button panel (higher
+	//  resolutions): pressing there also activates the thumbstick mode.
 	//
+	} else if (InMinimapPanelThumbArea(CursorX, CursorY) &&
+			(MouseButtons & LeftButton) && CursorState == CursorStatePoint) {
+		MinimapThumbActive = true;
+		MinimapThumbCenterX = CursorX;
+		MinimapThumbCenterY = CursorY;
+		MinimapThumbLastX = CursorX;
+		MinimapThumbLastY = CursorY;
+		// Manual camera movement ends unit tracking, otherwise the
+		// viewport would snap back to the tracked unit.
+		UI.SelectedViewport->Unit = NULL;
+		MouseScrollState = ScrollNone;
+		GameCursor = UI.Cross.Cursor;
+		//
+		//  Cursor is on the minimap area
+		//
 	} else if (CursorOn == CursorOnMinimap) {
 		if (MouseButtons & LeftButton) { // enter move mini-mode
-			UI.SelectedViewport->Center(
-				UI.Minimap.Screen2MapX(CursorX), UI.Minimap.Screen2MapY(CursorY),
-				TileSizeX / 2, TileSizeY / 2);
+			if (CursorState == CursorStatePoint) {
+				// Turn the minimap panel into a virtual thumbstick.
+				// Command target selection (move/attack/...) must keep
+				// the plain click behavior, so it is excluded here.
+				MinimapThumbActive = true;
+				MinimapThumbCenterX = CursorX;
+				MinimapThumbCenterY = CursorY;
+				MinimapThumbLastX = CursorX;
+				MinimapThumbLastY = CursorY;
+				// Manual camera movement ends unit tracking, otherwise
+				// the viewport would snap back to the tracked unit.
+				UI.SelectedViewport->Unit = NULL;
+				MouseScrollState = ScrollNone;
+				GameCursor = UI.Cross.Cursor;
+			} else {
+				UI.SelectedViewport->Center(
+					UI.Minimap.Screen2MapX(CursorX), UI.Minimap.Screen2MapY(CursorY),
+					TileSizeX / 2, TileSizeY / 2);
+			}
 		} else if (MouseButtons & RightButton) {
 			if (!GameObserve && !GamePaused) {
 				if (!ClickMissile.empty()) {
@@ -1646,6 +1743,42 @@ void UIHandleButtonDown(unsigned button)
 void UIHandleButtonUp(unsigned button)
 {
 	//
+	//  End the minimap thumbstick mode.
+	//
+	if (MinimapThumbActive && (1 << button) == LeftButton) {
+		MinimapThumbActive = false;
+		MouseScrollState = ScrollNone;
+		GameCursor = UI.Point.Cursor;
+		// A short tap without significant movement still jumps the view
+		// to the tapped location, like the classic minimap click.
+		int dx = MinimapThumbLastX - MinimapThumbCenterX;
+		int dy = MinimapThumbLastY - MinimapThumbCenterY;
+		if (dx * dx + dy * dy <= 6 * 6) {
+			// When the press was on the extra panel area (below the
+			// minimap), clamp the point into the minimap so the jump
+			// target stays valid.
+			int tx = MinimapThumbCenterX;
+			int ty = MinimapThumbCenterY;
+			if (tx < UI.Minimap.X) {
+				tx = UI.Minimap.X;
+			}
+			if (tx >= UI.Minimap.X + UI.Minimap.W) {
+				tx = UI.Minimap.X + UI.Minimap.W - 1;
+			}
+			if (ty < UI.Minimap.Y) {
+				ty = UI.Minimap.Y;
+			}
+			if (ty >= UI.Minimap.Y + UI.Minimap.H) {
+				ty = UI.Minimap.Y + UI.Minimap.H - 1;
+			}
+			UI.SelectedViewport->Center(
+				UI.Minimap.Screen2MapX(tx),
+				UI.Minimap.Screen2MapY(ty),
+				TileSizeX / 2, TileSizeY / 2);
+		}
+		return;
+	}
+	//
 	//  Place a building that was deferred from the button press, so that
 	//  on touch screens the player can drag the building into position
 	//  before committing it by releasing the finger.
@@ -1653,8 +1786,19 @@ void UIHandleButtonUp(unsigned button)
 	if (CursorBuilding && (1 << button) == LeftButton) {
 		// Only commit placement if the press started on the map area.  A
 		// press that started on a button-panel button (which selected the
-		// building) must not also place it on release.
+		// building) must not also place it on release.  Instead fall through
+		// to the regular handling so that clicking e.g. the cancel button
+		// still works while a placement is active.
 		if (!BuildingPlacementArmed) {
+			// Nothing to commit. If the release happened on a button panel
+			// button (e.g. the cancel button), perform its action so that
+			// an active placement can be canceled. Otherwise do nothing.
+			if (ButtonAreaUnderCursor == ButtonAreaButton) {
+				if (!GameObserve && !GamePaused &&
+					ThisPlayer->IsTeamed(Selected[0])) {
+					UI.ButtonPanel.DoClicked(ButtonPanelButtonPressed);
+				}
+			}
 			return;
 		}
 		BuildingPlacementArmed = false;
@@ -1961,6 +2105,114 @@ static int GetPieUnderCursor(void)
 /**
 **  Draw Pie Menu
 */
+/**
+**  Draw the minimap thumbstick overlay.
+**
+**  While the minimap thumbstick is active, the small minimap is hidden
+**  (the ui_minimap panel shows only the rosace circle at the press
+**  point) and an enlarged minimap is drawn next to the panel, on the
+**  left.  The enlarged minimap also shows the viewport rectangle.
+*/
+/**
+**  Draw the minimap thumbstick overlay.
+**
+**  While the minimap thumbstick is active, the small minimap is hidden
+**  (the ui_minimap panel shows only the rosace circle at the press
+**  point) and an enlarged minimap is drawn directly left of the panel.
+**  The enlarged minimap also shows the viewport rectangle.  Areas of
+**  the enlarged minimap without map content (aspect ratio bars) are
+**  transparent instead of black.
+*/
+/**
+**  Draw the minimap thumbstick overlay.
+**
+**  While the minimap thumbstick is active, the small minimap is hidden
+**  and an enlarged minimap is drawn directly left of the panel.  Only
+**  the map content of the minimap (inset by XOffset/YOffset) is
+**  enlarged, so no black aspect ratio bars are shown.  The enlarged
+**  minimap also shows the viewport rectangle.  A cross image is drawn
+**  at the press point on top of the hidden small minimap.
+*/
+void DrawMinimapThumbstick(void)
+{
+	if (!MinimapThumbActive) {
+		return;
+	}
+
+	// Show the cross image at the press point on top of the hidden
+	// small minimap.  Reuse the scroll cursor graphic (cross.png).
+	if (UI.Scroll.Cursor && UI.Scroll.Cursor->G) {
+		UI.Scroll.Cursor->G->DrawFrameClip(0,
+			MinimapThumbCenterX - UI.Scroll.Cursor->G->Width / 2,
+			MinimapThumbCenterY - UI.Scroll.Cursor->G->Height / 2);
+	}
+
+	SDL_Surface *mini = GetMinimapSurface();
+	if (!mini) {
+		return;
+	}
+
+	// The map content of the minimap is inset by XOffset/YOffset (the
+	// minimap keeps the map aspect ratio).  Only enlarge the content.
+	int contentW = UI.Minimap.W - 2 * UI.Minimap.XOffset;
+	int contentH = UI.Minimap.H - 2 * UI.Minimap.YOffset;
+	if (contentW <= 0 || contentH <= 0 ||
+			Map.Info.MapWidth <= 0 || Map.Info.MapHeight <= 0) {
+		return;
+	}
+
+	// Enlarge 2x by default; use 3x for narrow maps (aspect ratio
+	// factor 2 or more between map width and height).
+	int scale = 2;
+	int mapW = Map.Info.MapWidth;
+	int mapH = Map.Info.MapHeight;
+	if ((mapW >= 2 * mapH) || (mapH >= 2 * mapW)) {
+		scale = 3;
+	}
+	int w = contentW * scale;
+	int h = contentH * scale;
+
+	// Place the enlarged minimap directly left of the ui_minimap panel
+	// (the panel graphic starts 200 pixels from the right screen edge).
+	int panelX = Video.Width - 200;
+	int dx = panelX - w;
+	if (dx < 0) {
+		dx = 0;
+	}
+	// Align the top of the enlarged map content with the top of the
+	// small minimap's map content.
+	int dy = UI.Minimap.Y + UI.Minimap.YOffset;
+	if (dy + h > Video.Height) {
+		dy = Video.Height - h;
+		if (dy < 0) {
+			dy = 0;
+		}
+	}
+
+	// Enlarged minimap: nearest-neighbor stretch of the map content of
+	// the minimap surface into a scratch surface with the same pixel
+	// format, then blit it to the screen.
+	SDL_Surface *enlarged = SDL_CreateRGBSurface(0, w, h,
+		mini->format->BitsPerPixel, mini->format->Rmask, mini->format->Gmask,
+		mini->format->Bmask, mini->format->Amask);
+	if (enlarged) {
+		SDL_Rect srect = {(Sint16)UI.Minimap.XOffset,
+			(Sint16)UI.Minimap.YOffset, (Uint16)contentW, (Uint16)contentH};
+		SDL_SoftStretch(mini, &srect, enlarged, NULL);
+		SDL_Rect drect = {(Sint16)dx, (Sint16)dy, 0, 0};
+		SDL_BlitSurface(enlarged, NULL, TheScreen, &drect);
+		SDL_FreeSurface(enlarged);
+	}
+
+	// Viewport rectangle on the enlarged minimap.
+	const CViewport *vp = UI.SelectedViewport;
+	int mx = dx + (vp->MapX * w) / Map.Info.MapWidth;
+	int my = dy + (vp->MapY * h) / Map.Info.MapHeight;
+	int rw = (vp->MapWidth * w) / Map.Info.MapWidth;
+	int rh = (vp->MapHeight * h) / Map.Info.MapHeight;
+	Video.DrawTransRectangle(UI.ViewportCursorColor, mx, my, rw, rh, 128);
+}
+
 void DrawPieMenu(void)
 {
 	int i;

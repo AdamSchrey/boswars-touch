@@ -122,6 +122,16 @@ function RunCampaign(campaign)
   while position <= table.getn(campaign_steps) do
     campaign_steps[position]()
     if GameResult == GameVictory then
+       -- Record the campaign progress (highest level won) so the
+       -- List of Campaigns can show how far the player got.
+       local progress = preferences.CampaignProgress or {}
+       local campaignName = string.gsub(string.gsub(campaign, "^campaigns/", ""),
+                                       "/campaign.lua$", "")
+       if ((progress[campaignName] or 0) < position) then
+         progress[campaignName] = position
+         preferences.CampaignProgress = progress
+         SavePreferences()
+       end
        position = position + 1
     elseif GameResult == GameDefeat then
        position = position
@@ -141,13 +151,45 @@ function RunCampaignsMenu(s)
   menu = BosMenu(_("List of Campaigns"))
 
   ResetMapOptions()
-  local lister = CreateFilteringLister("^%a",  ListDirsInDirectory)
-  local browser = menu:addBrowser("campaigns/", lister,
+  -- List the campaigns with their progress ("[2/5]" = levels won /
+  -- total levels).  The progress is stored in the preferences as the
+  -- highest level number won; loading the campaign.lua to count the
+  -- levels is safe because it only builds the campaign_steps table.
+  local function listCampaigns(path)
+    local result = {}
+    for i, dir in ipairs(ListDirsInDirectory(path)) do
+      if (string.find(dir, "^%a")) then
+        local name = string.gsub(dir, "/$", "")
+        local total = 0
+        local loaded = pcall(Load, path .. name .. "/campaign.lua")
+        if (loaded and campaign_steps ~= nil) then
+          total = table.getn(campaign_steps)
+          -- The ending step is not a playable level.
+          if (total > 0 and campaign_steps[total] == DisplayEnding) then
+            total = total - 1
+          end
+        end
+        campaign_steps = nil
+        local progress = preferences.CampaignProgress and
+          preferences.CampaignProgress[name]
+        local label = name
+        if (total > 0) then
+          label = label .. " [" .. (progress or 0) .. "/" .. total .. "]"
+        elseif (progress) then
+          label = label .. " [" .. progress .. "]"
+        end
+        table.insert(result, label)
+      end
+    end
+    return result
+  end
+  local browser = menu:addBrowser("campaigns/", listCampaigns,
                                  Video.Width / 2 - 150, 100, 300, 200)
   function startgamebutton(s)
     DebugPrint("Starting campaign")
     position = nil
-    RunCampaign("campaigns/" .. browser:getSelectedItem() .. "/campaign.lua")
+    local selected = string.gsub(browser:getSelectedItem(), " ?%[.*%]$", "")
+    RunCampaign("campaigns/" .. selected .. "/campaign.lua")
     menu:stop()
   end
   menu:addButton(_("Main Menu (~<Esc~>)"), Video.Width / 2 - 250, Video.Height - 100,
