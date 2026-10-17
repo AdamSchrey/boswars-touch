@@ -80,6 +80,31 @@ static bool BuildingPlacementArmed = false;
 // point, an enlarged minimap is displayed next to the panel, and moving
 // the finger away from the press point scrolls the view.
 bool MinimapThumbActive = false;
+// Extra area (part of the unused button-panel graphics at higher
+// resolutions) that also activates the minimap thumbstick mode.
+// Zero size means disabled.  Set from Lua (SetMinimapPanelThumbArea)
+// because only the layout script knows which panel graphic is used
+// and how much of it is unused.
+int MinimapPanelThumbX = 0;
+int MinimapPanelThumbY = 0;
+int MinimapPanelThumbW = 0;
+int MinimapPanelThumbH = 0;
+
+void SetMinimapPanelThumbArea(int x, int y, int w, int h)
+{
+	MinimapPanelThumbX = x;
+	MinimapPanelThumbY = y;
+	MinimapPanelThumbW = w;
+	MinimapPanelThumbH = h;
+}
+
+// Is the given screen point inside the extra panel thumbstick area?
+static bool InMinimapPanelThumbArea(int x, int y)
+{
+	return MinimapPanelThumbW > 0 && MinimapPanelThumbH > 0 &&
+		x >= MinimapPanelThumbX && x < MinimapPanelThumbX + MinimapPanelThumbW &&
+		y >= MinimapPanelThumbY && y < MinimapPanelThumbY + MinimapPanelThumbH;
+}
 int MinimapThumbCenterX = 0;            /// press point (screen pixel)
 int MinimapThumbCenterY = 0;
 int MinimapThumbLastX = 0;              /// last finger position
@@ -1555,8 +1580,24 @@ void UIHandleButtonDown(unsigned button)
 			}
 		}
 	//
-	//  Cursor is on the minimap area
+	//  Cursor is on the unused part of the button panel (higher
+	//  resolutions): pressing there also activates the thumbstick mode.
 	//
+	} else if (InMinimapPanelThumbArea(CursorX, CursorY) &&
+			(MouseButtons & LeftButton) && CursorState == CursorStatePoint) {
+		MinimapThumbActive = true;
+		MinimapThumbCenterX = CursorX;
+		MinimapThumbCenterY = CursorY;
+		MinimapThumbLastX = CursorX;
+		MinimapThumbLastY = CursorY;
+		// Manual camera movement ends unit tracking, otherwise the
+		// viewport would snap back to the tracked unit.
+		UI.SelectedViewport->Unit = NULL;
+		MouseScrollState = ScrollNone;
+		GameCursor = UI.Cross.Cursor;
+		//
+		//  Cursor is on the minimap area
+		//
 	} else if (CursorOn == CursorOnMinimap) {
 		if (MouseButtons & LeftButton) { // enter move mini-mode
 			if (CursorState == CursorStatePoint) {
@@ -1710,9 +1751,26 @@ void UIHandleButtonUp(unsigned button)
 		int dx = MinimapThumbLastX - MinimapThumbCenterX;
 		int dy = MinimapThumbLastY - MinimapThumbCenterY;
 		if (dx * dx + dy * dy <= 6 * 6) {
+			// When the press was on the extra panel area (below the
+			// minimap), clamp the point into the minimap so the jump
+			// target stays valid.
+			int tx = MinimapThumbCenterX;
+			int ty = MinimapThumbCenterY;
+			if (tx < UI.Minimap.X) {
+				tx = UI.Minimap.X;
+			}
+			if (tx >= UI.Minimap.X + UI.Minimap.W) {
+				tx = UI.Minimap.X + UI.Minimap.W - 1;
+			}
+			if (ty < UI.Minimap.Y) {
+				ty = UI.Minimap.Y;
+			}
+			if (ty >= UI.Minimap.Y + UI.Minimap.H) {
+				ty = UI.Minimap.Y + UI.Minimap.H - 1;
+			}
 			UI.SelectedViewport->Center(
-				UI.Minimap.Screen2MapX(MinimapThumbCenterX),
-				UI.Minimap.Screen2MapY(MinimapThumbCenterY),
+				UI.Minimap.Screen2MapX(tx),
+				UI.Minimap.Screen2MapY(ty),
 				TileSizeX / 2, TileSizeY / 2);
 		}
 		return;

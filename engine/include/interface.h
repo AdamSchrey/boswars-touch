@@ -353,6 +353,14 @@ extern void DrawPieMenu(void);
 extern void DrawMinimapThumbstick(void);
 /// True while the minimap thumbstick (virtual thumb stick on the minimap panel) is active
 extern bool MinimapThumbActive;
+/// Extra area of the button panel graphics that also activates the
+/// minimap thumbstick (set from Lua via SetMinimapPanelThumbArea)
+extern int MinimapPanelThumbX;
+extern int MinimapPanelThumbY;
+extern int MinimapPanelThumbW;
+extern int MinimapPanelThumbH;
+/// Set the extra panel thumbstick area (Lua binding helper)
+extern void SetMinimapPanelThumbArea(int x, int y, int w, int h);
 
 	/// Handle the mouse in scroll area
 extern int HandleMouseScrollArea(int x, int y);
