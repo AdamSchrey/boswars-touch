@@ -91,6 +91,60 @@ function CreateFilteringLister(pattern, lister)
   return ListFilteredItems
 end
 
+-- Record that the given map was won at the current difficulty, and save
+-- the victory list to the preferences.  The difficulty is mapped to a
+-- star count: easy "*", normal "**", hard "***".  MapDefault (3)
+-- counts as normal.
+function RecordMapVictory(map)
+  -- Normalize to the plain map name ("maps/islandwar.map/presentation.smp"
+  -- or "~maps/..." -> "islandwar.map") so it matches the browser entry.
+  map = string.gsub(map, "/presentation%.smp$", "")
+  map = string.gsub(map, ".*/", "")
+  if (preferences.MapVictories == nil) then
+    preferences.MapVictories = {}
+  end
+  local difficulty = GameSettings.Difficulty
+  if (difficulty == nil) then
+    difficulty = 3
+  end
+  -- The Start Game menu stores 5 / 3 / 1 for easy / normal / hard;
+  -- map default (-1) counts as normal.
+  local stars
+  if (difficulty == 5) then
+    stars = 1          -- easy
+  elseif (difficulty == 1) then
+    stars = 3          -- hard
+  else
+    stars = 2          -- normal (3, map default, unknown)
+  end
+  local won = preferences.MapVictories[map]
+  if (won == nil) then
+    won = {}
+    preferences.MapVictories[map] = won
+  end
+  won[stars] = true
+  SavePreferences()
+end
+
+-- Victory suffix for a map, e.g. " [*,***]" if the map was won on
+-- easy and hard.  Returns "" if the map was never won.
+function MapVictorySuffix(map)
+  local won = preferences.MapVictories and preferences.MapVictories[map]
+  if (won == nil) then
+    return ""
+  end
+  local names = {}
+  for _, stars in ipairs({1, 2, 3}) do
+    if (won[stars]) then
+      table.insert(names, string.rep("*", stars))
+    end
+  end
+  if (#names == 0) then
+    return ""
+  end
+  return " [" .. table.concat(names, ",") .. "]"
+end
+
 
 function AddMenuHelpers(menu)
   function menu:addCentered(widget, x, y)
@@ -257,7 +311,9 @@ function AddMenuHelpers(menu)
 
           local f = string.sub(default, i + 1)
           for i = 1, table.getn(bq.itemslist) do
-            if (bq.itemslist[i] == f) then
+            -- Items may carry a victory suffix (" [**]"); match on the
+            -- plain name.
+            if (string.gsub(bq.itemslist[i], " ?%[.*%]$", "") == f) then
               bq:setSelected(i - 1)
             end
           end
@@ -323,17 +379,25 @@ function AddMenuHelpers(menu)
           table.insert(dirlist, f .. "/")
         end
       end
-      -- Append files after dirs
+      -- Append files after dirs, decorated with the victory markers
+      -- (e.g. " [*,**]") for the difficulties the map was already won on.
       for i,f in ipairs(filelist) do
-        table.insert(dirlist, f)
+        table.insert(dirlist, f .. MapVictorySuffix(f))
       end
       return dirlist
     end
     local browser = self:addBrowser(path, listFilesAndDirs, x, y, w, h, default)
+    -- Map name without the victory suffix (e.g. "islandwar.map [**]"
+    -- -> "islandwar.map"), so decorated entries still resolve to the
+    -- right file.
+    local function stripVictorySuffix(item)
+      return string.gsub(item, " ?%[.*%]$", "")
+    end
     local function getMap(browser)
-      return browser.path .. browser:getSelectedItem() .. "/presentation.smp"
+      return browser.path .. stripVictorySuffix(browser:getSelectedItem()) .. "/presentation.smp"
     end
     browser.getSelectedMap = getMap
+    browser.stripVictorySuffix = stripVictorySuffix
     return browser
   end
 
@@ -443,6 +507,11 @@ function RunResultsMenu(map)
 
   if GameResult == GameVictory then
     result = _("Victory !")
+    -- Record the victory for standalone (non-campaign) maps so the
+    -- Start Game menu can show which difficulties were already won.
+    if (not currentCampaign and map and string.find(map, "%.map$")) then
+      RecordMapVictory(map)
+    end
     -- Check for campaign-specific victory screen
     if currentCampaign then
       -- Extract campaign name from path (e.g., "campaigns/tutorial/campaign.lua" -> "tutorial")
@@ -648,7 +717,7 @@ function RunStartGameMenu(s)
   local function cb(s)
     maptext:setCaption(browser:getSelectedItem())
     Load(browser:getSelectedMap())
-    selectedmap = browser:getSelectedItem()
+    selectedmap = browser.stripVictorySuffix(browser:getSelectedItem())
   end
   browser:setActionCallback(cb)
   local rootpaths = {"maps/", "~maps/"}
