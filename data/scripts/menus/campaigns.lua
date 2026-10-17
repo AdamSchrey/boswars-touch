@@ -172,7 +172,7 @@ function RunCampaignsMenu(s)
         campaign_steps = nil
         local progress = preferences.CampaignProgress and
           preferences.CampaignProgress[name]
-        local label = dir
+        local label = name
         if (total > 0) then
           label = label .. " [" .. (progress or 0) .. "/" .. total .. "]"
         elseif (progress) then
