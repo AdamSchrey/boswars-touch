@@ -509,7 +509,9 @@ function RunResultsMenu(map)
     result = _("Victory !")
     -- Record the victory for standalone (non-campaign) maps so the
     -- Start Game menu can show which difficulties were already won.
-    if (not currentCampaign and map and string.find(map, "%.map$")) then
+    -- The map is a path like "maps/islandwar.map/presentation.smp";
+    -- RecordMapVictory normalizes it to the plain map name.
+    if (not currentCampaign and map and string.find(map, "maps/")) then
       RecordMapVictory(map)
     end
     -- Check for campaign-specific victory screen
@@ -518,9 +520,10 @@ function RunResultsMenu(map)
       local campaignName = currentCampaign:match("campaigns/([^/]+)/campaign.lua")
       if campaignName then
         local campaignVictoryScreen = "graphics/screens/victory_" .. campaignName .. ".png"
-        -- Try to create the graphic to check if it exists
-        local testGraphic = CGraphic:New(campaignVictoryScreen)
-        if testGraphic then
+        -- CGraphic:New() never touches the filesystem, so it cannot be
+        -- used as an existence check here (a missing file would crash
+        -- the graphic Load() later).  Check the file system instead.
+        if FileExists(campaignVictoryScreen) then
           background = campaignVictoryScreen
         else
           background = "graphics/screens/victory.png"

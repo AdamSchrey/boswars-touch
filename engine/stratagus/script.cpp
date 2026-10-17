@@ -323,6 +323,23 @@ static int CclLoad(lua_State *l)
 }
 
 /**
+**  Check whether a file exists.  Resolves the file name like Load()
+**  does (current directory, user directory, game data directory).
+**
+**  @param l  Lua state.  Arg: file name.
+**  @return   True if the file exists and is readable.
+*/
+static int CclFileExists(lua_State *l)
+{
+	char buf[PATH_MAX];
+
+	LuaCheckArgs(l, 1);
+	LibraryFileName(LuaToString(l, 1), buf, sizeof(buf));
+	lua_pushboolean(l, access(buf, R_OK) == 0);
+	return 1;
+}
+
+/**
 **  Load a file into a buffer and return it.
 **
 **  @param l  Lua state.
@@ -853,6 +870,7 @@ void InitCcl(void)
 
 	lua_register(Lua, "SavePreferences", CclSavePreferences);
 	lua_register(Lua, "Load", CclLoad);
+	lua_register(Lua, "FileExists", CclFileExists);
 	lua_register(Lua, "LoadBuffer", CclLoadBuffer);
 	lua_register(Lua, "GetCurrentLuaPath", CclGetCurrentLuaPath);
 	lua_register(Lua, "SavedGameInfo", CclSavedGameInfo);
