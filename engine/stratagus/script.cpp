@@ -55,6 +55,10 @@
 #include "player.h"
 #include "replay.h"
 
+// For CclGetLocalIPAddresses (getifaddrs/inet_ntop)
+#include <ifaddrs.h>
+#include <arpa/inet.h>
+
 
 lua_State *Lua;                       /// Structure to work with lua files.
 
@@ -621,6 +625,38 @@ static int CclGetLocalPlayerName(lua_State *l)
 }
 
 /**
+**  Get the local IPv4 addresses of this device, one per network
+**  interface.  Loopback (127.0.0.1) is not included.  Used by the
+**  multiplayer lobby so the host can tell other players which
+**  address to enter when joining.
+**
+**  @param l  Lua state.
+*/
+static int CclGetLocalIPAddresses(lua_State *l)
+{
+	LuaCheckArgs(l, 0);
+	lua_newtable(l);
+	int index = 1;
+	struct ifaddrs *ifap;
+	if (getifaddrs(&ifap) == 0) {
+		for (struct ifaddrs *ifa = ifap; ifa; ifa = ifa->ifa_next) {
+			if (ifa->ifa_addr == nullptr || ifa->ifa_addr->sa_family != AF_INET) {
+				continue; // IPv4 only
+			}
+			char buf[INET_ADDRSTRLEN];
+			auto *sa = (struct sockaddr_in *)ifa->ifa_addr;
+			if (inet_ntop(AF_INET, &sa->sin_addr, buf, sizeof(buf)) != nullptr
+				&& strcmp(buf, "127.0.0.1") != 0) {
+				lua_pushstring(l, buf);
+				lua_rawseti(l, -2, index++);
+			}
+		}
+		freeifaddrs(ifap);
+	}
+	return 1;
+}
+
+/**
 **  Removes Randomization of Player position in Multiplayer mode
 **
 **  @param l  Lua state.
@@ -855,6 +891,7 @@ void InitCcl(void)
 	lua_register(Lua, "ListDirsInDirectory", CclListDirsInDirectory);
 	lua_register(Lua, "SetLocalPlayerName", CclSetLocalPlayerName);
 	lua_register(Lua, "GetLocalPlayerName", CclGetLocalPlayerName);
+	lua_register(Lua, "GetLocalIPAddresses", CclGetLocalIPAddresses);
 	lua_register(Lua, "SetGodMode", CclSetGodMode);
 	lua_register(Lua, "GetGodMode", CclGetGodMode);
 

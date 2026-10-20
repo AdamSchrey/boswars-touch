@@ -324,6 +324,15 @@ function RunServerMultiGameMenu(map, description, numplayers)
   descr = menu:writeText(description, sx+20, sy*3+90)
   descr:setWidth(sx * 9 - 20 - 20)
 
+  -- Show this device's LAN address(es) so other players know what to
+  -- enter on the "Join Game" screen.
+  local ips = GetLocalIPAddresses()
+  if table.getn(ips) > 0 then
+    menu:writeText(_("Your address:"), sx, sy*6)
+    local ipstr = menu:writeText(table.concat(ips, ", "), sx+150, sy*6)
+    ipstr:setWidth(sx * 9 - 150 - 20)
+  end
+
   local function fowCb(dd)
     ServerSetupState.FogOfWar = bool2int(dd:isMarked())
     NetworkServerResyncClients()
