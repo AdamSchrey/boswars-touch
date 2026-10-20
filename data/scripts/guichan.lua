@@ -71,7 +71,13 @@ backgroundWidget, bgOffsetX, bgOffsetY = FitBackground(bckground)
 
 local SavedGame = false
 local VersionString = Version.major .. "." .. Version.minor .. "." .. Version.patchlevel
-local VersionInfoLine = "Bos Wars V" .. VersionString .. " (c) 1998-" .. Version.year .. " by the Bos Wars Team"
+-- TouchVersion is set by data/scripts/touch_version.lua, which
+-- make_project.sh generates from the "version" field of
+-- data/manifest.json on every build.  The first three numbers are the
+-- Bos Wars version, the full number is the Bos Wars Touch version.
+Load("scripts/touch_version.lua")
+local VersionInfoLine = "Bos Wars Touch V" .. (TouchVersion or VersionString) ..
+                       " based on Bos Wars V" .. VersionString
 
 function FilterList(originallist, pattern)
   local filteredlist = {}
