@@ -116,6 +116,9 @@ end
 function RunCampaign(campaign)
   Load(campaign)
   currentCampaign = campaign
+  -- Campaign results must never be recorded as standalone map wins.
+  SkirmishMap = nil
+  SkirmishDifficulty = nil
   if position == nil then
     position = 1
   end

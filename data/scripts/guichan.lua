@@ -103,7 +103,11 @@ function RecordMapVictory(map)
   if (preferences.MapVictories == nil) then
     preferences.MapVictories = {}
   end
-  local difficulty = GameSettings.Difficulty
+  -- GameSettings is a C++ struct that is not saved in savegames, so
+  -- after loading a saved game it holds the startup defaults.  The
+  -- skirmish difficulty is therefore also stored in SkirmishDifficulty,
+  -- a plain Lua global that SaveGlobal serializes into the savegame.
+  local difficulty = SkirmishDifficulty or GameSettings.Difficulty
   if (difficulty == nil) then
     difficulty = 3
   end
@@ -505,14 +509,25 @@ function RunResultsMenu(map)
   local result
   local grid
 
+  local resultmap = map
   if GameResult == GameVictory then
     result = _("Victory !")
     -- Record the victory for standalone (non-campaign) maps so the
     -- Start Game menu can show which difficulties were already won.
     -- The map is a path like "maps/islandwar.map/presentation.smp";
     -- RecordMapVictory normalizes it to the plain map name.
-    if (not currentCampaign and map and string.find(map, "maps/")) then
-      RecordMapVictory(map)
+    -- When a saved game is finished, RunResultsMenu is called with the
+    -- literal string "Saved Game" instead of the map path.  Fall back
+    -- to SkirmishMap, a plain Lua global that SaveGlobal serializes
+    -- into the savegame, so the victory is still recorded.  Old
+    -- savegames do not contain it and stay nil, which simply skips
+    -- the recording.
+    if (map == "Saved Game" or map == nil) then
+      resultmap = SkirmishMap
+    end
+    if (not currentCampaign and resultmap and
+        string.find(resultmap, "maps/")) then
+      RecordMapVictory(resultmap)
     end
     -- Check for campaign-specific victory screen
     if currentCampaign then
@@ -540,8 +555,17 @@ function RunResultsMenu(map)
     result = _("Defeat !")
     background = "graphics/screens/defeat.png"
   else
+    -- No result screen (quit to menu): drop the stale skirmish state so
+    -- a later result cannot attribute a victory to the wrong map.
+    SkirmishMap = nil
+    SkirmishDifficulty = nil
     return
   end
+
+  -- The game is finished; the skirmish state must not leak into the
+  -- next game's result handling.
+  SkirmishMap = nil
+  SkirmishDifficulty = nil
 
   if (Cheater) then
     result = result .. " - " .. _("Cheater")
@@ -734,6 +758,11 @@ function RunStartGameMenu(s)
     preferences.FogOfWar = fow:isMarked()
     SavePreferences()
     DebugPrint("Starting map -------")
+    -- Remember the map and difficulty as plain Lua globals so that a
+    -- victory in a game that was saved and later loaded can still be
+    -- recorded (SaveGlobal serializes them into the savegame).
+    SkirmishMap = browser:getSelectedMap()
+    SkirmishDifficulty = GameSettings.Difficulty
     RunMap(browser:getSelectedMap(), nil, fow:isMarked(),
            revealmap:isMarked())
     PresentMap = OldPresentMap
