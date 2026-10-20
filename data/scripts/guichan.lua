@@ -105,9 +105,10 @@ function RecordMapVictory(map)
   end
   -- GameSettings is a C++ struct that is not saved in savegames, so
   -- after loading a saved game it holds the startup defaults.  The
-  -- skirmish difficulty is therefore also stored in SkirmishDifficulty,
-  -- a plain Lua global that SaveGlobal serializes into the savegame.
-  local difficulty = SkirmishDifficulty or GameSettings.Difficulty
+  -- difficulty of the game in progress is therefore also stored in
+  -- GameDifficulty, a plain Lua global that SaveGlobal serializes
+  -- into the savegame.
+  local difficulty = GameDifficulty or GameSettings.Difficulty
   if (difficulty == nil) then
     difficulty = 3
   end
@@ -555,17 +556,17 @@ function RunResultsMenu(map)
     result = _("Defeat !")
     background = "graphics/screens/defeat.png"
   else
-    -- No result screen (quit to menu): drop the stale skirmish state so
+    -- No result screen (quit to menu): drop the stale game state so
     -- a later result cannot attribute a victory to the wrong map.
     SkirmishMap = nil
-    SkirmishDifficulty = nil
+    GameDifficulty = nil
     return
   end
 
-  -- The game is finished; the skirmish state must not leak into the
-  -- next game's result handling.
+  -- The game is finished; the state must not leak into the next
+  -- game's result handling.
   SkirmishMap = nil
-  SkirmishDifficulty = nil
+  GameDifficulty = nil
 
   if (Cheater) then
     result = result .. " - " .. _("Cheater")
@@ -650,6 +651,16 @@ end
 function GameStarting()
   local i
   local factor
+
+  if (SavedGame) then
+    -- GameSettings is not part of the savegame; after a restart it
+    -- holds the startup default (-1), which the AI scripts would use
+    -- as a sleep multiplier.  GameDifficulty is a plain Lua global
+    -- that SaveGlobal serializes into the savegame, so it is already
+    -- restored here.  Old savegames do not contain it; fall back to
+    -- the map default difficulty (3, normal pacing) then.
+    GameSettings.Difficulty = GameDifficulty or 3
+  end
 
   if (not SavedGame) then
     for i=0,7 do
@@ -762,7 +773,7 @@ function RunStartGameMenu(s)
     -- victory in a game that was saved and later loaded can still be
     -- recorded (SaveGlobal serializes them into the savegame).
     SkirmishMap = browser:getSelectedMap()
-    SkirmishDifficulty = GameSettings.Difficulty
+    GameDifficulty = GameSettings.Difficulty
     RunMap(browser:getSelectedMap(), nil, fow:isMarked(),
            revealmap:isMarked())
     PresentMap = OldPresentMap

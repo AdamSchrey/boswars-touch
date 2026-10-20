@@ -118,7 +118,10 @@ function RunCampaign(campaign)
   currentCampaign = campaign
   -- Campaign results must never be recorded as standalone map wins.
   SkirmishMap = nil
-  SkirmishDifficulty = nil
+  -- Campaigns have no difficulty selector; they play at the map
+  -- default.  Store it in GameDifficulty so a campaign saved game
+  -- that is loaded after a restart restores the same AI pacing.
+  GameDifficulty = GameSettings.Difficulty or 3
   if position == nil then
     position = 1
   end
