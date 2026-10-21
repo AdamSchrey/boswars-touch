@@ -70,7 +70,7 @@ function ErrorMenu(errmsg)
   menu:run()
 end
 
-function addPlayersList(menu, numplayers)
+function addPlayersList(menu, numplayers, isserver)
   local i
   local players_name = {}
   local players_state = {}
@@ -85,6 +85,19 @@ function addPlayersList(menu, numplayers)
     players_state[i] = menu:writeText(_("Preparing"), sx * 11 + 85, sy*4 + i*18)
   end
   numplayers_text = menu:writeText(_("Open slots: ") .. numplayers - 1, sx *11, sy*4 + 162)
+
+  -- Show the host's LAN address(es) so joining players know what to
+  -- enter on the "Join Game" screen.  Only the host's menu shows the
+  -- line; the value is read locally and is not part of the network
+  -- protocol, so Bos Wars and Bos Wars Touch stay compatible.
+  if (isserver) then
+    local ips = GetLocalIPAddresses()
+    if table.getn(ips) > 0 then
+      menu:writeText(_("Host IP:"), sx * 11, sy*4 + 182)
+      local ipstr = menu:writeText(table.concat(ips, ", "), sx * 11 + 85, sy*4 + 182)
+      ipstr:setWidth(sx * 9 - 85 - 20)
+    end
+  end
 
   local function updatePlayers()
     local connected_players = 0
@@ -178,7 +191,7 @@ function RunJoiningMapMenu(s)
                  NetworkDetachFromServer() menu:stop() end
   )
 
-  local updatePlayersList = addPlayersList(menu, numplayers)
+  local updatePlayersList = addPlayersList(menu, numplayers, false)
 
   joincounter = 0
   local function listen()
@@ -324,15 +337,6 @@ function RunServerMultiGameMenu(map, description, numplayers)
   descr = menu:writeText(description, sx+20, sy*3+90)
   descr:setWidth(sx * 9 - 20 - 20)
 
-  -- Show this device's LAN address(es) so other players know what to
-  -- enter on the "Join Game" screen.
-  local ips = GetLocalIPAddresses()
-  if table.getn(ips) > 0 then
-    menu:writeText(_("Your address:"), sx, sy*6)
-    local ipstr = menu:writeText(table.concat(ips, ", "), sx+150, sy*6)
-    ipstr:setWidth(sx * 9 - 150 - 20)
-  end
-
   local function fowCb(dd)
     ServerSetupState.FogOfWar = bool2int(dd:isMarked())
     NetworkServerResyncClients()
@@ -374,7 +378,7 @@ function RunServerMultiGameMenu(map, description, numplayers)
   d:setSize(140, d:getHeight())
 
 
-  local updatePlayers = addPlayersList(menu, numplayers)
+  local updatePlayers = addPlayersList(menu, numplayers, true)
 
   NetworkMapName = map
   NetworkInitServerConnect(numplayers)

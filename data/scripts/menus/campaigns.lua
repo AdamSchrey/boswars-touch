@@ -126,24 +126,32 @@ function RunCampaign(campaign)
     position = 1
   end
   while position <= table.getn(campaign_steps) do
-    campaign_steps[position]()
-    if GameResult == GameVictory then
-       -- Record the campaign progress (highest level won) so the
-       -- List of Campaigns can show how far the player got.
-       local progress = preferences.CampaignProgress or {}
-       local campaignName = string.gsub(string.gsub(campaign, "^campaigns/", ""),
-                                       "/campaign.lua$", "")
-       if ((progress[campaignName] or 0) < position) then
-         progress[campaignName] = position
-         preferences.CampaignProgress = progress
-         SavePreferences()
-       end
-       position = position + 1
-    elseif GameResult == GameDefeat then
-       position = position
+    -- The ending step is not a playable level: show it but never
+    -- count it as campaign progress (the List of Campaigns shows
+    -- [won/total] where total excludes the ending step).
+    if (campaign_steps[position] == DisplayEnding) then
+      campaign_steps[position]()
+      position = position + 1
     else
-      currentCampaign = nil
-      return
+      campaign_steps[position]()
+      if GameResult == GameVictory then
+        -- Record the campaign progress (highest level won) so the
+        -- List of Campaigns can show how far the player got.
+        local progress = preferences.CampaignProgress or {}
+        local campaignName = string.gsub(string.gsub(campaign, "^campaigns/", ""),
+                                        "/campaign.lua$", "")
+        if ((progress[campaignName] or 0) < position) then
+          progress[campaignName] = position
+          preferences.CampaignProgress = progress
+          SavePreferences()
+        end
+        position = position + 1
+      elseif GameResult == GameDefeat then
+        position = position
+      else
+        currentCampaign = nil
+        return
+      end
     end
   end
   currentCampaign = nil
@@ -180,6 +188,11 @@ function RunCampaignsMenu(s)
           preferences.CampaignProgress[name]
         local label = name
         if (total > 0) then
+          -- Clamp to the total: older versions could record the
+          -- non-playable ending step as progress (e.g. "[6/5]").
+          if (progress ~= nil and progress > total) then
+            progress = total
+          end
           label = label .. " [" .. (progress or 0) .. "/" .. total .. "]"
         elseif (progress) then
           label = label .. " [" .. progress .. "]"

@@ -850,6 +850,21 @@ function RunLoadGameMenu(s)
       RunResultsMenu("Saved Game")
       if currentCampaign ~= nil then
          if GameResult == GameVictory then
+            -- Record the won campaign mission before advancing, so a
+            -- saved campaign game counts as progress even if no
+            -- missions were finished in between (e.g. an old savegame
+            -- of the last mission shows [n/n] when won).
+            if (position ~= nil) then
+              local progress = preferences.CampaignProgress or {}
+              local campaignName = string.gsub(
+                string.gsub(currentCampaign, "^campaigns/", ""),
+                "/campaign.lua$", "")
+              if ((progress[campaignName] or 0) < position) then
+                progress[campaignName] = position
+                preferences.CampaignProgress = progress
+                SavePreferences()
+              end
+            end
             position = position + 1
          elseif GameResult == GameDefeat then
             position = position
